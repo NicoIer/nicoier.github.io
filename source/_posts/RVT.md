@@ -1,7 +1,7 @@
 ---
 title: Runtime Virtual Texture
 date: 2024-08-30 17:12:52
-tags:
+tags: [图形学]
 ---
 
 ## 什么是 Runtime Virtual Texture
