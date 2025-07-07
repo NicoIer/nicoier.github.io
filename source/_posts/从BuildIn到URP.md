@@ -1,3 +1,9 @@
+---
+title: 从BuildIn到URP
+date: 2024-06-17 18:48:35
+tags: [Unity, C#]
+---
+
 ## 结构
 
 首先要在SubShader的Tags中添加”RenderPipeline” = “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。
