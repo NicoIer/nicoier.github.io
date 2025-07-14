@@ -16,23 +16,24 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Unity下基于MonoBehavior和泛型的单例模式 自动清理静态变量，推荐编辑器下开启选项播放时不重新加载程序集 MonoSingleton.cs1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666">
+    <meta name="description" content="FMOD Unity 资源加载FMOD 是一个强大的音频引擎，广泛应用于游戏开发中。Unity 中使用 FMOD 时，资源的加载和管理是一个重要的环节。以下是一些关于 FMOD 在 Unity 中资源加载的基本知识。 FMOD Unity 资源加载默认资源加载方式FMOD For Unity的默认资源加载方式是 StreamingAssets。在Unity Build时会将 “.bank” 文件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MonoSingleton">
-<meta property="og:url" content="https://nicoier.github.io/2024/06/17/%E9%80%9A%E7%94%A8MonoBehavior%E5%8D%95%E4%BE%8B/index.html">
+<meta property="og:title" content="FMOD Unity 资源加载">
+<meta property="og:url" content="https://nicoier.github.io/2025/07/07/FMOD-Unity-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="Unity下基于MonoBehavior和泛型的单例模式 自动清理静态变量，推荐编辑器下开启选项播放时不重新加载程序集 MonoSingleton.cs1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666">
+<meta property="og:description" content="FMOD Unity 资源加载FMOD 是一个强大的音频引擎，广泛应用于游戏开发中。Unity 中使用 FMOD 时，资源的加载和管理是一个重要的环节。以下是一些关于 FMOD 在 Unity 中资源加载的基本知识。 FMOD Unity 资源加载默认资源加载方式FMOD For Unity的默认资源加载方式是 StreamingAssets。在Unity Build时会将 “.bank” 文件">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-06-17T10:48:35.000Z">
-<meta property="article:modified_time" content="2024-08-30T06:48:10.255Z">
+<meta property="article:published_time" content="2025-07-07T06:39:49.000Z">
+<meta property="article:modified_time" content="2025-07-07T06:47:36.378Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
-<meta property="article:tag" content="C#">
+<meta property="article:tag" content="FMOD">
+<meta property="article:tag" content="音频">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>MonoSingleton - NicoIer</title>
+  <title>FMOD Unity 资源加载 - NicoIer</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MonoSingleton"></span>
+            <span id="subtitle" data-typed-text="FMOD Unity 资源加载"></span>
           
         </div>
 
@@ -209,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-17 18:48" pubdate>
-          2024年6月17日 晚上
+        <time datetime="2025-07-07 14:39" pubdate>
+          2025年7月7日 下午
         </time>
       </span>
     
@@ -221,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          333 字
+          331 字
         
       </span>
     
@@ -269,14 +270,27 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">MonoSingleton</h1>
+            <h1 id="seo-header">FMOD Unity 资源加载</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Unity下基于MonoBehavior和泛型的单例模式</p>
-<p>自动清理静态变量，推荐编辑器下开启选项<code>播放时不重新加载程序集</code></p>
-<figure class="highlight csharp"><figcaption><span>MonoSingleton.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">using</span> UnityEngine;<br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">UnityToolkit</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IOnlyPlayingModelSingleton</span><br>    &#123;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IAutoCreateSingleton</span><br>    &#123;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MonoSingleton</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">MonoBehaviour</span> <span class="hljs-keyword">where</span> <span class="hljs-title">T</span> : <span class="hljs-title">MonoSingleton</span>&lt;<span class="hljs-title">T</span>&gt;<br>    &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> T _singleton;<br><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">virtual</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">DontDestroyOnLoad</span>()</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> T SingletonNullable =&gt; _singleton;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> T Singleton<br>        &#123;<br>            <span class="hljs-keyword">get</span><br>            &#123;<br>                <span class="hljs-comment">// 如果T是仅在播放模式下的单例</span><br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(IOnlyPlayingModelSingleton).IsAssignableFrom(<span class="hljs-keyword">typeof</span>(T)))<br>                &#123;<br>                    <span class="hljs-keyword">if</span> (Application.isPlaying == <span class="hljs-literal">false</span>)<br>                    &#123;<br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>                    &#125;<br>                &#125;<br><br><br>                <span class="hljs-keyword">if</span> (_singleton != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> _singleton; <span class="hljs-comment">//第一次访问</span><br>                _singleton = FindObjectOfType&lt;T&gt;(); <span class="hljs-comment">// 从场景中查找</span><br>                <span class="hljs-keyword">if</span> (_singleton != <span class="hljs-literal">null</span>)<br>                &#123;<br>                    _singleton.OnSingletonInit(); <span class="hljs-comment">//手动初始化</span><br>                    <span class="hljs-keyword">return</span> _singleton;<br>                &#125;<br><br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(IAutoCreateSingleton).IsAssignableFrom(<span class="hljs-keyword">typeof</span>(T)))<br>                &#123;<br>                    GameObject go = <span class="hljs-keyword">new</span> GameObject(<span class="hljs-string">$&quot;<span class="hljs-subst">&#123;<span class="hljs-keyword">typeof</span>(T).Name&#125;</span>&quot;</span>);<br>                    _singleton = go.AddComponent&lt;T&gt;();<br>                    _singleton.OnSingletonInit();<br>                    <span class="hljs-keyword">return</span> _singleton;<br>                &#125;<br><br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullReferenceException(<span class="hljs-string">$&quot;Singleton&lt;<span class="hljs-subst">&#123;<span class="hljs-keyword">typeof</span>(T).Name&#125;</span>&gt;.Singleton -&gt; <span class="hljs-subst">&#123;<span class="hljs-keyword">typeof</span>(T).Name&#125;</span> is null&quot;</span>);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSingletonInit</span>()</span><br>        &#123;<br>            <span class="hljs-comment">// Debug.Log($&quot;Singleton&lt;&#123;typeof(T).Name&#125;&gt;.OnInit() -&gt; &#123;gameObject.name&#125;&quot;);</span><br>            transform.SetParent(<span class="hljs-literal">null</span>);<br>            <span class="hljs-keyword">if</span> (DontDestroyOnLoad())<br>            &#123;<br>                DontDestroyOnLoad(gameObject);<br>            &#125;<br><br>            OnInit();<br>        &#125;<br><br><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Awake</span>()</span><br>        &#123;<br>            <span class="hljs-comment">//Awake时如果还没有被访问 则将自己赋值给_singleton</span><br>            <span class="hljs-keyword">if</span> (_singleton == <span class="hljs-literal">null</span>)<br>            &#123;<br>                _singleton = <span class="hljs-keyword">this</span> <span class="hljs-keyword">as</span> T;<br>                <span class="hljs-comment">// Debug.Log($&quot;Singleton&lt;&#123;typeof(T).Name&#125;&gt;.Awake() -&gt; &#123;gameObject.name&#125;&quot;);</span><br>                _singleton.OnSingletonInit();<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br><br>            <span class="hljs-comment">//如果已经被访问过 则销毁自己</span><br>            <span class="hljs-keyword">if</span> (_singleton != <span class="hljs-keyword">this</span>)<br>            &#123;<br>                Destroy(gameObject);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnInit</span>()</span><br>        &#123;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDispose</span>()</span><br>        &#123;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDestroy</span>()</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (_singleton == <span class="hljs-keyword">this</span>)<br>            &#123;<br>                _singleton.OnDispose();<br>                _singleton = <span class="hljs-literal">null</span>;<br>            &#125;<br>        &#125;<br><br><br>        <span class="hljs-comment">// Unity 2022 后 生命周期变更 OnApplicationQuit -&gt; OnDisable -&gt; OnDestroy</span><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnApplicationQuit</span>()</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (_singleton == <span class="hljs-keyword">this</span>)<br>            &#123;<br>                _singleton.OnDispose();<br>                _singleton = <span class="hljs-literal">null</span>;<br>            &#125;<br>        &#125;<br><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> UNITY_EDITOR</span><br><br>        [<span class="hljs-meta">RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)</span>]<br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ResetStatic</span>()</span><br>        &#123;<br>            _singleton = <span class="hljs-literal">null</span>;<br>        &#125;<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="FMOD-Unity-资源加载"><a href="#FMOD-Unity-资源加载" class="headerlink" title="FMOD Unity 资源加载"></a>FMOD Unity 资源加载</h1><p>FMOD 是一个强大的音频引擎，广泛应用于游戏开发中。Unity 中使用 FMOD 时，资源的加载和管理是一个重要的环节。以下是一些关于 FMOD 在 Unity 中资源加载的基本知识。</p>
+<h2 id="FMOD-Unity-资源加载-1"><a href="#FMOD-Unity-资源加载-1" class="headerlink" title="FMOD Unity 资源加载"></a>FMOD Unity 资源加载</h2><h3 id="默认资源加载方式"><a href="#默认资源加载方式" class="headerlink" title="默认资源加载方式"></a>默认资源加载方式</h3><p>FMOD For Unity的默认资源加载方式是 StreamingAssets。<br>在Unity Build时会将 “.bank” 文件 自动拷贝到 StreamingAssets 文件夹中。<br>它在游戏初始化的时候根据路径去SteamingAssets文件夹中加载音频资源。</p>
+<h3 id="运行时加载"><a href="#运行时加载" class="headerlink" title="运行时加载"></a>运行时加载</h3><p>如果需要在运行时动态加载音频资源，可以使用 FMOD 的 API 来实现。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">RuntimeManager.LoadBank(<span class="hljs-string">&quot;path/to/bank.bank&quot;</span>, <span class="hljs-literal">true</span>);<br>RuntimeManager.LoadBank(<span class="hljs-string">&quot;path/to/bank.bytes&quot;</span>, <span class="hljs-literal">true</span>);<br><br>TextAsset textAsset = Resources.Load&lt;TextAsset&gt;(<span class="hljs-string">&quot;path/to/bank&quot;</span>);<br>RuntimeManager.LoadBank(textAsset, <span class="hljs-literal">true</span>);<br><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="AssetBundle-加载"><a href="#AssetBundle-加载" class="headerlink" title="AssetBundle 加载"></a>AssetBundle 加载</h2><p>如果我们的游戏需要资源热更新，那么默认的 StreamingAssets 方式就不适用了。</p>
+<ol>
+<li>在FMOD Editor Settings 中 修改加载方式为 AssetBundle</li>
+<li>FMOD会自动根据.bank文件生成对应的 “.bytes” 文件。<br>这些 “.bytes” 文件包含了音频数据和相关信息，可以在 Unity 中使用。</li>
+<li>在Unity中创建一个AssetBundle，包含FMOD生成的 “.bytes” 文件。</li>
+<li>在游戏运行时，通过 Unity 的 AssetBundle API 加载这些 “.bytes” 文件。</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">AssetBundle assetBundle = AssetBundle.LoadFromFile(<span class="hljs-string">&quot;path/to/assetbundle&quot;</span>);<br>TextAssetk textAsset = assetBundle.LoadAsset&lt;TextAsset&gt;(<span class="hljs-string">&quot;bank.bytes&quot;</span>);<br>FMODUnity.RuntimeManager.LoadBank(bank, <span class="hljs-literal">true</span>);<br></code></pre></td></tr></table></figure>
+
+
                 
               </div>
             
@@ -290,7 +304,9 @@
       
         <a href="/tags/Unity/" class="print-no-link">#Unity</a>
       
-        <a href="/tags/C/" class="print-no-link">#C#</a>
+        <a href="/tags/FMOD/" class="print-no-link">#FMOD</a>
+      
+        <a href="/tags/%E9%9F%B3%E9%A2%91/" class="print-no-link">#音频</a>
       
     </div>
   
@@ -302,8 +318,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MonoSingleton</div>
-      <div>https://nicoier.github.io/2024/06/17/通用MonoBehavior单例/</div>
+      <div>FMOD Unity 资源加载</div>
+      <div>https://nicoier.github.io/2025/07/07/FMOD-Unity-资源加载/</div>
     </div>
     <div class="license-meta">
       
@@ -315,7 +331,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月17日</div>
+          <div>2025年7月7日</div>
         </div>
       
       
@@ -347,15 +363,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/17/Unity%20Shader%E5%9F%BA%E7%A1%80/" title="Unity Shader">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Unity Shader</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2025/05/22/Unity-Shader-LOD/" title="Unity Shader LOD">
+                        <span class="hidden-mobile">Unity Shader LOD</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
