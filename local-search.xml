@@ -4,6 +4,75 @@
   
   
   <entry>
+    <title>Unity场景Lightmap是否存在</title>
+    <link href="/2025/07/22/Unity%E5%9C%BA%E6%99%AFLightmap%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/"/>
+    <url>/2025/07/22/Unity%E5%9C%BA%E6%99%AFLightmap%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/</url>
+    
+    <content type="html"><![CDATA[<p>判断当前激活的场景是否存在Lightmap，可以通过以下代码实现：</p><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> dataAsset = Lightmapping.lightDataAsset;<br><span class="hljs-keyword">if</span>(dataAsset != <span class="hljs-literal">null</span> &amp;&amp; dataAsset.lightmaps != <span class="hljs-literal">null</span> &amp;&amp; dataAsset.lightmaps.Length &gt; <span class="hljs-number">0</span>)<br>&#123;<br>    Debug.Log(<span class="hljs-string">&quot;Lightmap exists in the scene.&quot;</span>);<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    Debug.Log(<span class="hljs-string">&quot;No Lightmap found in the scene.&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure><p>通常，在美术对场景编辑后，会有一系列处理流程，通过检查Lightmap的存在，可以确保场景的光照效果已经被正确烘焙。<br>结合自动化测试，可以在场景加载时自动检查Lightmap的存在性，确保场景的光照效果符合预期。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Unity</tag>
+      
+      <tag>Lightmap</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Unity-Bloom-锯齿优化</title>
+    <link href="/2025/07/15/Unity-Bloom-%E9%94%AF%E9%BD%BF%E4%BC%98%E5%8C%96/"/>
+    <url>/2025/07/15/Unity-Bloom-%E9%94%AF%E9%BD%BF%E4%BC%98%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<p>Unity Bloom在降采样和上采样时使用的卷积核如下，是一个十字型的卷积核，这样会丢掉四个角落的像素信息，导致锯齿现象。 我们在上采样时,使用一个X型的卷积核心，将丢失的信息补充回来即可<br>$$<br>\begin{bmatrix}<br>0 &amp; 1 &amp; 0 \<br>1 &amp; 1 &amp; 1 \<br>0 &amp; 1 &amp; 0<br>\end{bmatrix}<br>$$</p><p>$$<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 1 \<br>0 &amp; 1 &amp; 0 \<br>1 &amp; 0 &amp; 1<br>\end{bmatrix}<br>$$</p><p>这样做没有什么理论依据，但是效果很好</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Unity</tag>
+      
+      <tag>Shader</tag>
+      
+      <tag>后处理</tag>
+      
+      <tag>Bloom</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>FMOD-Unity-Settings</title>
+    <link href="/2025/07/10/FMOD-Unity-Settings/"/>
+    <url>/2025/07/10/FMOD-Unity-Settings/</url>
+    
+    <content type="html"><![CDATA[<h1 id="FMOD-Unity-Settings"><a href="#FMOD-Unity-Settings" class="headerlink" title="FMOD Unity Settings"></a>FMOD Unity Settings</h1><p><a href="https://fmod.com/docs/2.03/unity/settings.html">官方文档</a></p><p>FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。<br>这里记录一下一些比较重要的配置，可以解决一些问题。</p><p><img src="/../img/FMOD%20Settings.png" alt="FMOD Settings.png"></p><h2 id="Platform-Specific-Android"><a href="#Platform-Specific-Android" class="headerlink" title="Platform Specific &#x2F; Android"></a>Platform Specific &#x2F; Android</h2><ul><li><p>OutputMode 这个选项是选择不同平台下使用的底层音频输出API </p><ul><li>Auto 这个选项会根据平台自动选择</li><li>No Sound 这个选项会禁用音频输出</li><li>Wav Writer 这个选项会将音频输出写入WAV文件</li><li>Java AudioTrack 这个选项会使用Android的AudioTrack API进行音频输出</li><li>OpenSL ES 这个选项会使用Android的OpenSL ES API进行音频输出</li><li>AAudio 这个选项会使用Android的AAudio API进行音频输出</li></ul></li><li><p>Virtual Channel Count  &amp; Real Channel Count  这两个选项是设置Android平台下的虚拟通道数和实际通道数。虚拟通道数是指FMOD内部使用的通道数，实际通道数是指Android系统实际使用的通道数。一般情况下，虚拟通道数应该大于等于实际通道数。Virtual Channel Count 是指可以播放的通道数，一旦超过了实际通道数，最安静的通道将被虚拟化，即不可听见。Real Channel Count 是指实际可听见的通道数。降低这个计数将减少 FMOD 混音器的 CPU 使用率。但是请注意，降低通道数可能会导致音频质量下降，或者在某些情况下，音频可能会被截断或丢失。<br>f Channels that will be audible. Lowering this count will reduce the FMOD mixer’s CPU usage. See the Virtual Voices white paper for more information.</p></li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Unity</tag>
+      
+      <tag>FMOD</tag>
+      
+      <tag>音频</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>FMOD Unity 资源加载</title>
     <link href="/2025/07/07/FMOD-Unity-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/"/>
     <url>/2025/07/07/FMOD-Unity-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/</url>
@@ -111,9 +180,9 @@
     
     <tags>
       
-      <tag>Shader</tag>
-      
       <tag>图形学</tag>
+      
+      <tag>Shader</tag>
       
     </tags>
     
@@ -208,9 +277,9 @@
       
       <tag>Unity</tag>
       
-      <tag>Shader</tag>
-      
       <tag>图形学</tag>
+      
+      <tag>Shader</tag>
       
     </tags>
     
