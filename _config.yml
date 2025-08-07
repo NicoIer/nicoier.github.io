@@ -105,12 +105,12 @@ deploy:
   repository: git@github.com:NicoIer/nicoier.github.io.git
   branch: main
 
-math:
-  engine: katex
-  katex:
-    css: https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css
-    js: https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js
-    config:
-      # KaTeX config
-      throwOnError: false
-      errorColor: "#cc0000"
+#math:
+#  engine: katex
+#  katex:
+#    css: https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css
+#    js: https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js
+#    config:
+#      # KaTeX config
+#      throwOnError: false
+#      errorColor: "#cc0000"
