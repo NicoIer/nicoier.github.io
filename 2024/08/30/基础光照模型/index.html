@@ -16,21 +16,21 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="光照散射吸收着色标准光照模型 环境光  自发光  高光反射（镜面反射）  漫反射  菲涅尔效应   HLSL   基本数据类型 描述 用途    float 一般是32位 顶点，纹理坐标   half 一般是16位 矢量，方向，位置，颜色等   线性代数 计算向量间的夹角  $$AB&#x3D;dot(A, B) &#x3D; |A||B|cos\theta$$ $$cos\theta &amp;#x3D">
+    <meta name="description" content="光照  散射  吸收  着色  标准光照模型   环境光   自发光   高光反射（镜面反射）   漫反射   菲涅尔效应    HLSL    基本数据类型 描述 用途     float 一般是32位 顶点，纹理坐标   half 一般是16位 矢量，方向，位置，颜色等     线性代数  计算向量间的夹角  AB&#x3D;dot(A,B)&#x3D;∣A∣∣B∣cosθAB&#x3D;dot(A, B) &#x3D; |A||">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unity基础光照">
 <meta property="og:url" content="https://nicoier.github.io/2024/08/30/%E5%9F%BA%E7%A1%80%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="光照散射吸收着色标准光照模型 环境光  自发光  高光反射（镜面反射）  漫反射  菲涅尔效应   HLSL   基本数据类型 描述 用途    float 一般是32位 顶点，纹理坐标   half 一般是16位 矢量，方向，位置，颜色等   线性代数 计算向量间的夹角  $$AB&#x3D;dot(A, B) &#x3D; |A||B|cos\theta$$ $$cos\theta &amp;#x3D">
+<meta property="og:description" content="光照  散射  吸收  着色  标准光照模型   环境光   自发光   高光反射（镜面反射）   漫反射   菲涅尔效应    HLSL    基本数据类型 描述 用途     float 一般是32位 顶点，纹理坐标   half 一般是16位 矢量，方向，位置，颜色等     线性代数  计算向量间的夹角  AB&#x3D;dot(A,B)&#x3D;∣A∣∣B∣cosθAB&#x3D;dot(A, B) &#x3D; |A||">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://nicoier.github.io/img/URP-Lambert.png">
+<meta property="og:image" content="https://nicoier.github.io/2024/08/30/img/URP-Lambert.png">
 <meta property="article:published_time" content="2024-08-30T09:34:39.000Z">
 <meta property="article:modified_time" content="2025-07-22T06:24:39.679Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="图形学">
 <meta property="article:tag" content="Shader">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://nicoier.github.io/img/URP-Lambert.png">
+<meta name="twitter:image" content="https://nicoier.github.io/2024/08/30/img/URP-Lambert.png">
   
   
   
@@ -85,7 +85,11 @@
 
 
   
-<meta name="generator" content="Hexo 7.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
 
 <body>
@@ -223,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          249 字
+          284 字
         
       </span>
     
@@ -276,19 +280,30 @@
             
               <div class="markdown-body">
                 
-                <h2 id="光照"><a href="#光照" class="headerlink" title="光照"></a>光照</h2><h3 id="散射"><a href="#散射" class="headerlink" title="散射"></a>散射</h3><h3 id="吸收"><a href="#吸收" class="headerlink" title="吸收"></a>吸收</h3><h3 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h3><h2 id="标准光照模型"><a href="#标准光照模型" class="headerlink" title="标准光照模型"></a>标准光照模型</h2><ul>
-<li><p>环境光</p>
+                <h2 id="光照"><a class="markdownIt-Anchor" href="#光照"></a> 光照</h2>
+<h3 id="散射"><a class="markdownIt-Anchor" href="#散射"></a> 散射</h3>
+<h3 id="吸收"><a class="markdownIt-Anchor" href="#吸收"></a> 吸收</h3>
+<h3 id="着色"><a class="markdownIt-Anchor" href="#着色"></a> 着色</h3>
+<h2 id="标准光照模型"><a class="markdownIt-Anchor" href="#标准光照模型"></a> 标准光照模型</h2>
+<ul>
+<li>
+<p>环境光</p>
 </li>
-<li><p>自发光</p>
+<li>
+<p>自发光</p>
 </li>
-<li><p>高光反射（镜面反射）</p>
+<li>
+<p>高光反射（镜面反射）</p>
 </li>
-<li><p>漫反射</p>
+<li>
+<p>漫反射</p>
 </li>
-<li><p>菲涅尔效应</p>
+<li>
+<p>菲涅尔效应</p>
 </li>
 </ul>
-<h2 id="HLSL"><a href="#HLSL" class="headerlink" title="HLSL"></a>HLSL</h2><table>
+<h2 id="hlsl"><a class="markdownIt-Anchor" href="#hlsl"></a> HLSL</h2>
+<table>
 <thead>
 <tr>
 <th>基本数据类型</th>
@@ -296,7 +311,8 @@
 <th>用途</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>float</td>
 <td>一般是32位</td>
 <td>顶点，纹理坐标</td>
@@ -306,25 +322,31 @@
 <td>一般是16位</td>
 <td>矢量，方向，位置，颜色等</td>
 </tr>
-</tbody></table>
-<h2 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h2><ul>
+</tbody>
+</table>
+<h2 id="线性代数"><a class="markdownIt-Anchor" href="#线性代数"></a> 线性代数</h2>
+<ul>
 <li>计算向量间的夹角</li>
 </ul>
-<p>$$<br>AB&#x3D;dot(A, B) &#x3D; |A||B|cos\theta<br>$$</p>
-<p>$$<br>cos\theta &#x3D; \frac{AB}{|A||B|}<br>$$</p>
-<h2 id="逐顶点和逐像素"><a href="#逐顶点和逐像素" class="headerlink" title="逐顶点和逐像素"></a>逐顶点和逐像素</h2><p>像素是根据顶点插值而来的</p>
-<h2 id="Lambert"><a href="#Lambert" class="headerlink" title="Lambert"></a>Lambert</h2><p>是光的漫反射经验模型</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>A</mi><mi>B</mi><mo>=</mo><mi>d</mi><mi>o</mi><mi>t</mi><mo stretchy="false">(</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo><mi mathvariant="normal">∣</mi><mi>A</mi><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mi mathvariant="normal">∣</mi><mi>c</mi><mi>o</mi><mi>s</mi><mi>θ</mi></mrow><annotation encoding="application/x-tex">AB=dot(A, B) = |A||B|cos\theta
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal">A</span><span class="mord">∣</span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord">∣</span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>c</mi><mi>o</mi><mi>s</mi><mi>θ</mi><mo>=</mo><mfrac><mrow><mi>A</mi><mi>B</mi></mrow><mrow><mi mathvariant="normal">∣</mi><mi>A</mi><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mi mathvariant="normal">∣</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">cos\theta = \frac{AB}{|A||B|}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.29633em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.36033em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord mathnormal">A</span><span class="mord">∣</span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<h2 id="逐顶点和逐像素"><a class="markdownIt-Anchor" href="#逐顶点和逐像素"></a> 逐顶点和逐像素</h2>
+<p>像素是根据顶点插值而来的</p>
+<h2 id="lambert"><a class="markdownIt-Anchor" href="#lambert"></a> Lambert</h2>
+<p>是光的漫反射经验模型</p>
 <p><strong>认为某点的漫反射强度和入射光线与其法线方向夹角成正比</strong></p>
-<p>假设所有的向量都是标准化向量的情况下计算出对应点的漫反射强度为<br>$$<br>diffuse &#x3D; clamp01(dot(lightDir,normal))<br>$$</p>
+<p>假设所有的向量都是标准化向量的情况下计算出对应点的漫反射强度为</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>d</mi><mi>i</mi><mi>f</mi><mi>f</mi><mi>u</mi><mi>s</mi><mi>e</mi><mo>=</mo><mi>c</mi><mi>l</mi><mi>a</mi><mi>m</mi><mi>p</mi><mn>01</mn><mo stretchy="false">(</mo><mi>d</mi><mi>o</mi><mi>t</mi><mo stretchy="false">(</mo><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo separator="true">,</mo><mi>n</mi><mi>o</mi><mi>r</mi><mi>m</mi><mi>a</mi><mi>l</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">diffuse = clamp01(dot(lightDir,normal))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">u</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">a</span><span class="mord mathnormal">m</span><span class="mord mathnormal">p</span><span class="mord">0</span><span class="mord">1</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">h</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 兰伯特漫反射光照模型</span><br>half <span class="hljs-title function_">LambertDiffuse</span><span class="hljs-params">(float3 normal, float3 lightDir)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> saturate(dot(normal, lightDir));<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="Half-Lambert"><a href="#Half-Lambert" class="headerlink" title="Half Lambert"></a>Half Lambert</h2><p>当cos值为负数时，会全黑，因此有<strong>Half Lambert</strong></p>
-<p>$$<br>diffuse &#x3D; dot(lightDir,normal)*0.5+0.5<br>$$</p>
+<h2 id="half-lambert"><a class="markdownIt-Anchor" href="#half-lambert"></a> Half Lambert</h2>
+<p>当cos值为负数时，会全黑，因此有<strong>Half Lambert</strong></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>d</mi><mi>i</mi><mi>f</mi><mi>f</mi><mi>u</mi><mi>s</mi><mi>e</mi><mo>=</mo><mi>d</mi><mi>o</mi><mi>t</mi><mo stretchy="false">(</mo><mi>l</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo separator="true">,</mo><mi>n</mi><mi>o</mi><mi>r</mi><mi>m</mi><mi>a</mi><mi>l</mi><mo stretchy="false">)</mo><mo>∗</mo><mn>0.5</mn><mo>+</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">diffuse = dot(lightDir,normal)*0.5+0.5
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">u</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">h</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">5</span></span></span></span></span></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C">half <span class="hljs-title function_">HalfLambdaDiffuse</span><span class="hljs-params">(float3 normal, float3 lightDir)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> saturate(dot(normal, lightDir) * <span class="hljs-number">0.5</span> + <span class="hljs-number">0.5</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><img src="/../img/URP-Lambert.png" srcset="/img/loading.gif" lazyload alt="URP-Lambert"></p>
+<p><img src="../img/URP-Lambert.png" srcset="/img/loading.gif" lazyload alt="URP-Lambert" /></p>
 
                 
               </div>
@@ -406,8 +428,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/30/%E7%BA%B9%E7%90%86/" title="Unity基础光照">
-                        <span class="hidden-mobile">Unity基础光照</span>
+                      <a href="/2024/08/30/RVT/" title="Runtime Virtual Texture">
+                        <span class="hidden-mobile">Runtime Virtual Texture</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

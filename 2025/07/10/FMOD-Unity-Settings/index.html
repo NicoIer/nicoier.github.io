@@ -16,22 +16,22 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="FMOD Unity Settings官方文档 FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。这里记录一下一些比较重要的配置，可以解决一些问题。  Platform Specific &#x2F; Android OutputMode 这个选项是选择不同平台下使用的底层音频输出API   Auto 这个选项会根据平台自动选择 No Sound 这个选">
+    <meta name="description" content="FMOD Unity Settings 官方文档 FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。 这里记录一下一些比较重要的配置，可以解决一些问题。   Platform Specific &#x2F; Android   OutputMode 这个选项是选择不同平台下使用的底层音频输出API  Auto 这个选项会根据平台自动选择 No Sound 这个选">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FMOD-Unity-Settings">
 <meta property="og:url" content="https://nicoier.github.io/2025/07/10/FMOD-Unity-Settings/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="FMOD Unity Settings官方文档 FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。这里记录一下一些比较重要的配置，可以解决一些问题。  Platform Specific &#x2F; Android OutputMode 这个选项是选择不同平台下使用的底层音频输出API   Auto 这个选项会根据平台自动选择 No Sound 这个选">
+<meta property="og:description" content="FMOD Unity Settings 官方文档 FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。 这里记录一下一些比较重要的配置，可以解决一些问题。   Platform Specific &#x2F; Android   OutputMode 这个选项是选择不同平台下使用的底层音频输出API  Auto 这个选项会根据平台自动选择 No Sound 这个选">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://nicoier.github.io/img/FMOD%20Settings.png">
+<meta property="og:image" content="https://nicoier.github.io/2025/07/10/img/FMOD%20Settings.png">
 <meta property="article:published_time" content="2025-07-10T10:16:15.000Z">
-<meta property="article:modified_time" content="2025-07-22T06:24:39.677Z">
+<meta property="article:modified_time" content="2025-08-07T10:03:52.882Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="FMOD">
 <meta property="article:tag" content="音频">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://nicoier.github.io/img/FMOD%20Settings.png">
+<meta name="twitter:image" content="https://nicoier.github.io/2025/07/10/img/FMOD%20Settings.png">
   
   
   
@@ -86,7 +86,11 @@
 
 
   
-<meta name="generator" content="Hexo 7.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
 
 <body>
@@ -224,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          362 字
+          563 字
         
       </span>
     
@@ -235,7 +239,7 @@
         
         
         
-          4 分钟
+          5 分钟
         
       </span>
     
@@ -277,11 +281,15 @@
             
               <div class="markdown-body">
                 
-                <h1 id="FMOD-Unity-Settings"><a href="#FMOD-Unity-Settings" class="headerlink" title="FMOD Unity Settings"></a>FMOD Unity Settings</h1><p><a target="_blank" rel="noopener" href="https://fmod.com/docs/2.03/unity/settings.html">官方文档</a></p>
-<p>FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。<br>这里记录一下一些比较重要的配置，可以解决一些问题。</p>
-<p><img src="/../img/FMOD%20Settings.png" srcset="/img/loading.gif" lazyload alt="FMOD Settings.png"></p>
-<h2 id="Platform-Specific-Android"><a href="#Platform-Specific-Android" class="headerlink" title="Platform Specific &#x2F; Android"></a>Platform Specific &#x2F; Android</h2><ul>
-<li><p>OutputMode 这个选项是选择不同平台下使用的底层音频输出API </p>
+                <h1 id="fmod-unity-settings"><a class="markdownIt-Anchor" href="#fmod-unity-settings"></a> FMOD Unity Settings</h1>
+<p><a target="_blank" rel="noopener" href="https://fmod.com/docs/2.03/unity/settings.html">官方文档</a></p>
+<p>FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。<br />
+这里记录一下一些比较重要的配置，可以解决一些问题。</p>
+<p><img src="../img/FMOD%20Settings.png" srcset="/img/loading.gif" lazyload alt="FMOD Settings.png" /></p>
+<h2 id="platform-specific-android"><a class="markdownIt-Anchor" href="#platform-specific-android"></a> Platform Specific / Android</h2>
+<ul>
+<li>
+<p>OutputMode 这个选项是选择不同平台下使用的底层音频输出API</p>
 <ul>
 <li>Auto 这个选项会根据平台自动选择</li>
 <li>No Sound 这个选项会禁用音频输出</li>
@@ -291,7 +299,26 @@
 <li>AAudio 这个选项会使用Android的AAudio API进行音频输出</li>
 </ul>
 </li>
-<li><p>Virtual Channel Count  &amp; Real Channel Count  这两个选项是设置Android平台下的虚拟通道数和实际通道数。虚拟通道数是指FMOD内部使用的通道数，实际通道数是指Android系统实际使用的通道数。一般情况下，虚拟通道数应该大于等于实际通道数。Virtual Channel Count 是指可以播放的通道数，一旦超过了实际通道数，最安静的通道将被虚拟化，即不可听见。Real Channel Count 是指实际可听见的通道数。降低这个计数将减少 FMOD 混音器的 CPU 使用率。但是请注意，降低通道数可能会导致音频质量下降，或者在某些情况下，音频可能会被截断或丢失。<br>f Channels that will be audible. Lowering this count will reduce the FMOD mixer’s CPU usage. See the Virtual Voices white paper for more information.</p>
+<li>
+<p>Virtual Channel Count &amp; Real Channel Count 这两个选项是设置Android平台下的虚拟通道数和实际通道数。<br />
+虚拟通道数是指FMOD内部使用的通道数，实际通道数是指Android系统实际使用的通道数。<br />
+一般情况下，虚拟通道数应该大于等于实际通道数。Virtual Channel Count 是指可以播放的通道数，一旦超过了实际通道数，最安静的通道将被虚拟化，即不可听见。<br />
+Real Channel Count 是指实际可听见的通道数。降低这个计数将减少 FMOD 混音器的 CPU 使用率。<br />
+但是请注意，降低通道数可能会导致音频质量下降，或者在某些情况下，音频可能会被截断或丢失。</p>
+</li>
+</ul>
+<h2 id="声音丢失问题排查"><a class="markdownIt-Anchor" href="#声音丢失问题排查"></a> 声音丢失问题排查</h2>
+<ul>
+<li>声音到底有没有播放？</li>
+<li>声音播放之后，有没有又被停止、暂停了？</li>
+<li>声音的位置是什么（如果是3d声音的话，2d声音不用管位置信息），耳朵的位置是多少？是否超出了音源的半径？</li>
+<li>声音播放了，其音量多少呢？是不是有代码将其音量又设置为0了？</li>
+<li>是否超出了配置/硬件的Channel Count限制？如果超过了限制，FMOD会自动将最安静的通道虚拟化，即不可听见。
+<ul>
+<li>这种时候要在FMOD Studio中设置优先级</li>
+<li>减少同时播放的音频数量<br />
+所以从，发生源，耳朵，两者距离，音量大小，是否静音了，等几个方面着手，去解决音频听不到的问题。</li>
+</ul>
 </li>
 </ul>
 

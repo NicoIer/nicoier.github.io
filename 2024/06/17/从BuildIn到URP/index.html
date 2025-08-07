@@ -16,12 +16,12 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="结构首先要在SubShader的Tags中添加”RenderPipeline” &#x3D; “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。    Built-in URP    CGPROGRAM &#x2F; HLSLPROGRAM HLSLPROGRAM   ENDCG &#x2F; ENDHLSL ENDHLSL   CGINCLUDE &#x2F; H">
+    <meta name="description" content="结构 首先要在SubShader的Tags中添加”RenderPipeline” &#x3D; “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。    Built-in URP     CGPROGRAM &#x2F; HLSLPROGRAM HLSLPROGRAM   ENDCG &#x2F; ENDHLSL ENDHLSL   CGINCLUDE &#x2F; HLSLINCLUDE HLSLIN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从BuildIn到URP">
 <meta property="og:url" content="https://nicoier.github.io/2024/06/17/%E4%BB%8EBuildIn%E5%88%B0URP/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="结构首先要在SubShader的Tags中添加”RenderPipeline” &#x3D; “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。    Built-in URP    CGPROGRAM &#x2F; HLSLPROGRAM HLSLPROGRAM   ENDCG &#x2F; ENDHLSL ENDHLSL   CGINCLUDE &#x2F; H">
+<meta property="og:description" content="结构 首先要在SubShader的Tags中添加”RenderPipeline” &#x3D; “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。    Built-in URP     CGPROGRAM &#x2F; HLSLPROGRAM HLSLPROGRAM   ENDCG &#x2F; ENDHLSL ENDHLSL   CGINCLUDE &#x2F; HLSLINCLUDE HLSLIN">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-17T10:48:35.000Z">
 <meta property="article:modified_time" content="2025-07-22T06:24:39.679Z">
@@ -83,7 +83,11 @@
 
 
   
-<meta name="generator" content="Hexo 7.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
 
 <body>
@@ -221,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          1.3k 字
         
       </span>
     
@@ -232,7 +236,7 @@
         
         
         
-          12 分钟
+          11 分钟
         
       </span>
     
@@ -274,105 +278,115 @@
             
               <div class="markdown-body">
                 
-                <h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>首先要在SubShader的Tags中添加”RenderPipeline” &#x3D; “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。</p>
+                <h2 id="结构"><a class="markdownIt-Anchor" href="#结构"></a> 结构</h2>
+<p>首先要在SubShader的Tags中添加”RenderPipeline” = “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。</p>
 <table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">CGPROGRAM &#x2F; HLSLPROGRAM</td>
-<td align="left">HLSLPROGRAM</td>
+<tbody>
+<tr>
+<td style="text-align:left">CGPROGRAM / HLSLPROGRAM</td>
+<td style="text-align:left">HLSLPROGRAM</td>
 </tr>
 <tr>
-<td align="left">ENDCG &#x2F; ENDHLSL</td>
-<td align="left">ENDHLSL</td>
+<td style="text-align:left">ENDCG / ENDHLSL</td>
+<td style="text-align:left">ENDHLSL</td>
 </tr>
 <tr>
-<td align="left">CGINCLUDE &#x2F; HLSLINCLUDE</td>
-<td align="left">HLSLINCLUDE</td>
+<td style="text-align:left">CGINCLUDE / HLSLINCLUDE</td>
+<td style="text-align:left">HLSLINCLUDE</td>
 </tr>
-</tbody></table>
-<h2 id="Include文件的改动"><a href="#Include文件的改动" class="headerlink" title="Include文件的改动"></a>Include文件的改动</h2><table>
+</tbody>
+</table>
+<h2 id="include文件的改动"><a class="markdownIt-Anchor" href="#include文件的改动"></a> Include文件的改动</h2>
+<table>
 <thead>
 <tr>
-<th align="left">Content</th>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Content</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">Core</td>
-<td align="left">Unity.cginc</td>
-<td align="left">Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Core.hlsl</td>
+<tbody>
+<tr>
+<td style="text-align:left">Core</td>
+<td style="text-align:left">Unity.cginc</td>
+<td style="text-align:left">Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl</td>
 </tr>
 <tr>
-<td align="left">Light</td>
-<td align="left">AutoLight.cginc</td>
-<td align="left">Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Lighting.hlsl</td>
+<td style="text-align:left">Light</td>
+<td style="text-align:left">AutoLight.cginc</td>
+<td style="text-align:left">Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl</td>
 </tr>
 <tr>
-<td align="left">Shadows</td>
-<td align="left">AutoLight.cginc</td>
-<td align="left">Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Shadows.hlsl</td>
+<td style="text-align:left">Shadows</td>
+<td style="text-align:left">AutoLight.cginc</td>
+<td style="text-align:left">Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl</td>
 </tr>
 <tr>
-<td align="left">Surface shaders</td>
-<td align="left">Lighting.cginc</td>
-<td align="left">无</td>
+<td style="text-align:left">Surface shaders</td>
+<td style="text-align:left">Lighting.cginc</td>
+<td style="text-align:left">无</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>其他常用的include文件:</p>
 <ul>
-<li>Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;SpaceTransforms.hlsl</li>
-<li>Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;ShaderVariablesFunctions.hlsl</li>
-<li>Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;Common.hlsl</li>
-<li>Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Input.hlsl</li>
-<li>Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;Color.hlsl</li>
-<li>Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;DeclareDepthTexture.hlsl</li>
-<li>Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;DeclareOpaqueTextue.hlsl</li>
+<li>Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl</li>
+<li>Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl</li>
+<li>Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl</li>
+<li>Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl</li>
+<li>Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl</li>
+<li>Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl</li>
+<li>Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareOpaqueTextue.hlsl</li>
 </ul>
-<h2 id="光照模式"><a href="#光照模式" class="headerlink" title="光照模式"></a>光照模式</h2><table>
+<h2 id="光照模式"><a class="markdownIt-Anchor" href="#光照模式"></a> 光照模式</h2>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">ForwardBase</td>
-<td align="left">UniversalForward</td>
+<tbody>
+<tr>
+<td style="text-align:left">ForwardBase</td>
+<td style="text-align:left">UniversalForward</td>
 </tr>
 <tr>
-<td align="left">ForwardAdd</td>
-<td align="left">无</td>
+<td style="text-align:left">ForwardAdd</td>
+<td style="text-align:left">无</td>
 </tr>
 <tr>
-<td align="left">Deferred and related</td>
-<td align="left">UniversalGBuffer seems to have just been added to URP</td>
+<td style="text-align:left">Deferred and related</td>
+<td style="text-align:left">UniversalGBuffer seems to have just been added to URP</td>
 </tr>
 <tr>
-<td align="left">Vertex and related</td>
-<td align="left">无</td>
+<td style="text-align:left">Vertex and related</td>
+<td style="text-align:left">无</td>
 </tr>
 <tr>
-<td align="left">ShadowCaster</td>
-<td align="left">ShadowCaster</td>
+<td style="text-align:left">ShadowCaster</td>
+<td style="text-align:left">ShadowCaster</td>
 </tr>
 <tr>
-<td align="left">MotionVectors</td>
-<td align="left">暂不支持</td>
+<td style="text-align:left">MotionVectors</td>
+<td style="text-align:left">暂不支持</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>URP其他支持的光照模式：</p>
 <ul>
 <li>DepthOnly</li>
 <li>Meta (用于烘焙光照贴图)</li>
 <li>Universal2D</li>
 </ul>
-<h2 id="变体-Variants"><a href="#变体-Variants" class="headerlink" title="变体(Variants)"></a>变体(Variants)</h2><p>URP支持着色器的变体，可以使用#pragma multi_compile宏实现编译不同需求下的着色器，常见的内置关键字有：</p>
+<h2 id="变体variants"><a class="markdownIt-Anchor" href="#变体variants"></a> 变体(Variants)</h2>
+<p>URP支持着色器的变体，可以使用#pragma multi_compile宏实现编译不同需求下的着色器，常见的内置关键字有：</p>
 <ul>
 <li>_MAIN_LIGHT_SHADOWS</li>
 <li>_MAIN_LIGHT_SHADOWS_CASCADE</li>
@@ -382,345 +396,388 @@
 <li>_SHADOWS_SOFT</li>
 <li>_MIXED_LIGHTING_SUBTRACTIVE</li>
 </ul>
-<h2 id="预定义的着色器预处理宏"><a href="#预定义的着色器预处理宏" class="headerlink" title="预定义的着色器预处理宏"></a>预定义的着色器预处理宏</h2><h3 id="辅助宏-Helpers"><a href="#辅助宏-Helpers" class="headerlink" title="辅助宏(Helpers)"></a>辅助宏(Helpers)</h3><table>
-<thead>
-<tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">UNITY_PROJ_COORD(a)</td>
-<td align="left">无，使用 a.xy&#x2F;a.w 来代替</td>
-</tr>
-<tr>
-<td align="left">UNITY_INITIALIZE_OUTPUT(type, name)</td>
-<td align="left">ZERO_INITIALIZE(type, name)</td>
-</tr>
-</tbody></table>
-<h3 id="阴影贴图"><a href="#阴影贴图" class="headerlink" title="阴影贴图"></a>阴影贴图</h3><p>需要包含 Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Shadows.hlsl</p>
+<h2 id="预定义的着色器预处理宏"><a class="markdownIt-Anchor" href="#预定义的着色器预处理宏"></a> 预定义的着色器预处理宏</h2>
+<h3 id="辅助宏helpers"><a class="markdownIt-Anchor" href="#辅助宏helpers"></a> 辅助宏(Helpers)</h3>
 <table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">UNITY_DECLARE_SHADOWMAP(tex)</td>
-<td align="left">TEXTURE2D_SHADOW_PARAM(textureName, samplerName)</td>
+<tbody>
+<tr>
+<td style="text-align:left">UNITY_PROJ_COORD(a)</td>
+<td style="text-align:left">无，使用 a.xy/a.w 来代替</td>
 </tr>
 <tr>
-<td align="left">UNITY_SAMPLE_SHADOW(tex, uv)</td>
-<td align="left">SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord3)</td>
+<td style="text-align:left">UNITY_INITIALIZE_OUTPUT(type, name)</td>
+<td style="text-align:left">ZERO_INITIALIZE(type, name)</td>
 </tr>
-<tr>
-<td align="left">UNITY_SAMPLE_SHADOW_PROJ(tex, uv)</td>
-<td align="left">SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord4.xyz&#x2F;coord4.w)</td>
-</tr>
-</tbody></table>
-<h3 id="纹理-采样器的声明宏"><a href="#纹理-采样器的声明宏" class="headerlink" title="纹理&#x2F;采样器的声明宏"></a>纹理&#x2F;采样器的声明宏</h3><table>
+</tbody>
+</table>
+<h3 id="阴影贴图"><a class="markdownIt-Anchor" href="#阴影贴图"></a> 阴影贴图</h3>
+<p>需要包含 Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl</p>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">UNITY_DECLARE_TEX2D(name)</td>
-<td align="left">TEXTURE2D(textureName); SAMPLER(samplerName);</td>
+<tbody>
+<tr>
+<td style="text-align:left">UNITY_DECLARE_SHADOWMAP(tex)</td>
+<td style="text-align:left">TEXTURE2D_SHADOW_PARAM(textureName, samplerName)</td>
 </tr>
 <tr>
-<td align="left">UNITY_DECLARE_TEX2D_NOSAMPLER(name)</td>
-<td align="left">TEXTURE2D(textureName);</td>
+<td style="text-align:left">UNITY_SAMPLE_SHADOW(tex, uv)</td>
+<td style="text-align:left">SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord3)</td>
 </tr>
 <tr>
-<td align="left">UNITY_DECLARE_TEX2DARRAY(name)</td>
-<td align="left">TEXTURE2D_ARRAY(textureName); SAMPLER(samplerName);</td>
+<td style="text-align:left">UNITY_SAMPLE_SHADOW_PROJ(tex, uv)</td>
+<td style="text-align:left">SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord4.xyz/coord4.w)</td>
 </tr>
-<tr>
-<td align="left">UNITY_SAMPLE_TEX2D(name, uv)</td>
-<td align="left">SAMPLE_TEXTURE2D(textureName, samplerName, coord2)</td>
-</tr>
-<tr>
-<td align="left">UNITY_SAMPLE_TEX2D_SAMPLER(name, samplername, uv)</td>
-<td align="left">SAMPLE_TEXTURE2D(textureName, samplerName, coord2)</td>
-</tr>
-<tr>
-<td align="left">UNITY_SAMPLE_TEX2DARRAY(name, uv)</td>
-<td align="left">SAMPLE_TEXTURE2D_ARRAY(textureName, samplerName, coord2, index)</td>
-</tr>
-<tr>
-<td align="left">UNITY_SAMPLE_TEX2DARRAY_LOD(name, uv, lod)</td>
-<td align="left">SAMPLE_TEXTURE2D_ARRAY_LOD(textureName, samplerName, coord2, index, lod)</td>
-</tr>
-</tbody></table>
-<h2 id="内置的着色器辅助函数"><a href="#内置的着色器辅助函数" class="headerlink" title="内置的着色器辅助函数"></a>内置的着色器辅助函数</h2><p>可以在 Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;SpaceTransforms.hlsl 看到下方的所有函数</p>
-<h3 id="顶点变换函数"><a href="#顶点变换函数" class="headerlink" title="顶点变换函数"></a>顶点变换函数</h3><table>
+</tbody>
+</table>
+<h3 id="纹理采样器的声明宏"><a class="markdownIt-Anchor" href="#纹理采样器的声明宏"></a> 纹理/采样器的声明宏</h3>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">float4 UnityObjectToClipPos(float3 pos)</td>
-<td align="left">float4 TransformObjectToHClip(float3 positionOS)</td>
+<tbody>
+<tr>
+<td style="text-align:left">UNITY_DECLARE_TEX2D(name)</td>
+<td style="text-align:left">TEXTURE2D(textureName); SAMPLER(samplerName);</td>
 </tr>
 <tr>
-<td align="left">float3 UnityObjectToViewPos(float3 pos)</td>
-<td align="left">TransformWorldToView(TransformObjectToWorld(positionOS))</td>
+<td style="text-align:left">UNITY_DECLARE_TEX2D_NOSAMPLER(name)</td>
+<td style="text-align:left">TEXTURE2D(textureName);</td>
 </tr>
-</tbody></table>
-<h3 id="泛用的辅助函数"><a href="#泛用的辅助函数" class="headerlink" title="泛用的辅助函数"></a>泛用的辅助函数</h3><table>
+<tr>
+<td style="text-align:left">UNITY_DECLARE_TEX2DARRAY(name)</td>
+<td style="text-align:left">TEXTURE2D_ARRAY(textureName); SAMPLER(samplerName);</td>
+</tr>
+<tr>
+<td style="text-align:left">UNITY_SAMPLE_TEX2D(name, uv)</td>
+<td style="text-align:left">SAMPLE_TEXTURE2D(textureName, samplerName, coord2)</td>
+</tr>
+<tr>
+<td style="text-align:left">UNITY_SAMPLE_TEX2D_SAMPLER(name, samplername, uv)</td>
+<td style="text-align:left">SAMPLE_TEXTURE2D(textureName, samplerName, coord2)</td>
+</tr>
+<tr>
+<td style="text-align:left">UNITY_SAMPLE_TEX2DARRAY(name, uv)</td>
+<td style="text-align:left">SAMPLE_TEXTURE2D_ARRAY(textureName, samplerName, coord2, index)</td>
+</tr>
+<tr>
+<td style="text-align:left">UNITY_SAMPLE_TEX2DARRAY_LOD(name, uv, lod)</td>
+<td style="text-align:left">SAMPLE_TEXTURE2D_ARRAY_LOD(textureName, samplerName, coord2, index, lod)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="内置的着色器辅助函数"><a class="markdownIt-Anchor" href="#内置的着色器辅助函数"></a> 内置的着色器辅助函数</h2>
+<p>可以在 Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl 看到下方的所有函数</p>
+<h3 id="顶点变换函数"><a class="markdownIt-Anchor" href="#顶点变换函数"></a> 顶点变换函数</h3>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-<th align="left">Include</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">float3 WorldSpaceViewDir (float4 v)</td>
-<td align="left">float3 GetWorldSpaceViewDir(float3 positionWS)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;ShaderVariablesFunctions.hlsl”</td>
+<tbody>
+<tr>
+<td style="text-align:left">float4 UnityObjectToClipPos(float3 pos)</td>
+<td style="text-align:left">float4 TransformObjectToHClip(float3 positionOS)</td>
 </tr>
 <tr>
-<td align="left">float3 ObjSpaceViewDir (float4 v)</td>
-<td align="left">无，使用 TransformWorldToObject(GetCameraPositionWS()) - objectSpacePosition;</td>
-<td align="left"></td>
+<td style="text-align:left">float3 UnityObjectToViewPos(float3 pos)</td>
+<td style="text-align:left">TransformWorldToView(TransformObjectToWorld(positionOS))</td>
 </tr>
-<tr>
-<td align="left">float2 ParallaxOffset (half h, half height, half3 viewDir)</td>
-<td align="left">可能没有，从 UnityCG.cginc 复制</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">fixed Luminance (fixed3 c)</td>
-<td align="left">real Luminance(real3 linearRgb)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;Color.hlsl”</td>
-</tr>
-<tr>
-<td align="left">fixed3 DecodeLightmap (fixed4 color)</td>
-<td align="left">real3 DecodeLightmap(real4 encodedIlluminance, real4 decodeInstructions)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;EntityLighting.hlsl” URP中decodeInstructions 为 half4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONENT, 0.0h, 0.0h)</td>
-</tr>
-<tr>
-<td align="left">float4 EncodeFloatRGBA (float v)</td>
-<td align="left">可能没有， 从 UnityCG.cginc 复制</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">float DecodeFloatRGBA (float4 enc)</td>
-<td align="left">可能没有， 从 UnityCG.cginc 复制</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">float2 EncodeFloatRG (float v)</td>
-<td align="left">可能没有， 从 UnityCG.cginc 复制</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">float DecodeFloatRG (float2 enc)</td>
-<td align="left">可能没有， 从 UnityCG.cginc 复制</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">float2 EncodeViewNormalStereo (float3 n)</td>
-<td align="left">可能没有， 从 UnityCG.cginc 复制</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">float3 DecodeViewNormalStereo (float4 enc4)</td>
-<td align="left">可能没有， 从 UnityCG.cginc 复制</td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h3 id="前向渲染辅助函数"><a href="#前向渲染辅助函数" class="headerlink" title="前向渲染辅助函数"></a>前向渲染辅助函数</h3><table>
+</tbody>
+</table>
+<h3 id="泛用的辅助函数"><a class="markdownIt-Anchor" href="#泛用的辅助函数"></a> 泛用的辅助函数</h3>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-<th align="left">Include</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
+<th style="text-align:left">Include</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">float3 WorldSpaceLightDir (float4 v)</td>
-<td align="left">_MainLightPosition.xyz - TransformObjectToWorld(objectSpacePosition)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Input.hlsl”</td>
+<tbody>
+<tr>
+<td style="text-align:left">float3 WorldSpaceViewDir (float4 v)</td>
+<td style="text-align:left">float3 GetWorldSpaceViewDir(float3 positionWS)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl”</td>
 </tr>
 <tr>
-<td align="left">float3 ObjSpaceLightDir (float4 v)</td>
-<td align="left">TransformWorldToObject(_MainLightPosition.xyz) - objectSpacePosition</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Input.hlsl”</td>
+<td style="text-align:left">float3 ObjSpaceViewDir (float4 v)</td>
+<td style="text-align:left">无，使用 TransformWorldToObject(GetCameraPositionWS()) - objectSpacePosition;</td>
+<td style="text-align:left"></td>
 </tr>
 <tr>
-<td align="left">float3 Shade4PointLights (…)</td>
-<td align="left">无，可尝试用half3 VertexLighting(float3 positionWS, half3 normalWS)</td>
-<td align="left">include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Lighting.hlsl”</td>
+<td style="text-align:left">float2 ParallaxOffset (half h, half height, half3 viewDir)</td>
+<td style="text-align:left">可能没有，从 UnityCG.cginc 复制</td>
+<td style="text-align:left"></td>
 </tr>
-</tbody></table>
-<h3 id="屏幕空间辅助函数"><a href="#屏幕空间辅助函数" class="headerlink" title="屏幕空间辅助函数"></a>屏幕空间辅助函数</h3><table>
+<tr>
+<td style="text-align:left">fixed Luminance (fixed3 c)</td>
+<td style="text-align:left">real Luminance(real3 linearRgb)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl”</td>
+</tr>
+<tr>
+<td style="text-align:left">fixed3 DecodeLightmap (fixed4 color)</td>
+<td style="text-align:left">real3 DecodeLightmap(real4 encodedIlluminance, real4 decodeInstructions)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/EntityLighting.hlsl” URP中decodeInstructions 为 half4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONENT, 0.0h, 0.0h)</td>
+</tr>
+<tr>
+<td style="text-align:left">float4 EncodeFloatRGBA (float v)</td>
+<td style="text-align:left">可能没有， 从 UnityCG.cginc 复制</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">float DecodeFloatRGBA (float4 enc)</td>
+<td style="text-align:left">可能没有， 从 UnityCG.cginc 复制</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">float2 EncodeFloatRG (float v)</td>
+<td style="text-align:left">可能没有， 从 UnityCG.cginc 复制</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">float DecodeFloatRG (float2 enc)</td>
+<td style="text-align:left">可能没有， 从 UnityCG.cginc 复制</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">float2 EncodeViewNormalStereo (float3 n)</td>
+<td style="text-align:left">可能没有， 从 UnityCG.cginc 复制</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">float3 DecodeViewNormalStereo (float4 enc4)</td>
+<td style="text-align:left">可能没有， 从 UnityCG.cginc 复制</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="前向渲染辅助函数"><a class="markdownIt-Anchor" href="#前向渲染辅助函数"></a> 前向渲染辅助函数</h3>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-<th align="left">Include</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
+<th style="text-align:left">Include</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">float4 ComputeScreenPos (float4 clipPos)</td>
-<td align="left">float4 ComputeScreenPos(float4 positionCS)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;ShaderVariablesFunctions.hlsl”</td>
+<tbody>
+<tr>
+<td style="text-align:left">float3 WorldSpaceLightDir (float4 v)</td>
+<td style="text-align:left">_MainLightPosition.xyz - TransformObjectToWorld(objectSpacePosition)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl”</td>
 </tr>
 <tr>
-<td align="left">float4 ComputeGrabScreenPos (float4 clipPos)</td>
-<td align="left">无</td>
-<td align="left"></td>
+<td style="text-align:left">float3 ObjSpaceLightDir (float4 v)</td>
+<td style="text-align:left">TransformWorldToObject(_MainLightPosition.xyz) - objectSpacePosition</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl”</td>
 </tr>
-</tbody></table>
-<h3 id="顶点光照的辅助函数"><a href="#顶点光照的辅助函数" class="headerlink" title="顶点光照的辅助函数"></a>顶点光照的辅助函数</h3><table>
+<tr>
+<td style="text-align:left">float3 Shade4PointLights (…)</td>
+<td style="text-align:left">无，可尝试用half3 VertexLighting(float3 positionWS, half3 normalWS)</td>
+<td style="text-align:left">include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</td>
+</tr>
+</tbody>
+</table>
+<h3 id="屏幕空间辅助函数"><a class="markdownIt-Anchor" href="#屏幕空间辅助函数"></a> 屏幕空间辅助函数</h3>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-<th align="left">Include</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
+<th style="text-align:left">Include</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">float3 ShadeVertexLights (float4 vertex, float3 normal)</td>
-<td align="left">无，可尝试用 UNITY_LIGHTMODEL_AMBIENT.xyz + VertexLighting(…)</td>
-<td align="left">include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Lighting.hlsl”</td>
+<tbody>
+<tr>
+<td style="text-align:left">float4 ComputeScreenPos (float4 clipPos)</td>
+<td style="text-align:left">float4 ComputeScreenPos(float4 positionCS)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl”</td>
 </tr>
-</tbody></table>
-<p>可以在 Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;Common.hlsl 中找到一些通用函数</p>
-<h2 id="内置的着色器变量"><a href="#内置的着色器变量" class="headerlink" title="内置的着色器变量"></a>内置的着色器变量</h2><table>
+<tr>
+<td style="text-align:left">float4 ComputeGrabScreenPos (float4 clipPos)</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="顶点光照的辅助函数"><a class="markdownIt-Anchor" href="#顶点光照的辅助函数"></a> 顶点光照的辅助函数</h3>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-<th align="left">Include</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
+<th style="text-align:left">Include</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">_LightColor0</td>
-<td align="left">_MainLightColor</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Input.hlsl”</td>
+<tbody>
+<tr>
+<td style="text-align:left">float3 ShadeVertexLights (float4 vertex, float3 normal)</td>
+<td style="text-align:left">无，可尝试用 UNITY_LIGHTMODEL_AMBIENT.xyz + VertexLighting(…)</td>
+<td style="text-align:left">include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</td>
+</tr>
+</tbody>
+</table>
+<p>可以在 Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl 中找到一些通用函数</p>
+<h2 id="内置的着色器变量"><a class="markdownIt-Anchor" href="#内置的着色器变量"></a> 内置的着色器变量</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
+<th style="text-align:left">Include</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">_LightColor0</td>
+<td style="text-align:left">_MainLightColor</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl”</td>
 </tr>
 <tr>
-<td align="left">_WorldSpaceLightPos0</td>
-<td align="left">_MainLightPosition</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Input.hlsl”</td>
+<td style="text-align:left">_WorldSpaceLightPos0</td>
+<td style="text-align:left">_MainLightPosition</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl”</td>
 </tr>
 <tr>
-<td align="left">_LightMatrix0</td>
-<td align="left">可能还不支持</td>
-<td align="left"></td>
+<td style="text-align:left">_LightMatrix0</td>
+<td style="text-align:left">可能还不支持</td>
+<td style="text-align:left"></td>
 </tr>
 <tr>
-<td align="left">unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0</td>
-<td align="left">URP中，额外的灯光存储在一个数组或缓冲中(取决于平台),使用Light GetAdditionalLight(uint i, float3 positionWS)获取光照信息</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Lighting.hlsl”</td>
+<td style="text-align:left">unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0</td>
+<td style="text-align:left">URP中，额外的灯光存储在一个数组或缓冲中(取决于平台),使用Light GetAdditionalLight(uint i, float3 positionWS)获取光照信息</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</td>
 </tr>
 <tr>
-<td align="left">unity_4LightAtten0</td>
-<td align="left">URP中，额外的灯光存储在一个数组或缓冲中(取决于平台),使用Light GetAdditionalLight(uint i, float3 positionWS)获取光照信息</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Lighting.hlsl”</td>
+<td style="text-align:left">unity_4LightAtten0</td>
+<td style="text-align:left">URP中，额外的灯光存储在一个数组或缓冲中(取决于平台),使用Light GetAdditionalLight(uint i, float3 positionWS)获取光照信息</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</td>
 </tr>
 <tr>
-<td align="left">unity_LightColor</td>
-<td align="left">URP中，额外的灯光存储在一个数组或缓冲中(取决于平台),使用Light GetAdditionalLight(uint i, float3 positionWS)获取光照信息</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Lighting.hlsl”</td>
+<td style="text-align:left">unity_LightColor</td>
+<td style="text-align:left">URP中，额外的灯光存储在一个数组或缓冲中(取决于平台),使用Light GetAdditionalLight(uint i, float3 positionWS)获取光照信息</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</td>
 </tr>
 <tr>
-<td align="left">unity_WorldToShadow</td>
-<td align="left">float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or _AdditionalLightsWorldToShadow[MAX_VISIBLE_LIGHTS]</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Shadows.hlsl”</td>
+<td style="text-align:left">unity_WorldToShadow</td>
+<td style="text-align:left">float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or _AdditionalLightsWorldToShadow[MAX_VISIBLE_LIGHTS]</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl”</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>可以使用GetAdditionalLight(…)获取额外的光源，也可以使用GetAdditionalLightsCount()查询额外的光源数量。</p>
-<h2 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h2><h3 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h3><p>更多阴影相关函数可以查看 Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Shadows.hlsl</p>
+<h2 id="其他方法"><a class="markdownIt-Anchor" href="#其他方法"></a> 其他方法</h2>
+<h3 id="阴影"><a class="markdownIt-Anchor" href="#阴影"></a> 阴影</h3>
+<p>更多阴影相关函数可以查看 Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl</p>
 <table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">UNITY_SHADOW_COORDS(x)</td>
-<td align="left">可能没有，可以写作float4 shadowCoord : TEXCOORD0;</td>
+<tbody>
+<tr>
+<td style="text-align:left">UNITY_SHADOW_COORDS(x)</td>
+<td style="text-align:left">可能没有，可以写作float4 shadowCoord : TEXCOORD0;</td>
 </tr>
 <tr>
-<td align="left">TRANSFER_SHADOW(a)</td>
-<td align="left">a.shadowCoord &#x3D; TransformWorldToShadowCoord(worldSpacePosition)</td>
+<td style="text-align:left">TRANSFER_SHADOW(a)</td>
+<td style="text-align:left">a.shadowCoord = TransformWorldToShadowCoord(worldSpacePosition)</td>
 </tr>
 <tr>
-<td align="left">SHADOWS_SCREEN</td>
-<td align="left">暂不支持</td>
+<td style="text-align:left">SHADOWS_SCREEN</td>
+<td style="text-align:left">暂不支持</td>
 </tr>
-</tbody></table>
-<h3 id="雾"><a href="#雾" class="headerlink" title="雾"></a>雾</h3><p>更多雾相关的函数可以查看 Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;ShaderVariablesFunctions.hlsl</p>
+</tbody>
+</table>
+<h3 id="雾"><a class="markdownIt-Anchor" href="#雾"></a> 雾</h3>
+<p>更多雾相关的函数可以查看 Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl</p>
 <table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">UNITY_FOG_COORDS(x)</td>
-<td align="left">可能没有，可以写作float fogCoord : TEXCOORD0;</td>
+<tbody>
+<tr>
+<td style="text-align:left">UNITY_FOG_COORDS(x)</td>
+<td style="text-align:left">可能没有，可以写作float fogCoord : TEXCOORD0;</td>
 </tr>
 <tr>
-<td align="left">UNITY_TRANSFER_FOG(o, outpos)</td>
-<td align="left">o.fogCoord &#x3D; ComputeFogFactor(clipSpacePosition.z);</td>
+<td style="text-align:left">UNITY_TRANSFER_FOG(o, outpos)</td>
+<td style="text-align:left">o.fogCoord = ComputeFogFactor(clipSpacePosition.z);</td>
 </tr>
 <tr>
-<td align="left">UNITY_APPLY_FOG(coord, col)</td>
-<td align="left">color &#x3D; MixFog(color, i.fogCoord);</td>
+<td style="text-align:left">UNITY_APPLY_FOG(coord, col)</td>
+<td style="text-align:left">color = MixFog(color, i.fogCoord);</td>
 </tr>
-</tbody></table>
-<h3 id="深度"><a href="#深度" class="headerlink" title="深度"></a>深度</h3><p>可以包含 “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;DeclareDepthTexture.hlsl” 并使用 _CameraDepthTexture来调用深度纹理。也可以使用SampleSceneDepth(…) 和 LoadSceneDepth(…)。</p>
+</tbody>
+</table>
+<h3 id="深度"><a class="markdownIt-Anchor" href="#深度"></a> 深度</h3>
+<p>可以包含 “Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl” 并使用 _CameraDepthTexture来调用深度纹理。也可以使用SampleSceneDepth(…) 和 LoadSceneDepth(…)。</p>
 <table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-<th align="left">Include</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
+<th style="text-align:left">Include</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">LinearEyeDepth(sceneZ)</td>
-<td align="left">LinearEyeDepth(sceneZ, _ZBufferParams)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;Common.hlsl”</td>
+<tbody>
+<tr>
+<td style="text-align:left">LinearEyeDepth(sceneZ)</td>
+<td style="text-align:left">LinearEyeDepth(sceneZ, _ZBufferParams)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl”</td>
 </tr>
 <tr>
-<td align="left">Linear01Depth(sceneZ)</td>
-<td align="left">Linear01Depth(sceneZ, _ZBufferParams)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;Common.hlsl”</td>
+<td style="text-align:left">Linear01Depth(sceneZ)</td>
+<td style="text-align:left">Linear01Depth(sceneZ, _ZBufferParams)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl”</td>
 </tr>
-</tbody></table>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><table>
+</tbody>
+</table>
+<h3 id="其他"><a class="markdownIt-Anchor" href="#其他"></a> 其他</h3>
+<table>
 <thead>
 <tr>
-<th align="left">Built-in</th>
-<th align="left">URP</th>
-<th align="left">Include</th>
+<th style="text-align:left">Built-in</th>
+<th style="text-align:left">URP</th>
+<th style="text-align:left">Include</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">ShadeSH9(normal)</td>
-<td align="left">SampleSH(normal)</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.universal&#x2F;ShaderLibrary&#x2F;Lighting.hlsl”</td>
+<tbody>
+<tr>
+<td style="text-align:left">ShadeSH9(normal)</td>
+<td style="text-align:left">SampleSH(normal)</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</td>
 </tr>
 <tr>
-<td align="left">unity_ColorSpaceLuminance</td>
-<td align="left">无，使用Luminance()</td>
-<td align="left">Include “Packages&#x2F;com.unity.render-pipelines.core&#x2F;ShaderLibrary&#x2F;Color.hlsl”</td>
+<td style="text-align:left">unity_ColorSpaceLuminance</td>
+<td style="text-align:left">无，使用Luminance()</td>
+<td style="text-align:left">Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl”</td>
 </tr>
-</tbody></table>
-<h2 id="后期-特效"><a href="#后期-特效" class="headerlink" title="后期&#x2F;特效"></a>后期&#x2F;特效</h2><p>URP不支持OnPreCull, OnPreRender, OnPostRender 和 OnRenderImage. 支持 OnRenderObject 和 OnWillRenderObject。RenderPipelineManager提供了渲染管线中注入的位置：</p>
+</tbody>
+</table>
+<h2 id="后期特效"><a class="markdownIt-Anchor" href="#后期特效"></a> 后期/特效</h2>
+<p>URP不支持OnPreCull, OnPreRender, OnPostRender 和 OnRenderImage. 支持 OnRenderObject 和 OnWillRenderObject。RenderPipelineManager提供了渲染管线中注入的位置：</p>
 <ul>
 <li>beginCameraRendering(ScriptableRenderContext context, Camera camera)</li>
 <li>endCameraRendering(ScriptableRenderContext context, Camera camera)</li>
@@ -729,7 +786,6 @@
 </ul>
 <p>例如：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnEnable</span>()</span><br>&#123;<br>	RenderPipelineManager.beginCameraRendering += MyCameraRendering;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnDisable</span>()</span><br>&#123;<br>	RenderPipelineManager.beginCameraRendering -= MyCameraRendering;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">MyCameraRendering</span>(<span class="hljs-params">ScriptableRenderContext context, Camera camera</span>)</span><br>&#123;<br>	...<br>	<span class="hljs-keyword">if</span>(camera == myEffectCamera)<br>	&#123;<br>	...<br>        UniversalRenderPipeline.RenderSingleCamera(context, camera);<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>另外，可以创建ScriptableRendererFeature来实现后期处理效果。可以在管线的不同阶段注入ScriptableRenderPasses：</p>
 <ul>
 <li>BeforeRendering</li>

@@ -71,7 +71,11 @@
 
 
   
-<meta name="generator" content="Hexo 7.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
 
 <body>
@@ -224,6 +228,90 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/08/30/%E6%8F%92%E5%80%BC%E7%AE%97%E6%B3%95/" target="_self">
+          插值算法
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/%E6%8F%92%E5%80%BC%E7%AE%97%E6%B3%95/" target="_self">
+        <div>
+          插值算法 插值算法用于在已知数据点之间估计未知点的值。它在计算机图形学、数据分析和信号处理等领域有广泛应用。以下是一些常见的插值方法及其公式。  线性插值 线性插值是最简单的插值方法，它通过两个已知点之间的直线来估计中间点的值。公式如下： f(x)=f(x0)+f(x1)−f(x0)x1−x0⋅(x−x0)f(x) = f(x_0) + \frac{f(x_1) - f(x_0)}{x_1 -
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-08-30 16:09" pubdate>
+              2024-08-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">#图形学</a>
+            
+              <a href="/tags/Network/">#Network</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/08/30/UIFramework/" target="_self">
+          UIFramework
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/UIFramework/" target="_self">
+        <div>
+          这里介绍一下自己DIY的UI框架，功能比较简单，但可以满足大部分需求。  UIFramework  首先在场景中创建一个UIRoot对象，用于管理UI面板 创建后会自动生成一个UIDatabase对象，存放在Assets目录下，可以根据自己的需要进行移动 可以尝试双击打开UIDatabase(未实现的功能) 首先实现一个自定的UI资源加载器(下面分别时基于Addressabels和Resouces
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-08-30 11:23" pubdate>
+              2024-08-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unity/">#Unity</a>
+            
+              <a href="/tags/UGUI/">#UGUI</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/06/17/Unity%20Shader%E5%9F%BA%E7%A1%80/" target="_self">
           Unity Shader
         </a>
@@ -232,7 +320,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/06/17/Unity%20Shader%E5%9F%BA%E7%A1%80/" target="_self">
         <div>
-          渲染管线 渲染管线(Rendering Pipeline)： 一提到管线，感觉很高大上的样子。说的俗一点就是可以理解为流水线。渲染管线我们可暂时理解为 从得到模型数据到绘制出图像 这一过程的称呼。 Vertex Shader： 对顶点数据编程的一段程序。 人类有懒惰的天性，习惯用简化的词汇来表达同一个东西。对 Vertex Shader 也不例外，一般称其为 VS ，但是在本系列文章中会保持全称。
+          渲染管线  渲染管线(Rendering Pipeline)： 一提到管线，感觉很高大上的样子。说的俗一点就是可以理解为流水线。渲染管线我们可暂时理解为 从得到模型数据到绘制出图像 这一过程的称呼。 Vertex Shader： 对顶点数据编程的一段程序。 人类有懒惰的天性，习惯用简化的词汇来表达同一个东西。对 Vertex Shader 也不例外，一般称其为 VS ，但是在本系列文章中会保持全
         </div>
       </a>
 
@@ -276,7 +364,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/06/17/%E4%BB%8EBuildIn%E5%88%B0URP/" target="_self">
         <div>
-          结构首先要在SubShader的Tags中添加”RenderPipeline” &#x3D; “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。    Built-in URP    CGPROGRAM &#x2F; HLSLPROGRAM HLSLPROGRAM   ENDCG &#x2F; ENDHLSL ENDHLSL   CGINCLUDE &#x2F; H
+          结构 首先要在SubShader的Tags中添加”RenderPipeline” = “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。    Built-in URP     CGPROGRAM / HLSLPROGRAM HLSLPROGRAM   ENDCG / ENDHLSL ENDHLSL   CGINCLUDE / HLSLINCLUDE HLSLIN
         </div>
       </a>
 
@@ -318,7 +406,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/06/17/%E5%8D%95%E4%BE%8B/" target="_self">
         <div>
-          LazySingleton12345678910111213141516171819202122232425262728using System;namespace UnityToolkit&#123;    public class LazySingleton&lt;T&gt; : IDisposable where T : new()    &#123;        private stat
+          LazySingleton C#中通用的一种懒加载单例模式实现 12345678910111213141516171819202122232425262728using System;namespace UnityToolkit&#123;    public class LazySingleton&lt;T&gt; : IDisposable where T : new()    &#123;
         </div>
       </a>
 
