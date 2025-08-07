@@ -16,12 +16,12 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Unity场景Lightmap是否存在 判断当前激活的场景是否存在Lightmap，可以通过以下代码实现： 123456789var dataAsset &#x3D; Lightmapping.lightDataAsset;if(dataAsset !&#x3D; null &amp;&amp; dataAsset.lightmaps !&#x3D; null &amp;&amp; dataAsset.lightmaps.L">
+    <meta name="description" content="Unity场景Lightmap是否存在判断当前激活的场景是否存在Lightmap，可以通过以下代码实现： 123456789var dataAsset &#x3D; Lightmapping.lightDataAsset;if(dataAsset !&#x3D; null &amp;&amp; dataAsset.lightmaps !&#x3D; null &amp;&amp; dataAsset.lightmaps.Len">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unity场景Lightmap是否存在">
 <meta property="og:url" content="https://nicoier.github.io/2025/07/22/Unity%E5%9C%BA%E6%99%AFLightmap%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="Unity场景Lightmap是否存在 判断当前激活的场景是否存在Lightmap，可以通过以下代码实现： 123456789var dataAsset &#x3D; Lightmapping.lightDataAsset;if(dataAsset !&#x3D; null &amp;&amp; dataAsset.lightmaps !&#x3D; null &amp;&amp; dataAsset.lightmaps.L">
+<meta property="og:description" content="Unity场景Lightmap是否存在判断当前激活的场景是否存在Lightmap，可以通过以下代码实现： 123456789var dataAsset &#x3D; Lightmapping.lightDataAsset;if(dataAsset !&#x3D; null &amp;&amp; dataAsset.lightmaps !&#x3D; null &amp;&amp; dataAsset.lightmaps.Len">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-22T06:19:35.000Z">
 <meta property="article:modified_time" content="2025-08-07T10:04:51.571Z">
@@ -84,7 +84,7 @@
 
   
 <!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
 <!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
@@ -278,11 +278,10 @@
             
               <div class="markdown-body">
                 
-                <h2 id="unity场景lightmap是否存在"><a class="markdownIt-Anchor" href="#unity场景lightmap是否存在"></a> Unity场景Lightmap是否存在</h2>
-<p>判断当前激活的场景是否存在Lightmap，可以通过以下代码实现：</p>
+                <h2 id="Unity场景Lightmap是否存在"><a href="#Unity场景Lightmap是否存在" class="headerlink" title="Unity场景Lightmap是否存在"></a>Unity场景Lightmap是否存在</h2><p>判断当前激活的场景是否存在Lightmap，可以通过以下代码实现：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> dataAsset = Lightmapping.lightDataAsset;<br><span class="hljs-keyword">if</span>(dataAsset != <span class="hljs-literal">null</span> &amp;&amp; dataAsset.lightmaps != <span class="hljs-literal">null</span> &amp;&amp; dataAsset.lightmaps.Length &gt; <span class="hljs-number">0</span>)<br>&#123;<br>    Debug.Log(<span class="hljs-string">&quot;Lightmap exists in the scene.&quot;</span>);<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    Debug.Log(<span class="hljs-string">&quot;No Lightmap found in the scene.&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>通常，在美术对场景编辑后，会有一系列处理流程，通过检查Lightmap的存在，可以确保场景的光照效果已经被正确烘焙。<br />
-结合自动化测试，可以在场景加载时自动检查Lightmap的存在性，确保场景的光照效果符合预期。</p>
+
+<p>通常，在美术对场景编辑后，会有一系列处理流程，通过检查Lightmap的存在，可以确保场景的光照效果已经被正确烘焙。<br>结合自动化测试，可以在场景加载时自动检查Lightmap的存在性，确保场景的光照效果符合预期。</p>
 
                 
               </div>

@@ -16,12 +16,12 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="LazySingleton C#中通用的一种懒加载单例模式实现 12345678910111213141516171819202122232425262728using System;namespace UnityToolkit&#123;    public class LazySingleton&lt;T&gt; : IDisposable where T : new()    &#123;">
+    <meta name="description" content="LazySingletonC#中通用的一种懒加载单例模式实现 12345678910111213141516171819202122232425262728using System;namespace UnityToolkit&#123;    public class LazySingleton&lt;T&gt; : IDisposable where T : new()    &#123;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Singleton">
 <meta property="og:url" content="https://nicoier.github.io/2024/06/17/%E5%8D%95%E4%BE%8B/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="LazySingleton C#中通用的一种懒加载单例模式实现 12345678910111213141516171819202122232425262728using System;namespace UnityToolkit&#123;    public class LazySingleton&lt;T&gt; : IDisposable where T : new()    &#123;">
+<meta property="og:description" content="LazySingletonC#中通用的一种懒加载单例模式实现 12345678910111213141516171819202122232425262728using System;namespace UnityToolkit&#123;    public class LazySingleton&lt;T&gt; : IDisposable where T : new()    &#123;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-17T10:48:35.000Z">
 <meta property="article:modified_time" content="2025-08-07T09:58:57.192Z">
@@ -84,7 +84,7 @@
 
   
 <!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
 <!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
@@ -278,11 +278,14 @@
             
               <div class="markdown-body">
                 
-                <h2 id="lazysingleton"><a class="markdownIt-Anchor" href="#lazysingleton"></a> LazySingleton</h2>
-<p>C#中通用的一种懒加载单例模式实现</p>
+                <h2 id="LazySingleton"><a href="#LazySingleton" class="headerlink" title="LazySingleton"></a>LazySingleton</h2><p>C#中通用的一种懒加载单例模式实现</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">UnityToolkit</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">LazySingleton</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">IDisposable</span> <span class="hljs-keyword">where</span> <span class="hljs-title">T</span> : <span class="hljs-title">new</span>()<br>    &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> Lazy&lt;T&gt; s_instance = <span class="hljs-keyword">new</span> Lazy&lt;T&gt;(() =&gt;<br>        &#123;<br>            T t = <span class="hljs-keyword">new</span> T();<br>            <span class="hljs-keyword">if</span> (t <span class="hljs-keyword">is</span> IOnInit <span class="hljs-keyword">init</span>)<br>            &#123;<br>                <span class="hljs-keyword">init</span>.OnInit();<br>            &#125;<br><br>            <span class="hljs-keyword">return</span> t;<br>        &#125;);<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> T Singleton =&gt; s_instance.Value;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispose</span>()</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (Singleton <span class="hljs-keyword">is</span> IDisposable disposable)<br>            &#123;<br>                disposable.Dispose();<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="mono-singleton"><a class="markdownIt-Anchor" href="#mono-singleton"></a> Mono Singleton</h2>
-<p>Unity下基于MonoBehavior和泛型的单例模式</p>
+
+
+
+
+
+<h2 id="Mono-Singleton"><a href="#Mono-Singleton" class="headerlink" title="Mono Singleton"></a>Mono Singleton</h2><p>Unity下基于MonoBehavior和泛型的单例模式</p>
 <ul>
 <li>基于泛型实现</li>
 <li>自动清理静态变量，UnityEditor 下可开启选项<code>播放时不重新加载程序集</code>。</li>
