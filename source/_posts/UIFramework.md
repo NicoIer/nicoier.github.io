@@ -5,12 +5,9 @@ tags: [Unity, UGUI]
 ---
 
 
+这里介绍一下自己DIY的UI框架，功能比较简单，但可以满足大部分需求。
 
-# UI框架
-
-
-
-## UIFramework
+# UIFramework
 
 - 首先在场景中创建一个UIRoot对象，用于管理UI面板
 - 创建后会自动生成一个UIDatabase对象，存放在Assets目录下，可以根据自己的需要进行移动

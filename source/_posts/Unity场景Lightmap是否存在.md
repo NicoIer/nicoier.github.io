@@ -4,6 +4,8 @@ date: 2025-07-22 14:19:35
 tags: [Unity, Lightmap]
 ---
 
+## Unity场景Lightmap是否存在
+
 判断当前激活的场景是否存在Lightmap，可以通过以下代码实现：
 ```csharp
 var dataAsset = Lightmapping.lightDataAsset;
