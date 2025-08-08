@@ -16,18 +16,21 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="最近在做小地图的优化方案， 原先的方案很常见： 为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄， 小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。 通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。 这样的做法有几个问题：  需要额外一个Camera，需要完整走Came">
+<meta property="og:type" content="article">
 <meta property="og:title" content="通过CommandBuffer绘制小地图">
 <meta property="og:url" content="https://nicoier.github.io/2025/08/07/%E9%80%9A%E8%BF%87CommandBuffer%E7%BB%98%E5%88%B6%E5%B0%8F%E5%9C%B0%E5%9B%BE/index.html">
 <meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="最近在做小地图的优化方案， 原先的方案很常见： 为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄， 小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。 通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。 这样的做法有几个问题：  需要额外一个Camera，需要完整走Came">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-07T03:10:40.000Z">
-<meta property="article:modified_time" content="2025-08-07T03:14:06.478Z">
+<meta property="article:modified_time" content="2025-08-08T03:21:26.379Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="Shader">
 <meta property="article:tag" content="CommandBuffer">
 <meta property="article:tag" content="小地图">
+<meta property="article:tag" content="Mask">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -225,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          663 字
         
       </span>
     
@@ -236,7 +239,7 @@
         
         
         
-          1 分钟
+          6 分钟
         
       </span>
     
@@ -278,7 +281,30 @@
             
               <div class="markdown-body">
                 
-                
+                <p>最近在做小地图的优化方案， 原先的方案很常见：</p>
+<p>为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄，</p>
+<p>小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。</p>
+<p>通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。</p>
+<p>这样的做法有几个问题：</p>
+<ul>
+<li>需要额外一个Camera，需要完整走Camera的渲染流程，有一些流程无法跳过，比如剔除、渲染排序等，这些都会影响性能</li>
+<li>需要额外一张RT，增加了带宽开销，这在低端机几乎是不可接受的</li>
+</ul>
+<p>然后是新的方案，将小地图绘制插入到UI绘制流程中，使用CommandBuffer在UI绘制目标上绘制小地图（通常是直接绘制到屏幕）。<br>这样就可以避免额外的Camera和RT开销。</p>
+<ul>
+<li>首先要收集需要绘制的物体</li>
+<li>然后收集投影矩阵</li>
+<li>进行Viewport转换，计算绘制位置</li>
+<li>在限制的区域内绘制</li>
+</ul>
+<p>第一步直接使用原方案中的SpriteRenderer代理</p>
+<p>第二步直接使用原方案中的小地图相机的投影矩阵（只不过这次要禁用掉Camera，只使用矩阵数据）</p>
+<p>第三步因为我们的绘制目标是UI的绘制目标，这里以1920<em>1080为例，实际上我们要绘制的目标是1920</em>1080中的一小部分区域，因此需要做Viewport转换。</p>
+<p>假设小地图的尺寸是Vector2 size，小地图正方形的左上角距离屏幕左上角是Vector2 offset,那么Viewport转换就是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> viewport = <span class="hljs-keyword">new</span> Rect(<span class="hljs-number">0</span>,Screen.height - size.x, size.x, size.y);<br>viewport.x += offset.x;<br>viewport.y -= offset.y;<br><br><span class="hljs-built_in">float</span> targetAspect = size.x / size.y;<br><span class="hljs-built_in">float</span> screenAspect = Screen.width / (<span class="hljs-built_in">float</span>)Screen.height;<br><br><span class="hljs-keyword">if</span> (Math.Abs(screenAspect - targetAspect)&gt;<span class="hljs-number">0.01f</span>)`<br>&#123;<br>    <span class="hljs-comment">// 屏幕宽度大于小地图宽高比，计算缩放比例</span><br>    <span class="hljs-built_in">float</span> scale = screenAspect / targetAspect;<br>    viewport.width *= scale;<br>&#125;<br>   <br></code></pre></td></tr></table></figure>
+
+<p>第四步需要重写一下Sprite-Default的Shader，在Frag里限制绘制区域（这一步也可以Stencil实现)<br>只考虑Screen.x &gt; Screen.y的情况，圆形中心在屏幕中心uv(0.5,0.5)，半径的像素数量为Screen.y &#x2F;2，直接用0.5uv作为半径会导致结果并不是圆形，而是椭圆，因为Screen.x!&#x3D;Screen.y，所以需要对X坐标进行缩放。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab"><br>Varyings Vert(Attributes v)<br>&#123;<br>    // ......<br>    o.screenPos =  ComputeScreenPos(o.positionCS);<br>    o.color = v.color * _Color * _RendererColor;<br>    // ......<br>    return o;<br>&#125;<br>half4 Frag(Varyings i) : SV_Target<br>&#123;<br>    // ......<br>    float2 center = float2(0.5, 0.5);<br>    float aspect = _ScreenParams.x / _ScreenParams.y;<br>    float2 pixelUv = i.screenPos.xy / i.screenPos.w;<br>    pixelUv.x = (pixelUv.x - center.x) * aspect + center.x; // Adjust for aspect ratio<br>    if (length(pixelUv - center) &gt; 0.5)<br>    &#123;<br>        // If the pixel is outside the circle, discard it.<br>        discard;<br>    &#125;<br>    // ......<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -297,6 +323,8 @@
         <a href="/tags/CommandBuffer/" class="print-no-link">#CommandBuffer</a>
       
         <a href="/tags/%E5%B0%8F%E5%9C%B0%E5%9B%BE/" class="print-no-link">#小地图</a>
+      
+        <a href="/tags/Mask/" class="print-no-link">#Mask</a>
       
     </div>
   

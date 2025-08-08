@@ -95,35 +95,6 @@
   
   
   <entry>
-    <title>如何通过Shader做圆形Mask</title>
-    <link href="/2025/08/07/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87Shader%E5%81%9A%E5%9C%86%E5%BD%A2Mask/"/>
-    <url>/2025/08/07/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87Shader%E5%81%9A%E5%9C%86%E5%BD%A2Mask/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    <categories>
-      
-      <category>Shader</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Unity</tag>
-      
-      <tag>Shader</tag>
-      
-      <tag>Mask</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>图形学中的坐标变换</title>
     <link href="/2025/08/07/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/"/>
     <url>/2025/08/07/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/</url>
@@ -149,7 +120,7 @@
     <link href="/2025/08/07/%E9%80%9A%E8%BF%87CommandBuffer%E7%BB%98%E5%88%B6%E5%B0%8F%E5%9C%B0%E5%9B%BE/"/>
     <url>/2025/08/07/%E9%80%9A%E8%BF%87CommandBuffer%E7%BB%98%E5%88%B6%E5%B0%8F%E5%9C%B0%E5%9B%BE/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>最近在做小地图的优化方案， 原先的方案很常见：</p><p>为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄，</p><p>小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。</p><p>通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。</p><p>这样的做法有几个问题：</p><ul><li>需要额外一个Camera，需要完整走Camera的渲染流程，有一些流程无法跳过，比如剔除、渲染排序等，这些都会影响性能</li><li>需要额外一张RT，增加了带宽开销，这在低端机几乎是不可接受的</li></ul><p>然后是新的方案，将小地图绘制插入到UI绘制流程中，使用CommandBuffer在UI绘制目标上绘制小地图（通常是直接绘制到屏幕）。<br>这样就可以避免额外的Camera和RT开销。</p><ul><li>首先要收集需要绘制的物体</li><li>然后收集投影矩阵</li><li>进行Viewport转换，计算绘制位置</li><li>在限制的区域内绘制</li></ul><p>第一步直接使用原方案中的SpriteRenderer代理</p><p>第二步直接使用原方案中的小地图相机的投影矩阵（只不过这次要禁用掉Camera，只使用矩阵数据）</p><p>第三步因为我们的绘制目标是UI的绘制目标，这里以1920<em>1080为例，实际上我们要绘制的目标是1920</em>1080中的一小部分区域，因此需要做Viewport转换。</p><p>假设小地图的尺寸是Vector2 size，小地图正方形的左上角距离屏幕左上角是Vector2 offset,那么Viewport转换就是：</p><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> viewport = <span class="hljs-keyword">new</span> Rect(<span class="hljs-number">0</span>,Screen.height - size.x, size.x, size.y);<br>viewport.x += offset.x;<br>viewport.y -= offset.y;<br><br><span class="hljs-built_in">float</span> targetAspect = size.x / size.y;<br><span class="hljs-built_in">float</span> screenAspect = Screen.width / (<span class="hljs-built_in">float</span>)Screen.height;<br><br><span class="hljs-keyword">if</span> (Math.Abs(screenAspect - targetAspect)&gt;<span class="hljs-number">0.01f</span>)`<br>&#123;<br>    <span class="hljs-comment">// 屏幕宽度大于小地图宽高比，计算缩放比例</span><br>    <span class="hljs-built_in">float</span> scale = screenAspect / targetAspect;<br>    viewport.width *= scale;<br>&#125;<br>   <br></code></pre></td></tr></table></figure><p>第四步需要重写一下Sprite-Default的Shader，在Frag里限制绘制区域（这一步也可以Stencil实现)<br>只考虑Screen.x &gt; Screen.y的情况，圆形中心在屏幕中心uv(0.5,0.5)，半径的像素数量为Screen.y &#x2F;2，直接用0.5uv作为半径会导致结果并不是圆形，而是椭圆，因为Screen.x!&#x3D;Screen.y，所以需要对X坐标进行缩放。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab"><br>Varyings Vert(Attributes v)<br>&#123;<br>    // ......<br>    o.screenPos =  ComputeScreenPos(o.positionCS);<br>    o.color = v.color * _Color * _RendererColor;<br>    // ......<br>    return o;<br>&#125;<br>half4 Frag(Varyings i) : SV_Target<br>&#123;<br>    // ......<br>    float2 center = float2(0.5, 0.5);<br>    float aspect = _ScreenParams.x / _ScreenParams.y;<br>    float2 pixelUv = i.screenPos.xy / i.screenPos.w;<br>    pixelUv.x = (pixelUv.x - center.x) * aspect + center.x; // Adjust for aspect ratio<br>    if (length(pixelUv - center) &gt; 0.5)<br>    &#123;<br>        // If the pixel is outside the circle, discard it.<br>        discard;<br>    &#125;<br>    // ......<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
     
     
     
@@ -162,6 +133,8 @@
       <tag>CommandBuffer</tag>
       
       <tag>小地图</tag>
+      
+      <tag>Mask</tag>
       
     </tags>
     
@@ -239,7 +212,7 @@
     <link href="/2025/07/15/Unity-Bloom-%E9%94%AF%E9%BD%BF%E4%BC%98%E5%8C%96/"/>
     <url>/2025/07/15/Unity-Bloom-%E9%94%AF%E9%BD%BF%E4%BC%98%E5%8C%96/</url>
     
-    <content type="html"><![CDATA[<p>Unity Bloom在降采样和上采样时使用的卷积核如下，是一个十字型的卷积核，这样会丢掉四个角落的像素信息，导致锯齿现象。<br>我们在上采样时,使用一个X型的卷积核心，将丢失的信息补充回来即可</p><span>$$\begin{bmatrix}0 & 1 & 0 \\1 & 1 & 1 \\0 & 1 & 0\end{bmatrix}$$</span><span>$$\begin{bmatrix}1 & 0 & 1 \\0 & 1 & 0 \\1 & 0 & 1\end{bmatrix}$$</span><p>这样做没有什么理论依据，但是效果很好</p><script>MathJax = {  tex: {    inlineMath: [['$', '$'], ['\\(', '\\)']]  }};</script><script id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>]]></content>
+    <content type="html"><![CDATA[<p>Unity Bloom在降采样和上采样时使用的卷积核如下，是一个十字型的卷积核，这样会丢掉四个角落的像素信息，导致锯齿现象。<br>我们在上采样时,使用一个X型的卷积核心，将丢失的信息补充回来即可</p><span><p>$$<br>\begin{bmatrix}<br>0 &amp; 1 &amp; 0 \<br>1 &amp; 1 &amp; 1 \<br>0 &amp; 1 &amp; 0<br>\end{bmatrix}<br>$$<br></span></p><span><p>$$<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 1 \<br>0 &amp; 1 &amp; 0 \<br>1 &amp; 0 &amp; 1<br>\end{bmatrix}<br>$$<br></span></p><p>这样做没有什么理论依据，但是效果很好</p><script>MathJax = {  tex: {    inlineMath: [['$', '$'], ['\\(', '\\)']]  }};</script><script id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>]]></content>
     
     
     
