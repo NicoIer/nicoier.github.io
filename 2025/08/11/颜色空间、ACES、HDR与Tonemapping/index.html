@@ -33,8 +33,9 @@
 <meta property="og:image" content="https://nicoier.github.io/img/gamma.png">
 <meta property="og:image" content="https://nicoier.github.io/img/aces_curve.png">
 <meta property="og:image" content="https://nicoier.github.io/img/aces.jpg">
+<meta property="og:image" content="https://nicoier.github.io/img/lut.png">
 <meta property="article:published_time" content="2025-08-11T09:35:00.000Z">
-<meta property="article:modified_time" content="2025-08-13T13:37:38.261Z">
+<meta property="article:modified_time" content="2025-08-13T13:45:34.739Z">
 <meta property="article:author" content="NicoIer">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nicoier.github.io/img/visible_light.png">
@@ -349,7 +350,7 @@
 <p>ACES本质是一个新的颜色空间，任意颜色空间都可以转到ACES颜色空间，ACES颜色空间可以转到任意颜色空间。<br>或者说它是一个通用的数据交换格式，一方面可以不同的输入设备转成ACES，另一方面可以把ACES在不同的显示设备上正确显示</p>
 <p>可以看到 ACES2065-1直接把人眼看的到的看不到的颜色都包含了</p>
 <p>管你什么颜色空间，统统到我最大的范围里来，重新算个RGB给你就是来<br><img src="/../img/aces.jpg" srcset="/img/loading.gif" lazyload alt="aces.jpg"></p>
-<h2 id="LUT"><a href="#LUT" class="headerlink" title="LUT"></a>LUT</h2><p>做Tonemapping需要进行曲线拟合（多项式计算），还是比较复杂的，尤其是对于实时渲染来说。<br>LUT（Look-Up Table）是一种预计算的表格，可以用来快速进行颜色转换和Tonemapping，只需要一次采样即可。</p>
+<h2 id="LUT"><a href="#LUT" class="headerlink" title="LUT"></a>LUT</h2><p>做Tonemapping需要进行曲线拟合（多项式计算），还是比较复杂的，尤其是对于实时渲染来说。<br>LUT（Look-Up Table）是一种预计算的表格，可以用来快速进行颜色转换和Tonemapping，只需要一次采样即可。<br><img src="/../img/lut.png" srcset="/img/loading.gif" lazyload alt="lut.png"></p>
 <p>[参考]</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21983679">https://zhuanlan.zhihu.com/p/21983679</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/609569101">https://zhuanlan.zhihu.com/p/609569101</a></p>
