@@ -32,8 +32,9 @@
 <meta property="og:image" content="https://nicoier.github.io/img/DCI-sRGB.png">
 <meta property="og:image" content="https://nicoier.github.io/img/gamma.png">
 <meta property="og:image" content="https://nicoier.github.io/img/aces_curve.png">
+<meta property="og:image" content="https://nicoier.github.io/img/aces.jpg">
 <meta property="article:published_time" content="2025-08-11T09:35:00.000Z">
-<meta property="article:modified_time" content="2025-08-13T13:31:23.742Z">
+<meta property="article:modified_time" content="2025-08-13T13:37:38.261Z">
 <meta property="article:author" content="NicoIer">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nicoier.github.io/img/visible_light.png">
@@ -345,9 +346,9 @@
 <p>Tonemapping有各种各样的算法（看着OK就OK），但是现在被ACES一统了</p>
 <p><img src="/../img/aces_curve.png" srcset="/img/loading.gif" lazyload alt="aces_curve.png"></p>
 <h2 id="ACES"><a href="#ACES" class="headerlink" title="ACES"></a>ACES</h2><p>ACES(Academy Color Encoding System)是由美国电影艺术与科学学院（Academy of Motion Picture Arts and Sciences）开发的一个色彩管理系统，旨在提供一个统一的色彩空间和工作流程，以便在电影和电视制作中实现一致的色彩表现。</p>
-<p>ACES本质是一个新的颜色空间，任意颜色空间都可以转到ACES颜色空间，ACES颜色空间可以转到任意颜色空间。</p>
-<p>或者说它是一个通用的数据交换格式，一方面可以不同的输入设备转成ACES，另一方面可以把ACES在不同的显示设备上正确显示</p>
-<p>对于实时渲染来说，没必要用全套ACES。因为第一，没有什么“输入设备”。渲染出来的HDR图像就是个线性的数据，所以直接就在ACES空间中。而输出的时候需要一次tone mapping，转到LDR或另一个HDR。也就是说，我们只要ACES里的非常小的一条路径，而不是纷繁复杂的整套体系。</p>
+<p>ACES本质是一个新的颜色空间，任意颜色空间都可以转到ACES颜色空间，ACES颜色空间可以转到任意颜色空间。<br>或者说它是一个通用的数据交换格式，一方面可以不同的输入设备转成ACES，另一方面可以把ACES在不同的显示设备上正确显示</p>
+<p>可以看到 ACES2065-1直接把人眼看的到的看不到的颜色都包含了</p>
+<p>管你什么颜色空间，统统到我最大的范围里来，重新算个RGB给你就是来<br><img src="/../img/aces.jpg" srcset="/img/loading.gif" lazyload alt="aces.jpg"></p>
 <h2 id="LUT"><a href="#LUT" class="headerlink" title="LUT"></a>LUT</h2><p>做Tonemapping需要进行曲线拟合（多项式计算），还是比较复杂的，尤其是对于实时渲染来说。<br>LUT（Look-Up Table）是一种预计算的表格，可以用来快速进行颜色转换和Tonemapping，只需要一次采样即可。</p>
 <p>[参考]</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21983679">https://zhuanlan.zhihu.com/p/21983679</a></p>
