@@ -182,7 +182,7 @@ ACES本质是一个新的颜色空间，任意颜色空间都可以转到ACES颜
 ## LUT 
 做Tonemapping需要进行曲线拟合（多项式计算），还是比较复杂的，尤其是对于实时渲染来说。
 LUT（Look-Up Table）是一种预计算的表格，可以用来快速进行颜色转换和Tonemapping，只需要一次采样即可。
-
+![lut.png](../img/lut.png)
 
 
 
