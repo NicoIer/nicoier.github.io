@@ -4,6 +4,59 @@
   
   
   <entry>
+    <title>股票常识</title>
+    <link href="/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/"/>
+    <url>/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hexo命令速记</title>
+    <link href="/2025/11/12/hexo%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0/"/>
+    <url>/2025/11/12/hexo%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 初始化 Hexo 博客</span><br>hexo init &lt;folder&gt;  <br><span class="hljs-comment"># 在指定文件夹中初始化一个新的 Hexo 博客</span><br><span class="hljs-comment"># 进入博客目录</span><br><span class="hljs-built_in">cd</span> &lt;folder&gt;<br><span class="hljs-comment"># 安装依赖包</span><br>npm install<br><span class="hljs-comment"># 生成静态文件</span><br>hexo generate 或 hexo g<br><span class="hljs-comment"># 预览本地服务器</span><br>hexo server 或 hexo s<br><span class="hljs-comment"># 部署到远程服务器</span><br>hexo deploy 或 hexo d<br><span class="hljs-comment"># 清除生成的静态文件</span><br>hexo clean<br><span class="hljs-comment"># 创建新文章</span><br>hexo new &lt;post_name&gt; 或 hexo n &lt;post_name&gt;<br><span class="hljs-comment"># 创建新草稿</span><br>hexo new draft &lt;draft_name&gt; 或 hexo n draft &lt;draft_name&gt;<br><span class="hljs-comment"># 发布草稿</span><br>hexo publish &lt;draft_name&gt; 或 hexo p &lt;draft_name&gt;<br><span class="hljs-comment"># 查看 Hexo 版本</span><br>hexo version 或 hexo -v<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>逃离UnityCN</title>
+    <link href="/2025/11/11/%E9%80%83%E7%A6%BBUnityCN/"/>
+    <url>/2025/11/11/%E9%80%83%E7%A6%BBUnityCN/</url>
+    
+    <content type="html"><![CDATA[<p>Unity中国实在是罪大恶极，自从Unity中国变成独立公司之后，国内就没办法以正常途径下载国际版Unity了，即使使用的是国际版Hub</p><p>这里介绍一种逃离办法，需要有VPN</p><ul><li><p>首先UnityHub默认启动时，不会读取系统代理，也就是说，即使你开了VPN，挂到了国外节点，Hub也不会走代理访问Unity服务器</p></li><li><p>如何判断当前UnityHub是否走了代理？</p><ul><li>退出登陆，然后点Sign In，如果弹出的登陆页面里有cn，不能用Google登陆，那就是代理没生效</li></ul></li><li><p>我们要通过命令行的方式启动Unity Hub ，并且让它走代理</p><ul><li><p>MacOS下，打开终端，执行以下命令，生成一个launchUnityHub.command文件</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">echo &#x27;#!/bin/bash<br>export HTTP_PROXY=http://127.0.0.1:7890<br>export HTTPS_PROXY=http://127.0.0.1:7890<br>nohup &quot;/Applications/Unity Hub.app/Contents/MacOS/Unity Hub&quot; &amp;&gt;/dev/null &amp;&#x27; &gt; launchUnityHub.command<br>chmod +x launchUnityHub.command<br></code></pre></td></tr></table></figure></li><li><p>Windows下，打开记事本，输入以下内容，保存为launchUnityHub.bat文件</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">@echo off<br>set HTTP_PROXY=http://127.0.0.1:1080<br>set HTTPS_PROXY=http://127.0.0.1:1080<br>start &quot;&quot; &quot;C:\Program Files\Unity Hub\Unity Hub.exe&quot;<br></code></pre></td></tr></table></figure></li><li><p>将1080设置为自己的代理端口，Clash默认是7890，Shadowsocks默认是1080</p></li><li><p>双击launchUnityHub.command或launchUnityHub.bat启动Unity Hub</p></li></ul></li><li><p>这时候你再点Sign In，就会发现可以用Google账号登陆了</p></li><li><p>登陆之后，你就可以正常下载国际版Unity了</p></li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Unity</tag>
+      
+      <tag>Unity CN</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>NetworkCharacterView</title>
     <link href="/2025/11/03/NetworkCharacterView/"/>
     <url>/2025/11/03/NetworkCharacterView/</url>
