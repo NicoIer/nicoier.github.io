@@ -16,6 +16,11 @@ Animancer是Unity中的一个强大的动画管理插件，提供了比传统Ani
 
 ## 了解Transition和AnimancerState
 
+这是一个典型的运行时Animancer
+
+![runtime_animancer.png](../img/runtime_animancer.png)
+
+
 ### Transition
 
 Animacner中，动画不是按照AnimationClip为资源单位播放，而是按照Transition为资源单位播放的
