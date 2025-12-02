@@ -34,7 +34,7 @@ JoltPhysics 的设计目标是提供高效且易于使用的物理模拟解决�
 - MaxBodies
   - 设置物理引擎中最大刚体数量
 - MaxBodyPairs
-  - 
+  - 设置物理引擎中最大刚体对数量
 - MaxContactConstraints
   - 设置物理引擎中最大碰撞对和最大接触约束数量
 
