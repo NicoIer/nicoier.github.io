@@ -23,18 +23,19 @@
 <meta property="og:site_name" content="NicoIer">
 <meta property="og:description" content="1本文记录了在使用Animancer时开发动画网络同步的一些经验和解决方案。  Animancer简介https:&#x2F;&#x2F;kybernetik.com.au&#x2F;animancer&#x2F; Animancer是Unity中的一个强大的动画管理插件，提供了比传统Animator更灵活和高效的动画控制方式。它允许开发者通过代码直接控制动画状态机，简化了动画的管理和切换。 了解Transition和Animancer">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/runtime_animancer.png">
 <meta property="og:image" content="https://nicoier.github.io/img/animancer_transition_types.png">
 <meta property="og:image" content="https://nicoier.github.io/img/animancer_state_types.png">
 <meta property="og:image" content="https://nicoier.github.io/img/animancer_transition_library.png">
 <meta property="article:published_time" content="2025-12-02T05:27:08.000Z">
-<meta property="article:modified_time" content="2025-12-02T06:20:13.887Z">
+<meta property="article:modified_time" content="2025-12-02T06:25:34.107Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="Animation">
 <meta property="article:tag" content="Animancer">
 <meta property="article:tag" content="Networking">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://nicoier.github.io/img/animancer_transition_types.png">
+<meta name="twitter:image" content="https://nicoier.github.io/img/runtime_animancer.png">
   
   
   
@@ -288,7 +289,9 @@
 
 <h1 id="Animancer简介"><a href="#Animancer简介" class="headerlink" title="Animancer简介"></a>Animancer简介</h1><p><a target="_blank" rel="noopener" href="https://kybernetik.com.au/animancer/">https://kybernetik.com.au/animancer/</a></p>
 <p>Animancer是Unity中的一个强大的动画管理插件，提供了比传统Animator更灵活和高效的动画控制方式。它允许开发者通过代码直接控制动画状态机，简化了动画的管理和切换。</p>
-<h2 id="了解Transition和AnimancerState"><a href="#了解Transition和AnimancerState" class="headerlink" title="了解Transition和AnimancerState"></a>了解Transition和AnimancerState</h2><h3 id="Transition"><a href="#Transition" class="headerlink" title="Transition"></a>Transition</h3><p>Animacner中，动画不是按照AnimationClip为资源单位播放，而是按照Transition为资源单位播放的</p>
+<h2 id="了解Transition和AnimancerState"><a href="#了解Transition和AnimancerState" class="headerlink" title="了解Transition和AnimancerState"></a>了解Transition和AnimancerState</h2><p>这是一个典型的运行时Animancer</p>
+<p><img src="/../img/runtime_animancer.png" srcset="/img/loading.gif" lazyload alt="runtime_animancer.png"></p>
+<h3 id="Transition"><a href="#Transition" class="headerlink" title="Transition"></a>Transition</h3><p>Animacner中，动画不是按照AnimationClip为资源单位播放，而是按照Transition为资源单位播放的</p>
 <p>Transition有很多类型，比如ClipTransition，LinearMixTransition，PlayableTransition等等。</p>
 <ul>
 <li>ClipTransition: 最简单的Transition，直接封装了一个AnimationClip，可以设置淡入淡出时间，速度等参数</li>
