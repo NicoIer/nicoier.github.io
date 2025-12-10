@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="zstd-for-unity1本文主要记录了在Unity中集成zstd的过程。  集成并制作完毕后的结果提供在此 https:&#x2F;&#x2F;github.com&#x2F;NicoIer&#x2F;zstd-unity.git zstd是facebook开源的一款高效压缩算法，具有极高的压缩比和压缩速度，广泛应用于各种场景中。它被集成在linux内核中，并且被许多知名项目采用，比如Docker、Kubernetes等。 其在游">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zstd-for-unity">
+<meta property="og:url" content="https://nicoier.github.io/2025/12/09/zstd-for-unity/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="zstd-for-unity1本文主要记录了在Unity中集成zstd的过程。  集成并制作完毕后的结果提供在此 https:&#x2F;&#x2F;github.com&#x2F;NicoIer&#x2F;zstd-unity.git zstd是facebook开源的一款高效压缩算法，具有极高的压缩比和压缩速度，广泛应用于各种场景中。它被集成在linux内核中，并且被许多知名项目采用，比如Docker、Kubernetes等。 其在游">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/libzstd-result.png">
+<meta property="og:image" content="https://nicoier.github.io/img/%E7%94%9F%E6%88%90%E7%9A%84ClangSharpPInvokeGenerator.png">
+<meta property="article:published_time" content="2025-12-09T07:17:42.000Z">
+<meta property="article:modified_time" content="2025-12-10T03:22:24.911Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="unity">
+<meta property="article:tag" content="compression">
+<meta property="article:tag" content="zstd">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/libzstd-result.png">
+  
+  
+  
+  <title>zstd-for-unity - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="zstd-for-unity"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-09 15:17" pubdate>
+          2025年12月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">zstd-for-unity</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="zstd-for-unity"><a href="#zstd-for-unity" class="headerlink" title="zstd-for-unity"></a>zstd-for-unity</h1><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">本文主要记录了在Unity中集成zstd的过程。<br></code></pre></td></tr></table></figure>
+
+<p>集成并制作完毕后的结果提供在此 <a target="_blank" rel="noopener" href="https://github.com/NicoIer/zstd-unity.git">https://github.com/NicoIer/zstd-unity.git</a></p>
+<p>zstd是facebook开源的一款高效压缩算法，具有极高的压缩比和压缩速度，广泛应用于各种场景中。它被集成在linux内核中，并且被许多知名项目采用，比如Docker、Kubernetes等。 其在游戏开发中的应用也比较广泛，像熟知的英雄联盟就使用了它</p>
+<h2 id="下载-静态编译zstd源码"><a href="#下载-静态编译zstd源码" class="headerlink" title="下载&amp;静态编译zstd源码"></a>下载&amp;静态编译zstd源码</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/facebook/zstd">https://github.com/facebook/zstd</a></p>
+</li>
+<li><pre><code class="language-shell">  git clone https://github.com/facebook/zstd
+  <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">- checkout到最新发布版本，目前是<span class="hljs-built_in">v1</span>.<span class="hljs-number">5</span>.<span class="hljs-number">7</span><br>- ```<span class="hljs-keyword">shell</span><br><span class="hljs-keyword"></span>    git checkout <span class="hljs-built_in">v1</span>.<span class="hljs-number">5</span>.<span class="hljs-number">7</span><br></code></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>切换到build目录</p>
+</li>
+<li><pre><code class="language-shell">  cd zstd/build/cmake
+  <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">- 为了在常见的游戏平台上编译出静态库，这里需要安装交叉编译工具链(gcc,ndk,xcode,mingw,cmake等)，使用的电脑操作系统最好是MacOS，NDK的话我这里直接用Unity下载好的<br>  ```<span class="hljs-keyword">shell</span><br><span class="hljs-keyword"></span>    <span class="hljs-keyword">brew </span><span class="hljs-keyword">install </span>cmake<br>    <span class="hljs-keyword">brew </span><span class="hljs-keyword">install </span>mingw-w64<br>    <span class="hljs-keyword">brew </span><span class="hljs-keyword">install </span>gcc<br></code></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>然后就是为不同的平台调用cmake进行编译了</p>
+</li>
+<li><pre><code class="language-shell">  # armeabi-v7a
+  export NDK_PATH=/Applications/Unity/Hub/Editor/6000.3.0f1/PlaybackEngines/AndroidPlayer/NDK
+
+  cmake -S . -B build_android_armeabi-v7a \
+  -DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake \
+  -DANDROID_ABI=armeabi-v7a \
+  -DANDROID_PLATFORM=android-21 \
+  -DBUILD_SHARED_LIBS=ON
+
+  cmake --build build_android_armeabi-v7a --config Release
+  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs routeros">  <br>```shell<br><span class="hljs-comment"># arm64-v8a</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">NDK_PATH</span>=/Applications/Unity/Hub/Editor/6000.3.0f1/PlaybackEngines/AndroidPlayer/NDK<br><br>cmake -S . -B build_android_arm64-v8a \<br><span class="hljs-attribute">-DCMAKE_TOOLCHAIN_FILE</span>=<span class="hljs-variable">$NDK_PATH</span>/build/cmake/android.toolchain.cmake \<br><span class="hljs-attribute">-DANDROID_ABI</span>=arm64-v8a \<br><span class="hljs-attribute">-DANDROID_PLATFORM</span>=android-21 \<br><span class="hljs-attribute">-DBUILD_SHARED_LIBS</span>=ON<br>  <br>cmake --build build_android_arm64-v8a --config Release<br></code></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">export NDK_PATH=/Applications/Unity/Hub/Editor/6000.3.0f1/PlaybackEngines/AndroidPlayer/NDK<br>cmake -S . -B build_android_x86 \<br>  <br>-DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake \<br>-DANDROID_ABI=x86 \<br>-DANDROID_PLATFORM=android-21 \<br>-DBUILD_SHARED_LIBS=ON<br>  <br>cmake --build build_android_x86 --config Release<br></code></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">x86_64</span><br>export NDK_PATH=/Applications/Unity/Hub/Editor/6000.3.0f1/PlaybackEngines/AndroidPlayer/NDK<br>  <br>cmake -S . -B build_android_x86_64 \<br>-DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake \<br>-DANDROID_ABI=x86_64 \<br>-DANDROID_PLATFORM=android-21 \<br>-DBUILD_SHARED_LIBS=ON<br>  <br>cmake --build build_android_x86_64 --config Release<br></code></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">配置</span><br>cmake -S . -B build_win64 \<br>-DCMAKE_SYSTEM_NAME=Windows \<br>-DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc \<br>-DCMAKE_RC_COMPILER=x86_64-w64-mingw32-windres \<br>-DBUILD_SHARED_LIBS=ON<br><span class="hljs-meta prompt_"># </span><span class="language-bash">编译</span><br>cmake --build build_win64 --config Release<br></code></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">cmake -S . -B build_ios \<br>-DCMAKE_SYSTEM_NAME=iOS \<br>-DCMAKE_OSX_ARCHITECTURES=arm64 \<br>-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \<br>-DBUILD_SHARED_LIBS=ON<br>cmake --build build_ios --config Release<br><br></code></pre></td></tr></table></figure>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">cmake -S . -B build_ios_universal \<br>-DCMAKE_SYSTEM_NAME=iOS \<br>-DCMAKE_OSX_ARCHITECTURES=&quot;arm64;x86_64&quot; \<br>-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \<br>-DBUILD_SHARED_LIBS=ON<br>cmake --build build_ios_universal --config Release<br></code></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">cmake -S . -B build_linux_x86_64 \<br>-DCMAKE_BUILD_TYPE=Release \<br>-DBUILD_SHARED_LIBS=ON<br>cmake --build build_linux_x86_64 --config Release<br></code></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">cmake -S . -B build_macos_universal \<br>-DCMAKE_OSX_ARCHITECTURES=&quot;x86_64;arm64&quot; \<br>-DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \<br>-DBUILD_SHARED_LIBS=ON<br>cmake --build build_macos_universal --config Release<br></code></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>完成上面的步骤之后，就可以在对应的build目录下找到编译好的静态库文件了<img src="/../img/libzstd-result.png" srcset="/img/loading.gif" lazyload alt="libzstd-result.png"></p>
+</li>
+</ul>
+<h2 id="导出静态库到unity"><a href="#导出静态库到unity" class="headerlink" title="导出静态库到unity"></a>导出静态库到unity</h2><ul>
+<li>把不同平台编译好的静态库文件放到Unity项目的Plugins目录，按照平台差异创建文件夹，配置导入选项</li>
+</ul>
+<h2 id="为zstd-h生成C-绑定代码"><a href="#为zstd-h生成C-绑定代码" class="headerlink" title="为zstd.h生成C#绑定代码"></a>为zstd.h生成C#绑定代码</h2><ul>
+<li>zstd.h中定义了zstd提供的所有方法，我们可以直接在C#里面一一声明这些方法，然后通过DllImport调用对应平台的静态库文件中的方法</li>
+<li>手动编译比较浪费时间，而且容易出错，这里使用ClangSharpPInvokeGenerator工具自动生成绑定代码</li>
+<li>下载ClangSharp源码<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://github.com/dotnet/ClangSharp<br></code></pre></td></tr></table></figure></li>
+<li>编译ClangSharpPInvokeGenerator工具<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd ClangSharpPInvokeGenerator<br>dotnet build -c Release<br></code></pre></td></tr></table></figure></li>
+<li>然后就可以得到ClangSharpPInvokeGenerator.dll<img src="/../img/%E7%94%9F%E6%88%90%E7%9A%84ClangSharpPInvokeGenerator.png" srcset="/img/loading.gif" lazyload alt="生成的ClangSharpPInvokeGenerator.png"></li>
+<li>clang是llvm项目下的一个C&#x2F;C++前端编译器工具，我们需要先安装clang（且版本必须是20，否则会和ClangSharpPInvokeGenerator不兼容）)<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">brew install llvm@20<br></code></pre></td></tr></table></figure></li>
+<li>阅读zstd.h，其依赖了zstd_errors.h；stddef.h;limits.h等头文件，我们需要把这些头文件路径都添加到ClangSharpPInvokeGenerator的参数中</li>
+<li>其次不希望生成的代码能够被直接访问到，所以需要添加访问修饰符参数为internal</li>
+<li>运行ClangSharpPInvokeGenerator生成绑定代码<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">export PATH=&quot;/usr/local/opt/llvm@20/bin:$PATH&quot;<br><br>./ClangSharpPInvokeGenerator --file ./zstd.h --namespace zstd --output ./csharp_gen/zstd.cs --include-directory /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include --libraryPath libzstd --with-access-specifier &#x27;*=Internal&#x27;<br><br>./ClangSharpPInvokeGenerator --file ./zstd_errors.h --namespace zstd --output ./csharp_gen/zstd_errors.cs --include-directory /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include --libraryPath libzstd --with-access-specifier &#x27;*=Internal&#x27;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="编写C-并提供zstdcli工具中的差分功能"><a href="#编写C-并提供zstdcli工具中的差分功能" class="headerlink" title="编写C#并提供zstdcli工具中的差分功能"></a>编写C#并提供zstdcli工具中的差分功能</h2><p>zstdcli 是zstd源码中自带的一个命令行工具，提供了压缩、解压、差分等功能，我们可以参考zstdcli.c文件的实现，</p>
+<h3 id="zstdcli差分功能原理解析"><a href="#zstdcli差分功能原理解析" class="headerlink" title="zstdcli差分功能原理解析"></a>zstdcli差分功能原理解析</h3><p>首先我们要明确一点：zstdcli的”差分”并不是真正意义上的二进制差分，它和bsdiff、xdelta等差分工具的原理完全不同，<br>zstdcli的差分是基于压缩算法实现的，它的原理是利用zstd的字典压缩功能，将原始文件作为字典，对修改后的文件进行压缩，从而生成一个差分文件。</p>
+<p>现在我们有file_v1.bin和file_v2.bin两个文件</p>
+<ul>
+<li>生成差分的v1_v2.zst的本质是将file_v1.bin作为字典，对file_v2.bin进行字典压缩，生成的文件就是v1_v2.zst。</li>
+<li>应用差分的本质是将file_v1.bin作为字典，对v1_v2.zst进行字典解压，生成的文件就是file_v2.bin。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/unity/" class="print-no-link">#unity</a>
+      
+        <a href="/tags/compression/" class="print-no-link">#compression</a>
+      
+        <a href="/tags/zstd/" class="print-no-link">#zstd</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>zstd-for-unity</div>
+      <div>https://nicoier.github.io/2025/12/09/zstd-for-unity/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/09/zstdcli/" title="zstdcli">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">zstdcli</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" title="Unity6的MeshLOD使用教程">
+                        <span class="hidden-mobile">Unity6的MeshLOD使用教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
