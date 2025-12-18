@@ -24,3 +24,8 @@ Unity中可以使用RenderObjects实现一次Pre-Z绘制
 ```shaderlab
 ZTest Equal
 ```
+
+
+# 代价
+
+代价就是所有的AlphaClip物体都需要绘制两次，一次Pre-Z，一次正常绘制。
