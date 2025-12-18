@@ -24,7 +24,7 @@
 <meta property="og:description" content="手机上AlphaClip为什么会很卡本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。 Pre-Z优化方案 再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入 在AlphaClip绘制时，开启深度测试 Z">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-07T03:12:42.000Z">
-<meta property="article:modified_time" content="2025-11-19T07:05:29.071Z">
+<meta property="article:modified_time" content="2025-12-18T03:45:47.943Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="Shader">
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          190 字
+          218 字
         
       </span>
     
@@ -289,6 +289,10 @@
 <p>Unity中可以使用RenderObjects实现一次Pre-Z绘制</p>
 <p>然后在自己的AlphaClip Shader中开启ZTest Equal</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">ZTest Equal<br></code></pre></td></tr></table></figure>
+
+
+<h1 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h1><p>代价就是所有的AlphaClip物体都需要绘制两次，一次Pre-Z，一次正常绘制。</p>
+
                 
               </div>
             

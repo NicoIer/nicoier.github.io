@@ -4,32 +4,6 @@
   
   
   <entry>
-    <title>zstd-for-unity-diff</title>
-    <link href="/2025/12/09/zstd-for-unity-diff/"/>
-    <url>/2025/12/09/zstd-for-unity-diff/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>zstdcli</title>
-    <link href="/2025/12/09/zstdcli/"/>
-    <url>/2025/12/09/zstdcli/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>zstd-for-unity</title>
     <link href="/2025/12/09/zstd-for-unity/"/>
     <url>/2025/12/09/zstd-for-unity/</url>
@@ -57,9 +31,21 @@
     <link href="/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"/>
     <url>/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>Unity6中，当导入模型时，就出现了MeshLOD的选项，我们可以勾选这个选项来启用MeshLOD功能。</p><p>如果一个MeshRenderer 或者 SkinnedMeshRenderer 组件使用的Mesh是勾选了MeshLOD的，那么会出现一个调整LOD等级的滑动条，我们可以通过这个滑动条来调整当前使用的LOD等级。</p><p>还是比较方便，只是生成的算法有点垃圾，期待Unity持续优化这个功能。</p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>Unity</tag>
+      
+      <tag>Unity6</tag>
+      
+      <tag>Mesh</tag>
+      
+      <tag>LOD</tag>
+      
+    </tags>
     
   </entry>
   
@@ -196,24 +182,11 @@
   
   
   <entry>
-    <title>如何让低端机30FPS</title>
-    <link href="/2025/09/11/%E5%A6%82%E4%BD%95%E8%AE%A9%E4%BD%8E%E7%AB%AF%E6%9C%BA30FPS/"/>
-    <url>/2025/09/11/%E5%A6%82%E4%BD%95%E8%AE%A9%E4%BD%8E%E7%AB%AF%E6%9C%BA30FPS/</url>
-    
-    <content type="html"><![CDATA[<p>30FPS对应一帧33.3ms</p><p>到底谁更快?</p><ul><li>Mathf</li><li>MathF</li><li>math</li></ul><p>有Burst</p><p>无Burst</p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>EntitiesGraphics</title>
     <link href="/2025/08/27/EntitiesGrphics/"/>
     <url>/2025/08/27/EntitiesGrphics/</url>
     
-    <content type="html"><![CDATA[<h1 id="Entities-Graphics"><a href="#Entities-Graphics" class="headerlink" title="Entities Graphics"></a>Entities Graphics</h1><p>优化后的SRP Batch</p><p>利用了Burst编译器(LLVM)</p><p>多线程收集数据 (EntityQuery)</p><p>无论多少相机，只需要上传一次数据</p><p>Data Persistent Model：这一部分用于在渲染系统中管理和上传数据，重点在于如何有效地管理渲染所需的各种数据，确保这些数据在不同渲染帧之间保持一致和可用。</p><p>Persistent Batches：这一部分涉及渲染批次的优化，以减少绘制调用的开销。通过在一定时间内保持批次的一致性，最大限度地减少了与每帧设置和执行这些批次相关的计算成本。</p><p>C++层的渲染逻辑被C#替代 (不再是黑盒 CullScriptable可以自己改造了!)</p><p><a href="https://zhuanlan.zhihu.com/p/707811162">https://zhuanlan.zhihu.com/p/707811162</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="Entities-Graphics"><a href="#Entities-Graphics" class="headerlink" title="Entities Graphics"></a>Entities Graphics</h1><p>优化后的SRP Batch</p><p>利用了Burst编译器(LLVM)</p><p>多线程收集数据 (EntityQuery)</p><p>无论多少相机，只需要上传一次数据</p><ul><li><p>Data Persistent Model：这一部分用于在渲染系统中管理和上传数据，重点在于如何有效地管理渲染所需的各种数据，确保这些数据在不同渲染帧之间保持一致和可用。</p></li><li><p>Persistent Batches：这一部分涉及渲染批次的优化，以减少绘制调用的开销。通过在一定时间内保持批次的一致性，最大限度地减少了与每帧设置和执行这些批次相关的计算成本。</p></li></ul><h1 id="SRP-Batcher"><a href="#SRP-Batcher" class="headerlink" title="SRP Batcher"></a>SRP Batcher</h1><p>Unity是一款非常灵活的渲染引擎，允许在一帧的任何时间点修改Material属性。然而，这种灵活性带来了一些弊端。<br>比如，当一个DrawCall（绘制调用）需要使用新的Material时，需要进行大量的处理。<br>因此，场景中的Material数量越多，为设置GPU端的数据而占用的CPU资源就越多。<br>传统解决此问题的方法是减少DrawCall的数量，以优化CPU的渲染消耗。<br>因为在Unity中，发出DrawCall之前需要进行大量的设置，这些设置导致了实际的CPU消耗，而不是GPU DrawCall本身的消耗。<br>GPU DrawCall本身只是在渲染循环中向GPU命令缓冲区推送一些字节。<br>当一个新的Material被使用时，CPU会收集所有的属性，并在GPU内存中设置不同的Constant Buffers。<br>GPU缓冲区的数量取决于Shader如何声明其CBUFFERs。</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text"># 参考文章<br>https://zhuanlan.zhihu.com/p/707811162<br></code></pre></td></tr></table></figure>]]></content>
     
     
     
@@ -240,7 +213,7 @@
     <link href="/2025/08/27/Unity-Shader-%E5%8F%98%E4%BD%93%E6%95%B0%E9%87%8F%E4%BC%98%E5%8C%96/"/>
     <url>/2025/08/27/Unity-Shader-%E5%8F%98%E4%BD%93%E6%95%B0%E9%87%8F%E4%BC%98%E5%8C%96/</url>
     
-    <content type="html"><![CDATA[<p>在使用URP之后，有时候会发现Shader变体数量暴增，导致打包体积过大，加载时间过长等问题。</p><p>通常这个情况出现在使用了Shader Graph，或者在自定义Shader中使用了多种关键词（Keywords）时。</p><p>Unity自带了一个工具去检查工程中使用到的变体，并且可以生成一个变体列表文件（.shadervariants）</p><p>在构建AB包&#x2F;打包时，可以指定这个文件，来剔除未使用的变体。</p><h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><p>要完整的跑一遍游戏所有的功能，才能确保变体列表文件的完整性。因为有时候Shader的某个变体只在游戏的某个分支中使用到，如果没有跑到这个分支，那么这个变体就不会被记录下来，导致显示异常。</p>]]></content>
+    <content type="html"><![CDATA[<p>在使用URP之后，有时候会发现Shader变体数量暴增，导致打包体积过大，加载时间过长等问题。</p><p>通常这个情况出现在使用了Shader Graph，或者在自定义Shader中使用了多种关键词（Keywords）时。</p><p>Unity自带了一个工具去检查工程中使用到的变体，并且可以生成一个变体列表文件（.shadervariants）</p><p>在构建AB包&#x2F;打包时，可以指定这个文件，来剔除未使用的变体。</p><p>multi_compile 和 shader_feature 在编译时的行为完全不一样，multi_compile 会强制编译所有变体，而 shader_feature 则只会编译使用到的变体。</p><p>至于剔除则是在编译完Shader之后，根据变体列表文件来剔除未使用的变体。</p><p>所以要节约打包时间，最好使用 shader_feature 来替代 multi_compile。</p><p>要完整的跑一遍游戏所有的功能，才能确保变体列表文件的完整性。因为有时候Shader的某个变体只在游戏的某个分支中使用到，如果没有跑到这个分支，那么这个变体就不会被记录下来，导致显示异常。</p>]]></content>
     
     
     
@@ -310,9 +283,17 @@
     <link href="/2025/08/07/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/"/>
     <url>/2025/08/07/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h1 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h1><p>Offscreen Rendering（离屏渲染）是一种在不直接显示到屏幕上的缓冲区中进行图形渲染的技术。</p><p>说白了就是RenderTarget不是屏幕，而是一个纹理或者一个缓冲区。</p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>图形学</tag>
+      
+      <tag>渲染</tag>
+      
+    </tags>
     
   </entry>
   
@@ -323,9 +304,17 @@
     <link href="/2025/08/07/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E4%BA%A7%E7%94%9F%E9%94%AF%E9%BD%BF/"/>
     <url>/2025/08/07/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E4%BA%A7%E7%94%9F%E9%94%AF%E9%BD%BF/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>在计算机图形学中，锯齿现象通常是由于分辨率限制和采样不足引起的。当我们在屏幕上渲染图像时，图像是由离散的像素组成的，而不是连续的。这种离散性导致了边缘处的阶梯状效果，即锯齿。</p><p>锯齿现象的主要原因包括：</p><ul><li>分辨率限制：当图像的分辨率较低时，细节无法被充分表达，导致边缘看起来不平滑。</li><li>采样不足：在渲染过程中，如果对图像进行的采样次数不足，尤其是在边缘区域，可能会导致锯齿现象更加明显。</li><li>几何形状的离散化：在3D渲染中，复杂的几何形状被近似为多边形网格，这种近似也会导致边缘出现锯齿。</li></ul><p>抗锯齿：</p><ul><li>MSAA（多重采样抗锯齿）：通过对每个像素进行多次采样，然后对结果进行平均，来减少锯齿现象。</li><li>FXAA（快速近似抗锯齿）：一种后处理技术，通过模糊边缘来减少锯齿。</li><li>SSAA（超采样抗锯齿）：以更高的分辨率渲染图像，然后缩小到目标分辨率，从而减少锯齿。</li><li>TAA（时间抗锯齿）：利用时间上的信息，通过对多帧图像进行混合来减少锯齿。</li></ul>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>图形学</tag>
+      
+      <tag>锯齿</tag>
+      
+    </tags>
     
   </entry>
   
@@ -336,7 +325,7 @@
     <link href="/2025/08/07/%E9%80%9A%E8%BF%87Pre-Z%E5%87%8F%E5%B0%91AlphaClip%E7%BB%98%E5%88%B6%E7%9A%84%E5%BC%80%E9%94%80/"/>
     <url>/2025/08/07/%E9%80%9A%E8%BF%87Pre-Z%E5%87%8F%E5%B0%91AlphaClip%E7%BB%98%E5%88%B6%E7%9A%84%E5%BC%80%E9%94%80/</url>
     
-    <content type="html"><![CDATA[<h1 id="手机上AlphaClip为什么会很卡"><a href="#手机上AlphaClip为什么会很卡" class="headerlink" title="手机上AlphaClip为什么会很卡"></a>手机上AlphaClip为什么会很卡</h1><p>本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。</p><h1 id="Pre-Z优化方案"><a href="#Pre-Z优化方案" class="headerlink" title="Pre-Z优化方案"></a>Pre-Z优化方案</h1><ul><li>再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入</li><li>在AlphaClip绘制时，开启深度测试 ZTest Equal （只有深度值相等的像素才会被绘制）</li><li>没有被丢弃的像素就不会进入片元着色器阶段，从而减少了GPU的负担</li></ul><p>Unity中可以使用RenderObjects实现一次Pre-Z绘制</p><p>然后在自己的AlphaClip Shader中开启ZTest Equal</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">ZTest Equal<br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="手机上AlphaClip为什么会很卡"><a href="#手机上AlphaClip为什么会很卡" class="headerlink" title="手机上AlphaClip为什么会很卡"></a>手机上AlphaClip为什么会很卡</h1><p>本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。</p><h1 id="Pre-Z优化方案"><a href="#Pre-Z优化方案" class="headerlink" title="Pre-Z优化方案"></a>Pre-Z优化方案</h1><ul><li>再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入</li><li>在AlphaClip绘制时，开启深度测试 ZTest Equal （只有深度值相等的像素才会被绘制）</li><li>没有被丢弃的像素就不会进入片元着色器阶段，从而减少了GPU的负担</li></ul><p>Unity中可以使用RenderObjects实现一次Pre-Z绘制</p><p>然后在自己的AlphaClip Shader中开启ZTest Equal</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">ZTest Equal<br></code></pre></td></tr></table></figure><h1 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h1><p>代价就是所有的AlphaClip物体都需要绘制两次，一次Pre-Z，一次正常绘制。</p>]]></content>
     
     
     <categories>
@@ -388,7 +377,7 @@
     <link href="/2025/08/07/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/"/>
     <url>/2025/08/07/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>在图形学中，坐标变换是一个核心概念，它涉及将点或对象从一个坐标系转换到另一个坐标系。常见的坐标系包括局部坐标系、世界坐标系和视图坐标系。</p><p>对于一个模型，我们通常会定义它在局部坐标系中的位置和方向。通过应用一系列变换矩阵（如平移、旋转和缩放），我们可以将模型从局部坐标系转换到世界坐标系。这些变换矩阵通常以4x4矩阵的形式表示，以便处理齐次坐标。</p><p>例如，假设我们有一个点P在局部坐标系中的位置为(1, 2, 3)。如果我们想将这个点转换到世界坐标系中，我们需要应用一个变换矩阵M，该矩阵可能包括平移、旋转和缩放操作。通过矩阵乘法，我们可以得到点P在世界坐标系中的新位置P’。</p><p>P’ &#x3D; M * P</p><p>此外，视图坐标系通常用于表示摄像机的视角。为了将点从世界坐标系转换到视图坐标系，我们需要应用一个视图变换矩阵V。这个矩阵通常是摄像机的位置和方向的函数。</p><p>P’’ &#x3D; V * P’</p><p>这就是我们常说的M V P变换链。在实际应用中，这些变换通常会被组合成一个单一的矩阵，以提高计算效率。</p>]]></content>
     
     
     
@@ -606,19 +595,6 @@
       <tag>CSharp</tag>
       
     </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>四叉树</title>
-    <link href="/2024/08/30/%E5%9B%9B%E5%8F%89%E6%A0%91/"/>
-    <url>/2024/08/30/%E5%9B%9B%E5%8F%89%E6%A0%91/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
     
   </entry>
   

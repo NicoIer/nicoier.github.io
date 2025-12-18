@@ -16,14 +16,18 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="在计算机图形学中，锯齿现象通常是由于分辨率限制和采样不足引起的。当我们在屏幕上渲染图像时，图像是由离散的像素组成的，而不是连续的。这种离散性导致了边缘处的阶梯状效果，即锯齿。 锯齿现象的主要原因包括：  分辨率限制：当图像的分辨率较低时，细节无法被充分表达，导致边缘看起来不平滑。 采样不足：在渲染过程中，如果对图像进行的采样次数不足，尤其是在边缘区域，可能会导致锯齿现象更加明显。 几何形状的离散化">
+<meta property="og:type" content="article">
 <meta property="og:title" content="为什么会产生锯齿">
 <meta property="og:url" content="https://nicoier.github.io/2025/08/07/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E4%BA%A7%E7%94%9F%E9%94%AF%E9%BD%BF/index.html">
 <meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="在计算机图形学中，锯齿现象通常是由于分辨率限制和采样不足引起的。当我们在屏幕上渲染图像时，图像是由离散的像素组成的，而不是连续的。这种离散性导致了边缘处的阶梯状效果，即锯齿。 锯齿现象的主要原因包括：  分辨率限制：当图像的分辨率较低时，细节无法被充分表达，导致边缘看起来不平滑。 采样不足：在渲染过程中，如果对图像进行的采样次数不足，尤其是在边缘区域，可能会导致锯齿现象更加明显。 几何形状的离散化">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-07T03:15:08.000Z">
-<meta property="article:modified_time" content="2025-08-07T03:15:08.569Z">
+<meta property="article:modified_time" content="2025-12-18T03:42:48.614Z">
 <meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="图形学">
+<meta property="article:tag" content="锯齿">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -221,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          343 字
         
       </span>
     
@@ -232,7 +236,7 @@
         
         
         
-          1 分钟
+          3 分钟
         
       </span>
     
@@ -274,7 +278,21 @@
             
               <div class="markdown-body">
                 
-                
+                <p>在计算机图形学中，锯齿现象通常是由于分辨率限制和采样不足引起的。当我们在屏幕上渲染图像时，图像是由离散的像素组成的，而不是连续的。这种离散性导致了边缘处的阶梯状效果，即锯齿。</p>
+<p>锯齿现象的主要原因包括：</p>
+<ul>
+<li>分辨率限制：当图像的分辨率较低时，细节无法被充分表达，导致边缘看起来不平滑。</li>
+<li>采样不足：在渲染过程中，如果对图像进行的采样次数不足，尤其是在边缘区域，可能会导致锯齿现象更加明显。</li>
+<li>几何形状的离散化：在3D渲染中，复杂的几何形状被近似为多边形网格，这种近似也会导致边缘出现锯齿。</li>
+</ul>
+<p>抗锯齿：</p>
+<ul>
+<li>MSAA（多重采样抗锯齿）：通过对每个像素进行多次采样，然后对结果进行平均，来减少锯齿现象。</li>
+<li>FXAA（快速近似抗锯齿）：一种后处理技术，通过模糊边缘来减少锯齿。</li>
+<li>SSAA（超采样抗锯齿）：以更高的分辨率渲染图像，然后缩小到目标分辨率，从而减少锯齿。</li>
+<li>TAA（时间抗锯齿）：利用时间上的信息，通过对多帧图像进行混合来减少锯齿。</li>
+</ul>
+
                 
               </div>
             
@@ -282,6 +300,15 @@
             <div>
               <div class="post-metas my-3">
   
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="print-no-link">#图形学</a>
+      
+        <a href="/tags/%E9%94%AF%E9%BD%BF/" class="print-no-link">#锯齿</a>
+      
+    </div>
   
 </div>
 
