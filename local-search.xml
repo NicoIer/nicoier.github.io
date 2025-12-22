@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>build-aseprite</title>
+    <link href="/2025/12/22/build-aseprite/"/>
+    <url>/2025/12/22/build-aseprite/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">本文主要介绍了一下如何编译 Aseprite，其实现在已经变成傻瓜式的编译了，官方文档也写得很清楚了，这里就不多赘述了。直接列出命令行<br></code></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">克隆 Aseprite 仓库</span><br>git clone https://github.com/aseprite/aseprite<br><span class="hljs-meta prompt_"># </span><span class="language-bash">进入仓库目录</span><br>cd aseprite<br><span class="hljs-meta prompt_"># </span><span class="language-bash">更新所有子模块</span><br>git submodule update --init --recursive<br><span class="hljs-meta prompt_"># </span><span class="language-bash">执行自带的构建脚本 按照提示一路Yes即可</span><br>./build.sh<br></code></pre></td></tr></table></figure><p>构建完成后会出现一个 <code>build</code> 目录，里面包含了编译好的 Aseprite 可执行文件。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>aseprite</tag>
+      
+      <tag>build</tag>
+      
+      <tag>tutorial</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>BatchRenderGroup演示Demo</title>
     <link href="/2025/12/18/BatchRenderGroup%E6%BC%94%E7%A4%BADemo/"/>
     <url>/2025/12/18/BatchRenderGroup%E6%BC%94%E7%A4%BADemo/</url>
