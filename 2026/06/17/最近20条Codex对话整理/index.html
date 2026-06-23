@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="最近让 Codex 总结了一下本地记录里的最近20条对话。 这里的口径不是当前窗口里的20句聊天，而是 ~&#x2F;.codex&#x2F;session_index.jsonl 里的最近20个会话。时间范围大概是 2026-06-11 到 2026-06-16。 看下来基本都在围绕几个东西转：JoltPhysics、BattleProcess、projectjinn、QTE、LOD、技能表现、构建资源。 很明显，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最近20条Codex对话整理">
+<meta property="og:url" content="https://nicoier.github.io/2026/06/17/%E6%9C%80%E8%BF%9120%E6%9D%A1Codex%E5%AF%B9%E8%AF%9D%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="最近让 Codex 总结了一下本地记录里的最近20条对话。 这里的口径不是当前窗口里的20句聊天，而是 ~&#x2F;.codex&#x2F;session_index.jsonl 里的最近20个会话。时间范围大概是 2026-06-11 到 2026-06-16。 看下来基本都在围绕几个东西转：JoltPhysics、BattleProcess、projectjinn、QTE、LOD、技能表现、构建资源。 很明显，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-17T03:24:27.000Z">
+<meta property="article:modified_time" content="2026-06-17T03:25:28.787Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="Codex">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="开发记录">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>最近20条Codex对话整理 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="最近20条Codex对话整理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-17 11:24" pubdate>
+          2026年6月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">最近20条Codex对话整理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>最近让 Codex 总结了一下本地记录里的最近20条对话。</p>
+<p>这里的口径不是当前窗口里的20句聊天，而是 <code>~/.codex/session_index.jsonl</code> 里的最近20个会话。时间范围大概是 2026-06-11 到 2026-06-16。</p>
+<p>看下来基本都在围绕几个东西转：JoltPhysics、BattleProcess、projectjinn、QTE、LOD、技能表现、构建资源。</p>
+<p>很明显，最近不是在写新系统，就是在修各种边界问题。</p>
+<h1 id="最近20条"><a href="#最近20条" class="headerlink" title="最近20条"></a>最近20条</h1><h2 id="1-实现萨拉扫描技能"><a href="#1-实现萨拉扫描技能" class="headerlink" title="1. 实现萨拉扫描技能"></a>1. 实现萨拉扫描技能</h2><p>给 <code>SarahScanCapability</code> 补了萨拉大扫描逻辑，参考的是狮吼技能。</p>
+<p>主要是监听 <code>CommonDataTrack</code> 和 <code>EventTrack</code>，在对应帧触发扫描、屏幕变暗、HUD显示，并且给 <code>ScanTrigger</code> 增加了单次显示时长覆盖，避免修改普通扫描按钮的默认时长。</p>
+<p>这个任务的重点不是难，而是要和已有的 Timeline&#x2F;Track 体系接上。</p>
+<h2 id="2-鞭子QTE显示时禁用操作"><a href="#2-鞭子QTE显示时禁用操作" class="headerlink" title="2. 鞭子QTE显示时禁用操作"></a>2. 鞭子QTE显示时禁用操作</h2><p>鞭子QTE UI出现时，需要禁止玩家操作，但是 UI 本身不能隐藏。</p>
+<p>处理方式是通过 <code>CanvasGroup.interactable</code> 控制交互，并把阻塞逻辑集中到 <code>UseItemQTEUI</code> 自己持有的 <code>UIVisibilityBlocker</code> 列表里。</p>
+<p>后面又顺手处理了 <code>BattleAttackView</code> 快进时粒子系统也要同步进度的问题，以及服务器 Combo 应用时要跳到下一段 Transition 起点。</p>
+<p>这类问题的核心是：表现和服务器数据必须对齐，不然看起来就会晚一点。</p>
+<h2 id="3-修复QTE目标死亡按失败处理"><a href="#3-修复QTE目标死亡按失败处理" class="headerlink" title="3. 修复QTE目标死亡按失败处理"></a>3. 修复QTE目标死亡按失败处理</h2><p>鞭子QTE过程中，如果目标怪物死了，也要按QTE失败处理。</p>
+<p>后面又讨论了 QTE 是否应该抽成一个和 <code>Charge</code>、<code>Combo</code> 同级的 State，以及 QTE 成功&#x2F;失败后如何回到 <code>Charge</code>，最后怎么走到 <code>TakeBack</code>。</p>
+<p>这个对话更像是在整理状态机语义。先把“什么时候切状态”说清楚，再写代码会稳很多。</p>
+<h2 id="4-查找OS-X键盘移动问题"><a href="#4-查找OS-X键盘移动问题" class="headerlink" title="4. 查找OS X键盘移动问题"></a>4. 查找OS X键盘移动问题</h2><p>Jolt viewer 在 macOS 上鼠标有用，但是键盘不能移动。</p>
+<p>最开始怀疑输入法，后来发现不是。问题集中在 macOS 的窗口焦点和事件分发上。</p>
+<p>最后的方案是按 <code>NSWindow*</code> 分桶保存输入状态，每个 viewer 只取自己窗口的键鼠输入。多窗口时也会清掉其他窗口残留的按键状态，避免 WASD 卡在旧窗口。</p>
+<p>这种问题很典型：单窗口能跑，多窗口就露馅。</p>
+<h2 id="5-排查-Windows-字体报错"><a href="#5-排查-Windows-字体报错" class="headerlink" title="5. 排查 Windows 字体报错"></a>5. 排查 Windows 字体报错</h2><p>Windows 上 Jolt viewer 能开窗口，但是某台电脑找不到字体文件并 Fatal Error。</p>
+<p>最后改成条件编译式资源输出：Windows 下资源放到 <code>Assets/...</code>，Mac&#x2F;Linux 保持原来的 <code>Fonts/...</code>、<code>Shaders/...</code> 布局。</p>
+<p>这里不能只修 Windows，因为前一次改资源路径把 Mac 搞坏了。</p>
+<p>跨平台资源路径就是这样，改一边最好马上想一下另外两边。</p>
+<h2 id="6-补充LOD加载与屏占比逻辑"><a href="#6-补充LOD加载与屏占比逻辑" class="headerlink" title="6. 补充LOD加载与屏占比逻辑"></a>6. 补充LOD加载与屏占比逻辑</h2><p>角色组件表里新增了 LOD1、LOD2、LOD3，需要补加载逻辑和类似 Unity LOD Group 的屏占比逻辑。</p>
+<p>后面继续补了 Inspector 绘制和 Editor 模式预览。</p>
+<p>中间遇到 <code>SkinnedMeshRenderer</code> mesh 数据不匹配的问题，最后定位到骨骼路径解析的兜底逻辑太宽，会从过大的 root 下面找同名节点。</p>
+<p>修法是只从当前 <code>CharacterViewLOD</code> 实例根节点解析 prefab path，别去全局乱找第一个同名节点。</p>
+<h2 id="7-检查-DrawBodyGL-旋转问题"><a href="#7-检查-DrawBodyGL-旋转问题" class="headerlink" title="7. 检查 DrawBodyGL 旋转问题"></a>7. 检查 DrawBodyGL 旋转问题</h2><p>Unity 里的 <code>DrawBodyGL</code> 和物理引擎自带调试器看到的旋转不一致。</p>
+<p>问题一路查到服务端生成 Box 的逻辑，最后把 <code>BoxCollider.position</code> 的含义改成几何中心。</p>
+<p>这件事本质是统一语义：服务端、编辑器预览、运行时 drawer 都要认同同一个 center&#x2F;offset 定义。</p>
+<p>否则每一层看起来都“有道理”，合起来就是错的。</p>
+<h2 id="8-分离牵手交互按钮"><a href="#8-分离牵手交互按钮" class="headerlink" title="8. 分离牵手交互按钮"></a>8. 分离牵手交互按钮</h2><p>牵手交互原来和机关交互共用按钮逻辑，现在要拆成独立按钮。</p>
+<p>同时要求移除 <code>Init()</code>，改走 <code>Bind/UnBind</code>，引用通过 prefab 挂载，不到处做空判。</p>
+<p>最后 <code>InteractTrigger</code> 里普通交互和牵手交互分别保存状态，可以并行触发，不再互相抢 <code>curInteractable</code>。</p>
+<p>UI 逻辑拆开之后，代码反而更直。</p>
+<h2 id="9-新增输入应用区间"><a href="#9-新增输入应用区间" class="headerlink" title="9. 新增输入应用区间"></a>9. 新增输入应用区间</h2><p>鞭子轻攻击新增了“输入应用区间”。</p>
+<p>以前玩家点击后立刻跳阶段，现在改成连击检测区间只读取输入，等到输入应用区间进入时才真正应用。</p>
+<p>这能解决手感和战斗数据不同步的问题。点击是输入，应用是战斗时间线上的事件，两者不应该混在一起。</p>
+<h2 id="10-移除-NetworkReqRsp-的-Unity-依赖"><a href="#10-移除-NetworkReqRsp-的-Unity-依赖" class="headerlink" title="10. 移除 NetworkReqRsp 的 Unity 依赖"></a>10. 移除 NetworkReqRsp 的 Unity 依赖</h2><p>把 <code>NetworkReqRsp</code> 从 Unity 依赖里拆出来。</p>
+<p>重点是不能再依赖 <code>UnityEngine</code>、<code>MonoBehaviour</code>、<code>UniTask</code>、<code>Cysharp</code> 这些东西，要变成更干净的请求响应逻辑。</p>
+<p>这类拆分主要是为了让底层网络代码可以在非 Unity 环境复用。</p>
+<h2 id="11-Unity下排除Viewer编译"><a href="#11-Unity下排除Viewer编译" class="headerlink" title="11. Unity下排除Viewer编译"></a>11. Unity下排除Viewer编译</h2><p><code>Viewer.cs</code> 在 Unity 环境下不应该参与编译。</p>
+<p>处理方式是在文件外层加条件编译，Unity 下排除 Viewer 相关类型和实现，非 Unity 环境保持原样。</p>
+<p>这个属于很小的改动，但是能避免 Unity 项目被 native viewer 代码拖下水。</p>
+<h2 id="12-检查-Mac-键盘相机控制"><a href="#12-检查-Mac-键盘相机控制" class="headerlink" title="12. 检查 Mac 键盘相机控制"></a>12. 检查 Mac 键盘相机控制</h2><p>另一次 Mac viewer 输入问题，方向是把相机控制放到 C# 层做。</p>
+<p>最后做了统一的 <code>ViewerKeyboardInput</code>：macOS 用 CoreGraphics 判断窗口焦点和键盘状态，Windows 用 <code>GetForegroundWindow</code>、<code>GetAsyncKeyState</code>。</p>
+<p>然后在 <code>PhysicsViewService</code> 里统一应用相机移动。</p>
+<p>这比继续追 native viewer 的输入细节更容易控制。</p>
+<h2 id="13-Fix-Metal-library-not-found"><a href="#13-Fix-Metal-library-not-found" class="headerlink" title="13. Fix Metal library not found"></a>13. Fix Metal library not found</h2><p>JoltPhysicsApp 在 Mac 上报 <code>Metal error returned: library not found</code>，后面又变成 <code>library format is not supported</code>。</p>
+<p>最终发现不是单纯路径问题，而是 <code>Shaders.metallib</code> 格式太旧。</p>
+<p>修法是从 <code>joltc</code> 的 macOS 构建产物同步新的 <code>Shaders.metallib</code>，同时保留 shader 源文件，方便以后重新生成。</p>
+<p>资源文件有时候比代码更容易坑人。</p>
+<h2 id="14-实现-CollideShape-方法"><a href="#14-实现-CollideShape-方法" class="headerlink" title="14. 实现 CollideShape 方法"></a>14. 实现 CollideShape 方法</h2><p>给 <code>PhysicsMgr</code> 实现 <code>CollideShape</code>，同时补了一批 JoltPhysics 相关测试。</p>
+<p>测试重点放在 <code>Body.WorldTransform</code>、<code>CenterOfMassTransform</code>、<code>InverseCenterOfMassTransform</code>、<code>JPH_Mat4</code> 布局这些接口上。</p>
+<p>这里其实是在给 PInvoke 层兜底。native 结构体布局不对，上层逻辑再干净也没用。</p>
+<h2 id="15-修正-JPH-Mat4-结构生成"><a href="#15-修正-JPH-Mat4-结构生成" class="headerlink" title="15. 修正 JPH_Mat4 结构生成"></a>15. 修正 JPH_Mat4 结构生成</h2><p>ClangSharp 生成 <code>JPH_Mat4</code> 时，把四个 <code>JPH_Vec4</code> 生成成了 fixed buffer。</p>
+<p>期望结果是直接生成：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">internal</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">struct</span> JPH_Mat4<br>&#123;<br>    <span class="hljs-keyword">public</span> JPH_Vec4 Column0;<br>    <span class="hljs-keyword">public</span> JPH_Vec4 Column1;<br>    <span class="hljs-keyword">public</span> JPH_Vec4 Column2;<br>    <span class="hljs-keyword">public</span> JPH_Vec4 Column3;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这类问题看着像代码生成细节，实际上会直接影响矩阵传递和物理结果。</p>
+<h2 id="16-添加-CastShape-单元测试"><a href="#16-添加-CastShape-单元测试" class="headerlink" title="16. 添加 CastShape 单元测试"></a>16. 添加 CastShape 单元测试</h2><p>给 <code>JoltPhysicsSharp</code> 补 <code>CastShape</code> 单元测试。</p>
+<p>重点是命中比例和接触点位置，不能只是跑一下不崩。</p>
+<p>测试里如果关键断言被注释了，那就不是测试，只是示例。</p>
+<h2 id="17-排查-CollideShape-交叠检测不稳定"><a href="#17-排查-CollideShape-交叠检测不稳定" class="headerlink" title="17. 排查 CollideShape 交叠检测不稳定"></a>17. 排查 CollideShape 交叠检测不稳定</h2><p><code>CollideShape_DetectsOverlap</code> 有时候能过，有时候不能过。</p>
+<p>排查方向包括 <code>JPH_CollideShapeSettings_Init</code> 的初始化作用、<code>NarrowPhaseQuery</code> 里类似问题，以及 <code>CastShape</code> 命中结果为0的情况。</p>
+<p>中间还顺便确认了 Vulkan 缺失一般不影响普通物理查询，它主要影响 viewer 或 Vulkan 后端。</p>
+<p>这个问题的教训是：native settings 结构体一定要初始化，不要赌默认内存状态。</p>
+<h2 id="18-查询-libjoltc-dll-导出函数"><a href="#18-查询-libjoltc-dll-导出函数" class="headerlink" title="18. 查询 libjoltc.dll 导出函数"></a>18. 查询 libjoltc.dll 导出函数</h2><p>用 <code>llvm-readobj --coff-exports</code> 查询 Windows 下 <code>libjoltc.dll</code> 的导出函数。</p>
+<p>最后把完整导出表输出成 txt，方便后面查 PInvoke 是否对得上。</p>
+<p>这一步很朴素，但是查 native binding 问题时很好用。</p>
+<h2 id="19-修复JoltPhysics构建插件复制"><a href="#19-修复JoltPhysics构建插件复制" class="headerlink" title="19. 修复JoltPhysics构建插件复制"></a>19. 修复JoltPhysics构建插件复制</h2><p>Windows 构建 JoltPhysics 时，对应 Plugins 没有复制。</p>
+<p>处理方向是让 item 自带 <code>Plugins/...</code> 相对目标路径，构建目标再用项目目录和 <code>OutDir</code> 解析绝对路径。</p>
+<p>MSBuild 的相对路径很容易受当前目录影响，最好少绕几层。</p>
+<h2 id="20-查找-dotnet-单元测试命令"><a href="#20-查找-dotnet-单元测试命令" class="headerlink" title="20. 查找 dotnet 单元测试命令"></a>20. 查找 dotnet 单元测试命令</h2><p>一开始只是问 <code>dotnet test</code> 怎么跑，以及怎么指定类。</p>
+<p>后来变成 Rider 测试报 <code>-1073741819</code>，命令行也复现了。</p>
+<p>这个错误是 Windows 的 <code>0xC0000005 Access Violation</code>，基本不是 Rider 的锅，更像 native DLL、PInvoke、回调生命周期、dispose 顺序的问题。</p>
+<p>最后给出的方向是单独跑相关测试、加详细日志、用 <code>--blame-crash</code> 抓 dump。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这20条对话有几个很明显的特点。</p>
+<p>第一，大部分问题都不是孤立文件修改，而是客户端、服务器、编辑器预览、native 插件之间的语义对齐。</p>
+<p>比如 Box 的中心点定义、Combo 的应用时间、QTE 失败回退、粒子快进，这些都不是“改一行就好”的问题。只要两边认知不一致，表现就会错。</p>
+<p>第二，JoltPhysics 最近占比很高。</p>
+<p>从 <code>JPH_Mat4</code>、<code>CastShape</code>、<code>CollideShape</code>，到 Metal shader、Windows 字体、Mac 键盘输入、DLL 导出表，基本把 C# 到 native 的几层都摸了一遍。</p>
+<p>第三，“不需要你跑构建”出现得很多。</p>
+<p>这也说明现在更依赖局部检查，比如 <code>git diff --check</code>、文件格式检查、导出表检查、资源 hash 检查。构建不是不能跑，而是不要每次都把反馈周期拉长。</p>
+<p>第四，最近在逐渐把一些隐式逻辑显式化。</p>
+<p>牵手按钮独立、QTE 状态独立、输入检测和输入应用拆开、<code>NetworkReqRsp</code> 移除 Unity 依赖，这些改动都在减少混在一起的状态。</p>
+<p>说到底，Codex 在这些任务里更像一个执行很快的代码助手。真正重要的还是把语义说清楚：谁拥有状态，什么时候切换，数据以哪一边为准。</p>
+<p>这几个问题想清楚了，代码通常就不会太离谱。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Codex/" class="print-no-link">#Codex</a>
+      
+        <a href="/tags/AI/" class="print-no-link">#AI</a>
+      
+        <a href="/tags/%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" class="print-no-link">#开发记录</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>最近20条Codex对话整理</div>
+      <div>https://nicoier.github.io/2026/06/17/最近20条Codex对话整理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/23/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/" title="价值投资、趋势交易、震荡交易的底层逻辑">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">价值投资、趋势交易、震荡交易的底层逻辑</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/22/build-aseprite/" title="build-aseprite">
+                        <span class="hidden-mobile">build-aseprite</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
