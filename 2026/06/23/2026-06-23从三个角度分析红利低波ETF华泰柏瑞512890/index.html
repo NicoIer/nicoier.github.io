@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="这篇文章用三个框架分析红利低波ETF华泰柏瑞，代码 SH512890：  价值投资：看跟踪指数、红利低波策略、持仓结构、规模、费率和折溢价。 趋势交易：看价格方向、均线结构、反弹和失效条件。 震荡交易：看区间、支撑压力、均值回归和止损。  ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、策略特征、成份股结构、交易流动性和净值偏离。 本文只做研究记录，不构成投资建议。 数据口径基金基本信息、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890">
+<meta property="og:url" content="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2ETF%E5%8D%8E%E6%B3%B0%E6%9F%8F%E7%91%9E512890/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="这篇文章用三个框架分析红利低波ETF华泰柏瑞，代码 SH512890：  价值投资：看跟踪指数、红利低波策略、持仓结构、规模、费率和折溢价。 趋势交易：看价格方向、均线结构、反弹和失效条件。 震荡交易：看区间、支撑压力、均值回归和止损。  ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、策略特征、成份股结构、交易流动性和净值偏离。 本文只做研究记录，不构成投资建议。 数据口径基金基本信息、">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-23T13:40:00.000Z">
+<meta property="article:modified_time" content="2026-06-23T12:50:19.215Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="投资">
+<meta property="article:tag" content="趋势交易">
+<meta property="article:tag" content="震荡交易">
+<meta property="article:tag" content="价值投资">
+<meta property="article:tag" content="ETF">
+<meta property="article:tag" content="红利低波">
+<meta property="article:tag" content="高股息">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-23 21:40" pubdate>
+          2026年6月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这篇文章用三个框架分析红利低波ETF华泰柏瑞，代码 <code>SH512890</code>：</p>
+<ol>
+<li>价值投资：看跟踪指数、红利低波策略、持仓结构、规模、费率和折溢价。</li>
+<li>趋势交易：看价格方向、均线结构、反弹和失效条件。</li>
+<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
+</ol>
+<p>ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、策略特征、成份股结构、交易流动性和净值偏离。</p>
+<p>本文只做研究记录，不构成投资建议。</p>
+<h1 id="数据口径"><a href="#数据口径" class="headerlink" title="数据口径"></a>数据口径</h1><p>基金基本信息、规模和持仓来自天天基金基金档案，行情和日线数据来自腾讯行情接口，净值估算来自东方财富基金净值接口。趋势指标使用截至 2026 年 6 月 23 日的前复权日线数据计算。</p>
+<p>截至 2026 年 6 月 23 日收盘，腾讯行情显示红利低波ETF华泰柏瑞价格 1.118 元，场内交易市值约 325.21 亿元；东方财富基金净值接口显示 2026 年 6 月 22 日单位净值 1.1131 元，2026 年 6 月 23 日 15:00 估算净值 1.1190 元。</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th align="right">数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基金代码</td>
+<td align="right">512890</td>
+</tr>
+<tr>
+<td>基金简称</td>
+<td align="right">红利低波ETF华泰柏瑞</td>
+</tr>
+<tr>
+<td>基金全称</td>
+<td align="right">华泰柏瑞中证红利低波动交易型开放式指数证券投资基金</td>
+</tr>
+<tr>
+<td>基金类型</td>
+<td align="right">指数型-股票</td>
+</tr>
+<tr>
+<td>跟踪标的</td>
+<td align="right">中证红利低波动指数</td>
+</tr>
+<tr>
+<td>成立日期</td>
+<td align="right">2018 年 12 月 19 日</td>
+</tr>
+<tr>
+<td>2026Q1 净资产规模</td>
+<td align="right">311.87 亿元</td>
+</tr>
+<tr>
+<td>2026Q1 份额规模</td>
+<td align="right">260.7011 亿份</td>
+</tr>
+<tr>
+<td>管理费率</td>
+<td align="right">0.50%&#x2F;年</td>
+</tr>
+<tr>
+<td>托管费率</td>
+<td align="right">0.10%&#x2F;年</td>
+</tr>
+<tr>
+<td>当前价格</td>
+<td align="right">1.118 元</td>
+</tr>
+<tr>
+<td>场内交易市值</td>
+<td align="right">约 325.21 亿元</td>
+</tr>
+<tr>
+<td>2026-06-22 单位净值</td>
+<td align="right">1.1131 元</td>
+</tr>
+<tr>
+<td>2026-06-23 估算净值</td>
+<td align="right">1.1190 元</td>
+</tr>
+<tr>
+<td>相对估算净值折价</td>
+<td align="right">约 0.09%</td>
+</tr>
+</tbody></table>
+<p>2026Q1 前十大持仓如下：</p>
+<table>
+<thead>
+<tr>
+<th>排名</th>
+<th>股票</th>
+<th align="right">占净值比例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>上海银行</td>
+<td align="right">2.83%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>南京银行</td>
+<td align="right">2.74%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>平安银行</td>
+<td align="right">2.56%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>沪农商行</td>
+<td align="right">2.53%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>华润江中</td>
+<td align="right">2.48%</td>
+</tr>
+<tr>
+<td>6</td>
+<td>中国海油</td>
+<td align="right">2.47%</td>
+</tr>
+<tr>
+<td>7</td>
+<td>中国石油</td>
+<td align="right">2.46%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>民生银行</td>
+<td align="right">2.33%</td>
+</tr>
+<tr>
+<td>9</td>
+<td>陕鼓动力</td>
+<td align="right">2.30%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>成都银行</td>
+<td align="right">2.26%</td>
+</tr>
+</tbody></table>
+<p>前十大合计约 24.96%，单只持仓权重较低，分散度明显高于很多行业 ETF。</p>
+<h1 id="一、价值投资视角"><a href="#一、价值投资视角" class="headerlink" title="一、价值投资视角"></a>一、价值投资视角</h1><h2 id="1-这是红利策略，不是单纯宽基指数"><a href="#1-这是红利策略，不是单纯宽基指数" class="headerlink" title="1. 这是红利策略，不是单纯宽基指数"></a>1. 这是红利策略，不是单纯宽基指数</h2><p>红利低波ETF华泰柏瑞跟踪中证红利低波动指数。它的核心不是追逐高成长，而是筛选高股息、低波动属性更强的股票。</p>
+<p>从前十大持仓看，银行、能源、医药消费、工业等传统行业占比较高。上海银行、南京银行、平安银行、沪农商行、民生银行、成都银行体现了银行股权重；中国海油、中国石油体现了能源红利属性；华润江中、陕鼓动力则提供一定行业分散。</p>
+<p>这类 ETF 的投资逻辑通常来自三点：</p>
+<ol>
+<li>高股息：成份股一般现金分红能力较强。</li>
+<li>低波动：组合希望降低单纯高股息策略的波动。</li>
+<li>价值防御：在市场风险偏好下降时，相对成长股更抗跌。</li>
+</ol>
+<p>但要注意，低波动不等于不下跌。红利资产也会受利率、分红预期、行业景气、拥挤交易和市场风格切换影响。</p>
+<h2 id="2-规模大，流动性基础较好"><a href="#2-规模大，流动性基础较好" class="headerlink" title="2. 规模大，流动性基础较好"></a>2. 规模大，流动性基础较好</h2><p>截至 2026Q1，基金净资产规模约 311.87 亿元，份额规模约 260.7011 亿份。腾讯行情显示，2026 年 6 月 23 日场内交易市值约 325.21 亿元。</p>
+<p>这个规模对于红利低波 ETF 来说已经很大，说明它是红利策略中的主流工具之一。规模大的好处是交易流动性更好、申赎机制更成熟、跟踪稳定性通常更强。</p>
+<p>费率方面，管理费率 0.50%&#x2F;年，托管费率 0.10%&#x2F;年，合计 0.60%&#x2F;年。这个费率不算最低，但属于常见股票 ETF 费率水平。</p>
+<p>折溢价方面，2026 年 6 月 23 日收盘价 1.118 元，相对 15:00 估算净值 1.1190 元，折价约 0.09%，偏离不大。</p>
+<h2 id="3-红利低波的核心风险是拥挤和再定价"><a href="#3-红利低波的核心风险是拥挤和再定价" class="headerlink" title="3. 红利低波的核心风险是拥挤和再定价"></a>3. 红利低波的核心风险是拥挤和再定价</h2><p>过去几年，红利资产受益于低利率、弱增长预期和高股息偏好，资金关注度明显提升。但当一个策略变得拥挤，未来收益率就会更依赖估值、分红持续性和资金流向。</p>
+<p>红利低波ETF华泰柏瑞的风险主要有：</p>
+<ol>
+<li>如果利率上行，高股息资产的相对吸引力会下降。</li>
+<li>如果经济预期改善，资金可能从红利防御切向成长和周期进攻。</li>
+<li>如果银行、能源等权重行业分红预期下降，指数会承压。</li>
+<li>如果红利策略交易拥挤，回撤时也可能出现集中卖出。</li>
+<li>低波动因子在极端行情中不一定能显著保护净值。</li>
+</ol>
+<p>所以价值投资者不能把它当成“稳赚股息”的产品。更准确的定位是：它是红利风格和低波动因子的组合工具。</p>
+<h2 id="4-价值投资结论"><a href="#4-价值投资结论" class="headerlink" title="4. 价值投资结论"></a>4. 价值投资结论</h2><p>从价值投资角度看，红利低波ETF华泰柏瑞适合用作红利风格配置工具。</p>
+<p>它的优点是：</p>
+<ol>
+<li>跟踪中证红利低波动指数，策略特征清晰。</li>
+<li>持仓分散，前十大合计约 24.96%。</li>
+<li>规模大，2026Q1 净资产规模约 311.87 亿元。</li>
+<li>场内价格接近估算净值，折溢价不大。</li>
+<li>适合表达高股息、低波动、防御型权益配置。</li>
+</ol>
+<p>它的问题是：</p>
+<ol>
+<li>红利资产不是无风险资产，也会回撤。</li>
+<li>持仓偏传统行业，成长性通常不强。</li>
+<li>红利风格可能存在阶段性拥挤。</li>
+<li>若市场切换到成长风格，可能跑输进攻型指数。</li>
+<li>费率合计 0.60%&#x2F;年，不是最低成本产品。</li>
+</ol>
+<p>所以价值投资角度的判断是：512890 可以作为权益组合里的防御型红利工具，但不能把它当成货币基金或债券替代品。核心观察点是利率环境、分红稳定性、红利风格拥挤度和银行能源等权重行业表现。</p>
+<h1 id="二、趋势交易视角"><a href="#二、趋势交易视角" class="headerlink" title="二、趋势交易视角"></a>二、趋势交易视角</h1><h2 id="1-当前趋势偏弱"><a href="#1-当前趋势偏弱" class="headerlink" title="1. 当前趋势偏弱"></a>1. 当前趋势偏弱</h2><p>截至 2026 年 6 月 23 日收盘，红利低波ETF华泰柏瑞收盘价约 1.118 元，主要均线如下：</p>
+<table>
+<thead>
+<tr>
+<th>均线</th>
+<th align="right">数值</th>
+<th align="right">价格相对均线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5 日均线</td>
+<td align="right">1.1268 元</td>
+<td align="right">-0.60%</td>
+</tr>
+<tr>
+<td>10 日均线</td>
+<td align="right">1.1465 元</td>
+<td align="right">-2.31%</td>
+</tr>
+<tr>
+<td>20 日均线</td>
+<td align="right">1.1550 元</td>
+<td align="right">-3.03%</td>
+</tr>
+<tr>
+<td>60 日均线</td>
+<td align="right">1.1733 元</td>
+<td align="right">-4.54%</td>
+</tr>
+<tr>
+<td>120 日均线</td>
+<td align="right">1.1735 元</td>
+<td align="right">-4.56%</td>
+</tr>
+<tr>
+<td>250 日均线</td>
+<td align="right">1.1844 元</td>
+<td align="right">-5.44%</td>
+</tr>
+</tbody></table>
+<p>价格低于所有主要均线，这说明当前不是强趋势，而是红利资产回撤后的弱势整理。</p>
+<p>2026 年 6 月 23 日，ETF 上涨约 0.36%，盘中最高 1.130 元，最低 1.110 元，成交额约 9.92 亿元。虽然当天小幅反弹，但还没有站回 5 日和 10 日均线，趋势修复力度有限。</p>
+<h2 id="2-趋势修复需要站回-1-15-1-18-元"><a href="#2-趋势修复需要站回-1-15-1-18-元" class="headerlink" title="2. 趋势修复需要站回 1.15-1.18 元"></a>2. 趋势修复需要站回 1.15-1.18 元</h2><p>当前技术结构可以分三层：</p>
+<ol>
+<li>1.096 元附近：近 20 日、60 日、120 日和 250 日共同低点，是重要支撑。</li>
+<li>1.15-1.16 元附近：20 日均线和短线压力带。</li>
+<li>1.17-1.18 元附近：60 日、120 日和 250 日均线集中区，是中期趋势压力。</li>
+</ol>
+<p>如果价格只是守住 1.10 元附近，但不能站回 1.15 元，那只能说暂时止跌。只有重新站上 1.15-1.16 元，短线趋势才算修复。如果进一步站上 1.18 元并回踩不破，中期趋势才有重新转强的可能。</p>
+<h2 id="3-趋势交易结论"><a href="#3-趋势交易结论" class="headerlink" title="3. 趋势交易结论"></a>3. 趋势交易结论</h2><p>从趋势交易角度看，512890 当前不是强趋势。</p>
+<p>一句话：红利低波正在弱势回撤区，趋势交易更适合等 1.15 元和 1.18 元两道压力确认，而不是因为“红利低波”四个字就提前认定稳。</p>
+<h1 id="三、震荡交易视角"><a href="#三、震荡交易视角" class="headerlink" title="三、震荡交易视角"></a>三、震荡交易视角</h1><h2 id="1-当前接近短中期区间低位"><a href="#1-当前接近短中期区间低位" class="headerlink" title="1. 当前接近短中期区间低位"></a>1. 当前接近短中期区间低位</h2><p>512890 当前处在近一年偏低位置：</p>
+<table>
+<thead>
+<tr>
+<th>区间</th>
+<th align="right">高点</th>
+<th align="right">低点</th>
+<th align="right">当前价格所处位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>近 20 日</td>
+<td align="right">1.191 元</td>
+<td align="right">1.096 元</td>
+<td align="right">区间 25.3%</td>
+</tr>
+<tr>
+<td>近 60 日</td>
+<td align="right">1.206 元</td>
+<td align="right">1.096 元</td>
+<td align="right">区间 21.8%</td>
+</tr>
+<tr>
+<td>近 120 日</td>
+<td align="right">1.214 元</td>
+<td align="right">1.096 元</td>
+<td align="right">区间 20.3%</td>
+</tr>
+<tr>
+<td>近 250 日</td>
+<td align="right">1.248 元</td>
+<td align="right">1.096 元</td>
+<td align="right">区间 15.8%</td>
+</tr>
+</tbody></table>
+<p>从震荡交易角度看，当前位置已经接近区间下沿，不适合把它当成强势追涨标的，更适合观察低位止跌和均值回归。</p>
+<h2 id="2-低波动产品也需要风控"><a href="#2-低波动产品也需要风控" class="headerlink" title="2. 低波动产品也需要风控"></a>2. 低波动产品也需要风控</h2><p>近 14 日 ATR 约 0.0169 元，占当前价格约 1.51%。这比很多成长股低，但对 ETF 来说并不算没有波动。</p>
+<p>如果按震荡交易观察，可以把区间写成：</p>
+<ol>
+<li>下沿：1.096-1.10 元附近。</li>
+<li>中枢：1.15-1.16 元附近。</li>
+<li>上沿：1.18-1.21 元附近。</li>
+<li>更高压力：1.25 元附近。</li>
+</ol>
+<p>如果价格在 1.10 元附近缩量企稳，可以观察区间低吸。如果反弹到 1.15-1.16 元附近无法继续突破，容易进入短线压力区。如果站上 1.18 元并回踩不破，震荡逻辑才可能切换成趋势修复。</p>
+<h2 id="3-震荡交易结论"><a href="#3-震荡交易结论" class="headerlink" title="3. 震荡交易结论"></a>3. 震荡交易结论</h2><p>从震荡交易角度看，512890 当前比趋势交易更有观察价值。</p>
+<p>一句话：位置偏低，但还没有确认反转；1.10 元附近是关键风控线，1.15-1.18 元是反弹质量观察带。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>三个角度的结论不一样：</p>
+<table>
+<thead>
+<tr>
+<th>角度</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>价值投资</td>
+<td>红利低波配置工具，适合防御型权益仓位，但不是无风险收息资产</td>
+</tr>
+<tr>
+<td>趋势交易</td>
+<td>价格低于所有主要均线，当前趋势偏弱，需要等 1.15 元和 1.18 元确认</td>
+</tr>
+<tr>
+<td>震荡交易</td>
+<td>处在区间偏低位置，可观察 1.10-1.18 元区间修复</td>
+</tr>
+</tbody></table>
+<p>我的总体看法是：</p>
+<p>512890 的定位很清楚：它是红利低波工具，不是高成长工具，也不是现金管理工具。价值配置看分红稳定性和红利风格是否继续占优；趋势交易看 1.15-1.18 元能否修复；震荡交易重点看 1.10 元附近支撑是否有效。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%95%E8%B5%84/" class="print-no-link">#投资</a>
+      
+        <a href="/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/" class="print-no-link">#趋势交易</a>
+      
+        <a href="/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/" class="print-no-link">#震荡交易</a>
+      
+        <a href="/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/" class="print-no-link">#价值投资</a>
+      
+        <a href="/tags/ETF/" class="print-no-link">#ETF</a>
+      
+        <a href="/tags/%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2/" class="print-no-link">#红利低波</a>
+      
+        <a href="/tags/%E9%AB%98%E8%82%A1%E6%81%AF/" class="print-no-link">#高股息</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890</div>
+      <div>https://nicoier.github.io/2026/06/23/2026-06-23从三个角度分析红利低波ETF华泰柏瑞512890/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8ETF%E5%8D%97%E6%96%B9512900/" title="2026-06-23 从三个角度分析证券ETF南方512900">
+                        <span class="hidden-mobile">2026-06-23 从三个角度分析证券ETF南方512900</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
