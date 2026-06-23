@@ -1,0 +1,813 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前面分别从价值投资和趋势交易角度看了招商银行 A 股。 这篇换成震荡交易。 震荡交易的核心不是判断公司值多少钱，也不是追随单边趋势，而是在一个相对明确的区间里做均值回归：靠近支撑时观察买入机会，靠近压力时观察卖出机会，区间被打破就承认原逻辑失效。 所以这篇只讨论价格区间、支撑压力、止损和交易节奏，不构成任何投资建议。 数据口径数据来自 Yahoo Finance 的 600036.SS 日线 ch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="震荡交易视角分析招商银行A股600036">
+<meta property="og:url" content="https://nicoier.github.io/2026/06/23/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8CA%E8%82%A1600036/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="前面分别从价值投资和趋势交易角度看了招商银行 A 股。 这篇换成震荡交易。 震荡交易的核心不是判断公司值多少钱，也不是追随单边趋势，而是在一个相对明确的区间里做均值回归：靠近支撑时观察买入机会，靠近压力时观察卖出机会，区间被打破就承认原逻辑失效。 所以这篇只讨论价格区间、支撑压力、止损和交易节奏，不构成任何投资建议。 数据口径数据来自 Yahoo Finance 的 600036.SS 日线 ch">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-23T06:12:00.000Z">
+<meta property="article:modified_time" content="2026-06-23T06:04:09.082Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="投资">
+<meta property="article:tag" content="股票">
+<meta property="article:tag" content="招商银行">
+<meta property="article:tag" content="震荡交易">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>震荡交易视角分析招商银行A股600036 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="震荡交易视角分析招商银行A股600036"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-23 14:12" pubdate>
+          2026年6月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">震荡交易视角分析招商银行A股600036</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>前面分别从价值投资和趋势交易角度看了招商银行 A 股。</p>
+<p>这篇换成震荡交易。</p>
+<p>震荡交易的核心不是判断公司值多少钱，也不是追随单边趋势，而是在一个相对明确的区间里做均值回归：靠近支撑时观察买入机会，靠近压力时观察卖出机会，区间被打破就承认原逻辑失效。</p>
+<p>所以这篇只讨论价格区间、支撑压力、止损和交易节奏，不构成任何投资建议。</p>
+<h1 id="数据口径"><a href="#数据口径" class="headerlink" title="数据口径"></a>数据口径</h1><p>数据来自 Yahoo Finance 的 <code>600036.SS</code> 日线 chart 数据和东方财富 A 股行情页。</p>
+<p>截至 2026 年 6 月 23 日盘中，招商银行 A 股价格约 37.6 元附近。指标主要使用截至 2026 年 6 月 22 日的完整日线数据计算。</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th align="right">数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2026-06-22 收盘价</td>
+<td align="right">37.65 元</td>
+</tr>
+<tr>
+<td>近 20 日区间</td>
+<td align="right">36.78-39.37 元</td>
+</tr>
+<tr>
+<td>近 60 日区间</td>
+<td align="right">36.78-40.15 元</td>
+</tr>
+<tr>
+<td>近 120 日区间</td>
+<td align="right">36.78-43.02 元</td>
+</tr>
+<tr>
+<td>20 日布林中轨</td>
+<td align="right">38.14 元</td>
+</tr>
+<tr>
+<td>20 日布林上轨</td>
+<td align="right">39.58 元</td>
+</tr>
+<tr>
+<td>20 日布林下轨</td>
+<td align="right">36.71 元</td>
+</tr>
+<tr>
+<td>14 日 ATR</td>
+<td align="right">约 0.67 元</td>
+</tr>
+<tr>
+<td>14 日 RSI</td>
+<td align="right">约 45</td>
+</tr>
+<tr>
+<td>20 日区间宽度</td>
+<td align="right">约 6.8%</td>
+</tr>
+<tr>
+<td>60 日区间宽度</td>
+<td align="right">约 8.8%</td>
+</tr>
+</tbody></table>
+<h1 id="先判断是不是震荡"><a href="#先判断是不是震荡" class="headerlink" title="先判断是不是震荡"></a>先判断是不是震荡</h1><p>震荡交易适合三个条件：</p>
+<ol>
+<li>价格没有明确单边趋势。</li>
+<li>支撑和压力区被多次测试。</li>
+<li>区间宽度足够覆盖交易成本和止损成本。</li>
+</ol>
+<p>招商银行现在满足一部分，但不是完美震荡。</p>
+<p>满足的地方是：36.8-37.0 元一带在 2026 年 5 月下旬到 6 月下旬被多次测试，暂时形成支撑；39.3-40.1 元一带在反弹中形成压力。价格在这个区间里来回摆动，20 日布林带下轨约 36.71 元，上轨约 39.58 元，也大致覆盖这个短线区间。</p>
+<p>不完美的地方是：中期趋势仍偏弱。价格还在 60 日、120 日、250 日均线下方，不能把它看成强势横盘。它更像是下跌后的低位震荡，而不是上升趋势中的健康整理。</p>
+<p>这点很重要。强势震荡可以更积极；弱势震荡要更保守。</p>
+<h1 id="当前区间"><a href="#当前区间" class="headerlink" title="当前区间"></a>当前区间</h1><p>我会把当前短线震荡区间分成三段：</p>
+<ol>
+<li>支撑区：36.8-37.2 元。</li>
+<li>中枢区：38.0-38.5 元。</li>
+<li>压力区：39.3-40.1 元。</li>
+</ol>
+<p>这个划分来自最近 20 到 60 个交易日的价格结构。</p>
+<p>近 20 日高点是 39.37 元，低点是 36.78 元，中位数约 38.07 元。当前收盘价 37.65 元，处在近 20 日区间下方三分之一位置。</p>
+<p>近 60 日高点是 40.15 元，低点同样是 36.78 元，中位数约 38.47 元。当前价格也处在近 60 日区间下方四分之一附近。</p>
+<p>这说明：如果按震荡交易看，现在价格靠近支撑区，而不是靠近压力区。</p>
+<h1 id="支撑区怎么处理"><a href="#支撑区怎么处理" class="headerlink" title="支撑区怎么处理"></a>支撑区怎么处理</h1><p>支撑区不是无脑买入区，而是观察区。</p>
+<p>36.8-37.2 元这一区域的意义在于：过去一段时间里，价格多次跌到这里附近后没有继续向下扩展。如果市场仍然按区间震荡运行，那么靠近这个位置时，赔率会比区间中间更好。</p>
+<p>但支撑区必须配合止损。</p>
+<p>可以用两种失效规则：</p>
+<ol>
+<li>日线有效跌破 36.8 元，并且第二天不能快速收回。</li>
+<li>跌破 36.8 元后继续放量下行，说明支撑失效。</li>
+</ol>
+<p>如果按 ATR 做止损，当前 14 日 ATR 约 0.67 元。以 36.8 元为支撑参考，1 倍 ATR 下沿大约在 36.1 元，2 倍 ATR 下沿大约在 35.5 元。但对短线震荡交易来说，等到 2 倍 ATR 才认错可能太宽，容易把短线做成长线。</p>
+<p>更实际的做法是：跌破 36.8 元并站不回去，就先退出观察。</p>
+<h1 id="压力区怎么处理"><a href="#压力区怎么处理" class="headerlink" title="压力区怎么处理"></a>压力区怎么处理</h1><p>压力区在 39.3-40.1 元。</p>
+<p>6 月中旬价格反弹到 39.34、39.37 元附近后回落，说明 39.3 元一带已经出现卖压。40.1 元附近是近 60 日高点，也是更大的压力位。</p>
+<p>如果按震荡交易，不应该等价格冲到压力区才开始贪心，而是提前设定减仓或止盈规则。</p>
+<p>常见做法有三种：</p>
+<ol>
+<li>保守型：到 38.5 元附近，也就是区间中枢，先减一部分。</li>
+<li>标准型：到 39.3 元附近，按压力位止盈。</li>
+<li>进攻型：如果放量突破 40.1 元，则不按震荡卖出，改按趋势突破观察。</li>
+</ol>
+<p>第三种最容易出错。突破 40.1 元以后，如果又快速跌回 39 元下方，那不是趋势启动，而是假突破。震荡交易者不能因为一根突破阳线就忘记原来的区间逻辑。</p>
+<h1 id="区间中间不要乱做"><a href="#区间中间不要乱做" class="headerlink" title="区间中间不要乱做"></a>区间中间不要乱做</h1><p>震荡交易最忌讳在区间中间开仓。</p>
+<p>以当前区间看，38.0-38.5 元是中枢区。这里离支撑不远，离压力也不远，赔率最不清楚。</p>
+<p>如果在 38.3 元买入，向上到 39.3 元大约 1 元空间，向下跌破 36.8 元也有 1.5 元风险，赔率并不好。如果在 38.3 元卖出，又可能遇到向上突破。</p>
+<p>所以震荡交易的核心不是高频操作，而是等价格靠近边界。</p>
+<p>对招商银行当前图形来说，比较有意义的位置只有两个：</p>
+<ol>
+<li>靠近 36.8-37.2 元时，看是否有止跌和反弹。</li>
+<li>靠近 39.3-40.1 元时，看是否有卖压或突破。</li>
+</ol>
+<p>中间区域少动，反而更符合震荡交易。</p>
+<h1 id="三种交易计划"><a href="#三种交易计划" class="headerlink" title="三种交易计划"></a>三种交易计划</h1><h2 id="计划一：支撑区低吸"><a href="#计划一：支撑区低吸" class="headerlink" title="计划一：支撑区低吸"></a>计划一：支撑区低吸</h2><p>这个计划的前提是相信 36.8-40.1 元区间暂时有效。</p>
+<p>观察条件：</p>
+<ol>
+<li>价格靠近 36.8-37.2 元。</li>
+<li>跌不动，出现缩量止跌、小阳线、长下影，或者次日收回支撑区。</li>
+<li>RSI 不再继续走弱，最好从 40 附近重新向上。</li>
+</ol>
+<p>入场后可以把第一目标放在 38.3-38.5 元中枢，第二目标放在 39.3 元附近压力区。</p>
+<p>失效条件是跌破 36.8 元后不能收回。</p>
+<p>这种做法的优点是赔率清楚，缺点是如果支撑失效，必须认错。</p>
+<h2 id="计划二：压力区高抛"><a href="#计划二：压力区高抛" class="headerlink" title="计划二：压力区高抛"></a>计划二：压力区高抛</h2><p>这个计划适合已经有仓位的人。</p>
+<p>观察条件：</p>
+<ol>
+<li>价格反弹到 39.3-40.1 元。</li>
+<li>反弹缩量，或冲高回落。</li>
+<li>不能有效站上 40.1 元。</li>
+</ol>
+<p>处理方式可以是减仓、止盈，或者至少不在压力区追买。</p>
+<p>如果价格放量站上 40.1 元，并且回踩不破，则说明震荡区间可能被向上打破。这个时候继续按震荡高抛，可能会卖飞。</p>
+<p>所以压力区的核心不是一定卖，而是看它能否有效突破。</p>
+<h2 id="计划三：跌破区间后停止震荡交易"><a href="#计划三：跌破区间后停止震荡交易" class="headerlink" title="计划三：跌破区间后停止震荡交易"></a>计划三：跌破区间后停止震荡交易</h2><p>如果价格有效跌破 36.8 元，震荡交易逻辑就失效。</p>
+<p>这时不能再说“跌多了总会反弹”。震荡交易依赖的是区间存在。一旦区间下沿被打穿，价格就可能从震荡切换成下跌趋势。</p>
+<p>跌破后的处理可以很简单：</p>
+<ol>
+<li>先退出。</li>
+<li>等重新站回 36.8 元上方，再观察是否是假跌破。</li>
+<li>如果持续在 36.8 元下方运行，不再按原区间低吸。</li>
+</ol>
+<h1 id="假突破和假跌破"><a href="#假突破和假跌破" class="headerlink" title="假突破和假跌破"></a>假突破和假跌破</h1><p>震荡区间里经常出现假突破和假跌破。</p>
+<p>对招商银行来说：</p>
+<ol>
+<li>向上假突破：盘中或单日突破 40.1 元，但很快跌回 39 元下方。</li>
+<li>向下假跌破：盘中或单日跌破 36.8 元，但很快收回，并重新站上 37 元。</li>
+</ol>
+<p>假跌破有时候反而是区间交易机会，因为它把恐慌盘洗出去。但前提是要快速收回。如果跌破后连续几天都收不回，那就不是假跌破，而是破位。</p>
+<p>震荡交易要靠确认，不要靠幻想。</p>
+<h1 id="仓位和节奏"><a href="#仓位和节奏" class="headerlink" title="仓位和节奏"></a>仓位和节奏</h1><p>招商银行这种大盘银行股，日内波动通常不会特别夸张，但最近 14 日 ATR 约 0.67 元，占价格约 1.77%，对短线区间交易已经足够。</p>
+<p>如果区间宽度按 36.8 到 39.4 元算，大约 2.6 元，约 7%。扣除买卖滑点和止损空间后，还有交易余地。</p>
+<p>但仓位不能太重。</p>
+<p>原因是当前不是强势震荡，而是低位弱势震荡。弱势震荡最大的风险是支撑区突然失效，然后价格进入新的下跌段。仓位越重，越容易在破位时不愿止损。</p>
+<p>更适合的节奏是：</p>
+<ol>
+<li>靠近下沿轻仓试。</li>
+<li>站回中枢再确认。</li>
+<li>靠近上沿减。</li>
+<li>跌破下沿退。</li>
+</ol>
+<p>震荡交易的利润来自重复执行，不是单笔重仓押方向。</p>
+<h1 id="当前判断"><a href="#当前判断" class="headerlink" title="当前判断"></a>当前判断</h1><p>截至 2026 年 6 月 23 日，招商银行 A 股更适合被看作一个低位震荡观察标的，而不是已经确认的趋势多头。</p>
+<p>短线区间大致是 36.8-40.1 元。</p>
+<p>当前价格约 37.6 元，靠近区间下半部。按震荡交易看，位置比 39 元以上更有观察价值，但必须以 36.8 元为核心风控线。</p>
+<p>如果后续能在 36.8-37.2 元附近止跌，并重新回到 38.3 元以上，区间反弹逻辑还在。</p>
+<p>如果跌破 36.8 元并站不回去，就不要再按震荡低吸处理。</p>
+<p>如果向上突破 40.1 元并回踩不破，震荡交易逻辑也要切换，因为价格可能从区间震荡转向趋势修复。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>震荡交易看招商银行，核心是这几个位置：</p>
+<ol>
+<li>36.8-37.2 元是支撑观察区。</li>
+<li>38.0-38.5 元是区间中枢。</li>
+<li>39.3-40.1 元是压力观察区。</li>
+<li>跌破 36.8 元，原震荡逻辑失效。</li>
+<li>突破 40.1 元并站稳，原震荡逻辑也要重新评估。</li>
+</ol>
+<p>它现在不是强趋势标的，而是一个低位区间博弈标的。震荡交易可以观察，但不能恋战。真正要做的是等边界、定止损、到中枢或压力区分批处理。</p>
+<h1 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h1><ol>
+<li>Yahoo Finance <code>600036.SS</code> 历史日线 chart 数据：<a target="_blank" rel="noopener" href="https://finance.yahoo.com/quote/600036.SS/">https://finance.yahoo.com/quote/600036.SS/</a></li>
+<li>东方财富招商银行 A 股行情页：<a target="_blank" rel="noopener" href="https://quote.eastmoney.com/sh600036.html">https://quote.eastmoney.com/sh600036.html</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%95%E8%B5%84/" class="print-no-link">#投资</a>
+      
+        <a href="/tags/%E8%82%A1%E7%A5%A8/" class="print-no-link">#股票</a>
+      
+        <a href="/tags/%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8C/" class="print-no-link">#招商银行</a>
+      
+        <a href="/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/" class="print-no-link">#震荡交易</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>震荡交易视角分析招商银行A股600036</div>
+      <div>https://nicoier.github.io/2026/06/23/震荡交易视角分析招商银行A股600036/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/" title="趋势投资应该选 ETF、单股还是基金">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">趋势投资应该选 ETF、单股还是基金</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/06/23/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8CA%E8%82%A1600036/" title="价值投资视角分析招商银行A股600036">
+                        <span class="hidden-mobile">价值投资视角分析招商银行A股600036</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
