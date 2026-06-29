@@ -1,0 +1,909 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="这篇文章只讨论一个问题：如果现在按照趋势交易处理半导体设备ETF易方达，代码 SZ159558，应该遵守什么样的买入和卖出规则。 先说结论：159558 当前是强趋势，但已经非常接近短中期区间高位。趋势交易可以跟随，但不能无计划追高。更合理的方式是用“突破确认 + 回踩确认 + 移动止损”来处理。 本文只做交易规则记录，不构成投资建议。 数据口径行情和日线数据来自腾讯行情接口，时间为 2026 年">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2026-06-24 趋势交易规则：半导体设备ETF易方达159558">
+<meta property="og:url" content="https://nicoier.github.io/2026/06/24/2026-06-24%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="这篇文章只讨论一个问题：如果现在按照趋势交易处理半导体设备ETF易方达，代码 SZ159558，应该遵守什么样的买入和卖出规则。 先说结论：159558 当前是强趋势，但已经非常接近短中期区间高位。趋势交易可以跟随，但不能无计划追高。更合理的方式是用“突破确认 + 回踩确认 + 移动止损”来处理。 本文只做交易规则记录，不构成投资建议。 数据口径行情和日线数据来自腾讯行情接口，时间为 2026 年">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-24T05:15:00.000Z">
+<meta property="article:modified_time" content="2026-06-24T05:07:59.221Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="投资">
+<meta property="article:tag" content="趋势交易">
+<meta property="article:tag" content="ETF">
+<meta property="article:tag" content="半导体设备">
+<meta property="article:tag" content="国产替代">
+<meta property="article:tag" content="交易规则">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>2026-06-24 趋势交易规则：半导体设备ETF易方达159558 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2026-06-24 趋势交易规则：半导体设备ETF易方达159558"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-24 13:15" pubdate>
+          2026年6月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">2026-06-24 趋势交易规则：半导体设备ETF易方达159558</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这篇文章只讨论一个问题：如果现在按照趋势交易处理半导体设备ETF易方达，代码 <code>SZ159558</code>，应该遵守什么样的买入和卖出规则。</p>
+<p>先说结论：159558 当前是强趋势，但已经非常接近短中期区间高位。趋势交易可以跟随，但不能无计划追高。更合理的方式是用“突破确认 + 回踩确认 + 移动止损”来处理。</p>
+<p>本文只做交易规则记录，不构成投资建议。</p>
+<h1 id="数据口径"><a href="#数据口径" class="headerlink" title="数据口径"></a>数据口径</h1><p>行情和日线数据来自腾讯行情接口，时间为 2026 年 6 月 24 日 13:06 左右的盘中数据，不是当日收盘数据。</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th align="right">数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ETF 名称</td>
+<td align="right">半导体设备ETF易方达</td>
+</tr>
+<tr>
+<td>ETF 代码</td>
+<td align="right">159558</td>
+</tr>
+<tr>
+<td>盘中价格</td>
+<td align="right">3.846 元</td>
+</tr>
+<tr>
+<td>当日涨跌幅</td>
+<td align="right">+4.48%</td>
+</tr>
+<tr>
+<td>当日最高价</td>
+<td align="right">3.848 元</td>
+</tr>
+<tr>
+<td>当日最低价</td>
+<td align="right">3.590 元</td>
+</tr>
+<tr>
+<td>成交额</td>
+<td align="right">约 7.9955 亿元</td>
+</tr>
+<tr>
+<td>5 日均线</td>
+<td align="right">3.6624 元</td>
+</tr>
+<tr>
+<td>10 日均线</td>
+<td align="right">3.4161 元</td>
+</tr>
+<tr>
+<td>20 日均线</td>
+<td align="right">3.1305 元</td>
+</tr>
+<tr>
+<td>60 日均线</td>
+<td align="right">2.6067 元</td>
+</tr>
+<tr>
+<td>120 日均线</td>
+<td align="right">2.3395 元</td>
+</tr>
+<tr>
+<td>250 日均线</td>
+<td align="right">1.8984 元</td>
+</tr>
+<tr>
+<td>14 日 ATR</td>
+<td align="right">约 0.1929 元</td>
+</tr>
+<tr>
+<td>ATR 占价格比例</td>
+<td align="right">约 5.02%</td>
+</tr>
+<tr>
+<td>近 20 日区间位置</td>
+<td align="right">约 99.8%</td>
+</tr>
+</tbody></table>
+<p>这组数据说明两件事：</p>
+<ol>
+<li>趋势非常强。价格高于所有主要均线。</li>
+<li>位置非常高。价格已经接近近 20 日、60 日、120 日和 250 日高位。</li>
+</ol>
+<p>所以规则不能写成“强趋势就买”。强趋势可以参与，但必须带着纪律参与。</p>
+<h1 id="一、买入规则"><a href="#一、买入规则" class="headerlink" title="一、买入规则"></a>一、买入规则</h1><h2 id="规则-1：只在趋势条件成立时考虑买入"><a href="#规则-1：只在趋势条件成立时考虑买入" class="headerlink" title="规则 1：只在趋势条件成立时考虑买入"></a>规则 1：只在趋势条件成立时考虑买入</h2><p>趋势交易的第一条规则是先过滤环境。</p>
+<p>159558 的趋势条件可以写成：</p>
+<ol>
+<li>价格在 20 日均线之上。</li>
+<li>5 日均线在 10 日均线之上。</li>
+<li>10 日均线在 20 日均线之上。</li>
+<li>20 日均线向上。</li>
+<li>成交量不能明显萎缩。</li>
+</ol>
+<p>当前这些条件基本成立，所以它属于可以纳入趋势交易观察的标的。</p>
+<p>但“可以观察”不等于“马上买入”。当前位置距离 5 日均线约 5.01%，距离 10 日均线约 12.58%，已经偏离较大。追高的容错率不高。</p>
+<h2 id="规则-2：突破买入必须等收盘确认"><a href="#规则-2：突破买入必须等收盘确认" class="headerlink" title="规则 2：突破买入必须等收盘确认"></a>规则 2：突破买入必须等收盘确认</h2><p>如果采用突破买入，不能只看盘中冲高。</p>
+<p>当前突破观察位是 3.85 元附近。规则可以写成：</p>
+<ol>
+<li>收盘价站上 3.85 元。</li>
+<li>成交量高于近 20 日均量。</li>
+<li>收盘价不能明显低于日内高点。</li>
+<li>场内价格相对估算净值不能出现明显溢价。</li>
+</ol>
+<p>只有这四个条件同时满足，才算有效突破。</p>
+<p>如果只是盘中冲到 3.85 元附近，尾盘回落，或者成交量不足，就不算有效突破。趋势交易最怕把盘中情绪当成确认信号。</p>
+<h2 id="规则-3：回踩买入优先级高于追涨买入"><a href="#规则-3：回踩买入优先级高于追涨买入" class="headerlink" title="规则 3：回踩买入优先级高于追涨买入"></a>规则 3：回踩买入优先级高于追涨买入</h2><p>当前位置已经很高，更稳妥的买点不是追涨，而是等回踩。</p>
+<p>可以把回踩买点分成三层：</p>
+<table>
+<thead>
+<tr>
+<th>买点类型</th>
+<th align="right">观察区域</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>强势回踩</td>
+<td align="right">3.66-3.70 元</td>
+<td>回踩 5 日均线附近后缩量企稳</td>
+</tr>
+<tr>
+<td>正常回踩</td>
+<td align="right">3.41-3.45 元</td>
+<td>回踩 10 日均线附近后重新放量转强</td>
+</tr>
+<tr>
+<td>深度回踩</td>
+<td align="right">3.13-3.20 元</td>
+<td>回踩 20 日均线附近后止跌，趋势仍未破坏</td>
+</tr>
+</tbody></table>
+<p>强趋势里，最舒服的买点通常不是最高点，而是第一次缩量回踩不破 5 日线或 10 日线。</p>
+<p>如果价格一路上涨不给回踩，也可以不买。趋势交易不是每一段都必须吃到，真正重要的是不要在最难受的位置把仓位打满。</p>
+<h2 id="规则-4：分批买，不一次打满"><a href="#规则-4：分批买，不一次打满" class="headerlink" title="规则 4：分批买，不一次打满"></a>规则 4：分批买，不一次打满</h2><p>159558 的 14 日 ATR 约 5.02%，波动不小。仓位要分批。</p>
+<p>可以采用这样的规则：</p>
+<ol>
+<li>第一次突破确认买入：计划仓位的 30%。</li>
+<li>回踩 5 日线或 10 日线企稳：再加 20%-30%。</li>
+<li>突破后继续放量，并且回踩不破前高：再考虑加仓。</li>
+<li>单一主题 ETF 总仓位不超过自己权益仓位的上限。</li>
+</ol>
+<p>如果没有明确仓位上限，趋势交易很容易从“跟随趋势”变成“情绪下注”。</p>
+<h2 id="规则-5：出现这些情况不买"><a href="#规则-5：出现这些情况不买" class="headerlink" title="规则 5：出现这些情况不买"></a>规则 5：出现这些情况不买</h2><p>以下情况不适合买入：</p>
+<ol>
+<li>盘中大涨但收盘回落到 3.85 元下方。</li>
+<li>价格相对估算净值明显溢价。</li>
+<li>当日涨幅很大，但成交量没有放大。</li>
+<li>价格距离 5 日均线超过 1 个 ATR 后继续追。</li>
+<li>跌破 10 日均线后没有快速收回。</li>
+</ol>
+<p>当前 3.846 元已经接近 5 日均线 + 1 个 ATR 的区域。这个位置继续追，需要非常严格的止损，否则性价比会变差。</p>
+<h1 id="二、卖出规则"><a href="#二、卖出规则" class="headerlink" title="二、卖出规则"></a>二、卖出规则</h1><h2 id="规则-1：跌破-5-日线，先减速"><a href="#规则-1：跌破-5-日线，先减速" class="headerlink" title="规则 1：跌破 5 日线，先减速"></a>规则 1：跌破 5 日线，先减速</h2><p>当前 5 日均线约 3.6624 元。</p>
+<p>如果后续收盘跌破 5 日均线，说明短线加速段结束。这个时候不一定要全部卖出，但应该停止加仓，并考虑减掉短线追涨仓位。</p>
+<p>规则可以写成：</p>
+<ol>
+<li>收盘跌破 5 日线：减掉 20%-30%。</li>
+<li>跌破后次日不能快速收回：继续降低仓位。</li>
+<li>跌破 5 日线但成交量明显缩小，可以观察一次反抽。</li>
+</ol>
+<p>5 日线不是最终止损线，而是“加速趋势降温线”。</p>
+<h2 id="规则-2：跌破-10-日线，趋势仓要明显收缩"><a href="#规则-2：跌破-10-日线，趋势仓要明显收缩" class="headerlink" title="规则 2：跌破 10 日线，趋势仓要明显收缩"></a>规则 2：跌破 10 日线，趋势仓要明显收缩</h2><p>当前 10 日均线约 3.4161 元。</p>
+<p>如果收盘跌破 10 日均线，说明短线强趋势已经破坏。对于趋势交易来说，这不是小波动，而是需要认真处理的信号。</p>
+<p>规则可以写成：</p>
+<ol>
+<li>收盘跌破 10 日线：至少减半。</li>
+<li>两天内不能重新站回 10 日线：继续减仓。</li>
+<li>跌破 10 日线且放量：按趋势破坏处理，不要硬扛。</li>
+</ol>
+<p>强势 ETF 从高位跌破 10 日线时，往往说明短线资金开始退潮。</p>
+<h2 id="规则-3：跌破-20-日线，退出趋势交易"><a href="#规则-3：跌破-20-日线，退出趋势交易" class="headerlink" title="规则 3：跌破 20 日线，退出趋势交易"></a>规则 3：跌破 20 日线，退出趋势交易</h2><p>当前 20 日均线约 3.1305 元。</p>
+<p>20 日线是这轮趋势的核心生命线。如果收盘跌破 20 日线，说明趋势已经从强势转为调整。</p>
+<p>规则可以写成：</p>
+<ol>
+<li>收盘跌破 20 日线：趋势仓退出。</li>
+<li>跌破 20 日线后不要立刻抄底。</li>
+<li>重新站回 20 日线并放量，才重新观察。</li>
+</ol>
+<p>趋势交易要承认趋势结束。不能用“长期看好半导体”来替代交易纪律。</p>
+<h2 id="规则-4：用-ATR-做移动止盈"><a href="#规则-4：用-ATR-做移动止盈" class="headerlink" title="规则 4：用 ATR 做移动止盈"></a>规则 4：用 ATR 做移动止盈</h2><p>159558 当前 14 日 ATR 约 0.1929 元。</p>
+<p>可以使用移动止盈规则：</p>
+<ol>
+<li>从买入后最高收盘价向下减 2 个 ATR，作为移动止盈线。</li>
+<li>当前 2 个 ATR 约 0.386 元。</li>
+<li>如果最高收盘价是 3.85 元，移动止盈线约 3.46 元。</li>
+<li>如果价格继续上涨，止盈线跟着上移。</li>
+<li>止盈线只上移，不下移。</li>
+</ol>
+<p>这个规则的好处是：趋势延续时不急着卖，趋势破坏时也不会一直幻想。</p>
+<h2 id="规则-5：高位放量长上影，要主动减仓"><a href="#规则-5：高位放量长上影，要主动减仓" class="headerlink" title="规则 5：高位放量长上影，要主动减仓"></a>规则 5：高位放量长上影，要主动减仓</h2><p>趋势交易不是只有均线规则，还要看 K 线行为。</p>
+<p>如果出现以下情况，要主动减仓：</p>
+<ol>
+<li>放量冲高回落。</li>
+<li>日内振幅超过 8%。</li>
+<li>收盘价明显低于日内高点。</li>
+<li>连续两天放量但价格不再创新高。</li>
+<li>场内溢价明显扩大。</li>
+</ol>
+<p>这类信号通常说明分歧加大。尤其在近 20 日区间位置接近 100% 的时候，放量滞涨要比低位放量更危险。</p>
+<h1 id="三、当前操作框架"><a href="#三、当前操作框架" class="headerlink" title="三、当前操作框架"></a>三、当前操作框架</h1><p>按照 2026 年 6 月 24 日 13:06 左右的数据，159558 当前状态可以这样处理。</p>
+<h2 id="如果已经持有"><a href="#如果已经持有" class="headerlink" title="如果已经持有"></a>如果已经持有</h2><p>如果已经有仓位，不急着全卖，因为趋势仍然很强。</p>
+<p>更合理的规则是：</p>
+<ol>
+<li>价格在 3.66 元上方，趋势仓继续持有。</li>
+<li>跌破 3.66 元，减掉短线仓位。</li>
+<li>跌破 3.41 元，明显降低仓位。</li>
+<li>跌破 3.13 元，退出趋势交易。</li>
+<li>若继续站上 3.85 元并放量，可以用移动止盈跟随。</li>
+</ol>
+<p>已经持有的人，重点不是猜顶，而是把利润保护线往上推。</p>
+<h2 id="如果还没有持有"><a href="#如果还没有持有" class="headerlink" title="如果还没有持有"></a>如果还没有持有</h2><p>如果现在没有仓位，不建议在盘中高位直接重仓追。</p>
+<p>更稳妥的方式是：</p>
+<ol>
+<li>等收盘站稳 3.85 元，再考虑小仓位突破买入。</li>
+<li>等回踩 3.66-3.70 元缩量企稳，再考虑第一笔。</li>
+<li>等回踩 3.41-3.45 元并重新转强，再考虑更舒服的位置。</li>
+<li>如果价格直接继续涨，不追也可以。</li>
+</ol>
+<p>没有仓位的人，最怕的是看到强趋势后临时改变计划，一买进去就遇到正常回撤。</p>
+<h2 id="如果想加仓"><a href="#如果想加仓" class="headerlink" title="如果想加仓"></a>如果想加仓</h2><p>加仓必须比首买更严格。</p>
+<p>加仓规则可以写成：</p>
+<ol>
+<li>只在盈利仓位上加仓。</li>
+<li>只在回踩不破 5 日线或 10 日线后加仓。</li>
+<li>不在连续大涨后的盘中高位加仓。</li>
+<li>加仓后总成本不能离止损线太远。</li>
+<li>加仓后如果跌破加仓日低点，要撤掉加仓部分。</li>
+</ol>
+<p>加仓不是因为“看好”，而是因为市场继续证明趋势有效。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>159558 当前适合按强趋势跟踪，但不适合无纪律追高。</p>
+<p>我的规则会写成这样：</p>
+<table>
+<thead>
+<tr>
+<th>行为</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>买入</td>
+<td>收盘有效突破 3.85 元，或回踩 3.66-3.70 元缩量企稳</td>
+</tr>
+<tr>
+<td>加仓</td>
+<td>只在盈利后加仓，优先等回踩 5 日线或 10 日线</td>
+</tr>
+<tr>
+<td>减仓</td>
+<td>收盘跌破 5 日线，先减短线仓位</td>
+</tr>
+<tr>
+<td>大幅减仓</td>
+<td>收盘跌破 10 日线，趋势仓明显收缩</td>
+</tr>
+<tr>
+<td>退出</td>
+<td>收盘跌破 20 日线，退出趋势交易</td>
+</tr>
+<tr>
+<td>止盈</td>
+<td>用最高收盘价减 2 个 ATR 做移动止盈</td>
+</tr>
+<tr>
+<td>不买</td>
+<td>溢价明显、冲高回落、距离均线过远、没有收盘确认</td>
+</tr>
+</tbody></table>
+<p>一句话：159558 现在趋势很强，但位置也很高。趋势交易要做的是跟随强势，同时把卖出规则提前写好；不是被强势牵着鼻子跑。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%95%E8%B5%84/" class="print-no-link">#投资</a>
+      
+        <a href="/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/" class="print-no-link">#趋势交易</a>
+      
+        <a href="/tags/ETF/" class="print-no-link">#ETF</a>
+      
+        <a href="/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87/" class="print-no-link">#半导体设备</a>
+      
+        <a href="/tags/%E5%9B%BD%E4%BA%A7%E6%9B%BF%E4%BB%A3/" class="print-no-link">#国产替代</a>
+      
+        <a href="/tags/%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99/" class="print-no-link">#交易规则</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2026-06-24 趋势交易规则：半导体设备ETF易方达159558</div>
+      <div>https://nicoier.github.io/2026/06/24/2026-06-24趋势交易规则半导体设备ETF易方达159558/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/24/2026-06-24%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/" title="2026-06-24 从三个角度分析半导体设备ETF易方达159558">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2026-06-24 从三个角度分析半导体设备ETF易方达159558</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2ETF%E5%8D%8E%E6%B3%B0%E6%9F%8F%E7%91%9E512890/" title="2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890">
+                        <span class="hidden-mobile">2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
