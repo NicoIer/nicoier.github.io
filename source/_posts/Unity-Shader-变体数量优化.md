@@ -2,6 +2,7 @@
 title: Unity Shader 变体数量优化
 date: 2025-08-27 11:14:53
 tags: [Unity, Shader, 性能优化]
+categories: [Unity]
 ---
 
 

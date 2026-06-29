@@ -2,6 +2,7 @@
 title: 最近20条Codex对话整理
 date: 2026-06-17 11:24:27
 tags: [Codex, AI, 开发记录]
+categories: [工具]
 ---
 
 最近让 Codex 总结了一下本地记录里的最近20条对话。

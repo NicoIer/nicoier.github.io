@@ -2,6 +2,7 @@
 title: UIFramework
 date: 2024-08-30 11:23:58
 tags: [Unity, UGUI]
+categories: [Unity]
 ---
 
 

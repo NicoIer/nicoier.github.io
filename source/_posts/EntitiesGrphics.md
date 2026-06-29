@@ -2,6 +2,7 @@
 title: EntitiesGraphics
 date: 2025-08-27 11:19:24
 tags: [Unity, DOTS, ECS, 性能优化 , 渲染]
+categories: [Unity]
 ---
 
 # Entities Graphics

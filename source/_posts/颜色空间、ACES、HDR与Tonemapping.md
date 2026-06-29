@@ -2,6 +2,7 @@
 title: 颜色空间、ACES、HDR与Tonemapping
 date: 2025-08-11 17:35:00
 tags:
+categories: [图形学]
 ---
 
 # 从人眼说起

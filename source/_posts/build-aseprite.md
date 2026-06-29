@@ -2,6 +2,7 @@
 title: build-aseprite
 date: 2025-12-22 11:28:12
 tags: [aseprite, build, tutorial]
+categories: [编程]
 ---
 
 ```text

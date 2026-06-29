@@ -2,6 +2,7 @@
 title: JoltPhysics
 date: 2025-08-07 17:17:27
 tags: [物理引擎, JoltPhysics]
+categories: [编程]
 ---
 
 # [JoltPhysics](https://github.com/jrouwe/JoltPhysics)

@@ -2,6 +2,7 @@
 title: Unity-ShadowDistance问题
 date: 2025-08-01 14:09:51
 tags: [Unity, Shader, 阴影]
+categories: [Unity]
 ---
 
 

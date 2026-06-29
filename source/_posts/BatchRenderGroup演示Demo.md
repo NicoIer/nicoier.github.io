@@ -2,6 +2,7 @@
 title: BatchRenderGroup演示Demo
 date: 2025-12-18 13:21:59
 tags: [ Unity, BatchRendererGroup ]
+categories: [Unity]
 ---
 
 ```text

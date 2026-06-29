@@ -2,6 +2,7 @@
 title: Unity6的MeshLOD使用教程
 date: 2025-12-08 15:50:08
 tags: [ Unity ,Unity6, Mesh , LOD ]
+categories: [Unity]
 ---
 Unity6中，当导入模型时，就出现了MeshLOD的选项，我们可以勾选这个选项来启用MeshLOD功能。
 

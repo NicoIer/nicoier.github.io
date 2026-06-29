@@ -2,6 +2,7 @@
 title: 从BuildIn到URP
 date: 2024-06-17 18:48:35
 tags: [Unity, C#]
+categories: [Unity]
 ---
 
 ## 结构

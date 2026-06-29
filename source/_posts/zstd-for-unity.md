@@ -2,6 +2,7 @@
 title: zstd-for-unity
 date: 2025-12-09 15:17:42
 tags: [unity, compression, zstd]
+categories: [Unity]
 ---
 
 # zstd-for-unity

@@ -2,6 +2,7 @@
 title: 逃离UnityCN
 date: 2025-11-11 17:47:34
 tags: [Unity, Unity CN]
+categories: [Unity]
 ---
 
 Unity中国实在是罪大恶极，自从Unity中国变成独立公司之后，国内就没办法以正常途径下载国际版Unity了，即使使用的是国际版Hub

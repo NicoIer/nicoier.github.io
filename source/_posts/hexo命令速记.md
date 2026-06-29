@@ -2,6 +2,7 @@
 title: hexo命令速记
 date: 2025-11-12 13:00:49
 tags: [hexo]
+categories: [工具]
 ---
 
 ```bash

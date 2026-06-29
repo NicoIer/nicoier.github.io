@@ -2,6 +2,7 @@
 title: Unity-LightProbe导致的性能异常问题
 date: 2025-08-07 11:12:10
 tags: [ Unity, LightProbe ]
+categories: [Unity]
 ---
 
 使用LightProbe烘焙间接光时，主要是有一些LightProbe的点出现了穿插，导致在运行时计算插值时出现了大量的计算开销，从而导致性能异常。

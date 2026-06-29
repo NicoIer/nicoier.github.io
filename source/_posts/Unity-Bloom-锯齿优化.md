@@ -2,6 +2,7 @@
 title: Unity-Bloom-锯齿优化
 date: 2025-07-15 15:19:10
 tags: [ Unity, Shader,后处理, Bloom,锯齿 ]
+categories: [Unity]
 ---
 
 Unity Bloom在降采样和上采样时使用的卷积核如下，是一个十字型的卷积核，这样会丢掉四个角落的像素信息，导致锯齿现象。

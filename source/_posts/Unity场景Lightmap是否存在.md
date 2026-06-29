@@ -2,6 +2,7 @@
 title: Unity场景Lightmap是否存在
 date: 2025-07-22 14:19:35
 tags: [Unity, Lightmap]
+categories: [Unity]
 ---
 
 ## Unity场景Lightmap是否存在

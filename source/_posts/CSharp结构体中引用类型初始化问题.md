@@ -2,6 +2,7 @@
 title: CSharp结构体中引用类型初始化问题
 date: 2025-07-29 14:48:28
 tags: [CSharp, IL]
+categories: [编程]
 ---
 
 初始化struct/class里的List时，第二种写法会报nullref

@@ -2,6 +2,7 @@
 title: Unity Shader
 date: 2024-06-17 18:48:35
 tags: [Unity, Shader, 图形学]
+categories: [Unity]
 ---
 
 ## 渲染管线
