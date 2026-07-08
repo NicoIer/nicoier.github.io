@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">TrackPlayer 生命周期</title>
+  <desc id="desc">ProcessDurationClip 对 duration clip 的 Enter、Update、Exit 和跳帧跨过 Clip 的处理。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.4; rx: 8; }
+      .enter { fill: #dcfce7; stroke: #16a34a; }
+      .update { fill: #e0f2fe; stroke: #0284c7; }
+      .exit { fill: #fee2e2; stroke: #dc2626; }
+      .skip { fill: #fef3c7; stroke: #d97706; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .axis { stroke: #475569; stroke-width: 2; }
+      .tick { stroke: #64748b; stroke-width: 2; }
+      .range { fill: #bae6fd; stroke: #0284c7; stroke-width: 1.2; rx: 4; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke: #64748b; stroke-width: 1.6; stroke-dasharray: 5 5; fill: none; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="460"/>
+  <text class="title" x="40" y="44">TrackPlayer 生命周期</text>
+  <text class="small" x="40" y="70">duration clip 统一走 ProcessDurationClip，业务只接收消息。</text>
+
+  <line class="axis" x1="80" y1="130" x2="1120" y2="130"/>
+  <line class="tick" x1="300" y1="116" x2="300" y2="144"/>
+  <line class="tick" x1="760" y1="116" x2="760" y2="144"/>
+  <rect class="range" x="300" y="105" width="460" height="50" rx="4"/>
+  <text class="mono" x="300" y="92" text-anchor="middle">startTime</text>
+  <text class="mono" x="760" y="92" text-anchor="middle">startTime + duration</text>
+  <text class="label" x="530" y="136" text-anchor="middle">Clip active range</text>
+
+  <rect class="box" x="70" y="210" width="170" height="82" rx="8"/>
+  <text class="label" x="155" y="242" text-anchor="middle">未激活</text>
+  <text class="small" x="155" y="266" text-anchor="middle">不在 active set</text>
+
+  <rect class="box enter" x="300" y="210" width="170" height="82" rx="8"/>
+  <text class="label" x="385" y="242" text-anchor="middle">FireEnter</text>
+  <text class="small" x="385" y="266" text-anchor="middle">首次进入时间段</text>
+
+  <rect class="box update" x="530" y="210" width="170" height="82" rx="8"/>
+  <text class="label" x="615" y="242" text-anchor="middle">FireUpdate</text>
+  <text class="mono" x="615" y="266" text-anchor="middle">normalizedTime</text>
+
+  <rect class="box exit" x="760" y="210" width="170" height="82" rx="8"/>
+  <text class="label" x="845" y="242" text-anchor="middle">FireExit</text>
+  <text class="small" x="845" y="266" text-anchor="middle">离开时间段</text>
+
+  <rect class="box" x="990" y="210" width="150" height="82" rx="8"/>
+  <text class="label" x="1065" y="242" text-anchor="middle">未激活</text>
+  <text class="small" x="1065" y="266" text-anchor="middle">移出 active set</text>
+
+  <path class="arrow" d="M 242 251 L 292 251"/>
+  <path class="arrow" d="M 472 251 L 522 251"/>
+  <path class="arrow" d="M 702 251 L 752 251"/>
+  <path class="arrow" d="M 932 251 L 982 251"/>
+
+  <rect class="box skip" x="235" y="340" width="730" height="66" rx="8"/>
+  <text class="label" x="600" y="366" text-anchor="middle">一次 Tick 直接跨过整个 Clip</text>
+  <text class="mono" x="600" y="390" text-anchor="middle">FireEnter → FireUpdate(1) → FireExit</text>
+  <path class="dashed" d="M 210 373 L 235 373"/>
+  <path class="dashed" d="M 965 373 L 990 373"/>
+</svg>

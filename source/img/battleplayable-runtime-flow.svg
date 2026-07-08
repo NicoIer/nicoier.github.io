@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">BattlePlayable 数据流向</title>
+  <desc id="desc">从编辑器 Track Clip 到 BattleData，再到运行时 BattlePlayer、TrackPlayer 和 MessageCenter 的流向。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.4; rx: 8; }
+      .box-blue { fill: #e0f2fe; stroke: #0284c7; }
+      .box-green { fill: #dcfce7; stroke: #16a34a; }
+      .box-yellow { fill: #fef3c7; stroke: #d97706; }
+      .box-red { fill: #fee2e2; stroke: #dc2626; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .lane { fill: none; stroke: #cbd5e1; stroke-width: 1; stroke-dasharray: 5 5; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="420"/>
+  <text class="title" x="40" y="44">BattlePlayable 数据流向</text>
+  <text class="small" x="40" y="70">编辑器负责组织和预览，运行时只消费 BattleData 和消息派发。</text>
+
+  <rect class="box box-blue" x="40" y="110" width="160" height="96" rx="8"/>
+  <text class="label" x="120" y="144" text-anchor="middle">Editor</text>
+  <text class="mono" x="120" y="170" text-anchor="middle">Track / Clip</text>
+  <text class="small" x="120" y="190" text-anchor="middle">Unity 资源引用</text>
+
+  <rect class="box" x="250" y="110" width="180" height="96" rx="8"/>
+  <text class="label" x="340" y="142" text-anchor="middle">Converter</text>
+  <text class="mono" x="340" y="168" text-anchor="middle">Export / Import</text>
+  <text class="small" x="340" y="190" text-anchor="middle">编辑器数据双向转换</text>
+
+  <rect class="box box-green" x="480" y="110" width="150" height="96" rx="8"/>
+  <text class="label" x="555" y="144" text-anchor="middle">BattleData</text>
+  <text class="mono" x="555" y="170" text-anchor="middle">TrackData List</text>
+  <text class="small" x="555" y="190" text-anchor="middle">运行时数据</text>
+
+  <rect class="box box-yellow" x="680" y="110" width="170" height="96" rx="8"/>
+  <text class="label" x="765" y="144" text-anchor="middle">MemoryPack</text>
+  <text class="mono" x="765" y="170" text-anchor="middle">.bytes</text>
+  <text class="small" x="765" y="190" text-anchor="middle">客户端 / 配置目录</text>
+
+  <rect class="box" x="900" y="110" width="210" height="96" rx="8"/>
+  <text class="label" x="1005" y="142" text-anchor="middle">BattlePlayer</text>
+  <text class="mono" x="1005" y="168" text-anchor="middle">Play / Tick / Jump</text>
+  <text class="small" x="1005" y="190" text-anchor="middle">按时间推进所有 Track</text>
+
+  <path class="arrow" d="M 205 158 L 242 158"/>
+  <path class="arrow" d="M 435 158 L 472 158"/>
+  <path class="arrow" d="M 635 158 L 672 158"/>
+  <path class="arrow" d="M 855 158 L 892 158"/>
+
+  <path class="lane" d="M 1005 218 L 1005 250 L 190 250 L 190 290"/>
+
+  <rect class="box" x="70" y="290" width="240" height="82" rx="8"/>
+  <text class="label" x="190" y="322" text-anchor="middle">TrackPlayer</text>
+  <text class="mono" x="190" y="348" text-anchor="middle">ProcessDurationClip</text>
+  <text class="small" x="190" y="366" text-anchor="middle">Enter / Update / Exit</text>
+
+  <rect class="box box-red" x="390" y="290" width="240" height="82" rx="8"/>
+  <text class="label" x="510" y="322" text-anchor="middle">MessageCenter</text>
+  <text class="mono" x="510" y="348" text-anchor="middle">(TrackType, ClipType)</text>
+  <text class="small" x="510" y="366" text-anchor="middle">按类型派发回调</text>
+
+  <rect class="box" x="710" y="290" width="300" height="82" rx="8"/>
+  <text class="label" x="860" y="322" text-anchor="middle">业务消费者</text>
+  <text class="mono" x="860" y="348" text-anchor="middle">BattleAttackView / 其他 View</text>
+  <text class="small" x="860" y="366" text-anchor="middle">播放音效、生成物、命中检测</text>
+
+  <path class="arrow" d="M 315 331 L 382 331"/>
+  <path class="arrow" d="M 635 331 L 702 331"/>
+</svg>
