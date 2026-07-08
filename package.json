@@ -2,6 +2,10 @@
   "name": "hexo-site",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20.19.0",
+    "npm": ">=11.17.0"
+  },
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
@@ -16,7 +20,9 @@
     "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
+    "hexo-generator-feed": "^4.0.0",
     "hexo-generator-index": "^3.0.0",
+    "hexo-generator-sitemap": "^3.0.1",
     "hexo-generator-tag": "^2.0.0",
     "hexo-math": "^5.0.0",
     "hexo-renderer-ejs": "^2.0.0",

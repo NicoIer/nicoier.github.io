@@ -98,6 +98,30 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: fluid
 
+# Sitemap
+sitemap:
+  path:
+    - sitemap.xml
+    - sitemap.txt
+  tags: true
+  categories: true
+
+# RSS / Atom feed
+feed:
+  enable: true
+  type:
+    - atom
+    - rss2
+  path:
+    - atom.xml
+    - rss2.xml
+  limit: 20
+  content: false
+  content_limit: 180
+  order_by: -date
+  icon: /img/nicoier.png
+  autodiscovery: true
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
