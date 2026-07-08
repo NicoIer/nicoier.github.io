@@ -13,6 +13,8 @@ categories: [Unity]
 
 通过Camera->RT->RawImage的方式，最终在UI上显示小地图。
 
+![CommandBuffer 小地图流程](../img/command-buffer-minimap-flow.svg)
+
 这样的做法有几个问题：
 
 - 需要额外一个Camera，需要完整走Camera的渲染流程，有一些流程无法跳过，比如剔除、渲染排序等，这些都会影响性能

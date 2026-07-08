@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Damage Calculation Pipeline</title>
+  <desc id="desc">A pipeline diagram for base damage, offset, increase multiplier, reduction multiplier and final damage.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .stage { fill: #eff6ff; stroke: #60a5fa; }
+      .mul { fill: #f0fdf4; stroke: #4ade80; }
+      .final { fill: #fef3c7; stroke: #f59e0b; }
+      .note { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; rx: 10; }
+      .label { font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 600 14px "SFMono-Regular", Consolas, monospace; fill: #1f2937; }
+      .arrow { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="680" />
+  <text class="title" x="56" y="58">伤害计算顺序</text>
+  <text class="subtitle" x="56" y="88">先算固定值，再算增伤乘区，再算减伤乘区。每一步都保留中间字段，方便排查。</text>
+
+  <rect class="box stage" x="64" y="210" width="180" height="96" />
+  <text class="label" x="96" y="246">基础伤害</text>
+  <text class="mono" x="94" y="276">base_damage</text>
+
+  <rect class="box stage" x="292" y="210" width="190" height="96" />
+  <text class="label" x="324" y="246">固定修正</text>
+  <text class="mono" x="320" y="276">+ damage_offset</text>
+
+  <rect class="box stage" x="530" y="210" width="210" height="96" />
+  <text class="label" x="558" y="246">原始伤害</text>
+  <text class="mono" x="558" y="276">max(0, base+offset)</text>
+
+  <rect class="box mul" x="788" y="210" width="170" height="96" />
+  <text class="label" x="822" y="246">增伤倍率</text>
+  <text class="mono" x="826" y="276">1 + increase</text>
+
+  <rect class="box mul" x="1006" y="210" width="170" height="96" />
+  <text class="label" x="1040" y="246">减伤倍率</text>
+  <text class="mono" x="1034" y="276">max(0, 1-r)</text>
+
+  <rect class="box final" x="466" y="440" width="270" height="100" />
+  <text class="label" x="548" y="476">最终伤害</text>
+  <text class="mono" x="504" y="506">raw * inc_mul * red_mul</text>
+
+  <path class="arrow" d="M244 258 L292 258" />
+  <path class="arrow" d="M482 258 L530 258" />
+  <path class="arrow" d="M740 258 L788 258" />
+  <path class="arrow" d="M958 258 L1006 258" />
+  <path class="arrow" d="M1090 306 C1090 410 780 490 736 490" />
+
+  <rect class="note" x="90" y="424" width="300" height="116" />
+  <text class="label" x="118" y="458">建议</text>
+  <text class="text" x="118" y="488">暴击、护盾、元素抗性、PvP 修正</text>
+  <text class="text" x="118" y="514">最好拆成独立阶段，不要塞进同一个字段。</text>
+
+  <rect class="note" x="810" y="424" width="300" height="116" />
+  <text class="label" x="838" y="458">排查方式</text>
+  <text class="text" x="838" y="488">伤害异常时直接看中间字段：</text>
+  <text class="mono" x="838" y="514">raw / increase / reduction</text>
+</svg>

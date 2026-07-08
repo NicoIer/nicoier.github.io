@@ -9,6 +9,8 @@ categories: [Unity]
 
 本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。
 
+![AlphaClip 和 Pre-Z 流程](../img/pre-z-alpha-clip-flow.svg)
+
 # Pre-Z优化方案
 
 - 再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入
