@@ -1,0 +1,81 @@
+.icon-itch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
+.icon-itch::before {
+  content: "";
+  display: block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask: url("/img/itchdotio.svg") center / contain no-repeat;
+  mask: url("/img/itchdotio.svg") center / contain no-repeat;
+}
+
+.about-works {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 0 auto 1rem;
+  padding: 1.35rem 1.5rem;
+  border: 1px solid rgba(120, 130, 150, 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(250, 92, 79, 0.08), rgba(30, 36, 48, 0.03)),
+    var(--board-bg-color);
+}
+
+.about-works__text {
+  min-width: 0;
+}
+
+.about-works__eyebrow {
+  margin: 0 0 0.2rem;
+  color: #fa5c4f;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.about-works h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.45rem;
+  line-height: 1.25;
+}
+
+.about-works p {
+  margin: 0;
+}
+
+.about-works__link {
+  flex: 0 0 auto;
+  padding: 0.65rem 0.95rem;
+  border-radius: 6px;
+  background: #fa5c4f;
+  color: #fff !important;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+
+.about-works__link:hover {
+  background: #e44d42;
+}
+
+@media (max-width: 767px) {
+  .about-works {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 1.1rem;
+  }
+
+  .about-works__link {
+    text-align: center;
+  }
+}
