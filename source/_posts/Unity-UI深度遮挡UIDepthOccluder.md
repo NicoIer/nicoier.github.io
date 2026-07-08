@@ -5,6 +5,12 @@ tags: [Unity, URP, RenderGraph, UI, Shader, 深度, 游戏开发]
 categories: [Unity]
 ---
 
+先说结论：这个方案适合优化大块不透明 UI 背后的 Opaque 场景绘制。
+
+它不是让 UI 参与场景渲染，也不是解决 UI 和场景物体的显示层级问题。它只是提前把 UI 覆盖区域写入深度，让后面的不透明物体在深度测试阶段被挡掉。
+
+如果 UI 是半透明的、经常旋转缩放，或者遮挡区域很小，这个方案收益会比较有限，甚至可能因为多一次深度绘制变得更慢。
+
 ## 为什么需要 UI 深度遮挡
 
 正常情况下，UI 通常是在场景物体之后绘制的。
@@ -322,6 +328,20 @@ UIDepthOccluder.s_ActiveOccluders
 ```
 
 如果要启用 `URP_COMPATIBILITY_MODE`，需要把这两个名字统一一下。
+
+## 排查方式
+
+如果接入后没有效果，可以按这个顺序查：
+
+- 确认当前相机是否带 `MainCamera` tag
+- 确认 URP Renderer Data 上已经挂了 `UIDepthOccluderFeature`
+- 确认 Feature 使用的是 `Hidden/UnityToolkit/UIDepthOccluder`
+- 确认 UI Image 的继承 alpha 是否为 1
+- 确认 `RectTransform` 的世界角点是否落在屏幕内
+- 用 Frame Debugger 看 `UIDepthOccluder` Pass 是否在 Opaque 前执行
+- 临时把 Shader 的 `ColorMask 0` 去掉，看遮挡 Mesh 是否画在预期位置
+
+这类问题最好先确认 Pass 有没有执行，再看深度是否写对。不要一上来就怀疑深度测试。
 
 ## 小结
 
