@@ -5,7 +5,7 @@
     <link>https://nicoier.github.io/</link>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, NicoIer</copyright>
-    <lastBuildDate>Wed, 08 Jul 2026 09:14:14 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jul 2026 09:48:21 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://nicoier.github.io/img/nicoier.png</url>
@@ -14,14 +14,26 @@
     </image>
     <atom:link href="https://nicoier.github.io/rss2.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>BattlePlayable战斗时间轴</title>
+      <link>https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/</link>
+      <description>记录 BattlePlayable 的数据结构、编辑器配置流程、保存加载、运行时播放、服务器对时和扩展 Clip 的流程。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
+      <category domain="https://nicoier.github.io/tags/BattlePlayable/">BattlePlayable</category>
+      <category domain="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">战斗系统</category>
+      <pubDate>Wed, 08 Jul 2026 09:35:00 GMT</pubDate>
+    </item>
+    <item>
       <title>基于ECS的Buff系统</title>
       <link>https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/</link>
       <description>记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。</description>
       <author>NicoIer</author>
       <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
       <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
-      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
       <category domain="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">战斗系统</category>
+      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
       <category domain="https://nicoier.github.io/tags/Buff/">Buff</category>
       <pubDate>Wed, 08 Jul 2026 08:30:53 GMT</pubDate>
     </item>
@@ -387,26 +399,6 @@
       <category domain="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/">价值投资</category>
       <category domain="https://nicoier.github.io/tags/%E4%BA%AC%E4%B8%9C%E6%96%B9/">京东方</category>
       <pubDate>Tue, 23 Jun 2026 06:20:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>趋势投资应该选 ETF、单股还是基金</title>
-      <link>https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/</link>
-      <description>
-        <![CDATA[<p>趋势投资的核心不是预测资产便宜不便宜，而是判断价格是否已经进入一个可以跟随的方向。</p>
-<p>所以在选择标的时，第一问题不是“哪个收益最高”，而是：</p>
-<ol>
-<li>它能不能代表我想跟随的趋势？</li>
-<li>它的波动和回撤我能不能承受？</li>
-<li>它的交易成本、流动性、费用会不会吃掉趋势收益？</li>
-<li>它是否足够透]]>
-      </description>
-      <author>NicoIer</author>
-      <category domain="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/">投资</category>
-      <category domain="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/">投资</category>
-      <category domain="https://nicoier.github.io/tags/ETF/">ETF</category>
-      <category domain="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/">交易</category>
-      <category domain="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/">基金</category>
-      <pubDate>Tue, 23 Jun 2026 06:18:00 GMT</pubDate>
     </item>
   </channel>
 </rss>

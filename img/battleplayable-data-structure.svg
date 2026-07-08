@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">BattleData 结构</title>
+  <desc id="desc">BattleData 中各类 TrackData 和代表性 ClipData 的分桶结构。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .root { fill: #0f172a; stroke: #0f172a; rx: 8; }
+      .track { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.3; rx: 8; }
+      .track-a { fill: #e0f2fe; stroke: #0284c7; }
+      .track-b { fill: #dcfce7; stroke: #16a34a; }
+      .track-c { fill: #fef3c7; stroke: #d97706; }
+      .track-d { fill: #fce7f3; stroke: #db2777; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .rootText { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; }
+      .label { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 1.8; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="560"/>
+  <text class="title" x="40" y="44">BattleData 结构</text>
+  <text class="small" x="40" y="70">运行时按 Track 类型分桶存储，编辑器顺序通过 editorIndex 还原。</text>
+
+  <rect class="root" x="480" y="105" width="240" height="94" rx="8"/>
+  <text class="rootText" x="600" y="140" text-anchor="middle">BattleData</text>
+  <text class="small" x="600" y="166" text-anchor="middle" fill="#cbd5e1">fileName / frameRate</text>
+  <text class="small" x="600" y="184" text-anchor="middle" fill="#cbd5e1">多组 TrackData List</text>
+
+  <rect class="track track-a" x="50" y="260" width="245" height="108" rx="8"/>
+  <text class="label" x="72" y="288">TransitionTrackData</text>
+  <text class="mono" x="72" y="315">clips</text>
+  <text class="small" x="72" y="336">TransitionClipData</text>
+  <text class="small" x="72" y="354">TargetGameObjectClipData</text>
+
+  <rect class="track track-b" x="330" y="260" width="245" height="108" rx="8"/>
+  <text class="label" x="352" y="288">TriggerTrackData</text>
+  <text class="mono" x="352" y="315">box / sphere / pie</text>
+  <text class="small" x="352" y="336">SequenceBoxTriggerClipData</text>
+  <text class="small" x="352" y="354">TriggerOwnerClipData</text>
+
+  <rect class="track track-c" x="610" y="260" width="245" height="108" rx="8"/>
+  <text class="label" x="632" y="288">DamageTrackData</text>
+  <text class="mono" x="632" y="315">damage / buff</text>
+  <text class="small" x="632" y="336">DamageClipData / BuffClipData</text>
+  <text class="small" x="632" y="354">ECSBuffClipData</text>
+
+  <rect class="track track-d" x="890" y="260" width="245" height="108" rx="8"/>
+  <text class="label" x="912" y="288">AudioTrackData</text>
+  <text class="mono" x="912" y="315">audio / hit audio</text>
+  <text class="small" x="912" y="336">AudioClipData</text>
+  <text class="small" x="912" y="354">FmodGlobalParameterClipData</text>
+
+  <rect class="track" x="50" y="410" width="245" height="96" rx="8"/>
+  <text class="label" x="72" y="438">EventTrackData</text>
+  <text class="mono" x="72" y="465">frame</text>
+  <text class="small" x="72" y="486">EventClipData</text>
+
+  <rect class="track" x="330" y="410" width="245" height="96" rx="8"/>
+  <text class="label" x="352" y="438">GameObjectTrackData</text>
+  <text class="mono" x="352" y="465">spawn / despawn</text>
+  <text class="small" x="352" y="486">SpawnGameObjectClipData</text>
+
+  <rect class="track" x="610" y="410" width="245" height="96" rx="8"/>
+  <text class="label" x="632" y="438">CommonDataTrackData</text>
+  <text class="mono" x="632" y="465">common data</text>
+  <text class="small" x="632" y="486">CommonData / CommonBuff / ECSBuff</text>
+
+  <rect class="track" x="890" y="410" width="245" height="96" rx="8"/>
+  <text class="label" x="912" y="438">SceneConstructTrackData</text>
+  <text class="mono" x="912" y="465">baked animation</text>
+  <text class="small" x="912" y="486">SceneConstructClipData</text>
+
+  <path class="arrow" d="M 520 203 L 172 252"/>
+  <path class="arrow" d="M 560 204 L 452 252"/>
+  <path class="arrow" d="M 640 204 L 732 252"/>
+  <path class="arrow" d="M 680 203 L 1012 252"/>
+  <path class="arrow" d="M 520 203 L 172 402"/>
+  <path class="arrow" d="M 560 204 L 452 402"/>
+  <path class="arrow" d="M 640 204 L 732 402"/>
+  <path class="arrow" d="M 680 203 L 1012 402"/>
+</svg>

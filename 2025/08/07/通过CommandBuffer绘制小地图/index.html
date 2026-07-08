@@ -16,15 +16,16 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="最近在做小地图的优化方案， 原先的方案很常见： 为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄， 小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。 通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。 这样的做法有几个问题：  需要额外一个Camera，需要完整走Came">
+    <meta name="description" content="最近在做小地图的优化方案， 原先的方案很常见： 为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄， 小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。 通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。  这样的做法有几个问题：  需要额外一个Camera，需要完整走Cam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过CommandBuffer绘制小地图">
 <meta property="og:url" content="https://nicoier.github.io/2025/08/07/%E9%80%9A%E8%BF%87CommandBuffer%E7%BB%98%E5%88%B6%E5%B0%8F%E5%9C%B0%E5%9B%BE/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="最近在做小地图的优化方案， 原先的方案很常见： 为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄， 小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。 通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。 这样的做法有几个问题：  需要额外一个Camera，需要完整走Came">
+<meta property="og:description" content="最近在做小地图的优化方案， 原先的方案很常见： 为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄， 小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。 通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。  这样的做法有几个问题：  需要额外一个Camera，需要完整走Cam">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/command-buffer-minimap-flow.svg">
 <meta property="article:published_time" content="2025-08-07T03:10:40.000Z">
-<meta property="article:modified_time" content="2026-07-08T03:26:53.153Z">
+<meta property="article:modified_time" content="2026-07-08T09:22:51.654Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="游戏开发">
@@ -33,6 +34,7 @@
 <meta property="article:tag" content="小地图">
 <meta property="article:tag" content="Mask">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/command-buffer-minimap-flow.svg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -310,7 +312,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 上午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -322,6 +324,7 @@
 <p>为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄，</p>
 <p>小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。</p>
 <p>通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。</p>
+<p><img src="/../img/command-buffer-minimap-flow.svg" srcset="/img/loading.gif" lazyload alt="CommandBuffer 小地图流程"></p>
 <p>这样的做法有几个问题：</p>
 <ul>
 <li>需要额外一个Camera，需要完整走Camera的渲染流程，有一些流程无法跳过，比如剔除、渲染排序等，这些都会影响性能</li>

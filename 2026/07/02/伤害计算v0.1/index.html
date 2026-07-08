@@ -23,13 +23,15 @@
 <meta property="og:site_name" content="NicoIer">
 <meta property="og:description" content="记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/damage-calculation-pipeline.svg">
 <meta property="article:published_time" content="2026-07-02T08:37:37.000Z">
-<meta property="article:modified_time" content="2026-07-08T08:43:46.341Z">
+<meta property="article:modified_time" content="2026-07-08T09:22:51.758Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="游戏开发">
 <meta property="article:tag" content="战斗系统">
 <meta property="article:tag" content="伤害计算">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/damage-calculation-pipeline.svg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -337,8 +339,7 @@ final\_damage &= raw\_damage
 $$
 
 
-
-
+<p><img src="/../img/damage-calculation-pipeline.svg" srcset="/img/loading.gif" lazyload alt="伤害计算流程"></p>
 <h2 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h2><p>除 <code>final_damage</code> 外的属性都是由 <code>(base_value + offset) * (1 + multiplier)</code> 计算出的</p>
 <table>
 <thead>

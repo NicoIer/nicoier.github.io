@@ -10,15 +10,31 @@
   <link href="https://nicoier.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, NicoIer</rights>
   <title>NicoIer</title>
-  <updated>2026-07-08T09:14:14.013Z</updated>
+  <updated>2026-07-08T09:48:21.724Z</updated>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="BattlePlayable" scheme="https://nicoier.github.io/tags/BattlePlayable/"/>
+    <category term="战斗系统" scheme="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/"/>
+    <id>https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/</id>
+    <link href="https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/"/>
+    <published>2026-07-08T09:35:00.000Z</published>
+    <summary>记录 BattlePlayable 的数据结构、编辑器配置流程、保存加载、运行时播放、服务器对时和扩展 Clip 的流程。</summary>
+    <title>BattlePlayable战斗时间轴</title>
+    <updated>2026-07-08T09:48:21.724Z</updated>
+  </entry>
   <entry>
     <author>
       <name>NicoIer</name>
     </author>
     <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
-    <category term="ECS" scheme="https://nicoier.github.io/tags/ECS/"/>
     <category term="战斗系统" scheme="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/"/>
+    <category term="ECS" scheme="https://nicoier.github.io/tags/ECS/"/>
     <category term="Buff" scheme="https://nicoier.github.io/tags/Buff/"/>
     <id>https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/</id>
     <link href="https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/"/>
@@ -90,7 +106,7 @@
     <published>2026-07-02T08:37:37.000Z</published>
     <summary>记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。</summary>
     <title>伤害计算v0.1</title>
-    <updated>2026-07-08T08:43:46.341Z</updated>
+    <updated>2026-07-08T09:22:51.758Z</updated>
   </entry>
   <entry>
     <author>
@@ -461,29 +477,5 @@
     </summary>
     <title>2026-06-23 从三个角度分析京东方A000725</title>
     <updated>2026-07-08T08:44:40.001Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="交易" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/"/>
-    <category term="基金" scheme="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/"/>
-    <id>https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/</id>
-    <link href="https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/"/>
-    <published>2026-06-23T06:18:00.000Z</published>
-    <summary>
-      <![CDATA[<p>趋势投资的核心不是预测资产便宜不便宜，而是判断价格是否已经进入一个可以跟随的方向。</p>
-<p>所以在选择标的时，第一问题不是“哪个收益最高”，而是：</p>
-<ol>
-<li>它能不能代表我想跟随的趋势？</li>
-<li>它的波动和回撤我能不能承受？</li>
-<li>它的交易成本、流动性、费用会不会吃掉趋势收益？</li>
-<li>它是否足够透]]>
-    </summary>
-    <title>趋势投资应该选 ETF、单股还是基金</title>
-    <updated>2026-07-08T08:45:04.038Z</updated>
   </entry>
 </feed>

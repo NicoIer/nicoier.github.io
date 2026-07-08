@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Offscreen Rendering Flow</title>
+  <desc id="desc">A diagram showing offscreen rendering flow from camera or command buffer to render texture, then sampling in UI or later passes.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .rt { fill: #eff6ff; stroke: #3b82f6; }
+      .use { fill: #f0fdf4; stroke: #22c55e; }
+      .cost { fill: #fff7ed; stroke: #fb923c; }
+      .label { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .small { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 600 13px "SFMono-Regular", Consolas, monospace; fill: #1f2937; }
+      .arrow { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="700" />
+  <text class="title" x="56" y="58">离屏渲染基本流程</text>
+  <text class="subtitle" x="56" y="88">不是画到屏幕，而是先画到 RenderTexture，再在后续 Pass 或 UI 中采样。</text>
+
+  <rect class="box" x="72" y="210" width="210" height="120" />
+  <text class="label" x="120" y="250">输入内容</text>
+  <text class="text" x="104" y="280">场景 / 模型 / UI</text>
+  <text class="text" x="104" y="304">相机或 CommandBuffer</text>
+
+  <rect class="box rt" x="370" y="180" width="300" height="180" />
+  <text class="label" x="442" y="220">RenderTexture</text>
+  <text class="text" x="410" y="252">Color Buffer</text>
+  <text class="text" x="410" y="278">可选 Depth Buffer</text>
+  <text class="text" x="410" y="304">格式、HDR、分辨率</text>
+  <text class="mono" x="410" y="330">targetTexture / temporary RT</text>
+
+  <rect class="box use" x="758" y="210" width="210" height="120" />
+  <text class="label" x="804" y="250">后续使用</text>
+  <text class="text" x="792" y="280">UI RawImage</text>
+  <text class="text" x="792" y="304">后处理 / 反射 / Portal</text>
+
+  <rect class="box" x="1030" y="210" width="120" height="120" />
+  <text class="label" x="1066" y="250">屏幕</text>
+  <text class="text" x="1054" y="280">最终合成</text>
+
+  <path class="arrow" d="M282 270 L370 270" />
+  <path class="arrow" d="M670 270 L758 270" />
+  <path class="arrow" d="M968 270 L1030 270" />
+
+  <rect class="box cost" x="192" y="460" width="816" height="126" />
+  <text class="label" x="228" y="498">主要代价</text>
+  <text class="text" x="228" y="530">多一次渲染流程、多一张 RT、更多显存和带宽、移动端 RenderTarget 切换成本。</text>
+  <text class="text" x="228" y="558">所以 RT 分辨率、格式、DepthBuffer、生命周期都要明确，不要默认全分辨率。</text>
+</svg>

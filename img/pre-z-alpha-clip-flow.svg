@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Pre-Z AlphaClip Flow</title>
+  <desc id="desc">A comparison between normal AlphaClip rendering and Pre-Z plus ZTest Equal rendering.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .bad { fill: #fff1f2; stroke: #fb7185; }
+      .good { fill: #ecfdf5; stroke: #10b981; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.6; rx: 10; }
+      .depth { fill: #dbeafe; stroke: #60a5fa; }
+      .frag { fill: #fee2e2; stroke: #f87171; }
+      .pass { fill: #dcfce7; stroke: #4ade80; }
+      .label { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .small { font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 600 14px "SFMono-Regular", Consolas, monospace; fill: #1e293b; }
+      .arrow { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="720" />
+  <text class="title" x="56" y="58">AlphaClip 和 Pre-Z 的差异</text>
+  <text class="subtitle" x="56" y="88">AlphaClip 会丢弃像素，但片元阶段之前的开销已经发生。Pre-Z 先写深度，再用 ZTest Equal 过滤。</text>
+
+  <rect class="panel bad" x="56" y="140" width="510" height="500" />
+  <text class="label" x="92" y="184">普通 AlphaClip</text>
+  <text class="text" x="92" y="214">透明区域仍然可能进入片元阶段，最后才 discard。</text>
+
+  <rect class="box" x="92" y="260" width="180" height="68" />
+  <text class="small" x="124" y="289">几何提交</text>
+  <text class="text" x="112" y="312">重叠叶片 / 草丛</text>
+
+  <rect class="box frag" x="328" y="260" width="180" height="68" />
+  <text class="small" x="358" y="289">片元着色</text>
+  <text class="text" x="352" y="312">大量 OverDraw</text>
+
+  <rect class="box" x="210" y="392" width="180" height="68" />
+  <text class="small" x="240" y="421">AlphaClip</text>
+  <text class="text" x="234" y="444">透明像素 discard</text>
+
+  <path class="arrow" d="M272 294 L328 294" />
+  <path class="arrow" d="M418 328 C418 366 372 386 330 392" />
+  <text class="text" x="132" y="540">问题：</text>
+  <text class="text" x="132" y="568">透明像素虽然被丢弃，但已经消耗片元阶段资源。</text>
+
+  <rect class="panel good" x="634" y="140" width="510" height="500" />
+  <text class="label" x="670" y="184">Pre-Z + ZTest Equal</text>
+  <text class="text" x="670" y="214">先写一遍深度，再让正式 Pass 只绘制深度相等的像素。</text>
+
+  <rect class="box depth" x="670" y="252" width="180" height="74" />
+  <text class="small" x="706" y="282">Pre-Z Pass</text>
+  <text class="text" x="700" y="306">只写 Depth</text>
+
+  <rect class="box pass" x="918" y="252" width="180" height="74" />
+  <text class="small" x="948" y="282">AlphaClip Pass</text>
+  <text class="mono" x="958" y="306">ZTest Equal</text>
+
+  <rect class="box" x="794" y="392" width="180" height="74" />
+  <text class="small" x="832" y="422">片元阶段</text>
+  <text class="text" x="826" y="446">只处理可见像素</text>
+
+  <path class="arrow" d="M850 289 L918 289" />
+  <path class="arrow" d="M1008 326 C1008 364 960 386 918 392" />
+  <text class="text" x="710" y="540">代价：</text>
+  <text class="text" x="710" y="568">多一次绘制。适合片元开销明显大于顶点开销的场景。</text>
+</svg>

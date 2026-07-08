@@ -1,0 +1,1105 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录 BattlePlayable 的数据结构、编辑器配置流程、保存加载、运行时播放、服务器对时和扩展 Clip 的流程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BattlePlayable战斗时间轴">
+<meta property="og:url" content="https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="记录 BattlePlayable 的数据结构、编辑器配置流程、保存加载、运行时播放、服务器对时和扩展 Clip 的流程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/battleplayable-runtime-flow.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/battleplayable-preview-scene.png">
+<meta property="og:image" content="https://nicoier.github.io/img/battleplayable-data-editor.png">
+<meta property="og:image" content="https://nicoier.github.io/img/battleplayable-data-structure.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/battleplayable-json-conflict-restore.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/battleplayable-track-lifecycle.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/battleplayable-server-sync.svg">
+<meta property="article:published_time" content="2026-07-08T09:35:00.000Z">
+<meta property="article:modified_time" content="2026-07-08T09:48:21.724Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="CSharp">
+<meta property="article:tag" content="BattlePlayable">
+<meta property="article:tag" content="战斗系统">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/battleplayable-runtime-flow.svg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>BattlePlayable战斗时间轴 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BattlePlayable战斗时间轴"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-08 17:35" pubdate>
+          2026年7月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">BattlePlayable战斗时间轴</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年7月8日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="BattlePlayable-战斗时间轴"><a href="#BattlePlayable-战斗时间轴" class="headerlink" title="BattlePlayable 战斗时间轴"></a>BattlePlayable 战斗时间轴</h1><p>这里记录一下 <code>BattlePlayable</code>。</p>
+<p>先说结论：<code>BattlePlayable</code> 是一套战斗时间轴工具。</p>
+<p>它解决的问题不是战斗公式怎么写，而是把一次攻击、技能或者战斗表现拆成可以编辑、保存、预览、回放的数据。</p>
+<p>核心链路是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">Editor Track/Clip<br>  -&gt; BattleDataConverter.Export<br>  -&gt; BattleData<br>  -&gt; MemoryPack bytes<br>  -&gt; BattlePlayer<br>  -&gt; TrackPlayer.Tick<br>  -&gt; BattleMessageCenter<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，编辑器里看到的是时间轴，保存后得到的是 <code>BattleData</code>，运行时只关心 <code>BattleData</code> 和一组 <code>TrackPlayer</code>。</p>
+<p><img src="/../img/battleplayable-runtime-flow.svg" srcset="/img/loading.gif" lazyload alt="BattlePlayable 数据流向"></p>
+<p><img src="/../img/battleplayable-preview-scene.png" srcset="/img/loading.gif" lazyload alt="BattlePlayable 预览场景"></p>
+<p>上图是预览场景。编辑器会打开一个独立的 <code>PreviewSceneStage</code>，把预览场景和角色模型放进去，然后在拖动时间轴或者点击播放时采样各条 Track。</p>
+<p><img src="/../img/battleplayable-data-editor.png" srcset="/img/loading.gif" lazyload alt="Battle Data Editor 时间轴"></p>
+<p>上图是 <code>Battle Data Editor</code>。</p>
+<p>左边是 Track，右边是 Clip。比如 Transition、Audio、Event、GameObject 都是独立轨道。每个 Clip 只描述自己在时间轴上的位置和参数。</p>
+<h2 id="BattleData"><a href="#BattleData" class="headerlink" title="BattleData"></a>BattleData</h2><p><code>BattleData</code> 是最终保存的运行时数据，使用 <code>MemoryPack</code> 序列化。</p>
+<p>顶层结构大概是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">BattleData<br>  - fileName<br>  - frameRate<br>  - transitionTracks<br>  - triggerTracks<br>  - eventTracks<br>  - damageTracks<br>  - audioTracks<br>  - gameObjectTracks<br>  - commonDataTracks<br>  - sceneConstructTracks<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../img/battleplayable-data-structure.svg" srcset="/img/loading.gif" lazyload alt="BattleData 结构"></p>
+<p>这里没有用一个统一的 <code>List&lt;BaseTrackData&gt;</code>。</p>
+<p>每种 Track 都有自己的 List。好处是运行时处理比较直接，不需要反复判断基类类型。代价是每新增一种 Track 或 Clip，都要补齐数据结构、编辑器转换和播放器处理。</p>
+<p>比较关键的 Track：</p>
+<table>
+<thead>
+<tr>
+<th>Track</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TransitionTrackData</code></td>
+<td>播放角色动画，或者指定目标 GameObject 的动画</td>
+</tr>
+<tr>
+<td><code>TriggerTrackData</code></td>
+<td>描述命中范围，比如 Box、Sphere、Pie、SequenceBox、TriggerOwner</td>
+</tr>
+<tr>
+<td><code>DamageTrackData</code></td>
+<td>描述伤害、蓄力伤害、传统 Buff、ECS Buff、受击镜头效果</td>
+</tr>
+<tr>
+<td><code>EventTrackData</code></td>
+<td>按帧触发一次事件</td>
+</tr>
+<tr>
+<td><code>AudioTrackData</code></td>
+<td>播放音效、受击音效、FMOD 全局参数</td>
+</tr>
+<tr>
+<td><code>GameObjectTrackData</code></td>
+<td>生成和销毁 GameObject</td>
+</tr>
+<tr>
+<td><code>CommonDataTrackData</code></td>
+<td>放通用事件数据、通用 Buff 数据、通用 ECS Buff 数据</td>
+</tr>
+<tr>
+<td><code>SceneConstructTrackData</code></td>
+<td>服务器侧用的场景构造动画数据</td>
+</tr>
+</tbody></table>
+<p>每个 TrackData 里还有一个 <code>editorIndex</code>。</p>
+<p>这个字段主要给编辑器用。因为保存后 Track 被分到了不同 List 里，重新导入编辑器时需要按 <code>editorIndex</code> 把用户原来的轨道顺序还原。</p>
+<h2 id="Clip-的时间"><a href="#Clip-的时间" class="headerlink" title="Clip 的时间"></a>Clip 的时间</h2><p>大部分 Clip 是 <code>startTime + duration</code>。</p>
+<p>比如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">startTime = 2.0<br>duration = 1.5<br>endTime = 3.5<br></code></pre></td></tr></table></figure>
+
+<p>这类 Clip 会有进入、更新、退出三个阶段。</p>
+<p>还有一些 Clip 是按帧触发一次：</p>
+<ul>
+<li><code>EventClipData</code></li>
+<li><code>SpawnGameObjectClipData</code></li>
+</ul>
+<p>它们记录的是 <code>frame</code>，运行时通过 <code>frame / frameRate</code> 转成秒。</p>
+<p>所以这套系统里同时有两种时间表达：</p>
+<ul>
+<li>表现持续一段时间的东西，用秒和持续时间。</li>
+<li>只触发一次的东西，用帧。</li>
+</ul>
+<p>编辑器里可以切换秒和帧显示。<code>frameRate</code> 默认是 30，也会保存到 <code>BattleData</code> 里。</p>
+<h2 id="编辑器配置流程"><a href="#编辑器配置流程" class="headerlink" title="编辑器配置流程"></a>编辑器配置流程</h2><p>入口是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Tools/Battle Data Editor<br></code></pre></td></tr></table></figure>
+
+<p>基本流程是：</p>
+<ol>
+<li>选择预览场景。</li>
+<li>选择角色模型。</li>
+<li>在时间轴里添加 Track。</li>
+<li>在 Track 里拖资源或者右键添加 Clip。</li>
+<li>调整 Clip 的开始时间、持续时间和参数。</li>
+<li>打开预览，在 Scene 里看效果。</li>
+<li>保存为 <code>.bytes</code>。</li>
+</ol>
+<p>添加轨道不是手写菜单列表，而是通过 <code>BattleTrackRegistry</code> 反射所有非抽象 <code>BattleTrack</code> 子类，再构建“添加轨道”菜单。</p>
+<p>Clip 的 Inspector 不是直接编辑运行时数据。</p>
+<p>编辑器里每种 Track 都有自己的编辑器 Clip 类型。比如 <code>TransitionAssetClip</code>、<code>BoxClip</code>、<code>DamageClip</code>、<code>AudioClip</code>。保存时再由 <code>BattleDataConverter</code> 转成运行时的 <code>TransitionClipData</code>、<code>BoxTriggerClipData</code>、<code>DamageClipData</code>、<code>AudioClipData</code>。</p>
+<p>这样做比较啰嗦，但边界清楚：</p>
+<ul>
+<li>编辑器 Clip 可以引用 Unity 资源。</li>
+<li>运行时 Clip 只保存路径、GUID、枚举、数值、烘焙数据。</li>
+</ul>
+<h2 id="预览流程"><a href="#预览流程" class="headerlink" title="预览流程"></a>预览流程</h2><p>预览由 <code>BattlePreviewStage</code> 负责。</p>
+<p>它做了几件事：</p>
+<ul>
+<li>打开一个 <code>PreviewSceneStage</code>。</li>
+<li>加载 <code>BattleEditor.unity</code> 作为预览场景。</li>
+<li>实例化角色 prefab。</li>
+<li>查找或者补一个 <code>AnimancerComponent</code>。</li>
+<li>时间轴播放时调用每条 <code>BattleTrack.SampleAtTime</code>。</li>
+</ul>
+<p>也就是说，编辑器预览不是直接跑运行时 <code>BattlePlayer</code>。</p>
+<p>它是编辑器侧采样。这样方便拖动时间轴时立即看到动画、特效、GameObject 等效果。</p>
+<p>最终保存时，编辑器数据再通过 <code>BattleDataConverter.Export</code> 变成运行时数据。</p>
+<h2 id="保存和加载"><a href="#保存和加载" class="headerlink" title="保存和加载"></a>保存和加载</h2><p>保存时主要做三件事：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">BattleDataConverter.Export(_state.Tracks)<br>  -&gt; data.fileName = BattleDataName<br>  -&gt; data.frameRate = _state.FrameRate<br>  -&gt; MemoryPackSerializer.Serialize(data)<br></code></pre></td></tr></table></figure>
+
+<p>然后写到几个目录：</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Assets/BundleResources/Character/battle/</code></td>
+<td>客户端默认保存目录</td>
+</tr>
+<tr>
+<td><code>../Configs/generated/character/battle/</code></td>
+<td>生成配置目录</td>
+</tr>
+<tr>
+<td><code>Config/generated/battle/</code></td>
+<td>当前工程内的配置目录</td>
+</tr>
+<tr>
+<td><code>Config/generated/battle/backup/</code></td>
+<td>JSON 备份目录</td>
+</tr>
+</tbody></table>
+<p><code>bytes</code> 是给运行时用的。</p>
+<p><code>json</code> 备份主要是为了恢复和排查。恢复备份时会把 JSON 重新导入编辑器，再导出成 <code>MemoryPack bytes</code>。</p>
+<p><code>SceneConstructTrack</code> 还多一步。</p>
+<p>它会把 Unity 的 <code>AnimationClip</code> 烘焙成 <code>BattlePlayable.AnimationClip</code>，并写到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Config/generated/anim<br></code></pre></td></tr></table></figure>
+
+<p>服务器侧没有 Unity 场景和 Transform，所以这里会把动画曲线烘焙成运行时可以采样的数据。</p>
+<p><img src="/../img/battleplayable-json-conflict-restore.svg" srcset="/img/loading.gif" lazyload alt="BattlePlayable JSON 冲突恢复"></p>
+<h2 id="Git-协作"><a href="#Git-协作" class="headerlink" title="Git 协作"></a>Git 协作</h2><p><code>BattleData</code> 最终产物是 <code>.bytes</code>，这个文件适合运行时加载，不适合 Git 冲突处理。</p>
+<p>所以编辑器保存时会额外写一份 JSON 备份：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Config/generated/battle/backup/*.json<br></code></pre></td></tr></table></figure>
+
+<p>多人协作时，如果同一个战斗数据有冲突，比较合理的处理方式是：</p>
+<ol>
+<li>先解决 JSON 冲突。</li>
+<li>确认 Track、Clip、时间、资源路径都符合预期。</li>
+<li>在编辑器里执行“恢复备份数据”。</li>
+<li>工具会读取 JSON，反序列化成 <code>BattleData</code>。</li>
+<li>再走一遍 <code>BattleDataConverter.Import -&gt; Export</code>。</li>
+<li>最后重新写出 <code>MemoryPack bytes</code>。</li>
+</ol>
+<p>这一步不是简单把 JSON 转 bytes。</p>
+<p>它会重新跑编辑器导入导出流程。比如 <code>SceneConstructTrack</code> 会重新烘焙动画，再写 <code>Config/generated/anim</code> 和 <code>Config/generated/battle</code>。</p>
+<p>注意不要只修 JSON，不重新生成 bytes。否则本地看 JSON 是对的，运行时加载的还是旧二进制。</p>
+<h2 id="运行时播放"><a href="#运行时播放" class="headerlink" title="运行时播放"></a>运行时播放</h2><p>运行时入口是 <code>BattlePlayer</code>。</p>
+<p><code>Play</code> 时会把 <code>BattleData</code> 里的各类 Track 分配给对应的 <code>TrackPlayer</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">TransitionTrackPlayer<br>DamageTrackPlayer<br>EventTrackPlayer<br>CommonDataTrackPlayer<br>SceneConstructTrackPlayer<br>TriggerTrackPlayer<br>AudioTrackPlayer<br>GameObjectTrackPlayer<br></code></pre></td></tr></table></figure>
+
+<p>然后计算整段时间轴长度。</p>
+<p><code>Tick</code> 时做的事情很简单：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">time += deltaTime<br><br>for player in players:<br>    player.Tick(time, prevTime, messageCenter)<br></code></pre></td></tr></table></figure>
+
+<p>每个具体的 <code>TrackPlayer</code> 只负责自己的 Track。</p>
+<p>例如 <code>DamageTrackPlayer</code> 会遍历：</p>
+<ul>
+<li><code>DamageClipData</code></li>
+<li><code>ChargeDamageClipData</code></li>
+<li><code>BuffClipData</code></li>
+<li><code>ECSBuffClipData</code></li>
+<li><code>HitCameraEffectClipData</code></li>
+</ul>
+<p><code>TriggerTrackPlayer</code> 会遍历：</p>
+<ul>
+<li><code>BoxTriggerClipData</code></li>
+<li><code>SequenceBoxTriggerClipData</code></li>
+<li><code>SphereTriggerClipData</code></li>
+<li><code>PieTriggerClipData</code></li>
+<li><code>TriggerOwnerClipData</code></li>
+</ul>
+<p>真正的生命周期逻辑在 <code>TrackPlayer.ProcessDurationClip</code> 里。</p>
+<p><img src="/../img/battleplayable-track-lifecycle.svg" srcset="/img/loading.gif" lazyload alt="TrackPlayer 生命周期"></p>
+<p>大概逻辑是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">如果当前时间在 Clip 区间内：<br>  如果 Clip 之前不活跃，FireEnter<br>  FireUpdate<br><br>如果当前时间离开 Clip 区间：<br>  如果 Clip 之前活跃，FireExit<br><br>如果一次 Tick 直接跨过整个 Clip：<br>  FireEnter<br>  FireUpdate(1)<br>  FireExit<br></code></pre></td></tr></table></figure>
+
+<p>所以具体业务代码不需要自己判断 Clip 是否刚进入或者刚退出。它只要注册消息即可。</p>
+<h2 id="MessageCenter"><a href="#MessageCenter" class="headerlink" title="MessageCenter"></a>MessageCenter</h2><p><code>BattleMessageCenter</code> 是运行时的派发中心。</p>
+<p>它的 key 是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">(TrackType, ClipType)<br></code></pre></td></tr></table></figure>
+
+<p>注册时写法类似：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp">messageCenter.Register&lt;DamageTrackData, DamageClipData&gt;(<br>    onEnter: OnDamageEnter,<br>    onUpdate: OnDamageUpdate,<br>    onExit: OnDamageExit);<br></code></pre></td></tr></table></figure>
+
+<p><code>TrackPlayer</code> 只负责发：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">FireEnter(track, clip)<br>FireUpdate(track, clip, normalizedTime)<br>FireExit(track, clip)<br></code></pre></td></tr></table></figure>
+
+<p>这样运行时播放框架和具体战斗逻辑是分开的。</p>
+<p><code>BattlePlayable</code> 不需要知道“命中后怎么算伤害”，它只需要告诉外部：某条 Track 上某个 Clip 进入了、更新了、退出了。</p>
+<h2 id="客户端接入"><a href="#客户端接入" class="headerlink" title="客户端接入"></a>客户端接入</h2><p>客户端侧主要是 <code>BattleAttackView</code> 在消费 <code>BattlePlayable</code>。</p>
+<p>它启动时会：</p>
+<ol>
+<li>根据 <code>Data.FileName</code> 找到 <code>.bytes</code>。</li>
+<li>用 <code>MemoryPackSerializer.Deserialize&lt;BattleData&gt;</code> 反序列化。</li>
+<li>调用 <code>battlePlayer.Play(battleData)</code>。</li>
+<li>注册各类 <code>BattleMessageCenter</code> 回调。</li>
+</ol>
+<p>当前接入的消息包括：</p>
+<ul>
+<li><code>GameObjectTrackData + SpawnAndDespawnGameObjectClipData</code></li>
+<li><code>AudioTrackData + AudioClipData</code></li>
+<li><code>AudioTrackData + HitAudioDataClipData</code></li>
+<li><code>AudioTrackData + FmodGlobalParameterClipData</code></li>
+<li><code>DamageTrackData + HitCameraEffectClipData</code></li>
+<li><code>TriggerTrackData + BoxTriggerClipData</code></li>
+<li><code>CommonDataTrackData + CommonDataClipData</code></li>
+<li><code>CommonDataTrackData + CommonBuffDataClipData</code></li>
+<li><code>EventTrackData + EventClipData</code></li>
+<li><code>TransitionTrackData + TransitionClipData</code></li>
+</ul>
+<p>所以 <code>BattlePlayable</code> 只提供时间轴事件。</p>
+<p>真正的客户端表现，比如生成特效、播放 FMOD、BoxTrigger 检测、怪物动画播放，都在 <code>BattleAttackView</code> 这一层处理。</p>
+<h2 id="服务器对时和快进"><a href="#服务器对时和快进" class="headerlink" title="服务器对时和快进"></a>服务器对时和快进</h2><p>客户端播放不是只靠本地 <code>dt</code>。</p>
+<p><code>BattleAttackView.OnUpdate</code> 每帧会先同步服务器侧状态：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">SyncLastPlayTimestamp()<br>TickReplaySync()<br>TickJumpSync()<br></code></pre></td></tr></table></figure>
+
+<p>然后才根据模式推进 <code>BattlePlayer</code>。</p>
+<p><img src="/../img/battleplayable-server-sync.svg" srcset="/img/loading.gif" lazyload alt="BattlePlayable 服务器对时"></p>
+<p>普通模式下，对时逻辑是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">playTimestamp = Data.LastPlayTimeStamp<br>serverNow = TimeUtil.GetBattleServerTimestampMs()<br>targetTime = (serverNow - playTimestamp) / 1000<br>deltaSeconds = targetTime - battlePlayer.time<br></code></pre></td></tr></table></figure>
+
+<p>如果 <code>deltaSeconds &gt; 0</code>，就快进 <code>BattlePlayer</code>。</p>
+<p>快进不是一次性 Tick 一个很大的 delta，而是按 <code>frameRate</code> 拆成小步：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">tickStep = 1 / battlePlayer.frameRate<br>while deltaSeconds &gt; 0:<br>    battlePlayer.Tick(min(tickStep, deltaSeconds))<br>    TickBoxTriggers(tickDelta)<br></code></pre></td></tr></table></figure>
+
+<p>这样做是为了避免一下子跨过太多 Trigger 检测。</p>
+<p><code>GameLogicConnection.OnServerTimeSynced</code> 会把服务器时间写到 <code>TimeUtil.SetBattleServerTimestamp</code>。所以这里拿到的 <code>GetBattleServerTimestampMs</code> 是已经校准过的战斗服务器时间。</p>
+<h2 id="ManualTick"><a href="#ManualTick" class="headerlink" title="ManualTick"></a>ManualTick</h2><p>还有一种模式是 <code>Data.ManualTick</code>。</p>
+<p>这种模式不通过 <code>LastPlayTimeStamp</code> 推算播放时间，而是直接跟服务器下发的 <code>Data.CurrentTime</code>。</p>
+<p>逻辑大概是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">targetTime = Data.CurrentTime<br>deltaTime = targetTime - battlePlayer.time<br>battlePlayer.Tick(deltaTime)<br></code></pre></td></tr></table></figure>
+
+<p>如果 <code>targetTime &lt; battlePlayer.time</code>，说明服务器时间回退了。</p>
+<p>这时客户端会先 <code>ReplayBattlePlayer()</code>，把播放器重置，再从头 Tick 到目标时间。</p>
+<p>所以普通模式更像“用服务器时间戳算现在应该播到哪里”，<code>ManualTick</code> 更像“服务器直接指定当前播放时间”。</p>
+<h2 id="Replay-和-Jump"><a href="#Replay-和-Jump" class="headerlink" title="Replay 和 Jump"></a>Replay 和 Jump</h2><p>服务器会通过两个结构控制客户端播放：</p>
+<ul>
+<li><code>ReplayInfo.InvokeTimestamp</code></li>
+<li><code>JumpInfo.InvokeTimestamp</code></li>
+</ul>
+<p>客户端会记录 <code>_appliedReplayTimestamp</code> 和 <code>_appliedJumpTimestamp</code>，同一个 invoke timestamp 只处理一次。</p>
+<p><code>Replay</code> 很直接：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">ReplayBattlePlayer()<br>_blockedAtSkipPoint = false<br></code></pre></td></tr></table></figure>
+
+<p><code>Jump</code> 有两种情况：</p>
+<ul>
+<li><code>JumpStartTime == JumpTargetTime</code>：只解除阻塞，不真的跳。</li>
+<li>否则调用 <code>battlePlayer.Jump(JumpTargetTime)</code>。</li>
+</ul>
+<p>这里还有一个细节：客户端在执行服务器 Jump 时会设置 <code>_isApplyingServerJump</code>。</p>
+<p>因为 Jump 过程中可能重新采样到 <code>EventClipType.跳过判断点</code>。如果不区分“服务器正在 Jump”，客户端可能又把自己阻塞住。</p>
+<h2 id="跳过判断点"><a href="#跳过判断点" class="headerlink" title="跳过判断点"></a>跳过判断点</h2><p><code>EventTrack</code> 里有一些特殊事件，比如：</p>
+<ul>
+<li><code>EventClipType.跳过判断点</code></li>
+<li><code>EventClipType.从头循环播放</code></li>
+</ul>
+<p>客户端播放到这些事件时，会设置：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">_blockedAtSkipPoint = true<br></code></pre></td></tr></table></figure>
+
+<p>之后本地普通 Tick 会暂停推进，等待服务器推送 <code>Replay</code> 或 <code>Jump</code>。</p>
+<p>这个逻辑的目的很直接：遇到需要服务器判定的分支时，本地表现先停住，不要自己继续往后播。</p>
+<h2 id="焦点变化"><a href="#焦点变化" class="headerlink" title="焦点变化"></a>焦点变化</h2><p><code>MagicMirrorBattleAttackView</code> 监听了：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">CoreEvent.ApplicationFocusChanged<br></code></pre></td></tr></table></figure>
+
+<p>当 Unity 重新获得焦点时，会调用：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">FastForwardOnApplicationFocus()<br></code></pre></td></tr></table></figure>
+
+<p>普通模式下，它会：</p>
+<ol>
+<li>先同步 <code>LastPlayTimeStamp</code>、<code>ReplayInfo</code>、<code>JumpInfo</code>。</li>
+<li>再 <code>FastForwardToBattleServerTime()</code>。</li>
+<li>设置 <code>_skipNextUpdateTickAfterFocus = true</code>。</li>
+</ol>
+<p>第三步是为了避免恢复焦点后的下一帧又按本地 <code>dt</code> 多 Tick 一次。</p>
+<p><code>ManualTick</code> 模式下则直接根据 <code>CurrentTime</code> 补 Tick，并同步 BoxTrigger。</p>
+<p>所以焦点恢复本质上不是“继续从暂停点播放”，而是“重新对齐服务器当前应该播到的时间”。</p>
+<h2 id="SceneConstruct"><a href="#SceneConstruct" class="headerlink" title="SceneConstruct"></a>SceneConstruct</h2><p><code>SceneConstruct</code> 是比较特殊的一条线。</p>
+<p>Unity 里可以直接找 Transform，但服务器没有真实场景。</p>
+<p>所以这里做了一棵概念上的节点树：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">BattleScene<br>  - BattleNode root<br>  - fullPath -&gt; BattleNode<br></code></pre></td></tr></table></figure>
+
+<p>每个节点保存：</p>
+<ul>
+<li><code>localPosition</code></li>
+<li><code>localRotation</code></li>
+<li><code>localScale</code></li>
+<li><code>worldPosition</code></li>
+<li><code>worldRotation</code></li>
+</ul>
+<p><code>AnimationClipSampler</code> 会把烘焙后的动画曲线采样出来，写到对应 <code>BattleNode</code> 的 local TRS 上，然后 <code>BattleScene.UpdateWorldTransforms</code> 从 root 开始更新世界坐标。</p>
+<p>说白了就是在服务器侧模拟一份轻量 Transform 树。</p>
+<p>它不负责渲染，只负责给命中范围、挂点、路径这类逻辑提供位置和旋转。</p>
+<h2 id="新增-Clip-的流程"><a href="#新增-Clip-的流程" class="headerlink" title="新增 Clip 的流程"></a>新增 Clip 的流程</h2><p>这套代码扩展一个 Clip 需要补的地方比较固定。</p>
+<p>以新增一个 <code>TriggerOwnerClip</code> 这类无额外参数的 Clip 为例：</p>
+<ol>
+<li>在 <code>BattleData.cs</code> 里新增运行时 <code>ClipData</code>。</li>
+<li>在对应 <code>TrackData</code> 里新增 List。</li>
+<li>在对应 <code>TrackPlayer</code> 里新增 active 集合，并调用 <code>ProcessDurationClip</code>。</li>
+<li>在编辑器 Track 文件里新增 Editor Clip 类型。</li>
+<li>在右键菜单或拖拽逻辑里支持创建它。</li>
+<li>在 <code>BattleDataConverter.Export</code> 里把 Editor Clip 转成 Runtime ClipData。</li>
+<li>在 <code>BattleDataConverter.Import</code> 里把 Runtime ClipData 还原成 Editor Clip。</li>
+<li>如果运行时需要业务效果，再注册对应的 <code>BattleMessageCenter</code> 回调。</li>
+</ol>
+<p>这里容易漏的是导入导出。</p>
+<p>只加编辑器 Clip，不加 <code>BattleDataConverter</code>，保存后就没有数据。</p>
+<p>只加 <code>BattleData</code>，不加编辑器 Clip，策划就没法配。</p>
+<p>只加 <code>TrackPlayer</code>，不注册消息，运行时会正常 Tick，但外部没有人处理。</p>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p><code>TrackPlayer</code> 的顺序不是纯展示问题。</p>
+<p>比如 Trigger 的业务回调如果要读取当前 active 的 Damage 或 Buff 数据，那么 <code>DamageTrackPlayer</code> 就需要在 <code>TriggerTrackPlayer</code> 前面 Tick。否则同一帧里 Trigger 已经触发，但 Damage&#x2F;Buff 还没进入 active 集合，就会读不到。</p>
+<p><code>EventClipData</code> 和 <code>SpawnGameObjectClipData</code> 是一次性触发，不是 duration clip。它们用 <code>frame</code>，不是 <code>startTime + duration</code>。</p>
+<p>编辑器预览和运行时播放是两套入口。预览走 <code>BattleTrack.SampleAtTime</code>，运行时走 <code>BattlePlayer.Tick</code>。</p>
+<p>运行时数据不要保存 Unity 对象引用。需要保存资源时，导出成 asset path、GUID、文件名或者烘焙后的数据。</p>
+<p><code>editorIndex</code> 看起来只是编辑器字段，但不要随便删。它负责导入后恢复轨道顺序。</p>
+<p>新增 Track 或 Clip 时，最好顺着“数据结构 -&gt; 编辑器 -&gt; Converter -&gt; TrackPlayer -&gt; MessageCenter 回调”这条链路检查一遍。</p>
+<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><ul>
+<li><code>Assets/Jinn/BattlePlayable/BattleData.cs</code></li>
+<li><code>Assets/Jinn/BattlePlayable/BattlePlayer.cs</code></li>
+<li><code>Assets/Jinn/BattlePlayable/TrackPlayer.cs</code></li>
+<li><code>Assets/Jinn/BattlePlayable/BattleMessageCenter.cs</code></li>
+<li><code>Assets/Jinn/BattlePlayable/Editor/BattleDataEditor.cs</code></li>
+<li><code>Assets/Jinn/BattlePlayable/Editor/BattleDataConverter.cs</code></li>
+<li><code>Assets/Jinn/BattlePlayable/Editor/BattlePreviewStage.cs</code></li>
+<li><code>Assets/Jinn/GamePlay/Runtime/BattlePlayable.Jinn/BattleAttackView.cs</code></li>
+<li><code>Assets/Jinn/GamePlay/Runtime/BattlePlayable.Jinn/MagicMirrorBattleAttackView.cs</code></li>
+<li><code>Assets/Jinn/RemoteDataCenter/Runtime/GameConnects/GameLogicConnection.cs</code></li>
+<li><code>Assets/Jinn/GamePlay/Runtime/Model/BattleAttackModelData.cs</code></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B/" class="category-chain-item">编程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Unity/" class="print-no-link">#Unity</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/BattlePlayable/" class="print-no-link">#BattlePlayable</a>
+      
+        <a href="/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/" class="print-no-link">#战斗系统</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BattlePlayable战斗时间轴</div>
+      <div>https://nicoier.github.io/2026/07/08/BattlePlayable战斗时间轴/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/" title="基于ECS的Buff系统">
+                        <span class="hidden-mobile">基于ECS的Buff系统</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'NicoIer/nicoier.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
