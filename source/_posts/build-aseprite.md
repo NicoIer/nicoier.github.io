@@ -1,7 +1,7 @@
 ---
 title: build-aseprite
 date: 2025-12-22 11:28:12
-tags: [aseprite, build, tutorial]
+tags: [aseprite, build, tutorial, 游戏开发]
 categories: [编程]
 ---
 
@@ -22,6 +22,5 @@ git submodule update --init --recursive
 
 
 构建完成后会出现一个 `build` 目录，里面包含了编译好的 Aseprite 可执行文件。
-
 
 

@@ -1,7 +1,7 @@
 ---
 title: 如何让Shader支持DOTS
 date: 2025-11-19 11:04:11
-tags: [Unity,DOTS,Shader,SRP Batch,GPU Instancing]
+tags: [Unity, DOTS, Shader, SRP Batch, GPU Instancing, 游戏开发]
 categories: [Unity]
 ---
 

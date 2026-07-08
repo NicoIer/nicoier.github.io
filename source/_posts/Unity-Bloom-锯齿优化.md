@@ -1,7 +1,7 @@
 ---
 title: Unity-Bloom-锯齿优化
 date: 2025-07-15 15:19:10
-tags: [ Unity, Shader,后处理, Bloom,锯齿 ]
+tags: [Unity, Shader, 后处理, Bloom, 锯齿, 游戏开发]
 categories: [Unity]
 ---
 

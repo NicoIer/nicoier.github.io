@@ -1,7 +1,7 @@
 ---
 title: Unity Shader
 date: 2024-06-17 18:48:35
-tags: [Unity, Shader, 图形学]
+tags: [Unity, Shader, 图形学, 游戏开发]
 categories: [Unity]
 ---
 
@@ -449,7 +449,6 @@ ZWrite On | Off
 在顶点着色器之后，片元着色器之前
 
 ![PipelineCullDepth](https://wudixiaop.github.io/images/Shader/11/PipelineCullDepth.png)
-
 
 
 

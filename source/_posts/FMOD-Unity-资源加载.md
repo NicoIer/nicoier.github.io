@@ -1,7 +1,7 @@
 ---
 title: FMOD Unity 资源加载
 date: 2025-07-07 14:39:49
-tags: [Unity, FMOD, 音频]
+tags: [Unity, FMOD, 音频, 游戏开发]
 categories: [Unity]
 ---
 
@@ -46,4 +46,3 @@ AssetBundle assetBundle = AssetBundle.LoadFromFile("path/to/assetbundle");
 TextAssetk textAsset = assetBundle.LoadAsset<TextAsset>("bank.bytes");
 FMODUnity.RuntimeManager.LoadBank(bank, true);
 ```
-

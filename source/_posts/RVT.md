@@ -1,7 +1,7 @@
 ---
 title: Runtime Virtual Texture
 date: 2024-08-30 17:12:52
-tags: [图形学]
+tags: [图形学, 游戏开发]
 categories: [图形学]
 ---
 
