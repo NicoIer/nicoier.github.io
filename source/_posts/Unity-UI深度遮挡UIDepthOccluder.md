@@ -5,6 +5,12 @@ tags: [Unity, URP, RenderGraph, UI, Shader, 深度, 游戏开发]
 categories: [Unity]
 ---
 
+https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluder.cs
+
+https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluderFeature.cs
+
+
+
 先说结论：这个方案适合优化大块不透明 UI 背后的 Opaque 场景绘制。
 
 它不是让 UI 参与场景渲染，也不是解决 UI 和场景物体的显示层级问题。它只是提前把 UI 覆盖区域写入深度，让后面的不透明物体在深度测试阶段被挡掉。
