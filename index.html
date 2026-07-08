@@ -248,6 +248,73 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/" target="_self">
+          基于ECS的Buff系统
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/" target="_self">
+        <div>
+          记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-07-08 16:30" pubdate>
+              2026-07-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B/" class="category-chain-item">编程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CSharp/">#CSharp</a>
+            
+              <a href="/tags/ECS/">#ECS</a>
+            
+              <a href="/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">#战斗系统</a>
+            
+              <a href="/tags/Buff/">#Buff</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2026/07/08/Unity-UI%E6%B7%B1%E5%BA%A6%E9%81%AE%E6%8C%A1UIDepthOccluder/" target="_self">
           Unity UI深度遮挡 UIDepthOccluder
         </a>
@@ -256,7 +323,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/07/08/Unity-UI%E6%B7%B1%E5%BA%A6%E9%81%AE%E6%8C%A1UIDepthOccluder/" target="_self">
         <div>
-          为什么需要 UI 深度遮挡正常情况下，UI 通常是在场景物体之后绘制的。 所以从最终画面看，UI 一定可以盖住场景物体。 问题不在显示结果，而在渲染过程。 UI 虽然最后会盖住画面，但它没有提前写入场景深度。 对 Opaque 阶段来说，这块 UI 还不存在，UI 背后的场景物体仍然会正常经过深度测试、光栅化和片元着色。 如果这块 UI 是完全不透明的，那么这些被 UI 覆盖的场景像素最终一定不可
+          https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluder.cs https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluderFeature.cs 先说结论：这个方案适合优化大块不透明 UI
         </div>
       </a>
 
@@ -538,7 +605,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/06/29/2026-06-29%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9ETF%E6%98%93%E6%96%B9%E8%BE%BE512070/" target="_self">
         <div>
-          这篇文章只从趋势交易角度分析证券保险ETF易方达，代码 SH512070，重点是当前趋势是否成立、哪里可以买、跌到哪里卖。 先说结论：512070 现在不是强趋势，而是弱修复。价格站在 20 日线之上，但还没有稳定站回 5 日、10 日和 60 日均线。趋势交易可以观察，但买点要等确认，不能把反弹当成趋势反转。 本文只做交易规则记录，不构成投资建议。 数据口径行情和日线数据来自东方财富行情接口，时
+          这篇文章只从趋势交易角度分析证券保险ETF易方达，代码 SH512070，重点是当前趋势是否成立、哪里可以买、跌到哪里卖。 先说结论：512070 现在不是强趋势，而是弱修复。价格站在 20 日线之上，但还没有稳定站回 5 日、10 日和 60 日均线。趋势交易可以观察，但买点要等确认，不能把反弹当成趋势反转。 本文只做交易规则记录，不构成投资建议。 阅读前提这篇文章保留的是写作当时的数据和判断，
         </div>
       </a>
 
@@ -607,7 +674,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/06/29/2026-06-29%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/" target="_self">
         <div>
-          这篇文章只从趋势交易角度分析半导体设备ETF易方达，代码 SZ159558，重点是今天能不能买、怎么买、跌到哪里卖。 先说结论：159558 仍然是强趋势，但今天盘中已经出现冲高回落。趋势交易可以继续跟踪，不适合无计划追高。更合理的买点是“收盘有效突破”或“回踩均线企稳”，卖点要提前写成规则。 本文只做交易规则记录，不构成投资建议。 数据口径行情和日线数据来自东方财富行情接口，时间为 2026 年
+          这篇文章只从趋势交易角度分析半导体设备ETF易方达，代码 SZ159558，重点是今天能不能买、怎么买、跌到哪里卖。 先说结论：159558 仍然是强趋势，但今天盘中已经出现冲高回落。趋势交易可以继续跟踪，不适合无计划追高。更合理的买点是“收盘有效突破”或“回踩均线企稳”，卖点要提前写成规则。 本文只做交易规则记录，不构成投资建议。 阅读前提这篇文章保留的是写作当时的数据和判断，不是实时行情。 使
         </div>
       </a>
 
@@ -676,7 +743,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/06/24/2026-06-24%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/" target="_self">
         <div>
-          这篇文章用三个框架分析半导体设备ETF易方达，代码 SZ159558：  价值投资：看跟踪指数、产业逻辑、持仓集中度、规模、费率和折溢价。 趋势交易：看价格方向、均线结构、突破和失效条件。 震荡交易：看区间、支撑压力、均值回归和止损。  ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、主题景气度、成份股结构、交易流动性和净值偏离。 本文只做研究记录，不构成投资建议。 数据口径基金基本信息、
+          这篇文章用三个框架分析半导体设备ETF易方达，代码 SZ159558：  价值投资：看跟踪指数、产业逻辑、持仓集中度、规模、费率和折溢价。 趋势交易：看价格方向、均线结构、突破和失效条件。 震荡交易：看区间、支撑压力、均值回归和止损。  ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、主题景气度、成份股结构、交易流动性和净值偏离。 本文只做研究记录，不构成投资建议。 阅读前提这篇文章保留的
         </div>
       </a>
 
@@ -749,7 +816,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/06/24/2026-06-24%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/" target="_self">
         <div>
-          这篇文章只讨论一个问题：如果现在按照趋势交易处理半导体设备ETF易方达，代码 SZ159558，应该遵守什么样的买入和卖出规则。 先说结论：159558 当前是强趋势，但已经非常接近短中期区间高位。趋势交易可以跟随，但不能无计划追高。更合理的方式是用“突破确认 + 回踩确认 + 移动止损”来处理。 本文只做交易规则记录，不构成投资建议。 数据口径行情和日线数据来自腾讯行情接口，时间为 2026 年
+          这篇文章只讨论一个问题：如果现在按照趋势交易处理半导体设备ETF易方达，代码 SZ159558，应该遵守什么样的买入和卖出规则。 先说结论：159558 当前是强趋势，但已经非常接近短中期区间高位。趋势交易可以跟随，但不能无计划追高。更合理的方式是用“突破确认 + 回踩确认 + 移动止损”来处理。 本文只做交易规则记录，不构成投资建议。 阅读前提这篇文章保留的是写作当时的数据和判断，不是实时行情。
         </div>
       </a>
 
@@ -796,9 +863,9 @@
             
               <a href="/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87/">#半导体设备</a>
             
-              <a href="/tags/%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99/">#交易规则</a>
-            
               <a href="/tags/%E5%9B%BD%E4%BA%A7%E6%9B%BF%E4%BB%A3/">#国产替代</a>
+            
+              <a href="/tags/%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99/">#交易规则</a>
             
           </div>
         
@@ -820,7 +887,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2ETF%E5%8D%8E%E6%B3%B0%E6%9F%8F%E7%91%9E512890/" target="_self">
         <div>
-          这篇文章用三个框架分析红利低波ETF华泰柏瑞，代码 SH512890：  价值投资：看跟踪指数、红利低波策略、持仓结构、规模、费率和折溢价。 趋势交易：看价格方向、均线结构、反弹和失效条件。 震荡交易：看区间、支撑压力、均值回归和止损。  ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、策略特征、成份股结构、交易流动性和净值偏离。 本文只做研究记录，不构成投资建议。 数据口径基金基本信息、
+          这篇文章用三个框架分析红利低波ETF华泰柏瑞，代码 SH512890：  价值投资：看跟踪指数、红利低波策略、持仓结构、规模、费率和折溢价。 趋势交易：看价格方向、均线结构、反弹和失效条件。 震荡交易：看区间、支撑压力、均值回归和止损。  ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、策略特征、成份股结构、交易流动性和净值偏离。 本文只做研究记录，不构成投资建议。 阅读前提这篇文章保留的
         </div>
       </a>
 
@@ -872,79 +939,6 @@
               <a href="/tags/%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2/">#红利低波</a>
             
               <a href="/tags/%E9%AB%98%E8%82%A1%E6%81%AF/">#高股息</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8ETF%E5%8D%97%E6%96%B9512900/" target="_self">
-          2026-06-23 从三个角度分析证券ETF南方512900
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8ETF%E5%8D%97%E6%96%B9512900/" target="_self">
-        <div>
-          这篇文章用三个框架分析证券ETF南方，代码 SH512900：  价值投资：看跟踪指数、行业周期、持仓结构、规模、费率和折溢价。 趋势交易：看价格方向、均线结构、突破和失效条件。 震荡交易：看区间、支撑压力、均值回归和止损。  ETF 和个股不同。它不看单家公司财报，而是看跟踪指数、行业景气度、成份股结构、交易流动性和净值偏离。 本文只做研究记录，不构成投资建议。 数据口径基金基本信息、规模和持仓
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-06-23 21:20" pubdate>
-              2026-06-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%8A%95%E8%B5%84/" class="category-chain-item">投资</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%8A%95%E8%B5%84/">#投资</a>
-            
-              <a href="/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/">#趋势交易</a>
-            
-              <a href="/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/">#震荡交易</a>
-            
-              <a href="/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/">#价值投资</a>
-            
-              <a href="/tags/ETF/">#ETF</a>
-            
-              <a href="/tags/%E8%AF%81%E5%88%B8ETF%E5%8D%97%E6%96%B9/">#证券ETF南方</a>
-            
-              <a href="/tags/%E5%88%B8%E5%95%86/">#券商</a>
             
           </div>
         

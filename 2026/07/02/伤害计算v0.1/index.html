@@ -24,7 +24,7 @@
 <meta property="og:description" content="记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-02T08:37:37.000Z">
-<meta property="article:modified_time" content="2026-07-08T06:29:59.734Z">
+<meta property="article:modified_time" content="2026-07-08T08:43:46.341Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="游戏开发">
 <meta property="article:tag" content="战斗系统">
@@ -246,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          372 字
+          884 字
         
       </span>
     
@@ -257,7 +257,7 @@
         
         
         
-          4 分钟
+          8 分钟
         
       </span>
     
@@ -315,7 +315,16 @@
             
               <div class="markdown-body">
                 
-                <h1 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h1>
+                <h1 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h1><p>先说结论：这版公式适合做一个最小可用的伤害结算模型。</p>
+<p>它只处理四件事：</p>
+<ul>
+<li>基础伤害</li>
+<li>固定加减伤</li>
+<li>增伤倍率</li>
+<li>减伤倍率</li>
+</ul>
+<p>如果只是普攻、技能直伤和简单 Buff，这套结构够用。后面要加暴击、护盾、元素抗性、PvP 修正时，建议拆成独立阶段，不要继续把所有东西塞进 <code>damage_increase</code> 和 <code>damage_reduction</code>。</p>
+
 $$
 \begin{aligned}
 raw\_damage &= \max(0, base\_damage + damage\_offset) \\
@@ -380,6 +389,29 @@ $$
 <td>需要额外明确取整时机，例如向下取整、四舍五入或保留浮点。</td>
 </tr>
 </tbody></table>
+<h2 id="计算顺序"><a href="#计算顺序" class="headerlink" title="计算顺序"></a>计算顺序</h2><p>这里建议固定计算顺序，不要让不同技能自己决定。</p>
+<ol>
+<li>先算基础伤害和固定修正，得到 <code>raw_damage</code>。</li>
+<li>再把同一乘区内的增伤加总，得到 <code>increase_multiplier</code>。</li>
+<li>再把减伤转成 <code>reduction_multiplier</code>。</li>
+<li>最后得到 <code>final_damage</code>。</li>
+</ol>
+<p>这样做的好处是调试简单。出现伤害异常时，可以直接看中间字段是哪一步变大或变小。</p>
+<p>如果所有技能都把自己的特殊逻辑写进最终公式，后面很难查问题。</p>
+<h2 id="是否还需要扩展"><a href="#是否还需要扩展" class="headerlink" title="是否还需要扩展"></a>是否还需要扩展</h2><p>如果要支持更完整的战斗系统，建议把下面这些规则拆成独立字段或独立阶段：</p>
+<ul>
+<li>暴击：例如 <code>critical_multiplier</code>。</li>
+<li>护盾、吸收、免疫：通常应该在最终伤害后、扣血前处理。</li>
+<li>元素、护甲、抗性：建议单独做防御或抗性乘区。</li>
+<li>PvP &#x2F; PvE 修正：建议独立字段，方便运营调参。</li>
+<li>多个独立乘区：例如技能增伤、易伤、最终伤害加成，最好明确哪些相加、哪些相乘。</li>
+<li>最小伤害和伤害上限：例如保底 1 点伤害、Boss 单次受击上限。</li>
+<li>取整规则：服务端和客户端必须一致，否则容易出现同步误差。</li>
+</ul>
+<p>这些东西不是不能加，而是不要一开始就混成一个大公式。</p>
+<p>伤害系统最怕的是规则看起来很灵活，但没有明确阶段。到最后每个 Buff 都能改每个字段，调数值和查 bug 都会很痛苦。</p>
+<h2 id="多行-LaTeX-写法"><a href="#多行-LaTeX-写法" class="headerlink" title="多行 LaTeX 写法"></a>多行 LaTeX 写法</h2><p>多行公式可以用 <code>aligned</code>。</p>
+<p>在当前 Hexo 渲染器下，建议用 &#96;</p>
 
                 
               </div>

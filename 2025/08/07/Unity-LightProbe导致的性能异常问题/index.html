@@ -16,15 +16,15 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="使用LightProbe烘焙间接光时，主要是有一些LightProbe的点出现了穿插，导致在运行时计算插值时出现了大量的计算开销，从而导致性能异常。 解决方案是让Probe不要出现穿插，避免计算时因为两个点之间存在Mesh导致计算开销过大以及错误结果">
+    <meta name="description" content="使用LightProbe烘焙间接光时，主要是有一些LightProbe的点出现了穿插，导致在运行时计算插值时出现了大量的计算开销，从而导致性能异常。 解决方案是让Probe不要出现穿插，避免计算时因为两个点之间存在Mesh导致计算开销过大以及错误结果 问题现象场景里启用 LightProbe 后，运行时会出现异常的 CPU 开销。 这个开销不一定稳定复现，有时候只在某些位置、某些镜头角度、某些角色">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unity-LightProbe导致的性能异常问题">
 <meta property="og:url" content="https://nicoier.github.io/2025/08/07/Unity-LightProbe%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="使用LightProbe烘焙间接光时，主要是有一些LightProbe的点出现了穿插，导致在运行时计算插值时出现了大量的计算开销，从而导致性能异常。 解决方案是让Probe不要出现穿插，避免计算时因为两个点之间存在Mesh导致计算开销过大以及错误结果">
+<meta property="og:description" content="使用LightProbe烘焙间接光时，主要是有一些LightProbe的点出现了穿插，导致在运行时计算插值时出现了大量的计算开销，从而导致性能异常。 解决方案是让Probe不要出现穿插，避免计算时因为两个点之间存在Mesh导致计算开销过大以及错误结果 问题现象场景里启用 LightProbe 后，运行时会出现异常的 CPU 开销。 这个开销不一定稳定复现，有时候只在某些位置、某些镜头角度、某些角色">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-07T03:12:10.000Z">
-<meta property="article:modified_time" content="2026-07-08T03:26:54.231Z">
+<meta property="article:modified_time" content="2026-07-08T08:40:19.349Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="游戏开发">
@@ -246,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          94 字
+          643 字
         
       </span>
     
@@ -257,7 +257,7 @@
         
         
         
-          1 分钟
+          6 分钟
         
       </span>
     
@@ -307,7 +307,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 上午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -317,6 +317,40 @@
                 
                 <p>使用LightProbe烘焙间接光时，主要是有一些LightProbe的点出现了穿插，导致在运行时计算插值时出现了大量的计算开销，从而导致性能异常。</p>
 <p>解决方案是让Probe不要出现穿插，避免计算时因为两个点之间存在Mesh导致计算开销过大以及错误结果</p>
+<h1 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h1><p>场景里启用 LightProbe 后，运行时会出现异常的 CPU 开销。</p>
+<p>这个开销不一定稳定复现，有时候只在某些位置、某些镜头角度、某些角色移动路径上明显。</p>
+<p>表面上看像是渲染压力，但实际问题可能出在 LightProbe 的插值计算上。</p>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>LightProbe 本质上是用空间中的 Probe 点来近似间接光。</p>
+<p>运行时物体需要根据当前位置，在周围的 Probe 之间做插值，得到当前点的光照信息。</p>
+<p>如果 Probe 布点不合理，比如：</p>
+<ul>
+<li>Probe 点穿进了 Mesh</li>
+<li>Probe 点分布过密但没有必要</li>
+<li>Probe 点在墙体、地面、封闭空间附近交错</li>
+<li>两个 Probe 之间被场景几何体隔开</li>
+</ul>
+<p>就可能导致插值结果不稳定，甚至让运行时计算出现额外开销。</p>
+<p>说白了，LightProbe 不是点越多越好，关键是点要放在合理的位置。</p>
+<h1 id="排查方式"><a href="#排查方式" class="headerlink" title="排查方式"></a>排查方式</h1><p>可以按这个顺序看：</p>
+<ul>
+<li>打开场景里的 LightProbe 可视化</li>
+<li>检查 Probe 是否穿进墙、地面、模型内部</li>
+<li>检查角色活动区域附近是否有异常密集的 Probe</li>
+<li>对比删除问题区域 Probe 前后的 Profiler 数据</li>
+<li>在问题位置附近移动角色，看开销是否跟位置相关</li>
+</ul>
+<p>如果性能异常只在某一片区域出现，优先检查那片区域的 Probe 布局。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul>
+<li>移除穿插到 Mesh 内部的 Probe</li>
+<li>让 Probe 尽量分布在角色真实可到达的空间</li>
+<li>不要在封闭墙体两侧放出容易互相干扰的 Probe</li>
+<li>对大面积平坦区域减少不必要的 Probe</li>
+<li>修改后重新烘焙，并在目标设备上验证</li>
+</ul>
+<p>有时候删掉几个位置错误的 Probe，比继续堆优化参数更有效。</p>
+<h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><p>LightProbe 主要解决动态物体接受间接光的问题。</p>
+<p>如果场景中大量静态物体已经走 Lightmap，就没有必要为了它们继续铺很多 Probe。</p>
+<p>Probe 的数量、位置和场景结构关系很大。特别是移动端项目，最好把 LightProbe 当成需要验收的资源，而不是烘焙后就不管。</p>
 
                 
               </div>

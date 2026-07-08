@@ -248,6 +248,73 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2025/07/10/FMOD-Unity-Settings/" target="_self">
+          FMOD-Unity-Settings
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/07/10/FMOD-Unity-Settings/" target="_self">
+        <div>
+          FMOD Unity Settings官方文档 FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。这里记录一下一些比较重要的配置，可以解决一些问题。  Platform Specific &#x2F; Android OutputMode 这个选项是选择不同平台下使用的底层音频输出API  Auto 这个选项会根据平台自动选择 No Sound 这个选项
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-10 18:16" pubdate>
+              2025-07-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unity/">#Unity</a>
+            
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
+            
+              <a href="/tags/FMOD/">#FMOD</a>
+            
+              <a href="/tags/%E9%9F%B3%E9%A2%91/">#音频</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2025/07/07/FMOD-Unity-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/" target="_self">
           FMOD Unity 资源加载
         </a>
@@ -451,7 +518,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" target="_self">
         <div>
-          看上去是对的，那就是对的
+          看上去是对的，那就是对的 这句话其实就是实时图形学里很重要的一条工程原则。 图形学不是单纯追求物理正确，而是在性能、真实感、稳定性之间做取舍。尤其是在游戏里，最终目标不是还原每一条光线，而是在目标设备上稳定地渲染出可信的画面。 核心问题 画面是否符合直觉 性能是否能接受 方案是否稳定 美术是否容易调整  很多效果从物理上看并不严格正确，比如 Half Lambert、各种非真实的 Rim Ligh
         </div>
       </a>
 
@@ -579,7 +646,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/RVT/" target="_self">
         <div>
-          什么是 Runtime Virtual TextureRuntime Virtual Texture 是一种在运行时生成纹理的技术。它可以用来实现很多高级的效果，比如地形细节纹理、地形细节法线、地形细节高度、地形细节光照等。
+          什么是 Runtime Virtual TextureRuntime Virtual Texture 是一种在运行时生成纹理的技术。它可以用来实现很多高级的效果，比如地形细节纹理、地形细节法线、地形细节高度、地形细节光照等。 说白了就是把场景里某些信息先渲染到一张虚拟纹理里，后面的材质再去采样这张纹理。 它解决什么问题在开放世界或者大地形里，经常会遇到一个问题：地形、物件、贴花、植被之间很难自然融
         </div>
       </a>
 
@@ -681,9 +748,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">#图形学</a>
-            
               <a href="/tags/Network/">#Network</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">#图形学</a>
             
           </div>
         
@@ -816,71 +883,6 @@
               <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">#图形学</a>
             
               <a href="/tags/Shader/">#Shader</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/06/17/%E4%BB%8EBuildIn%E5%88%B0URP/" target="_self">
-          从BuildIn到URP
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/06/17/%E4%BB%8EBuildIn%E5%88%B0URP/" target="_self">
-        <div>
-          结构首先要在SubShader的Tags中添加”RenderPipeline” &#x3D; “UniversalPipeline”，并且使用HLSL的宏代替旧版的CG语言宏。    Built-in URP    CGPROGRAM &#x2F; HLSLPROGRAM HLSLPROGRAM   ENDCG &#x2F; ENDHLSL ENDHLSL   CGINCLUDE &#x2F; H
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-06-17 18:48" pubdate>
-              2024-06-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Unity/">#Unity</a>
-            
-              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
-            
-              <a href="/tags/C/">#C#</a>
             
           </div>
         

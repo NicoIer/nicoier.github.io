@@ -10,7 +10,23 @@
   <link href="https://nicoier.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, NicoIer</rights>
   <title>NicoIer</title>
-  <updated>2026-07-08T03:43:07.417Z</updated>
+  <updated>2026-07-08T09:14:14.013Z</updated>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="ECS" scheme="https://nicoier.github.io/tags/ECS/"/>
+    <category term="战斗系统" scheme="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/"/>
+    <category term="Buff" scheme="https://nicoier.github.io/tags/Buff/"/>
+    <id>https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/</id>
+    <link href="https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/"/>
+    <published>2026-07-08T08:30:53.000Z</published>
+    <summary>记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。</summary>
+    <title>基于ECS的Buff系统</title>
+    <updated>2026-07-08T09:14:14.013Z</updated>
+  </entry>
   <entry>
     <author>
       <name>NicoIer</name>
@@ -27,12 +43,10 @@
     <link href="https://nicoier.github.io/2026/07/08/Unity-UI%E6%B7%B1%E5%BA%A6%E9%81%AE%E6%8C%A1UIDepthOccluder/"/>
     <published>2026-07-07T16:00:00.000Z</published>
     <summary>
-      <![CDATA[<h2 id="为什么需要-UI-深度遮挡"><a href="#为什么需要-UI-深度遮挡" class="headerlink" title="为什么需要 UI 深度遮挡"></a>为什么需要 UI 深度遮挡</h2><p>正常情况下，UI 通常是在场景物体之后绘制的。</p>
-<p>所以从最终画面看，UI 一定可以盖住场景物体。</p>
-<p>问题不在]]>
+      <![CDATA[<p><a href="https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluder.cs">https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOcclude]]>
     </summary>
     <title>Unity UI深度遮挡 UIDepthOccluder</title>
-    <updated>2026-07-08T03:43:07.417Z</updated>
+    <updated>2026-07-08T08:55:16.740Z</updated>
   </entry>
   <entry>
     <author>
@@ -61,7 +75,7 @@
 <li>价值&#x2F;配置思路：看资产质量、估值锚、长期逻辑和仓位上限。]]>
     </summary>
     <title>2026-07-07 从三个交易思路分析分众传媒002027和半导体设备ETF易方达159558</title>
-    <updated>2026-07-07T05:50:22.263Z</updated>
+    <updated>2026-07-08T08:44:40.008Z</updated>
   </entry>
   <entry>
     <author>
@@ -76,7 +90,7 @@
     <published>2026-07-02T08:37:37.000Z</published>
     <summary>记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。</summary>
     <title>伤害计算v0.1</title>
-    <updated>2026-07-08T06:29:59.734Z</updated>
+    <updated>2026-07-08T08:43:46.341Z</updated>
   </entry>
   <entry>
     <author>
@@ -97,7 +111,7 @@
 <p>先说结论：512070 当前更像低位区间震荡，不是强趋势。当前价]]>
     </summary>
     <title>2026-06-29 震荡交易视角分析证券保险ETF易方达512070</title>
-    <updated>2026-06-29T05:44:50.237Z</updated>
+    <updated>2026-07-08T08:44:40.008Z</updated>
   </entry>
   <entry>
     <author>
@@ -117,7 +131,7 @@
 <p>先说结论：512070 现在不是强趋势，而是弱修复。价格站在 20 日线之上，但还没有稳定站回 5 日、10 日和 60 日均线。趋势交易可以观察，但买点要等确认，不能把反弹当成趋势反转。<]]>
     </summary>
     <title>2026-06-29 趋势交易视角分析证券保险ETF易方达512070</title>
-    <updated>2026-06-29T05:44:50.236Z</updated>
+    <updated>2026-07-08T08:44:40.007Z</updated>
   </entry>
   <entry>
     <author>
@@ -138,7 +152,7 @@
 <p>本文]]>
     </summary>
     <title>2026-06-29 趋势交易视角分析半导体设备ETF易方达159558</title>
-    <updated>2026-06-29T05:44:50.236Z</updated>
+    <updated>2026-07-08T08:44:40.006Z</updated>
   </entry>
   <entry>
     <author>
@@ -165,7 +179,7 @@
 <p>ET]]>
     </summary>
     <title>2026-06-24 从三个角度分析半导体设备ETF易方达159558</title>
-    <updated>2026-06-29T05:44:50.235Z</updated>
+    <updated>2026-07-08T08:44:40.006Z</updated>
   </entry>
   <entry>
     <author>
@@ -176,8 +190,8 @@
     <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
     <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
     <category term="半导体设备" scheme="https://nicoier.github.io/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87/"/>
-    <category term="交易规则" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99/"/>
     <category term="国产替代" scheme="https://nicoier.github.io/tags/%E5%9B%BD%E4%BA%A7%E6%9B%BF%E4%BB%A3/"/>
+    <category term="交易规则" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99/"/>
     <id>https://nicoier.github.io/2026/06/24/2026-06-24%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/</id>
     <link href="https://nicoier.github.io/2026/06/24/2026-06-24%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/"/>
     <published>2026-06-24T05:15:00.000Z</published>
@@ -187,7 +201,7 @@
 <p>]]>
     </summary>
     <title>2026-06-24 趋势交易规则：半导体设备ETF易方达159558</title>
-    <updated>2026-06-29T05:44:50.236Z</updated>
+    <updated>2026-07-08T08:44:40.006Z</updated>
   </entry>
   <entry>
     <author>
@@ -214,7 +228,7 @@
 <p>E]]>
     </summary>
     <title>2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890</title>
-    <updated>2026-06-29T05:44:50.235Z</updated>
+    <updated>2026-07-08T08:44:40.000Z</updated>
   </entry>
   <entry>
     <author>
@@ -241,7 +255,7 @@
 <p>ETF 和个股]]>
     </summary>
     <title>2026-06-23 从三个角度分析证券ETF南方512900</title>
-    <updated>2026-06-29T05:44:50.235Z</updated>
+    <updated>2026-07-08T08:44:40.005Z</updated>
   </entry>
   <entry>
     <author>
@@ -268,7 +282,7 @@
 <p>三种方法的结论可]]>
     </summary>
     <title>2026-06-23 从三个角度分析世纪华通002602</title>
-    <updated>2026-06-29T05:44:50.232Z</updated>
+    <updated>2026-07-08T08:44:40.004Z</updated>
   </entry>
   <entry>
     <author>
@@ -295,7 +309,7 @@
 <p>三种方法的结论可能不同，不]]>
     </summary>
     <title>2026-06-23 从三个角度分析巨人网络002558</title>
-    <updated>2026-06-29T05:44:50.234Z</updated>
+    <updated>2026-07-08T08:44:40.002Z</updated>
   </entry>
   <entry>
     <author>
@@ -322,7 +336,7 @@
 <p>三种方法的结论可能不同，不]]>
     </summary>
     <title>2026-06-23 从三个角度分析中远海控601919</title>
-    <updated>2026-06-29T05:44:50.233Z</updated>
+    <updated>2026-07-08T08:44:40.005Z</updated>
   </entry>
   <entry>
     <author>
@@ -348,7 +362,7 @@
 <p>三种方法的结论可能不同，不能]]>
     </summary>
     <title>2026-06-23 从三个角度分析招商港口001872</title>
-    <updated>2026-06-29T05:44:50.234Z</updated>
+    <updated>2026-07-08T08:44:40.004Z</updated>
   </entry>
   <entry>
     <author>
@@ -374,7 +388,7 @@
 <p>三种方法的结论可能不同，不能混]]>
     </summary>
     <title>2026-06-23 从三个角度分析上港集团600018</title>
-    <updated>2026-06-29T05:44:50.232Z</updated>
+    <updated>2026-07-08T08:44:40.003Z</updated>
   </entry>
   <entry>
     <author>
@@ -400,7 +414,7 @@
 <p>三种方法的结论可能不同，不]]>
     </summary>
     <title>2026-06-23 从三个角度分析分众传媒002027</title>
-    <updated>2026-06-29T05:44:50.233Z</updated>
+    <updated>2026-07-08T08:44:39.999Z</updated>
   </entry>
   <entry>
     <author>
@@ -420,7 +434,7 @@
 <p>基金是一种集合投资工具。投资者把钱交给基金，由基金按照合同约定去买股票、债券、货币市场工具或其他资产。这里说的基金主要指普通开放式基金，尤其是]]>
     </summary>
     <title>基金、股票、ETF 的区别和适用场景</title>
-    <updated>2026-06-29T05:44:50.249Z</updated>
+    <updated>2026-07-08T08:44:56.837Z</updated>
   </entry>
   <entry>
     <author>
@@ -446,7 +460,7 @@
 <p>三种方法的结论可能不同，不能混在一起]]>
     </summary>
     <title>2026-06-23 从三个角度分析京东方A000725</title>
-    <updated>2026-06-29T05:44:50.233Z</updated>
+    <updated>2026-07-08T08:44:40.001Z</updated>
   </entry>
   <entry>
     <author>
@@ -470,27 +484,6 @@
 <li>它是否足够透]]>
     </summary>
     <title>趋势投资应该选 ETF、单股还是基金</title>
-    <updated>2026-06-29T05:44:50.252Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="招商银行" scheme="https://nicoier.github.io/tags/%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8C/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%20%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8CA%E8%82%A1600036/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%20%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8CA%E8%82%A1600036/"/>
-    <published>2026-06-23T06:12:00.000Z</published>
-    <summary>
-      <![CDATA[<p>前面分别从价值投资和趋势交易角度看了招商银行 A 股。</p>
-<p>这篇换成震荡交易。</p>
-<p>震荡交易的核心不是判断公司值多少钱，也不是追随单边趋势，而是在一个相对明确的区间里做均值回归：靠近支撑时观察买入机会，靠近压力时观察卖出机会，区间被打破就承认原逻辑失效。</p>
-<p>所以这篇只讨论价格区间、支撑压力、止损和交易节奏，不构成任何投资]]>
-    </summary>
-    <title>2026-06-23 震荡交易视角分析招商银行A股600036</title>
-    <updated>2026-06-29T05:44:50.231Z</updated>
+    <updated>2026-07-08T08:45:04.038Z</updated>
   </entry>
 </feed>

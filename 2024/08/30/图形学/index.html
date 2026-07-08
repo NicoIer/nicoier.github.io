@@ -16,15 +16,15 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="看上去是对的，那就是对的">
+    <meta name="description" content="看上去是对的，那就是对的 这句话其实就是实时图形学里很重要的一条工程原则。 图形学不是单纯追求物理正确，而是在性能、真实感、稳定性之间做取舍。尤其是在游戏里，最终目标不是还原每一条光线，而是在目标设备上稳定地渲染出可信的画面。 核心问题 画面是否符合直觉 性能是否能接受 方案是否稳定 美术是否容易调整  很多效果从物理上看并不严格正确，比如 Half Lambert、各种非真实的 Rim Ligh">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图形学的基本要义">
 <meta property="og:url" content="https://nicoier.github.io/2024/08/30/%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="看上去是对的，那就是对的">
+<meta property="og:description" content="看上去是对的，那就是对的 这句话其实就是实时图形学里很重要的一条工程原则。 图形学不是单纯追求物理正确，而是在性能、真实感、稳定性之间做取舍。尤其是在游戏里，最终目标不是还原每一条光线，而是在目标设备上稳定地渲染出可信的画面。 核心问题 画面是否符合直觉 性能是否能接受 方案是否稳定 美术是否容易调整  很多效果从物理上看并不严格正确，比如 Half Lambert、各种非真实的 Rim Ligh">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-30T09:42:31.000Z">
-<meta property="article:modified_time" content="2026-06-29T05:44:50.248Z">
+<meta property="article:modified_time" content="2026-07-08T08:39:19.588Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="图形学">
 <meta name="twitter:card" content="summary_large_image">
@@ -244,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11 字
+          603 字
         
       </span>
     
@@ -255,7 +255,7 @@
         
         
         
-          1 分钟
+          6 分钟
         
       </span>
     
@@ -305,7 +305,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年6月29日 下午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -314,6 +314,38 @@
               <div class="markdown-body">
                 
                 <p>看上去是对的，那就是对的</p>
+<p>这句话其实就是实时图形学里很重要的一条工程原则。</p>
+<p>图形学不是单纯追求物理正确，而是在性能、真实感、稳定性之间做取舍。尤其是在游戏里，最终目标不是还原每一条光线，而是在目标设备上稳定地渲染出可信的画面。</p>
+<h1 id="核心问题"><a href="#核心问题" class="headerlink" title="核心问题"></a>核心问题</h1><ul>
+<li>画面是否符合直觉</li>
+<li>性能是否能接受</li>
+<li>方案是否稳定</li>
+<li>美术是否容易调整</li>
+</ul>
+<p>很多效果从物理上看并不严格正确，比如 Half Lambert、各种非真实的 Rim Light、手写的 Toon 阴影、后处理里的假光晕等。</p>
+<p>但只要画面能表达需要的质感，并且不会引入明显的闪烁、穿帮和性能问题，那它就是一个可用方案。</p>
+<h1 id="工程里的取舍"><a href="#工程里的取舍" class="headerlink" title="工程里的取舍"></a>工程里的取舍</h1><p>实时渲染通常会遇到几个限制：</p>
+<ul>
+<li>GPU 时间有限</li>
+<li>带宽有限</li>
+<li>移动端精度有限</li>
+<li>美术资源和参数不可能无限细</li>
+<li>不同设备上的显示效果不完全一致</li>
+</ul>
+<p>所以很多时候不是问“这个算法是不是最正确”，而是问“这个算法在当前项目里是不是够用”。</p>
+<p>比如阴影可以用 ShadowMap，不一定要做全局光线追踪。环境光可以用 LightProbe 或 SH，不一定要实时 GI。皮肤、头发、水面这些材质，也经常会使用大量近似。</p>
+<h1 id="判断一个效果是否可用"><a href="#判断一个效果是否可用" class="headerlink" title="判断一个效果是否可用"></a>判断一个效果是否可用</h1><p>通常可以从这几个角度看：</p>
+<ul>
+<li>静态画面看起来是否正常</li>
+<li>镜头运动时是否有闪烁</li>
+<li>强光、暗部、极端角度下是否穿帮</li>
+<li>在低端机上是否还能跑</li>
+<li>参数是否足够直观，方便美术调</li>
+</ul>
+<p>如果只是某个测试角度下数学上更准确，但实际项目里看不出区别，那就没有必要把复杂度加进去。</p>
+<h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><p>“看上去是对的”不是说可以随便写。</p>
+<p>它的前提是要知道自己省略了什么，代价是什么，会在哪些场景下出问题。</p>
+<p>如果这个近似方案会导致角色边缘闪烁、阴影断层、颜色空间错误、透明物排序异常，那就不能算对。图形学里的很多问题，最后还是要回到画面、性能和稳定性上判断。</p>
 
                 
               </div>

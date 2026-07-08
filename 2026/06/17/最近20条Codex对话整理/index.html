@@ -24,7 +24,7 @@
 <meta property="og:description" content="最近让 Codex 总结了一下本地记录里的最近20条对话。 这里的口径不是当前窗口里的20句聊天，而是 ~&#x2F;.codex&#x2F;session_index.jsonl 里的最近20个会话。时间范围大概是 2026-06-11 到 2026-06-16。 看下来基本都在围绕几个东西转：JoltPhysics、BattleProcess、projectjinn、QTE、LOD、技能表现、构建资源。 很明显，">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-17T03:24:27.000Z">
-<meta property="article:modified_time" content="2026-06-29T05:44:50.251Z">
+<meta property="article:modified_time" content="2026-07-08T08:45:10.479Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Codex">
 <meta property="article:tag" content="AI">
@@ -246,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          2.5k 字
         
       </span>
     
@@ -257,7 +257,7 @@
         
         
         
-          20 分钟
+          21 分钟
         
       </span>
     
@@ -307,7 +307,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年6月29日 下午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -319,6 +319,15 @@
 <p>这里的口径不是当前窗口里的20句聊天，而是 <code>~/.codex/session_index.jsonl</code> 里的最近20个会话。时间范围大概是 2026-06-11 到 2026-06-16。</p>
 <p>看下来基本都在围绕几个东西转：JoltPhysics、BattleProcess、projectjinn、QTE、LOD、技能表现、构建资源。</p>
 <p>很明显，最近不是在写新系统，就是在修各种边界问题。</p>
+<h1 id="怎么使用这份整理"><a href="#怎么使用这份整理" class="headerlink" title="怎么使用这份整理"></a>怎么使用这份整理</h1><p>这份整理不是流水账，主要用来看最近的工作重心和反复出现的问题。</p>
+<p>比较有用的读法是：</p>
+<ul>
+<li>哪些模块反复出现</li>
+<li>哪些问题是语义没对齐</li>
+<li>哪些问题是跨平台资源或 native binding 引起的</li>
+<li>哪些问题适合沉淀成测试或工具</li>
+</ul>
+<p>如果后面要继续让 Codex 处理同类任务，可以先把这些规律喂给它。比如 JoltPhysics 相关任务要优先看 native 结构体布局、资源路径、导出函数和跨平台差异；BattleProcess 相关任务要先确认状态切换和服务器数据语义。</p>
 <h1 id="最近20条"><a href="#最近20条" class="headerlink" title="最近20条"></a>最近20条</h1><h2 id="1-实现萨拉扫描技能"><a href="#1-实现萨拉扫描技能" class="headerlink" title="1. 实现萨拉扫描技能"></a>1. 实现萨拉扫描技能</h2><p>给 <code>SarahScanCapability</code> 补了萨拉大扫描逻辑，参考的是狮吼技能。</p>
 <p>主要是监听 <code>CommonDataTrack</code> 和 <code>EventTrack</code>，在对应帧触发扫描、屏幕变暗、HUD显示，并且给 <code>ScanTrigger</code> 增加了单次显示时长覆盖，避免修改普通扫描按钮的默认时长。</p>
 <p>这个任务的重点不是难，而是要和已有的 Timeline&#x2F;Track 体系接上。</p>

@@ -16,15 +16,15 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="为什么需要 UI 深度遮挡正常情况下，UI 通常是在场景物体之后绘制的。 所以从最终画面看，UI 一定可以盖住场景物体。 问题不在显示结果，而在渲染过程。 UI 虽然最后会盖住画面，但它没有提前写入场景深度。 对 Opaque 阶段来说，这块 UI 还不存在，UI 背后的场景物体仍然会正常经过深度测试、光栅化和片元着色。 如果这块 UI 是完全不透明的，那么这些被 UI 覆盖的场景像素最终一定不可">
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;NicoIer&#x2F;UnityToolkit&#x2F;blob&#x2F;main&#x2F;Runtime&#x2F;Renderer&#x2F;UIDepthOccluder.cs https:&#x2F;&#x2F;github.com&#x2F;NicoIer&#x2F;UnityToolkit&#x2F;blob&#x2F;main&#x2F;Runtime&#x2F;Renderer&#x2F;UIDepthOccluderFeature.cs 先说结论：这个方案适合优化大块不透明 UI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unity UI深度遮挡 UIDepthOccluder">
 <meta property="og:url" content="https://nicoier.github.io/2026/07/08/Unity-UI%E6%B7%B1%E5%BA%A6%E9%81%AE%E6%8C%A1UIDepthOccluder/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="为什么需要 UI 深度遮挡正常情况下，UI 通常是在场景物体之后绘制的。 所以从最终画面看，UI 一定可以盖住场景物体。 问题不在显示结果，而在渲染过程。 UI 虽然最后会盖住画面，但它没有提前写入场景深度。 对 Opaque 阶段来说，这块 UI 还不存在，UI 背后的场景物体仍然会正常经过深度测试、光栅化和片元着色。 如果这块 UI 是完全不透明的，那么这些被 UI 覆盖的场景像素最终一定不可">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;NicoIer&#x2F;UnityToolkit&#x2F;blob&#x2F;main&#x2F;Runtime&#x2F;Renderer&#x2F;UIDepthOccluder.cs https:&#x2F;&#x2F;github.com&#x2F;NicoIer&#x2F;UnityToolkit&#x2F;blob&#x2F;main&#x2F;Runtime&#x2F;Renderer&#x2F;UIDepthOccluderFeature.cs 先说结论：这个方案适合优化大块不透明 UI">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-07-08T03:43:07.417Z">
+<meta property="article:modified_time" content="2026-07-08T08:55:16.740Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="游戏开发">
@@ -250,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.4k 字
         
       </span>
     
@@ -261,7 +261,7 @@
         
         
         
-          18 分钟
+          21 分钟
         
       </span>
     
@@ -311,7 +311,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 中午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -319,7 +319,12 @@
             
               <div class="markdown-body">
                 
-                <h2 id="为什么需要-UI-深度遮挡"><a href="#为什么需要-UI-深度遮挡" class="headerlink" title="为什么需要 UI 深度遮挡"></a>为什么需要 UI 深度遮挡</h2><p>正常情况下，UI 通常是在场景物体之后绘制的。</p>
+                <p><a target="_blank" rel="noopener" href="https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluder.cs">https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluder.cs</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluderFeature.cs">https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluderFeature.cs</a></p>
+<p>先说结论：这个方案适合优化大块不透明 UI 背后的 Opaque 场景绘制。</p>
+<p>它不是让 UI 参与场景渲染，也不是解决 UI 和场景物体的显示层级问题。它只是提前把 UI 覆盖区域写入深度，让后面的不透明物体在深度测试阶段被挡掉。</p>
+<p>如果 UI 是半透明的、经常旋转缩放，或者遮挡区域很小，这个方案收益会比较有限，甚至可能因为多一次深度绘制变得更慢。</p>
+<h2 id="为什么需要-UI-深度遮挡"><a href="#为什么需要-UI-深度遮挡" class="headerlink" title="为什么需要 UI 深度遮挡"></a>为什么需要 UI 深度遮挡</h2><p>正常情况下，UI 通常是在场景物体之后绘制的。</p>
 <p>所以从最终画面看，UI 一定可以盖住场景物体。</p>
 <p>问题不在显示结果，而在渲染过程。</p>
 <p>UI 虽然最后会盖住画面，但它没有提前写入场景深度。</p>
@@ -449,6 +454,17 @@
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">UIDepthOccluder.s_ActiveOccluders<br></code></pre></td></tr></table></figure>
 
 <p>如果要启用 <code>URP_COMPATIBILITY_MODE</code>，需要把这两个名字统一一下。</p>
+<h2 id="排查方式"><a href="#排查方式" class="headerlink" title="排查方式"></a>排查方式</h2><p>如果接入后没有效果，可以按这个顺序查：</p>
+<ul>
+<li>确认当前相机是否带 <code>MainCamera</code> tag</li>
+<li>确认 URP Renderer Data 上已经挂了 <code>UIDepthOccluderFeature</code></li>
+<li>确认 Feature 使用的是 <code>Hidden/UnityToolkit/UIDepthOccluder</code></li>
+<li>确认 UI Image 的继承 alpha 是否为 1</li>
+<li>确认 <code>RectTransform</code> 的世界角点是否落在屏幕内</li>
+<li>用 Frame Debugger 看 <code>UIDepthOccluder</code> Pass 是否在 Opaque 前执行</li>
+<li>临时把 Shader 的 <code>ColorMask 0</code> 去掉，看遮挡 Mesh 是否画在预期位置</li>
+</ul>
+<p>这类问题最好先确认 Pass 有没有执行，再看深度是否写对。不要一上来就怀疑深度测试。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><code>UIDepthOccluder</code> 的核心不是让 UI 参与正常场景绘制。</p>
 <p>它只是借用 UI 的屏幕区域，在 Opaque 之前写一块深度。</p>
 <p>这样落在 UI 覆盖区域里的场景像素，就会在深度测试阶段提前被剔除。</p>
@@ -556,6 +572,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/" title="基于ECS的Buff系统">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">基于ECS的Buff系统</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

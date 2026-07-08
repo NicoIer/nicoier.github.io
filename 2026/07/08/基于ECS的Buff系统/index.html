@@ -1,0 +1,1340 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于ECS的Buff系统">
+<meta property="og:url" content="https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/ecsbuff-entity-structure.svg">
+<meta property="article:published_time" content="2026-07-08T08:30:53.000Z">
+<meta property="article:modified_time" content="2026-07-08T09:14:14.013Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="CSharp">
+<meta property="article:tag" content="ECS">
+<meta property="article:tag" content="战斗系统">
+<meta property="article:tag" content="Buff">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/ecsbuff-entity-structure.svg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>基于ECS的Buff系统 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于ECS的Buff系统"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-08 16:30" pubdate>
+          2026年7月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于ECS的Buff系统</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年7月8日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基于-ECS-的-Buff-系统"><a href="#基于-ECS-的-Buff-系统" class="headerlink" title="基于 ECS 的 Buff 系统"></a>基于 ECS 的 Buff 系统</h1><p>这里记录一下 <code>ECSBuffSystem</code>。</p>
+<p>先说结论：这套系统的核心不是“用 ECS 写 Buff”，而是把 Buff 拆成配置化的几个部分：</p>
+<ul>
+<li><code>Buff Template</code>：定义一个 Buff 模板。</li>
+<li><code>Component Template</code>：定义 Buff 身上的运行时状态。</li>
+<li><code>Trigger</code>：定义什么时候触发效果。</li>
+<li><code>Effect</code>：定义触发后执行什么。</li>
+<li><code>Condition</code>：定义效果执行前的过滤条件。</li>
+</ul>
+<p>传统 Buff 写法通常是一个 Buff 对应一个类。生命周期、叠层、互斥、效果执行都写在类里。</p>
+<p><code>ECSBuffSystem</code> 的思路是把这些逻辑拆成数据和系统。Buff 本身只是一个 <code>Entity</code>，具体行为由配置表、ECS Component、ECS System 和 Effect Executor 组合出来。</p>
+<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>Buff 的核心数据被拆成两类 entity：</p>
+<p><img src="/../img/ecsbuff-entity-structure.svg" srcset="/img/loading.gif" lazyload alt="Buff Entity 结构"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">owner entity<br>  - buff entity<br></code></pre></td></tr></table></figure>
+
+<p><code>owner entity</code> 只是 ECS 世界里用来挂 Buff 的节点。</p>
+<p>真正的 Buff 是 <code>buff entity</code>，通常会带这些数据：</p>
+<ul>
+<li><code>BuffTag</code></li>
+<li><code>BuffTemplateComponent</code></li>
+<li><code>BuffOwnerComponent</code></li>
+<li><code>BuffSourceComponent</code></li>
+<li><code>BuffApplicatorComponent</code></li>
+<li>表里配置出来的组件</li>
+<li>表里配置出来的 Tag</li>
+</ul>
+<p>执行效果时，不是直接在 Buff 上执行，而是临时创建一个 <code>trigger entity</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">trigger entity<br>  - BuffEffectTriggerInfoComponent<br>  - BuffDamageRuntimeStateComponent，可选<br>  - BuffHealingRuntimeStateComponent，可选<br>  - BuffTriggerEffectResultComponent，执行后短暂存在<br></code></pre></td></tr></table></figure>
+
+<p><code>trigger entity</code> 像一张临时工单。</p>
+<p>它保存：</p>
+<ul>
+<li>哪个 Buff 触发了效果。</li>
+<li>哪个 trigger 配置被触发了。</li>
+<li>这次触发是否带伤害上下文。</li>
+<li>这次触发是否带治疗上下文。</li>
+</ul>
+<p>执行完成后，<code>trigger entity</code> 会被删除。</p>
+<p>这样做的好处是触发上下文和 Buff 本体分离。Buff 上只保存长期状态，trigger 上只保存本次触发需要的数据。</p>
+<h2 id="配置表"><a href="#配置表" class="headerlink" title="配置表"></a>配置表</h2><p>配置入口主要是：</p>
+<ul>
+<li><code>design/source/Datas/ecs_buff.xlsx</code></li>
+<li><code>design/source/Datas/ecs/__ecs_enums.xlsx</code></li>
+<li><code>design/source/Datas/ecs/__ecs_tables__.xlsx</code></li>
+</ul>
+<p><code>ecs_buff.xlsx</code> 是业务层配置。</p>
+<table>
+<thead>
+<tr>
+<th>Sheet</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ecs_buff_entity_template_table</code></td>
+<td>Buff 主模板</td>
+</tr>
+<tr>
+<td><code>ecs_component_template_table</code></td>
+<td>组件模板</td>
+</tr>
+<tr>
+<td><code>ecs_buff_trigger_table</code></td>
+<td>触发器模板</td>
+</tr>
+<tr>
+<td><code>ecs_buff_effect_table</code></td>
+<td>效果模板</td>
+</tr>
+<tr>
+<td><code>ecs_buff_effect_condition_table</code></td>
+<td>效果条件模板</td>
+</tr>
+</tbody></table>
+<p><code>__ecs_enums.xlsx</code> 定义枚举。</p>
+<p>比较关键的是：</p>
+<ul>
+<li><code>ECSComponentType</code></li>
+<li><code>ECSTagEnum</code></li>
+<li><code>ECSBuffTriggerType</code></li>
+<li><code>ECSBuffEffectEnum</code></li>
+<li><code>ECSBuffTagResolveMethod</code></li>
+<li><code>WhenGotSameBuffStrategyEnum</code></li>
+<li><code>BuffStackStrategyEnum</code></li>
+</ul>
+<p><code>__ecs_tables__.xlsx</code> 告诉 Luban 哪些表需要生成配置类和 bytes。</p>
+<p>大概关系是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">ecs_buff.xlsx<br>  -&gt; ECSBuffEntityTemplateTable<br>  -&gt; ECSComponentTemplateTable<br>  -&gt; ECSBuffTriggerTable<br>  -&gt; ECSBuffEffectTable<br>  -&gt; ECSBuffEffectConditionTable<br></code></pre></td></tr></table></figure>
+
+<h2 id="Buff-主模板"><a href="#Buff-主模板" class="headerlink" title="Buff 主模板"></a>Buff 主模板</h2><p><code>ecs_buff_entity_template_table</code> 是入口表。</p>
+<p>主要字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>Buff 模板 id</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>名字</td>
+</tr>
+<tr>
+<td><code>components</code></td>
+<td>这个 Buff 要挂哪些组件模板</td>
+</tr>
+<tr>
+<td><code>strategy_handle_owner_got_same_id</code></td>
+<td>同一个 owner 重复获得同模板 Buff 时怎么处理</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>Buff 自身 Tag</td>
+</tr>
+<tr>
+<td><code>collision_tag</code></td>
+<td>会发生冲突的 Tag</td>
+</tr>
+<tr>
+<td><code>tag_collision_resolve_method</code></td>
+<td>Tag 冲突时的处理方式</td>
+</tr>
+<tr>
+<td><code>trigger_and_effects</code></td>
+<td>触发器到效果数组的映射</td>
+</tr>
+</tbody></table>
+<p>最关键的是 <code>trigger_and_effects</code>。</p>
+<p>它本质上是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">trigger_id -&gt; effect_id[]<br></code></pre></td></tr></table></figure>
+
+<p>表里的格式类似：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">when_attach_to_owner[effect_a,effect_b]<br>when_destroy[effect_c]<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，Buff 本身不写“添加时做什么”“销毁时做什么”，而是通过配置把 trigger 和 effect 组装起来。</p>
+<h2 id="组件模板"><a href="#组件模板" class="headerlink" title="组件模板"></a>组件模板</h2><p><code>ecs_component_template_table</code> 定义 Buff 身上的组件。</p>
+<p>当前看到的组件类型包括：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BuffDurationComponent</code></td>
+<td>持续时间，到期后销毁</td>
+</tr>
+<tr>
+<td><code>BuffNeverDestroyComponent</code></td>
+<td>不允许通过统一销毁入口销毁</td>
+</tr>
+<tr>
+<td><code>BuffDestroyWhenOwnerDeadComponent</code></td>
+<td>owner 死亡时销毁</td>
+</tr>
+<tr>
+<td><code>BuffStackComponent</code></td>
+<td>层数相关数据</td>
+</tr>
+</tbody></table>
+<p><code>BuffDurationComponent</code> 会从组件模板的 <code>parameter_floats[0]</code> 读取持续时间：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">duration = config.ParameterFloats[<span class="hljs-number">0</span>];<br>remainingDuration = duration;<br></code></pre></td></tr></table></figure>
+
+<p><code>BuffStackComponent</code> 会读取：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">strategy = (BuffStackStrategyEnum)config.ParameterInt[<span class="hljs-number">0</span>];<br>maxStack = (<span class="hljs-built_in">int</span>)config.ParameterFloats[<span class="hljs-number">0</span>];<br>stackCount = <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<p>注意：新增 <code>ECSComponentType</code> 后，Source Generator 默认只能生成一个空组件。</p>
+<p>如果组件需要读取参数，或者需要被某个 System 每帧处理，就还要补对应代码。</p>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><p><code>ecs_buff_trigger_table</code> 定义触发器。</p>
+<p>当前支持的触发类型包括：</p>
+<ul>
+<li><code>WhenAttachToOwner</code></li>
+<li><code>WhenExpire</code></li>
+<li><code>WhenDestroy</code></li>
+<li><code>WhenStack</code></li>
+<li><code>BeforeOwnerTakeDamage</code></li>
+<li><code>AfterOwnerTakeDamage</code></li>
+<li><code>BeforeOwnerApplyDamage</code></li>
+<li><code>AfterOwnerApplyDamage</code></li>
+<li><code>BeforeOwnerApplyHealing</code></li>
+<li><code>BeforeOwnerTakeHealing</code></li>
+<li><code>AfterOwnerApplyHealing</code></li>
+<li><code>AfterOwnerTakeHealing</code></li>
+<li><code>InvokeAfterSomeTime</code></li>
+<li><code>RepeatInvokeAfterSomeTime</code></li>
+</ul>
+<p>触发器本身也有 <code>priority</code>。</p>
+<p>当一个 Buff 模板里有多个同类型 trigger 时，会先按 trigger priority 排序，再创建对应的 trigger entity。</p>
+<p>延迟触发和周期触发比较特殊。</p>
+<p>创建 Buff 时，如果模板里存在：</p>
+<ul>
+<li><code>InvokeAfterSomeTime</code></li>
+<li><code>RepeatInvokeAfterSomeTime</code></li>
+</ul>
+<p>系统会给 Buff 创建一个 timer child entity。</p>
+<p>后续由这两个系统推进：</p>
+<ul>
+<li><code>BuffInvokeAfterSomeTimeTriggerSystem</code></li>
+<li><code>BuffRepeatInvokeAfterSomeTimeTriggerSystem</code></li>
+</ul>
+<p>时间到了以后，再创建真正的 trigger entity。</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><code>ecs_buff_effect_table</code> 定义效果。</p>
+<p>主要字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>effect id</td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td>效果执行顺序，越小越先执行</td>
+</tr>
+<tr>
+<td><code>effect_enum</code></td>
+<td>对应哪个执行器</td>
+</tr>
+<tr>
+<td><code>parameter_int</code></td>
+<td>int 参数</td>
+</tr>
+<tr>
+<td><code>parameter_floats</code></td>
+<td>float 参数</td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>执行条件</td>
+</tr>
+</tbody></table>
+<p>执行器统一实现：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IECSBuffEffectExecutor</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-built_in">bool</span> <span class="hljs-title">Execute</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> ECSBuffEffectContext context</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>ECSBuffEffectContext</code> 里有：</p>
+<ul>
+<li><code>triggerEntity</code></li>
+<li><code>config</code></li>
+<li><code>ecsWorld</code></li>
+</ul>
+<p>执行器通过 <code>context.config</code> 读取配置参数，通过 <code>triggerEntity</code> 找本次触发上下文。</p>
+<p>如果要回到 Buff 本体，需要这样走：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Entity buffEntity = ECSBuffEffectUtility.GetBuffEntity(context.triggerEntity);<br></code></pre></td></tr></table></figure>
+
+<p>当前比较通用的 effect 包括：</p>
+<ul>
+<li>修改实体属性百分比。</li>
+<li>修改实体属性固定值。</li>
+<li>强制覆盖实体属性。</li>
+<li>修改伤害运行时状态。</li>
+<li>根据 Buff 层数修改伤害运行时状态。</li>
+</ul>
+<p>这些 effect 是否能执行，取决于 trigger entity 上有没有对应上下文。</p>
+<p>比如伤害类 effect 需要 <code>BuffDamageRuntimeStateComponent</code>。如果触发时没有传入伤害上下文，执行器就无法修改伤害数据。</p>
+<h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2><p><code>ecs_buff_effect_condition_table</code> 定义效果条件。</p>
+<p>Effect 配置里的 <code>condition</code> 字段引用的是 condition 的 <code>name_id</code>。</p>
+<p>执行流程是：</p>
+<ol>
+<li><code>condition</code> 为空，直接通过。</li>
+<li><code>condition</code> 不为空，根据 <code>name_id</code> 找到 condition 配置。</li>
+<li>根据 condition 的 <code>id</code> 找到 checker。</li>
+<li>checker 返回 true 才执行 effect。</li>
+</ol>
+<p>checker 统一实现：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IECSBuffEffectConditionChecker</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-built_in">bool</span> <span class="hljs-title">IsPassed</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> ECSBuffEffectContext context</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，condition 和 effect 一样，也是可注册、可扩展的。</p>
+<h2 id="代码生成"><a href="#代码生成" class="headerlink" title="代码生成"></a>代码生成</h2><p>这里有三条生成链。</p>
+<h3 id="Luban-配置生成"><a href="#Luban-配置生成" class="headerlink" title="Luban 配置生成"></a>Luban 配置生成</h3><p>第一条是 Luban。</p>
+<p>输入是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">design/source/Datas/ecs_buff.xlsx<br>design/source/Datas/ecs/__ecs_enums.xlsx<br>design/source/Datas/ecs/__ecs_tables__.xlsx<br></code></pre></td></tr></table></figure>
+
+<p>输出是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Server/Model/Generate/Config/GameConfig/ECSBuff*.cs<br>Server/Model/Generate/Config/GameConfig/ECSComponent*.cs<br>Server/Model/Generate/Config/GameConfig/ECSTagEnum.cs<br>Config/Generate/GameData/ecsbuff*.bytes<br></code></pre></td></tr></table></figure>
+
+<p>运行时通过：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp">ECSBuffEntityTemplateTable.Instance.Get(templateId)<br>ECSBuffEffectTable.Instance.Get(effectId)<br>ECSBuffTriggerTable.Instance.Get(triggerId)<br>ECSComponentTemplateTable.Instance.Get(componentId)<br></code></pre></td></tr></table></figure>
+
+<p>读取配置。</p>
+<h3 id="Source-Generator"><a href="#Source-Generator" class="headerlink" title="Source Generator"></a>Source Generator</h3><p>第二条是 <code>ECSBuffSystemGenerator</code>。</p>
+<p>它是 Roslyn Source Generator。</p>
+<p>它读取编译中的：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">cfg.ECSComponentType<br>cfg.ECSTagEnum<br></code></pre></td></tr></table></figure>
+
+<p>然后生成：</p>
+<ul>
+<li><code>ECSFactory</code></li>
+<li>ECS Tag struct</li>
+<li>ECS Component struct</li>
+</ul>
+<p><code>ECSFactory</code> 主要提供：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">ECSFactory.AddComponent(entity, componentConfig);<br>ECSFactory.AddTag(entity, tagEnum);<br>ECSFactory.HasTag(entity, tagEnum);<br></code></pre></td></tr></table></figure>
+
+<p>这样表里的 <code>components</code> 和 <code>tags</code> 才能变成真正挂在 entity 上的 ECS 数据。</p>
+<h3 id="CodeGenerator"><a href="#CodeGenerator" class="headerlink" title="CodeGenerator"></a>CodeGenerator</h3><p>第三条是 <code>Server/CodeGenerator</code>。</p>
+<p>和 ECS Buff 相关的是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">EcsBuffEffectExecutorCodeGenerator<br></code></pre></td></tr></table></figure>
+
+<p>它负责：</p>
+<ul>
+<li>根据 <code>ECSBuffEffectEnum</code> 生成缺失的 effect executor 模板。</li>
+<li>根据 condition table bytes 生成缺失的 condition checker 模板。</li>
+<li>重写 <code>ECSBuffStartup.cs</code>。</li>
+</ul>
+<p><code>ECSBuffStartup.RegisterAll()</code> 会注册所有 executor 和 checker：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">ECSBuffEffectRegistry.Register(...);<br>ECSBuffEffectRegistry.RegisterConditionChecker(...);<br></code></pre></td></tr></table></figure>
+
+<p>如果新增了 <code>ECSBuffEffectEnum</code>，但是没有跑 <code>CodeGenerator</code>，运行时一般会找不到对应 executor。</p>
+<p>如果新增了 condition，但是没有生成或实现 checker，运行时也会在 condition 检查阶段失败。</p>
+<h2 id="运行时数据流向"><a href="#运行时数据流向" class="headerlink" title="运行时数据流向"></a>运行时数据流向</h2><p>整体流程可以理解成这样：</p>
+<pre><code class=" mermaid">flowchart TD
+    A[&quot;ecs_buff.xlsx&quot;] --&gt; B[&quot;Luban 生成配置类和 bytes&quot;]
+    C[&quot;__ecs_enums.xlsx&quot;] --&gt; D[&quot;生成 ECS 枚举&quot;]
+    D --&gt; E[&quot;ECSBuffSystemGenerator&quot;]
+    E --&gt; F[&quot;ECSFactory / Component / Tag&quot;]
+    B --&gt; G[&quot;ECSBuffModule.TryCreateBuff&quot;]
+    F --&gt; G
+    G --&gt; H[&quot;Buff Entity&quot;]
+    H --&gt; I[&quot;BuffEffectTriggerEntityFactory&quot;]
+    I --&gt; J[&quot;Trigger Entity&quot;]
+    J --&gt; K[&quot;BuffEffectExecuteSystem&quot;]
+    L[&quot;ECSBuffStartup.RegisterAll&quot;] --&gt; M[&quot;ECSBuffEffectRegistry&quot;]
+    M --&gt; K
+</code></pre>
+
+<p>创建 Buff 的入口是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">TryCreateBuff(templateId, owner, source, applicator, <span class="hljs-keyword">out</span> Entity buffEntity)<br></code></pre></td></tr></table></figure>
+
+<p>内部主要做几件事：</p>
+<ol>
+<li>读取 Buff 模板配置。</li>
+<li>处理同 owner、同 template 的重复获得策略。</li>
+<li>处理 Tag 冲突。</li>
+<li>创建或复用 owner entity。</li>
+<li>创建 buff entity。</li>
+<li>添加固定组件，例如 template、owner、source、applicator。</li>
+<li>根据表配置添加组件。</li>
+<li>根据表配置添加 Tag。</li>
+<li>为延迟和周期触发创建 timer child entity。</li>
+<li>触发 <code>WhenAttachToOwner</code>。</li>
+</ol>
+<p>触发效果时：</p>
+<ol>
+<li>根据 trigger type 或 trigger id 创建 trigger entity。</li>
+<li>trigger entity 添加 <code>BuffEffectTriggerInfoComponent</code>。</li>
+<li><code>BuffEffectExecuteSystem</code> 监听到组件添加。</li>
+<li>根据 <code>buffEntityId</code> 找到 Buff 本体。</li>
+<li>根据 <code>triggerConfigId</code> 找到 effect id 数组。</li>
+<li>读取 effect 配置并排序。</li>
+<li>先执行 condition。</li>
+<li>再执行 effect executor。</li>
+<li>记录执行结果。</li>
+<li>抛出事件。</li>
+<li>删除 trigger entity。</li>
+</ol>
+<h2 id="基础-System"><a href="#基础-System" class="headerlink" title="基础 System"></a>基础 System</h2><p><code>CoreEcsWorld</code> 初始化时会创建 <code>EntityStore</code>、<code>ECSBuffModule</code> 和 <code>SystemRoot</code>。</p>
+<p>基础 System 注册顺序是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">_systems.Add(<span class="hljs-keyword">new</span> BuffEffectExecuteSystem(<span class="hljs-keyword">this</span>));<br>_systems.Add(<span class="hljs-keyword">new</span> BuffDestroyTriggerSystem());<br>_systems.Add(<span class="hljs-keyword">new</span> BuffDestroyWhenOwnerDeadSystem(<span class="hljs-keyword">this</span>));<br>_systems.Add(<span class="hljs-keyword">new</span> BuffDurationSystem(<span class="hljs-keyword">this</span>));<br>_systems.Add(<span class="hljs-keyword">new</span> BuffInvokeAfterSomeTimeTriggerSystem());<br>_systems.Add(<span class="hljs-keyword">new</span> BuffRepeatInvokeAfterSomeTimeTriggerSystem());<br></code></pre></td></tr></table></figure>
+
+<p>这些 System 基本覆盖了 Buff 的触发、销毁、持续时间和定时器。</p>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>关注的数据</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BuffEffectExecuteSystem</code></td>
+<td><code>BuffEffectTriggerInfoComponent</code></td>
+<td>trigger entity 创建后，读取 trigger 配置并执行 effect</td>
+</tr>
+<tr>
+<td><code>BuffDestroyTriggerSystem</code></td>
+<td>entity delete 事件</td>
+<td>Buff entity 被删除时触发 <code>WhenDestroy</code></td>
+</tr>
+<tr>
+<td><code>BuffDestroyWhenOwnerDeadSystem</code></td>
+<td><code>BuffDestroyWhenOwnerDeadComponent</code> + <code>BuffOwnerComponent</code></td>
+<td>owner 死亡时删除 Buff</td>
+</tr>
+<tr>
+<td><code>BuffDurationSystem</code></td>
+<td><code>BuffDurationComponent</code>，可选 <code>BuffStackComponent</code></td>
+<td>扣持续时间，到期触发 <code>WhenExpire</code> 并销毁</td>
+</tr>
+<tr>
+<td><code>BuffInvokeAfterSomeTimeTriggerSystem</code></td>
+<td><code>BuffInvokeAfterSomeTimeComponent</code></td>
+<td>固定时间后触发一次，然后删除 timer entity</td>
+</tr>
+<tr>
+<td><code>BuffRepeatInvokeAfterSomeTimeTriggerSystem</code></td>
+<td><code>BuffRepeatInvokeAfterSomeTimeComponent</code></td>
+<td>每隔固定时间触发一次</td>
+</tr>
+</tbody></table>
+<p>这里有两类 System。</p>
+<p>第一类是事件驱动：</p>
+<ul>
+<li><code>BuffEffectExecuteSystem</code> 监听组件添加。</li>
+<li><code>BuffDestroyTriggerSystem</code> 监听 entity 删除。</li>
+</ul>
+<p>第二类是每帧更新：</p>
+<ul>
+<li><code>BuffDestroyWhenOwnerDeadSystem</code></li>
+<li><code>BuffDurationSystem</code></li>
+<li><code>BuffInvokeAfterSomeTimeTriggerSystem</code></li>
+<li><code>BuffRepeatInvokeAfterSomeTimeTriggerSystem</code></li>
+</ul>
+<p>所以 <code>trigger entity</code> 一创建，通常会马上被 <code>BuffEffectExecuteSystem</code> 消费掉。持续时间、死亡销毁、延迟触发这些则是在 <code>CoreEcsWorld.Update(dt)</code> 里推进。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>普通持续时间流程是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">remainingDuration -= dt<br>remainingDuration &lt;= 0<br>  -&gt; WhenExpire<br>  -&gt; DestroyBuffEntity<br>  -&gt; WhenDestroy<br></code></pre></td></tr></table></figure>
+
+<p>如果 Buff 带 <code>BuffStackComponent</code>，并且策略是 <code>Independent</code>，则每一层有自己的剩余时间。</p>
+<p>层数到期时只移除那一层。所有层都到期后，整个 Buff 才过期。</p>
+<h2 id="重复获得和-Tag-冲突"><a href="#重复获得和-Tag-冲突" class="headerlink" title="重复获得和 Tag 冲突"></a>重复获得和 Tag 冲突</h2><p>同一个 owner 重复获得同一个模板时，由 <code>strategy_handle_owner_got_same_id</code> 控制。</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>IgnoreNew</code></td>
+<td>忽略新的</td>
+</tr>
+<tr>
+<td><code>AddPrevDuration</code></td>
+<td>给已有 Buff 增加持续时间</td>
+</tr>
+<tr>
+<td><code>ReplacePrev</code></td>
+<td>先删旧的，再创建新的</td>
+</tr>
+<tr>
+<td><code>AllowStack</code></td>
+<td>不创建新 entity，而是在旧 Buff 上加层</td>
+</tr>
+</tbody></table>
+<p>Tag 冲突由两个字段控制：</p>
+<ul>
+<li><code>collision_tag</code></li>
+<li><code>tag_collision_resolve_method</code></li>
+</ul>
+<p>处理方式有：</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>None</code></td>
+<td>不处理</td>
+</tr>
+<tr>
+<td><code>Skip</code></td>
+<td>已有冲突 Tag 时跳过新 Buff</td>
+</tr>
+<tr>
+<td><code>Destroy</code></td>
+<td>销毁已有冲突 Buff，再创建新 Buff</td>
+</tr>
+<tr>
+<td><code>BothDestroy</code></td>
+<td>销毁已有冲突 Buff，同时跳过新 Buff</td>
+</tr>
+</tbody></table>
+<p>这部分是 ECS Buff 比传统写法更适合配置化的地方。</p>
+<p>因为重复获得和互斥规则不再散落在每个 Buff 类里，而是在创建 Buff 时统一处理。</p>
+<h2 id="和传统-Buff-写法的对比"><a href="#和传统-Buff-写法的对比" class="headerlink" title="和传统 Buff 写法的对比"></a>和传统 Buff 写法的对比</h2><p>这里不展开具体业务，只说结构差异。</p>
+<p>传统 Buff 写法通常是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Buff 配置<br>  -&gt; Buff 类型<br>  -&gt; Buff 实例<br>  -&gt; 虚函数处理生命周期和效果<br></code></pre></td></tr></table></figure>
+
+<p>ECS Buff 写法是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Buff 配置<br>  -&gt; Buff Entity<br>  -&gt; Component + Tag<br>  -&gt; Trigger Entity<br>  -&gt; Effect Executor<br></code></pre></td></tr></table></figure>
+
+<p>对比下来：</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>传统写法</th>
+<th>ECSBuffSystem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>行为位置</td>
+<td>Buff 类里</td>
+<td>Trigger + Effect + Executor</td>
+</tr>
+<tr>
+<td>生命周期</td>
+<td>Buff 实例自己更新或由 Manager 遍历</td>
+<td>ECS System 统一处理</td>
+</tr>
+<tr>
+<td>参数</td>
+<td>通常集中在 Buff 配置或构造参数里</td>
+<td>分散在 component&#x2F;effect&#x2F;condition 配置里</td>
+</tr>
+<tr>
+<td>重复获得</td>
+<td>容易写在各个 Buff 里</td>
+<td>模板策略统一处理</td>
+</tr>
+<tr>
+<td>互斥</td>
+<td>容易写成业务判断</td>
+<td>Tag 冲突统一处理</td>
+</tr>
+<tr>
+<td>扩展普通属性 Buff</td>
+<td>往往要新增类或改类</td>
+<td>多数情况下只配表</td>
+</tr>
+<tr>
+<td>扩展新行为</td>
+<td>写新 Buff 类</td>
+<td>写新 executor、checker 或 system</td>
+</tr>
+</tbody></table>
+<p>传统写法的优点是直观。</p>
+<p>一个 Buff 的逻辑都在一个类里，查问题时直接看这个类即可。</p>
+<p>缺点是 Buff 数量多了以后，规则容易分散。尤其是生命周期、叠层、互斥、触发时机这些通用规则，很容易每个 Buff 写一套。</p>
+<p>ECSBuffSystem 的优点是组合性更好。</p>
+<p>同一个 effect 可以被多个 Buff 复用，同一个 trigger 可以挂不同效果，同一个 condition 也可以复用。</p>
+<p>缺点是链路更长。</p>
+<p>一个 Buff 从表到运行时，要经过：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Excel -&gt; Luban -&gt; Config/bytes -&gt; Source Generator -&gt; CodeGenerator -&gt; Registry -&gt; ECS System<br></code></pre></td></tr></table></figure>
+
+<p>所以排查问题时不能只看一个类，要顺着配置和生成代码一起看。</p>
+<h2 id="新增-Buff-的流程"><a href="#新增-Buff-的流程" class="headerlink" title="新增 Buff 的流程"></a>新增 Buff 的流程</h2><p>如果只是组合已有能力，一般只配表：</p>
+<ol>
+<li>在 <code>ecs_component_template_table</code> 配组件模板。</li>
+<li>在 <code>ecs_buff_effect_table</code> 配效果。</li>
+<li>在 <code>ecs_buff_trigger_table</code> 选择触发器。</li>
+<li>在 <code>ecs_buff_entity_template_table</code> 组装模板。</li>
+<li>跑 Luban，生成配置代码和 bytes。</li>
+</ol>
+<p>如果要新增 effect：</p>
+<ol>
+<li>在 <code>__ecs_enums.xlsx</code> 里加 <code>ECSBuffEffectEnum</code>。</li>
+<li>跑 Luban。</li>
+<li>跑 <code>Server/CodeGenerator</code>。</li>
+<li>实现生成出来的 executor。</li>
+<li>确认 <code>ECSBuffStartup.RegisterAll()</code> 注册了它。</li>
+</ol>
+<p>如果要新增 condition：</p>
+<ol>
+<li>在 <code>ecs_buff_effect_condition_table</code> 增加一行。</li>
+<li>跑 Luban。</li>
+<li>跑 <code>Server/CodeGenerator</code>。</li>
+<li>实现生成出来的 checker。</li>
+</ol>
+<p>如果要新增 component：</p>
+<ol>
+<li>在 <code>__ecs_enums.xlsx</code> 里加 <code>ECSComponentType</code>。</li>
+<li>跑 Luban。</li>
+<li>确认 Source Generator 生成了组件。</li>
+<li>如果组件需要参数，补生成器里的构造逻辑。</li>
+<li>如果组件需要运行时行为，补对应 System。</li>
+</ol>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ul>
+<li><code>trigger entity</code> 是临时的，执行器不要把长期状态存在 trigger 上。</li>
+<li>执行器需要 owner&#x2F;source&#x2F;template 时，要先通过 trigger 找回 buff entity。</li>
+<li>临时属性修改通常要配反向效果，比如添加时加，销毁或过期时减。</li>
+<li><code>WhenExpire</code> 和 <code>WhenDestroy</code> 是两个不同触发点，超时删除时通常两个都会触发。</li>
+<li><code>BuffNeverDestroyComponent</code> 会阻止统一销毁入口，需要谨慎使用。</li>
+<li>新增枚举后要确认生成代码和注册代码都更新。</li>
+<li>表里的 <code>parameter_int</code>、<code>parameter_floats</code> 没有强类型保护，执行器读取时要和表约定一致。</li>
+</ul>
+<p>整体看，<code>ECSBuffSystem</code> 更适合标准化、可组合、可复用的 Buff。</p>
+<p>如果是特殊业务逻辑，强行配成 effect 反而会绕。比较合理的做法是：通用属性修改、持续时间、叠层、互斥、触发条件走 ECS Buff；非常特殊的逻辑再单独扩展 executor、checker 或 system。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B/" class="category-chain-item">编程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/ECS/" class="print-no-link">#ECS</a>
+      
+        <a href="/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/" class="print-no-link">#战斗系统</a>
+      
+        <a href="/tags/Buff/" class="print-no-link">#Buff</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于ECS的Buff系统</div>
+      <div>https://nicoier.github.io/2026/07/08/基于ECS的Buff系统/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/08/Unity-UI%E6%B7%B1%E5%BA%A6%E9%81%AE%E6%8C%A1UIDepthOccluder/" title="Unity UI深度遮挡 UIDepthOccluder">
+                        <span class="hidden-mobile">Unity UI深度遮挡 UIDepthOccluder</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'NicoIer/nicoier.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

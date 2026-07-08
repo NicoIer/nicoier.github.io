@@ -16,15 +16,15 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="离屏渲染Offscreen Rendering（离屏渲染）是一种在不直接显示到屏幕上的缓冲区中进行图形渲染的技术。 说白了就是RenderTarget不是屏幕，而是一个纹理或者一个缓冲区。">
+    <meta name="description" content="离屏渲染Offscreen Rendering（离屏渲染）是一种在不直接显示到屏幕上的缓冲区中进行图形渲染的技术。 说白了就是RenderTarget不是屏幕，而是一个纹理或者一个缓冲区。 常见用途离屏渲染在游戏里非常常见，比如：  小地图 角色头像 后处理 UI 中显示 3D 模型 阴影贴图 反射贴图 Portal 或监控屏效果 需要多次混合的复杂 UI  本质上就是先把某个结果画到一张纹理里，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="离屏渲染">
 <meta property="og:url" content="https://nicoier.github.io/2025/08/07/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="离屏渲染Offscreen Rendering（离屏渲染）是一种在不直接显示到屏幕上的缓冲区中进行图形渲染的技术。 说白了就是RenderTarget不是屏幕，而是一个纹理或者一个缓冲区。">
+<meta property="og:description" content="离屏渲染Offscreen Rendering（离屏渲染）是一种在不直接显示到屏幕上的缓冲区中进行图形渲染的技术。 说白了就是RenderTarget不是屏幕，而是一个纹理或者一个缓冲区。 常见用途离屏渲染在游戏里非常常见，比如：  小地图 角色头像 后处理 UI 中显示 3D 模型 阴影贴图 反射贴图 Portal 或监控屏效果 需要多次混合的复杂 UI  本质上就是先把某个结果画到一张纹理里，">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-07T09:16:59.000Z">
-<meta property="article:modified_time" content="2026-06-29T05:44:50.251Z">
+<meta property="article:modified_time" content="2026-07-08T08:39:50.771Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="渲染">
 <meta property="article:tag" content="图形学">
@@ -245,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          59 字
+          474 字
         
       </span>
     
@@ -256,7 +256,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -306,7 +306,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年6月29日 下午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -316,6 +316,46 @@
                 
                 <h1 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h1><p>Offscreen Rendering（离屏渲染）是一种在不直接显示到屏幕上的缓冲区中进行图形渲染的技术。</p>
 <p>说白了就是RenderTarget不是屏幕，而是一个纹理或者一个缓冲区。</p>
+<h1 id="常见用途"><a href="#常见用途" class="headerlink" title="常见用途"></a>常见用途</h1><p>离屏渲染在游戏里非常常见，比如：</p>
+<ul>
+<li>小地图</li>
+<li>角色头像</li>
+<li>后处理</li>
+<li>UI 中显示 3D 模型</li>
+<li>阴影贴图</li>
+<li>反射贴图</li>
+<li>Portal 或监控屏效果</li>
+<li>需要多次混合的复杂 UI</li>
+</ul>
+<p>本质上就是先把某个结果画到一张纹理里，然后再把这张纹理当成普通贴图使用。</p>
+<h1 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h1><p>通常流程是这样：</p>
+<ul>
+<li>创建一张 <code>RenderTexture</code></li>
+<li>让相机或者 <code>CommandBuffer</code> 把内容绘制到这张纹理</li>
+<li>在后续 Pass 或 UI 中采样这张纹理</li>
+<li>使用完后释放临时资源</li>
+</ul>
+<p>Unity 里最直接的方式是给 Camera 设置 <code>targetTexture</code>。</p>
+<p>如果只是插入某个渲染步骤，或者不想额外走完整 Camera 流程，也可以使用 <code>CommandBuffer</code> 或 URP 的自定义 Pass。</p>
+<h1 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h1><p>离屏渲染不是免费的。</p>
+<p>主要开销有：</p>
+<ul>
+<li>多一次渲染流程</li>
+<li>多一张 RT，占用显存</li>
+<li>读写 RT 会增加带宽压力</li>
+<li>移动端切换 RenderTarget 可能会破坏 Tile-Based GPU 的优化</li>
+<li>分辨率越高，开销越明显</li>
+</ul>
+<p>所以不要看到需要一张图就直接开一张全分辨率 RT。</p>
+<p>能降分辨率就降分辨率，能复用临时 RT 就复用，能合并 Pass 就合并。</p>
+<h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><ul>
+<li>如果只是做 UI 装饰，RT 分辨率通常不需要和屏幕一样大</li>
+<li>如果结果会被放大，需要注意锯齿和采样方式</li>
+<li>如果涉及深度，需要明确是否创建 DepthBuffer</li>
+<li>如果涉及 HDR，需要注意 RT 格式和颜色空间</li>
+<li>如果是移动端，尽量减少频繁切换 RenderTarget</li>
+</ul>
+<p>离屏渲染很好用，但很容易在不知不觉中把带宽吃掉。</p>
 
                 
               </div>

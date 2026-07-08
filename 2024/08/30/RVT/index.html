@@ -16,15 +16,15 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="什么是 Runtime Virtual TextureRuntime Virtual Texture 是一种在运行时生成纹理的技术。它可以用来实现很多高级的效果，比如地形细节纹理、地形细节法线、地形细节高度、地形细节光照等。">
+    <meta name="description" content="什么是 Runtime Virtual TextureRuntime Virtual Texture 是一种在运行时生成纹理的技术。它可以用来实现很多高级的效果，比如地形细节纹理、地形细节法线、地形细节高度、地形细节光照等。 说白了就是把场景里某些信息先渲染到一张虚拟纹理里，后面的材质再去采样这张纹理。 它解决什么问题在开放世界或者大地形里，经常会遇到一个问题：地形、物件、贴花、植被之间很难自然融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Runtime Virtual Texture">
 <meta property="og:url" content="https://nicoier.github.io/2024/08/30/RVT/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="什么是 Runtime Virtual TextureRuntime Virtual Texture 是一种在运行时生成纹理的技术。它可以用来实现很多高级的效果，比如地形细节纹理、地形细节法线、地形细节高度、地形细节光照等。">
+<meta property="og:description" content="什么是 Runtime Virtual TextureRuntime Virtual Texture 是一种在运行时生成纹理的技术。它可以用来实现很多高级的效果，比如地形细节纹理、地形细节法线、地形细节高度、地形细节光照等。 说白了就是把场景里某些信息先渲染到一张虚拟纹理里，后面的材质再去采样这张纹理。 它解决什么问题在开放世界或者大地形里，经常会遇到一个问题：地形、物件、贴花、植被之间很难自然融">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-30T09:12:52.000Z">
-<meta property="article:modified_time" content="2026-07-08T03:26:52.957Z">
+<meta property="article:modified_time" content="2026-07-08T08:40:04.672Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="游戏开发">
 <meta property="article:tag" content="图形学">
@@ -245,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          59 字
+          593 字
         
       </span>
     
@@ -256,7 +256,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -306,7 +306,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 上午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -315,6 +315,42 @@
               <div class="markdown-body">
                 
                 <h2 id="什么是-Runtime-Virtual-Texture"><a href="#什么是-Runtime-Virtual-Texture" class="headerlink" title="什么是 Runtime Virtual Texture"></a>什么是 Runtime Virtual Texture</h2><p>Runtime Virtual Texture 是一种在运行时生成纹理的技术。它可以用来实现很多高级的效果，比如地形细节纹理、地形细节法线、地形细节高度、地形细节光照等。</p>
+<p>说白了就是把场景里某些信息先渲染到一张虚拟纹理里，后面的材质再去采样这张纹理。</p>
+<h1 id="它解决什么问题"><a href="#它解决什么问题" class="headerlink" title="它解决什么问题"></a>它解决什么问题</h1><p>在开放世界或者大地形里，经常会遇到一个问题：地形、物件、贴花、植被之间很难自然融合。</p>
+<p>比如石头放在地面上，如果只是普通 Mesh 和 Terrain 叠在一起，交界处会非常硬。RVT 可以先把地形的颜色、法线、高度等信息写进纹理，然后让石头、草、道路这些物体去采样地形信息，从而做融合。</p>
+<p>常见用途：</p>
+<ul>
+<li>地形和物件的颜色融合</li>
+<li>地形法线混合</li>
+<li>道路、脚印、车辙这类运行时痕迹</li>
+<li>大范围贴花</li>
+<li>地形材质信息缓存</li>
+</ul>
+<h1 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h1><p>一个典型流程是：</p>
+<ul>
+<li>先定义一张 Runtime Virtual Texture</li>
+<li>让地形或指定物体把颜色、法线、高度等信息写进去</li>
+<li>其他材质采样这张 RVT</li>
+<li>根据采样结果调整自身颜色、法线或透明度</li>
+</ul>
+<p>这本质上是把一部分场景信息缓存成纹理，避免每个物体都单独去查询复杂的场景关系。</p>
+<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
+<li>可以让物件和地形融合得更自然</li>
+<li>适合大面积、低频变化的信息</li>
+<li>可以减少一些重复计算</li>
+<li>美术可以用比较直观的方式控制混合效果</li>
+</ul>
+<h1 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h1><p>RVT 也不是免费的。</p>
+<ul>
+<li>需要额外的纹理内存</li>
+<li>写入和采样都会有开销</li>
+<li>分辨率不够时会糊</li>
+<li>更新频率高时成本会变大</li>
+<li>调试起来比普通贴图更麻烦</li>
+</ul>
+<p>所以它更适合地形这种大范围、变化不那么频繁的内容，不适合所有细节都往里面塞。</p>
+<h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><p>如果只是一个很小的场景，或者只是少量物体融合，直接用普通贴图、顶点色、贴花可能更简单。</p>
+<p>RVT 的价值主要体现在大场景和复杂地表混合上。项目规模没到那个程度时，上 RVT 反而会增加维护成本。</p>
 
                 
               </div>
