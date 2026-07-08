@@ -74,15 +74,9 @@
     <id>https://nicoier.github.io/2026/07/02/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97v0.1/</id>
     <link href="https://nicoier.github.io/2026/07/02/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97v0.1/"/>
     <published>2026-07-02T08:37:37.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h1>
-$$
-\begin{aligned}
-raw\_damage &= \max(0, base\_damage + damage\_offset) \\
-increase\_multiplier &= 1 +]]>
-    </summary>
+    <summary>记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。</summary>
     <title>伤害计算v0.1</title>
-    <updated>2026-07-08T05:58:45.754Z</updated>
+    <updated>2026-07-08T06:29:59.734Z</updated>
   </entry>
   <entry>
     <author>

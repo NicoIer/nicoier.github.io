@@ -16,16 +16,16 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="光照散射吸收着色标准光照模型 环境光  自发光  高光反射（镜面反射）  漫反射  菲涅尔效应   HLSL   基本数据类型 描述 用途    float 一般是32位 顶点，纹理坐标   half 一般是16位 矢量，方向，位置，颜色等   线性代数 计算向量间的夹角  $$AB&#x3D;dot(A, B) &#x3D; |A||B|cos\theta$$ $$cos\theta &amp;#x3D">
+    <meta name="description" content="记录 Unity 基础光照模型里的环境光、自发光、高光、漫反射、菲涅尔和常用向量计算。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unity基础光照">
 <meta property="og:url" content="https://nicoier.github.io/2024/08/30/%E5%9F%BA%E7%A1%80%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="光照散射吸收着色标准光照模型 环境光  自发光  高光反射（镜面反射）  漫反射  菲涅尔效应   HLSL   基本数据类型 描述 用途    float 一般是32位 顶点，纹理坐标   half 一般是16位 矢量，方向，位置，颜色等   线性代数 计算向量间的夹角  $$AB&#x3D;dot(A, B) &#x3D; |A||B|cos\theta$$ $$cos\theta &amp;#x3D">
+<meta property="og:description" content="记录 Unity 基础光照模型里的环境光、自发光、高光、漫反射、菲涅尔和常用向量计算。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nicoier.github.io/img/URP-Lambert.png">
 <meta property="article:published_time" content="2024-08-30T09:34:39.000Z">
-<meta property="article:modified_time" content="2026-07-08T03:26:52.470Z">
+<meta property="article:modified_time" content="2026-07-08T06:30:27.614Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
 <meta property="article:tag" content="游戏开发">
@@ -70,6 +70,10 @@
     <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
 
 
 
@@ -177,6 +181,18 @@
               <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
               </a>
             </li>
           
@@ -294,7 +310,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 上午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -552,6 +568,12 @@
   
 
 
+  
+  
+
+
+
+
 
 
 
@@ -768,6 +790,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

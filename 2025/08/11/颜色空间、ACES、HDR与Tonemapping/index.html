@@ -16,12 +16,12 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="从人眼说起人眼的感知能力是非常复杂的，主要由视网膜中的锥体细胞和杆体细胞共同作用。 锥体细胞负责色彩感知，而杆体细胞则对光线强度敏感。 人眼对不同波长的光有不同的敏感度，这种敏感度可以用光谱敏感函数来描述。人眼的感知范围大约在380nm到750nm之间，这个范围内的光线被称为可见光。人眼对不同波长的光有不同的敏感度，这种敏感度可以用光谱敏感函数来描述。  人眼的感知能力是非线性的，这意味着我们对光">
+    <meta name="description" content="从人眼感知、显示器亮度、颜色空间、HDR、ACES 和 Tonemapping 几个角度整理颜色处理链路。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="颜色空间、ACES、HDR与Tonemapping">
 <meta property="og:url" content="https://nicoier.github.io/2025/08/11/%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E3%80%81ACES%E3%80%81HDR%E4%B8%8ETonemapping/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="从人眼说起人眼的感知能力是非常复杂的，主要由视网膜中的锥体细胞和杆体细胞共同作用。 锥体细胞负责色彩感知，而杆体细胞则对光线强度敏感。 人眼对不同波长的光有不同的敏感度，这种敏感度可以用光谱敏感函数来描述。人眼的感知范围大约在380nm到750nm之间，这个范围内的光线被称为可见光。人眼对不同波长的光有不同的敏感度，这种敏感度可以用光谱敏感函数来描述。  人眼的感知能力是非线性的，这意味着我们对光">
+<meta property="og:description" content="从人眼感知、显示器亮度、颜色空间、HDR、ACES 和 Tonemapping 几个角度整理颜色处理链路。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nicoier.github.io/img/visible_light.png">
 <meta property="og:image" content="https://nicoier.github.io/img/gamma_inverse.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://nicoier.github.io/img/aces.jpg">
 <meta property="og:image" content="https://nicoier.github.io/img/lut.png">
 <meta property="article:published_time" content="2025-08-11T09:35:00.000Z">
-<meta property="article:modified_time" content="2026-06-29T05:44:50.254Z">
+<meta property="article:modified_time" content="2026-07-08T06:30:15.848Z">
 <meta property="article:author" content="NicoIer">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nicoier.github.io/img/visible_light.png">
@@ -76,6 +76,10 @@
     <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
 
 
 
@@ -183,6 +187,18 @@
               <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
               </a>
             </li>
           
@@ -300,7 +316,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年6月29日 下午
+                    本文最后更新于 2026年7月8日 下午
                   
                 
               </p>
@@ -374,16 +390,7 @@
 <p>[参考]</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21983679">https://zhuanlan.zhihu.com/p/21983679</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/609569101">https://zhuanlan.zhihu.com/p/609569101</a></p>
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
-  }
-};
-</script>
-<script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script>
+
                 
               </div>
             
@@ -569,6 +576,12 @@ MathJax = {
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -787,6 +800,49 @@ MathJax = {
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

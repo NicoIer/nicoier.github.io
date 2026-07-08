@@ -60,13 +60,7 @@
     <item>
       <title>伤害计算v0.1</title>
       <link>https://nicoier.github.io/2026/07/02/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97v0.1/</link>
-      <description>
-        <![CDATA[<h1 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h1>
-$$
-\begin{aligned}
-raw\_damage &= \max(0, base\_damage + damage\_offset) \\
-increase\_multiplier &= 1 +]]>
-      </description>
+      <description>记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。</description>
       <author>NicoIer</author>
       <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
       <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
