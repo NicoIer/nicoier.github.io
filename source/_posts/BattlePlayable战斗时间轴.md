@@ -8,11 +8,12 @@ categories: [编程]
 
 # BattlePlayable 战斗时间轴
 
-这里记录一下 `BattlePlayable`。
 
-先说结论：`BattlePlayable` 是一套战斗时间轴工具。
+## BattlePlayable 是什么
 
-它解决的问题不是战斗公式怎么写，而是把一次攻击、技能或者战斗表现拆成可以编辑、保存、预览、回放的数据。
+`BattlePlayable` 是一套战斗时间轴工具。
+
+它把一次攻击、技能或者战斗表现拆成可以编辑、保存、预览、回放的数据。
 
 核心链路是：
 

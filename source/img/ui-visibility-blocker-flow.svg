@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">UIVisibilityBlocker 流程</title>
+  <desc id="desc">多个来源调用 Block 后写入字典，合并 VisibilityModeEnum，再根据 GameObject 或 CanvasGroup 模式更新 UI 可见性和交互状态。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; }
+      .source { fill: #e0f2fe; stroke: #0284c7; }
+      .dict { fill: #fef3c7; stroke: #d97706; }
+      .mode { fill: #dcfce7; stroke: #16a34a; }
+      .target { fill: #ede9fe; stroke: #7c3aed; }
+      .warn { fill: #fee2e2; stroke: #dc2626; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 1.8; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="500"/>
+  <text class="title" x="40" y="44">UIVisibilityBlocker 流程</text>
+  <text class="small" x="40" y="70">核心是按来源记录隐藏请求，再把所有 Flags 合并成最终要应用的可见性状态。</text>
+
+  <rect class="box source" x="55" y="115" width="220" height="78" rx="10"/>
+  <text class="label" x="165" y="147" text-anchor="middle">Source A</text>
+  <text class="mono" x="165" y="172" text-anchor="middle">Block("Loading", Alpha)</text>
+
+  <rect class="box source" x="55" y="225" width="220" height="78" rx="10"/>
+  <text class="label" x="165" y="257" text-anchor="middle">Source B</text>
+  <text class="mono" x="165" y="282" text-anchor="middle">Block("Guide", Interactable)</text>
+
+  <rect class="box source" x="55" y="335" width="220" height="78" rx="10"/>
+  <text class="label" x="165" y="367" text-anchor="middle">Unblock</text>
+  <text class="mono" x="165" y="392" text-anchor="middle">Unblock("Loading")</text>
+
+  <rect class="box dict" x="370" y="150" width="270" height="180" rx="12"/>
+  <text class="label" x="505" y="184" text-anchor="middle">_blockSources</text>
+  <text class="mono" x="505" y="215" text-anchor="middle">Dictionary&lt;string, Flags&gt;</text>
+  <text class="mono" x="505" y="250" text-anchor="middle">Loading: Alpha</text>
+  <text class="mono" x="505" y="276" text-anchor="middle">Guide: Interactable</text>
+
+  <rect class="box mode" x="735" y="150" width="220" height="180" rx="12"/>
+  <text class="label" x="845" y="184" text-anchor="middle">GetBlockedMode</text>
+  <text class="small" x="845" y="214" text-anchor="middle">按位 OR 合并</text>
+  <text class="mono" x="845" y="250" text-anchor="middle">Alpha | Interactable</text>
+  <text class="small" x="845" y="282" text-anchor="middle">再和 _appliedBlockMode 比较</text>
+
+  <rect class="box target" x="1010" y="95" width="150" height="120" rx="12"/>
+  <text class="label" x="1085" y="132" text-anchor="middle">GameObject</text>
+  <text class="mono" x="1085" y="160" text-anchor="middle">SetActive</text>
+  <text class="small" x="1085" y="186" text-anchor="middle">Alpha 映射显示</text>
+
+  <rect class="box target" x="1010" y="270" width="150" height="130" rx="12"/>
+  <text class="label" x="1085" y="306" text-anchor="middle">CanvasGroup</text>
+  <text class="mono" x="1085" y="334" text-anchor="middle">alpha</text>
+  <text class="mono" x="1085" y="356" text-anchor="middle">interactable</text>
+  <text class="mono" x="1085" y="378" text-anchor="middle">blocksRaycasts</text>
+
+  <path class="arrow" d="M 280 154 L 362 205"/>
+  <path class="arrow" d="M 280 264 L 362 250"/>
+  <path class="dash" d="M 280 374 C 330 350 350 325 390 305"/>
+  <path class="arrow" d="M 645 240 L 727 240"/>
+  <path class="arrow" d="M 960 220 L 1002 160"/>
+  <path class="arrow" d="M 960 260 L 1002 335"/>
+
+  <rect class="box warn" x="370" y="380" width="585" height="62" rx="8"/>
+  <text class="label" x="662" y="411" text-anchor="middle">同一个 source 再次 Block 会覆盖 mode</text>
+  <text class="small" x="662" y="432" text-anchor="middle">恢复时必须使用同一个 source 字符串调用 Unblock</text>
+</svg>
