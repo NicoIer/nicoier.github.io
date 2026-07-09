@@ -1,0 +1,939 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录 UnityToolkit 中 UIVisibilityBlocker 的设计思路、两种显示模式、多来源隐藏请求合并和使用注意点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIVisibilityBlocker 可见性阻塞器">
+<meta property="og:url" content="https://nicoier.github.io/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="记录 UnityToolkit 中 UIVisibilityBlocker 的设计思路、两种显示模式、多来源隐藏请求合并和使用注意点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/ui-visibility-blocker-flow.svg">
+<meta property="article:published_time" content="2026-07-09T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-09T05:38:12.875Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="CSharp">
+<meta property="article:tag" content="UGUI">
+<meta property="article:tag" content="UIFramework">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/ui-visibility-blocker-flow.svg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>UIVisibilityBlocker 可见性阻塞器 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="UIVisibilityBlocker 可见性阻塞器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-09 16:00" pubdate>
+          2026年7月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">UIVisibilityBlocker 可见性阻塞器</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年7月9日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="UIVisibilityBlocker-可见性阻塞器"><a href="#UIVisibilityBlocker-可见性阻塞器" class="headerlink" title="UIVisibilityBlocker 可见性阻塞器"></a>UIVisibilityBlocker 可见性阻塞器</h1><p>这里记录一下 <code>UIVisibilityBlocker</code>。</p>
+<p>源码位置：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">UnityToolkit/UnityToolkit/Runtime/UIFramework/UIVisibilityBlocker.cs<br></code></pre></td></tr></table></figure>
+
+<p>先说结论：它解决的是“多个来源都可能要求一个 UI 隐藏”的问题。</p>
+<p>正常写法里，经常会出现这种情况：</p>
+<ul>
+<li>新手引导想隐藏某个按钮。</li>
+<li>Loading 流程想隐藏某个按钮。</li>
+<li>战斗状态想禁用某个按钮。</li>
+<li>弹窗打开时想挡住某块 UI 的点击。</li>
+</ul>
+<p>如果每个地方都直接 <code>SetActive(false)</code>，最后就很容易乱。</p>
+<p>比如 A 隐藏了 UI，B 也隐藏了 UI。然后 A 恢复显示时直接 <code>SetActive(true)</code>，就会把 B 仍然想隐藏的 UI 提前放出来。</p>
+<p><code>UIVisibilityBlocker</code> 的做法是记录每个隐藏来源。</p>
+<p>只有所有来源都解除后，UI 才真正恢复。</p>
+<p><img src="/../img/ui-visibility-blocker-flow.svg" srcset="/img/loading.gif" lazyload alt="UIVisibilityBlocker 流程"></p>
+<h2 id="核心结构"><a href="#核心结构" class="headerlink" title="核心结构"></a>核心结构</h2><p>它主要有两个枚举。</p>
+<p>第一个是整体控制模式：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> VisibilityMode<br>&#123;<br>    GameObject,<br>    CanvasGroup,<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>GameObject</code> 模式通过 <code>GameObject.SetActive</code> 控制显示隐藏。</p>
+<p><code>CanvasGroup</code> 模式通过 <code>CanvasGroup</code> 控制透明度、交互和射线遮挡。</p>
+<p>第二个是具体阻塞内容：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">Flags</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> VisibilityModeEnum<br>&#123;<br>    Alpha = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">0</span>,<br>    Interactable = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">1</span>,<br>    BlockRaycasts = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>,<br><br>    All = Alpha | Interactable | BlockRaycasts<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个枚举是 <code>Flags</code>。</p>
+<p>所以一次隐藏请求不一定要控制全部内容。</p>
+<p>比如：</p>
+<ul>
+<li>只隐藏显示：<code>Alpha</code></li>
+<li>只禁用点击：<code>Interactable | BlockRaycasts</code></li>
+<li>全部隐藏并禁用：<code>All</code></li>
+</ul>
+<h2 id="多来源阻塞"><a href="#多来源阻塞" class="headerlink" title="多来源阻塞"></a>多来源阻塞</h2><p>核心数据结构是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> Dictionary&lt;<span class="hljs-built_in">string</span>, VisibilityModeEnum&gt; _blockSources;<br></code></pre></td></tr></table></figure>
+
+<p>key 是来源字符串。</p>
+<p>value 是这个来源想阻塞的内容。</p>
+<p>调用 <code>Block</code> 时：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Block</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> source, VisibilityModeEnum mode = VisibilityModeEnum.All</span>)</span><br>&#123;<br>    _blockSources[source] = mode;<br>    UpdateVisibility();<br>    UpdateDebugInfo();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意这里是赋值：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">_blockSources[source] = mode;<br></code></pre></td></tr></table></figure>
+
+<p>所以同一个 <code>source</code> 重复调用 <code>Block</code>，会覆盖之前的 mode。</p>
+<p>调用 <code>Unblock</code> 时：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Unblock</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> source</span>)</span><br>&#123;<br>    _blockSources.Remove(source);<br>    UpdateVisibility();<br>    UpdateDebugInfo();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以一定要用同一个 source 字符串解除。</p>
+<p>比较推荐写成常量：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> SourceLoading = <span class="hljs-string">&quot;Loading&quot;</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> SourceGuide = <span class="hljs-string">&quot;Guide&quot;</span>;<br><br>blocker.Block(SourceLoading);<br>blocker.Unblock(SourceLoading);<br></code></pre></td></tr></table></figure>
+
+<p>不要随手拼一个临时字符串。</p>
+<p>尤其不要把时间戳、随机数、对象 hash 拼进去，否则后面基本解不掉。</p>
+<h2 id="合并规则"><a href="#合并规则" class="headerlink" title="合并规则"></a>合并规则</h2><p>当前真正要应用的阻塞状态由 <code>GetBlockedMode</code> 计算。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> VisibilityModeEnum <span class="hljs-title">GetBlockedMode</span>()</span><br>&#123;<br>    <span class="hljs-keyword">var</span> mode = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> blockSource <span class="hljs-keyword">in</span> _blockSources)<br>    &#123;<br>        mode |= (<span class="hljs-built_in">int</span>)blockSource.Value;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> (VisibilityModeEnum)mode;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，它会把所有来源的 <code>VisibilityModeEnum</code> 做一次按位 OR。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Loading -&gt; Alpha<br>Guide   -&gt; Interactable<br><br>blockedMode = Alpha | Interactable<br></code></pre></td></tr></table></figure>
+
+<p>只要还有任意来源阻塞 <code>Alpha</code>，UI 就继续隐藏。</p>
+<p>只要还有任意来源阻塞 <code>Interactable</code>，UI 就继续不可交互。</p>
+<p>这个逻辑和引用计数类似，但比简单计数更好排查，因为能看到每个来源。</p>
+<h2 id="GameObject-模式"><a href="#GameObject-模式" class="headerlink" title="GameObject 模式"></a>GameObject 模式</h2><p><code>GameObject</code> 模式下，<code>Alpha</code> 会映射为 <code>SetActive</code>。</p>
+<p>代码是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ApplyGameObjectMode</span>(<span class="hljs-params">VisibilityModeEnum blockedMode</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (ShouldApplyMode(blockedMode, VisibilityModeEnum.Alpha))<br>        Target.SetActive(!blockedMode.HasFlag(VisibilityModeEnum.Alpha));<br><br>    <span class="hljs-keyword">var</span> cg = CachedCanvasGroup;<br>    <span class="hljs-keyword">if</span> (cg == <span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">return</span>;<br><br>    <span class="hljs-keyword">if</span> (ShouldApplyMode(blockedMode, VisibilityModeEnum.Interactable))<br>        cg.interactable = !blockedMode.HasFlag(VisibilityModeEnum.Interactable);<br><br>    <span class="hljs-keyword">if</span> (ShouldApplyMode(blockedMode, VisibilityModeEnum.BlockRaycasts))<br>        cg.blocksRaycasts = !blockedMode.HasFlag(VisibilityModeEnum.BlockRaycasts);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里有一个细节。</p>
+<p>即使是 <code>GameObject</code> 模式，如果对象上有 <code>CanvasGroup</code>，也会顺手控制：</p>
+<ul>
+<li><code>interactable</code></li>
+<li><code>blocksRaycasts</code></li>
+</ul>
+<p>但 <code>Alpha</code> 控制的是 <code>Target.SetActive</code>，不是 <code>CanvasGroup.alpha</code>。</p>
+<p>所以 <code>GameObject</code> 模式适合真正想关掉整个节点的情况。</p>
+<p>比如这个 UI 被隐藏后，不希望继续参与布局、Update、子对象逻辑。</p>
+<h2 id="CanvasGroup-模式"><a href="#CanvasGroup-模式" class="headerlink" title="CanvasGroup 模式"></a>CanvasGroup 模式</h2><p><code>CanvasGroup</code> 模式不会关闭 GameObject。</p>
+<p>它只控制 <code>CanvasGroup</code>：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ApplyCanvasGroupMode</span>(<span class="hljs-params">CanvasGroup cg, VisibilityModeEnum blockedMode</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (ShouldApplyMode(blockedMode, VisibilityModeEnum.Alpha))<br>        cg.alpha = blockedMode.HasFlag(VisibilityModeEnum.Alpha) ? <span class="hljs-number">0f</span> : <span class="hljs-number">1f</span>;<br><br>    <span class="hljs-keyword">if</span> (ShouldApplyMode(blockedMode, VisibilityModeEnum.Interactable))<br>        cg.interactable = !blockedMode.HasFlag(VisibilityModeEnum.Interactable);<br><br>    <span class="hljs-keyword">if</span> (ShouldApplyMode(blockedMode, VisibilityModeEnum.BlockRaycasts))<br>        cg.blocksRaycasts = !blockedMode.HasFlag(VisibilityModeEnum.BlockRaycasts);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这种方式适合 UI 还要保持激活，但暂时不可见或不可交互。</p>
+<p>比如：</p>
+<ul>
+<li>想保留布局。</li>
+<li>想保留脚本生命周期。</li>
+<li>想做淡入淡出前后的状态切换。</li>
+<li>只想禁用交互，不想隐藏显示。</li>
+</ul>
+<p>如果设置为 <code>CanvasGroup</code> 模式，但找不到 <code>CanvasGroup</code>，代码会打 Warning，然后回退到 <code>GameObject</code> 模式。</p>
+<h2 id="ShouldApplyMode-的作用"><a href="#ShouldApplyMode-的作用" class="headerlink" title="ShouldApplyMode 的作用"></a>ShouldApplyMode 的作用</h2><p>这里有一个比较容易忽略的函数：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">ShouldApplyMode</span>(<span class="hljs-params">VisibilityModeEnum currentMode, VisibilityModeEnum mode</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> currentMode.HasFlag(mode) || _appliedBlockMode.HasFlag(mode);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它不是单纯判断当前 mode 有没有这个 flag。</p>
+<p>它还会看上一次已经应用过的 <code>_appliedBlockMode</code>。</p>
+<p>原因是需要恢复状态。</p>
+<p>比如第一帧：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">blockedMode = Alpha<br></code></pre></td></tr></table></figure>
+
+<p>代码把 UI 隐藏。</p>
+<p>下一帧这个来源解除：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">blockedMode = 0<br></code></pre></td></tr></table></figure>
+
+<p>如果只看当前 mode，<code>Alpha</code> 已经不存在，就不会再设置 alpha 或 active。</p>
+<p>这样 UI 就永远恢复不了了。</p>
+<p>所以需要 <code>_appliedBlockMode</code> 记录上一次应用过什么。</p>
+<p>当前没有阻塞，但上一次阻塞过，也要再执行一次，把状态恢复回来。</p>
+<p>这就是 <code>ShouldApplyMode</code> 的意义。</p>
+<h2 id="调试信息"><a href="#调试信息" class="headerlink" title="调试信息"></a>调试信息</h2><p>组件里有两个调试字段：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">SerializeField</span>]<br><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> showDebugInfo;<br><br>[<span class="hljs-meta">SerializeField</span>]<br><span class="hljs-keyword">private</span> List&lt;<span class="hljs-built_in">string</span>&gt; debugBlockSources;<br></code></pre></td></tr></table></figure>
+
+<p><code>UpdateDebugInfo</code> 只在 <code>UNITY_EDITOR</code> 下生效：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">System.Diagnostics.Conditional(<span class="hljs-string">&quot;UNITY_EDITOR&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">UpdateDebugInfo</span>()</span><br></code></pre></td></tr></table></figure>
+
+<p>如果 <code>showDebugInfo</code> 打开，Inspector 里会看到当前有哪些来源正在阻塞。</p>
+<p>显示格式大概是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">Loading: All<br>Guide: Interactable, BlockRaycasts<br></code></pre></td></tr></table></figure>
+
+<p>这个对排查 UI 不显示很有用。</p>
+<p>因为问题通常不是“这个 UI 为什么隐藏了”，而是“是谁还没有 Unblock”。</p>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><p>最简单的用法：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> blocker = GetComponent&lt;UIVisibilityBlocker&gt;();<br><br>blocker.Block(<span class="hljs-string">&quot;Loading&quot;</span>);<br>blocker.Unblock(<span class="hljs-string">&quot;Loading&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>只禁用点击，不隐藏：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">blocker.Block(<span class="hljs-string">&quot;Guide&quot;</span>, VisibilityModeEnum.Interactable | VisibilityModeEnum.BlockRaycasts);<br></code></pre></td></tr></table></figure>
+
+<p>只隐藏显示，但保留点击状态的控制权：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">blocker.Block(<span class="hljs-string">&quot;FadeOut&quot;</span>, VisibilityModeEnum.Alpha);<br></code></pre></td></tr></table></figure>
+
+<p>清空所有来源：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">blocker.ClearAll();<br></code></pre></td></tr></table></figure>
+
+<p><code>ClearAll</code> 适合 UI 重置、面板关闭、状态机切换这类场景。</p>
+<p>但不要把它当成普通恢复手段乱用。</p>
+<p>因为它会清掉所有来源，不管这些来源是不是当前调用者加的。</p>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>第一，<code>source</code> 不能为空。</p>
+<p>代码里会检查空字符串和 null：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">string</span>.IsNullOrEmpty(source))<br>&#123;<br>    Debug.LogWarning(...);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>第二，同一个 source 重复 Block 会覆盖 mode。</p>
+<p>这通常是合理的。</p>
+<p>比如同一个系统先只禁用点击，后面改成完全隐藏，就直接覆盖即可。</p>
+<p>第三，<code>Unblock</code> 不会检查 source 是否存在。</p>
+<p>不存在就什么都不做。</p>
+<p>这让调用方可以在清理时直接 Unblock，不用先查一次。</p>
+<p>第四，<code>OnDestroy</code> 只清理内部字典。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDestroy</span>()</span><br>&#123;<br>    _blockSources.Clear();<br>    debugBlockSources.Clear();<br>    _appliedBlockMode = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它没有再调用 <code>UpdateVisibility</code> 恢复目标状态。</p>
+<p>一般组件和 UI 一起销毁时没问题。</p>
+<p>但如果目标对象和 blocker 生命周期不一致，就要注意销毁前的显示状态。</p>
+<p>第五，<code>GameObject</code> 模式会影响激活状态。</p>
+<p>如果其他逻辑依赖这个对象一直 active，那就不要用 <code>GameObject</code> 模式。</p>
+<p>改用 <code>CanvasGroup</code> 模式更稳。</p>
+<p>第六，<code>CanvasGroup</code> 模式要求对象上有 <code>CanvasGroup</code>。</p>
+<p>没有的话会回退到 <code>GameObject</code> 模式。</p>
+<h2 id="适合什么场景"><a href="#适合什么场景" class="headerlink" title="适合什么场景"></a>适合什么场景</h2><p>适合这些情况：</p>
+<ul>
+<li>多个系统都可能控制同一个 UI 是否显示。</li>
+<li>UI 显示和交互状态需要拆开控制。</li>
+<li>想知道当前是谁还在隐藏这个 UI。</li>
+<li>想避免 <code>SetActive(true/false)</code> 被不同逻辑互相覆盖。</li>
+</ul>
+<p>不太适合这些情况：</p>
+<ul>
+<li>只有一个地方控制 UI 显隐。</li>
+<li>UI 只是一次性打开关闭。</li>
+<li>需要复杂动画状态机。</li>
+<li>需要记录隐藏前的原始 alpha、interactable、blocksRaycasts。</li>
+</ul>
+<p>最后一点要注意。</p>
+<p>当前实现恢复时会把 alpha 恢复成 <code>1f</code>，把 interactable 和 blocksRaycasts 恢复成 <code>true</code>。</p>
+<p>它不是“保存旧值再恢复旧值”的系统。</p>
+<p>如果某个 UI 原本 alpha 就不是 1，或者原本就不可交互，需要额外处理。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>UIVisibilityBlocker</code> 本质上是一个 UI 显隐的多来源阻塞器。</p>
+<p>它不复杂，但能解决一个很常见的问题：多个系统同时控制同一个 UI 时，谁也不应该随便把 UI 恢复出来。</p>
+<p>核心就是三点：</p>
+<ul>
+<li>用 <code>source</code> 记录来源。</li>
+<li>用 <code>VisibilityModeEnum</code> 区分阻塞内容。</li>
+<li>用 <code>_appliedBlockMode</code> 保证解除后能恢复之前应用过的状态。</li>
+</ul>
+<p>如果项目里经常出现 UI 被不同流程反复隐藏、恢复，这种写法比到处 <code>SetActive</code> 要清楚很多。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><code>UnityToolkit/UnityToolkit/Runtime/UIFramework/UIVisibilityBlocker.cs</code></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Unity/" class="print-no-link">#Unity</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/UGUI/" class="print-no-link">#UGUI</a>
+      
+        <a href="/tags/UIFramework/" class="print-no-link">#UIFramework</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>UIVisibilityBlocker 可见性阻塞器</div>
+      <div>https://nicoier.github.io/2026/07/09/UIVisibilityBlocker可见性阻塞器/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/" title="Capability系统架构实践">
+                        <span class="hidden-mobile">Capability系统架构实践</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'NicoIer/nicoier.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

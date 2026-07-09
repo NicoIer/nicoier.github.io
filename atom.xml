@@ -10,7 +10,39 @@
   <link href="https://nicoier.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, NicoIer</rights>
   <title>NicoIer</title>
-  <updated>2026-07-08T09:48:21.724Z</updated>
+  <updated>2026-07-09T05:38:12.875Z</updated>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="UGUI" scheme="https://nicoier.github.io/tags/UGUI/"/>
+    <category term="UIFramework" scheme="https://nicoier.github.io/tags/UIFramework/"/>
+    <id>https://nicoier.github.io/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/</id>
+    <link href="https://nicoier.github.io/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/"/>
+    <published>2026-07-09T08:00:00.000Z</published>
+    <summary>记录 UnityToolkit 中 UIVisibilityBlocker 的设计思路、两种显示模式、多来源隐藏请求合并和使用注意点。</summary>
+    <title>UIVisibilityBlocker 可见性阻塞器</title>
+    <updated>2026-07-09T05:38:12.875Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="Capability" scheme="https://nicoier.github.io/tags/Capability/"/>
+    <category term="架构" scheme="https://nicoier.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
+    <id>https://nicoier.github.io/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/</id>
+    <link href="https://nicoier.github.io/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/"/>
+    <published>2026-07-09T02:00:00.000Z</published>
+    <summary>参考 GDC2025《双影奇境》的 Capabilities 思路，记录一个 Unity Capability 框架的基础结构、生命周期、通信方式、Tag 阻塞和实现代价。</summary>
+    <title>Capability系统架构实践</title>
+    <updated>2026-07-09T05:31:27.111Z</updated>
+  </entry>
   <entry>
     <author>
       <name>NicoIer</name>
@@ -25,7 +57,7 @@
     <published>2026-07-08T09:35:00.000Z</published>
     <summary>记录 BattlePlayable 的数据结构、编辑器配置流程、保存加载、运行时播放、服务器对时和扩展 Clip 的流程。</summary>
     <title>BattlePlayable战斗时间轴</title>
-    <updated>2026-07-08T09:48:21.724Z</updated>
+    <updated>2026-07-09T05:25:30.904Z</updated>
   </entry>
   <entry>
     <author>
@@ -431,51 +463,5 @@
     </summary>
     <title>2026-06-23 从三个角度分析分众传媒002027</title>
     <updated>2026-07-08T08:44:39.999Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="基金" scheme="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/"/>
-    <id>https://nicoier.github.io/2026/06/23/%E5%9F%BA%E9%87%91%E8%82%A1%E7%A5%A8ETF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/</id>
-    <link href="https://nicoier.github.io/2026/06/23/%E5%9F%BA%E9%87%91%E8%82%A1%E7%A5%A8ETF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
-    <published>2026-06-23T07:04:00.000Z</published>
-    <summary>
-      <![CDATA[<p>基金、股票、ETF 都可以买入并持有，但它们不是同一层级的东西。</p>
-<p>股票是公司所有权的一部分。买股票，本质上是在押注某家公司未来能创造更多利润、现金流和分红，或者市场愿意给它更高估值。</p>
-<p>基金是一种集合投资工具。投资者把钱交给基金，由基金按照合同约定去买股票、债券、货币市场工具或其他资产。这里说的基金主要指普通开放式基金，尤其是]]>
-    </summary>
-    <title>基金、股票、ETF 的区别和适用场景</title>
-    <updated>2026-07-08T08:44:56.837Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="京东方" scheme="https://nicoier.github.io/tags/%E4%BA%AC%E4%B8%9C%E6%96%B9/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%BA%AC%E4%B8%9C%E6%96%B9A000725/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%BA%AC%E4%B8%9C%E6%96%B9A000725/"/>
-    <published>2026-06-23T06:20:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章用三个框架分析京东方 A，代码 <code>SZ000725</code>：</p>
-<ol>
-<li>价值投资：看生意质量、盈利能力、估值和安全边际。</li>
-<li>趋势交易：看价格方向、均线结构、突破和失效。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>三种方法的结论可能不同，不能混在一起]]>
-    </summary>
-    <title>2026-06-23 从三个角度分析京东方A000725</title>
-    <updated>2026-07-08T08:44:40.001Z</updated>
   </entry>
 </feed>

@@ -1,0 +1,1133 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考 GDC2025《双影奇境》的 Capabilities 思路，记录一个 Unity Capability 框架的基础结构、生命周期、通信方式、Tag 阻塞和实现代价。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Capability系统架构实践">
+<meta property="og:url" content="https://nicoier.github.io/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="参考 GDC2025《双影奇境》的 Capabilities 思路，记录一个 Unity Capability 框架的基础结构、生命周期、通信方式、Tag 阻塞和实现代价。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/capability-architecture-overview.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/capability-lifecycle.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/capability-tick-order.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/capability-tag-blocker.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/capability-asset-assembly.svg">
+<meta property="article:published_time" content="2026-07-09T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-09T05:31:27.111Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="CSharp">
+<meta property="article:tag" content="Capability">
+<meta property="article:tag" content="架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/capability-architecture-overview.svg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Capability系统架构实践 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Capability系统架构实践"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-09 10:00" pubdate>
+          2026年7月9日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Capability系统架构实践</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年7月9日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Capability-系统架构实践"><a href="#Capability-系统架构实践" class="headerlink" title="Capability 系统架构实践"></a>Capability 系统架构实践</h1><p>这里记录一下 <code>Capability</code> 模式的框架实现。</p>
+<p><code>Capability</code> 是挂在对象上的细粒度行为单元。它自己判断什么时候激活，什么时候退出，激活期间每帧做什么。</p>
+<p>个人认为，Capability 可以理解为 ECS 的一种变体：把 System 的生命周期和行为单元拆分到对象上，形成一个个独立的小行为。</p>
+<p><code>Component</code> 不负责决策，只保存数据和工具函数。</p>
+<p><code>CapabilitySystem</code> 不关心业务，只负责按顺序推进所有 <code>Capability</code> 的生命周期。</p>
+<p>这套思路参考了 GDC 2025《双影奇境》里对 Capabilities 的介绍。这里不带具体项目玩法，只从框架和架构层面整理。</p>
+<h2 id="核心结论"><a href="#核心结论" class="headerlink" title="核心结论"></a>核心结论</h2><ul>
+<li><code>Capability</code> 是行为单元，不是数据容器。</li>
+<li><code>Component</code> 是共享状态，不做行为决策。</li>
+<li><code>Config</code> 是参数，不参与运行时决策。</li>
+<li><code>Holder</code> 持有能力、组件、配置和 Tag 阻塞表。</li>
+<li><code>CapabilitySystem</code> 是 TickManager，统一处理激活、退出和 Tick。</li>
+<li>能力之间不要互相调用，通信尽量通过 <code>Component</code>。</li>
+<li>特殊情况不要塞进通用能力，用 Tag + Instigator 阻塞。</li>
+</ul>
+<p>说白了就是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">GameObject / Owner<br>  -&gt; Holder<br>      -&gt; Capabilities  行为<br>      -&gt; Components    状态<br>      -&gt; Configs       参数<br>      -&gt; TagBlockers   阻塞来源<br><br>CapabilitySystem<br>  -&gt; 按 TickGroup 和 Order 推进所有 Capability<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../img/capability-architecture-overview.svg" srcset="/img/loading.gif" lazyload alt="Capability 整体结构"></p>
+<h2 id="为什么需要-Capability"><a href="#为什么需要-Capability" class="headerlink" title="为什么需要 Capability"></a>为什么需要 Capability</h2><p>传统 <code>GameObject + Component</code> 写法很容易出现一个问题：谁都想改状态，谁都想做决策。</p>
+<p>一开始只是一个组件里多写一点逻辑。</p>
+<p>后来组件之间互相调用，组件和对象互相调用，最后行为散在各处。出 Bug 时很难判断“这个状态到底是谁改的”。</p>
+<p><code>Capability</code> 的目标是把行为从组件里拿出来。</p>
+<p>组件只提供状态和工具函数。</p>
+<p>行为决策集中到一个个小能力里。</p>
+<p>比如一个能力应该能自己回答这些问题：</p>
+<ul>
+<li>我现在能不能激活。</li>
+<li>我激活时要做什么。</li>
+<li>我激活期间每帧要做什么。</li>
+<li>我什么时候退出。</li>
+<li>我退出时要清理什么。</li>
+</ul>
+<p>这样行为的生命周期就比较清楚。</p>
+<h2 id="它不是状态机"><a href="#它不是状态机" class="headerlink" title="它不是状态机"></a>它不是状态机</h2><p><code>Capability</code> 很像状态，但它不是传统状态机。</p>
+<p>传统状态机通常强调状态切换。一个主状态退出，另一个主状态进入。</p>
+<p><code>Capability</code> 可以并行激活。</p>
+<p>也就是说，一个对象身上可以同时运行多个能力。</p>
+<p>这些能力之间没有显式的连线，也不需要知道彼此存在。它们只根据输入数据、组件状态、配置和 Tag 阻塞来判断自己是否应该运行。</p>
+<p>所以它更像是很多个小生命周期并行运行，而不是一个大状态机。</p>
+<h2 id="和-ECS-的关系"><a href="#和-ECS-的关系" class="headerlink" title="和 ECS 的关系"></a>和 ECS 的关系</h2><p>从职责上看，<code>Capability</code> 有点像 ECS 里的 <code>System</code>。</p>
+<p>两者都负责行为。</p>
+<p>但它们的组织方式不同。</p>
+<p>ECS 的 <code>System</code> 通常面向一批 Entity 执行。</p>
+<p><code>Capability</code> 则挂在某个对象的 Holder 上，描述这个对象自己的一个行为。</p>
+<p>所以可以把它理解成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">ECS:<br>  System -&gt; 扫一批 Entity + Component<br><br>Capability:<br>  Owner -&gt; Holder -&gt; 一组小型 System<br></code></pre></td></tr></table></figure>
+
+<p>它保留了 <code>GameObject + Component</code> 的直观性，又把行为拆到了更细的单元里。</p>
+<h2 id="和-GAS-的区别"><a href="#和-GAS-的区别" class="headerlink" title="和 GAS 的区别"></a>和 GAS 的区别</h2><p>它和 GAS 这类 Ability 系统也有相似点。</p>
+<p>都是细粒度行为，都可以用 Tag 控制能不能执行。</p>
+<p>区别主要在触发方向。</p>
+<p>GAS 更偏事件驱动。外部输入或事件尝试激活 Ability，再由标签和条件决定是否允许。</p>
+<p><code>Capability</code> 更偏轮询。每帧由能力自己执行 <code>ShouldActivate</code> &#x2F; <code>ShouldDeactivate</code>。</p>
+<p>轮询的好处是排查直接。</p>
+<p>一个能力没激活，就去 <code>ShouldActivate</code> 里逐行看条件。</p>
+<p>代价是每帧都要检查，能力数量多之后，需要关注性能和调试工具。</p>
+<h2 id="框架结构"><a href="#框架结构" class="headerlink" title="框架结构"></a>框架结构</h2><p>框架核心代码在：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Assets/Framework/UnityToolkit/Capabilities<br></code></pre></td></tr></table></figure>
+
+<p>主要类型：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CapabilitySystem</code></td>
+<td>管理所有能力，按 TickGroup 和 Order 更新</td>
+</tr>
+<tr>
+<td><code>CapabilityBase&lt;TTag, TOwner&gt;</code></td>
+<td>能力基类，封装注册、Owner、Holder、生命周期</td>
+</tr>
+<tr>
+<td><code>ICapability</code></td>
+<td>能力运行时接口</td>
+</tr>
+<tr>
+<td><code>ICapabilityHolder&lt;TTag, TOwner&gt;</code></td>
+<td>能力拥有者接口</td>
+</tr>
+<tr>
+<td><code>CapabilityHolderBase&lt;TTag, TOwner&gt;</code></td>
+<td>非 Unity 场景下的通用 Holder</td>
+</tr>
+<tr>
+<td><code>MonoBehaviorCapabilityHolder&lt;TTag&gt;</code></td>
+<td>Unity <code>GameObject</code> 侧 Holder</td>
+</tr>
+<tr>
+<td><code>IComponent</code></td>
+<td>运行时状态接口</td>
+</tr>
+<tr>
+<td><code>IConfig</code></td>
+<td>配置接口</td>
+</tr>
+<tr>
+<td><code>Instigator</code></td>
+<td>阻塞来源</td>
+</tr>
+<tr>
+<td><code>ETickGroup</code></td>
+<td>Tick 分组</td>
+</tr>
+</tbody></table>
+<p>整体关系如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs text">CapabilitySystem<br>  Register(ICapability)<br>  Unregister(ICapability)<br>  Update(deltaTime)<br>  FixedUpdate(fixedDeltaTime)<br><br>CapabilityBase<br>  Setup(holder, system)<br>  ShouldActivate()<br>  OnActivated()<br>  TickActive(deltaTime)<br>  ShouldDeactivate()<br>  OnDeactivated()<br>  OnOwnerDestroyed(system)<br><br>Holder<br>  GetOwner()<br>  TryGetComp&lt;T&gt;()<br>  TryGetConfig&lt;T&gt;()<br>  BlockCapabilities(tag, instigator)<br>  UnblockCapabilities(tag, instigator)<br>  HasBlockedTag(tag)<br></code></pre></td></tr></table></figure>
+
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>一个能力的生命周期基本是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">Setup<br>  -&gt; 每帧检查 ShouldActivate<br>  -&gt; OnActivated<br>  -&gt; 每帧 TickActive<br>  -&gt; 每帧检查 ShouldDeactivate<br>  -&gt; OnDeactivated<br></code></pre></td></tr></table></figure>
+
+<p>框架里的 <code>CapabilitySystem.Update</code> 大概是这个逻辑：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs text">foreach tickGroup:<br>  foreach capability:<br>    currentActive = capability.active<br><br>    if currentActive &amp;&amp; ShouldDeactivate:<br>      active = false<br>      OnDeactivated<br><br>    if !currentActive &amp;&amp; ShouldActivate:<br>      active = true<br>      OnActivated<br><br>    if active:<br>      activeDuration += deltaTime<br>      deActiveDuration = 0<br>      TickActive(deltaTime)<br>    else:<br>      activeDuration = 0<br>      deActiveDuration += deltaTime<br></code></pre></td></tr></table></figure>
+
+<p>这里有一个细节：<code>currentActive</code> 是本轮开始时的状态。</p>
+<p>所以一个能力如果这一帧从激活变成非激活，不会在同一轮里立刻再次激活。</p>
+<p>但一个能力如果这一帧从非激活变成激活，会在同一帧执行 <code>TickActive</code>。</p>
+<p><img src="/../img/capability-lifecycle.svg" srcset="/img/loading.gif" lazyload alt="Capability 生命周期"></p>
+<h2 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h2><p><code>CapabilityBase.Setup</code> 做三件事：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">system.Register(<span class="hljs-keyword">this</span>);<br>Owner = holder.GetOwner();<br>capabilityComp = holder;<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，能力在 Setup 时注册到全局 <code>CapabilitySystem</code>，并拿到自己的 Owner 和 Holder。</p>
+<p>能力内部如果需要组件或配置，一般在 <code>Setup</code> 中从 Holder 拿：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">capabilityComp.TryGetComp(<span class="hljs-keyword">out</span> SomeComponent component);<br>capabilityComp.TryGetConfig(<span class="hljs-keyword">out</span> SomeConfig config);<br></code></pre></td></tr></table></figure>
+
+<p>注意，<code>tickGroup</code> 在 Setup 后不能再改。</p>
+<p><code>CapabilityBase.tickGroup</code> 的 setter 里会检查 <code>_baseSetupDone</code>。Setup 后再改会抛异常。</p>
+<p>所以 Tick 分组应该在构造或初始化阶段确定。</p>
+<h2 id="TickGroup-和-Order"><a href="#TickGroup-和-Order" class="headerlink" title="TickGroup 和 Order"></a>TickGroup 和 Order</h2><p>能力不是简单地按注册顺序更新。</p>
+<p>框架提供两个排序维度：</p>
+<ul>
+<li><code>ETickGroup</code></li>
+<li><code>tickGroupOrder</code></li>
+</ul>
+<p>当前 <code>ETickGroup</code> 有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">NetworkEarly<br>Input<br>Gameplay<br>AfterGameplay<br>NetworkLate<br></code></pre></td></tr></table></figure>
+
+<p><code>CapabilitySystem.OnInit</code> 会取出所有 TickGroup。</p>
+<p><code>Register</code> 时会把能力放进对应组，然后按 <code>tickGroupOrder</code> 排序：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">list.Sort((a, b) =&gt; a.tickGroupOrder.CompareTo(b.tickGroupOrder));<br></code></pre></td></tr></table></figure>
+
+<p>所以顺序控制分两层：</p>
+<ol>
+<li>先按 TickGroup。</li>
+<li>同组里按 Order。</li>
+</ol>
+<p>这个设计是为了解决更新顺序问题。</p>
+<p>比如架构上可以约定：</p>
+<ul>
+<li>输入读取放在 <code>Input</code>。</li>
+<li>常规逻辑放在 <code>Gameplay</code>。</li>
+<li>依赖前面结果的收口逻辑放在 <code>AfterGameplay</code>。</li>
+<li>网络同步前后分别放在 <code>NetworkEarly</code> 和 <code>NetworkLate</code>。</li>
+</ul>
+<p>具体组怎么用取决于项目，但框架提供了这个顺序插槽。</p>
+<p><img src="/../img/capability-tick-order.svg" srcset="/img/loading.gif" lazyload alt="Capability Tick 顺序"></p>
+<h2 id="FixedUpdate"><a href="#FixedUpdate" class="headerlink" title="FixedUpdate"></a>FixedUpdate</h2><p><code>Update</code> 负责普通 Tick。</p>
+<p><code>FixedUpdate</code> 只处理激活中的物理能力。</p>
+<p>框架判断方式很简单：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">if capability.active &amp;&amp; capability is IPhysicsTick:<br>  PhysicsTickActive(fixedDeltaTime)<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，不是所有能力都会进物理 Tick。</p>
+<p>只有实现了 <code>IPhysicsTick</code> 的能力，且当前处于 active 状态，才会执行 <code>PhysicsTickActive</code>。</p>
+<h2 id="Holder"><a href="#Holder" class="headerlink" title="Holder"></a>Holder</h2><p><code>Holder</code> 是能力和对象之间的连接点。</p>
+<p>它负责持有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">capabilities<br>components<br>configs<br>tagBlockers<br></code></pre></td></tr></table></figure>
+
+<p>能力不应该到处找依赖。</p>
+<p>统一从 Holder 取：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">TryGetComp&lt;T&gt;()<br>TryGetConfig&lt;T&gt;()<br>TryGetCapability&lt;T&gt;()<br></code></pre></td></tr></table></figure>
+
+<p>其中 <code>TryGetCapability&lt;T&gt;()</code> 虽然存在，但架构上不要把它作为主要通信方式。</p>
+<p>如果能力之间经常互相拿引用调用方法，最后还是会回到互相耦合。</p>
+<p>更推荐的方式是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">Capability A -&gt; 写 Component 状态<br>Capability B -&gt; 读 Component 状态<br></code></pre></td></tr></table></figure>
+
+<p>Component 是共享状态，Capability 是行为决策。</p>
+<h2 id="Component-和-Config"><a href="#Component-和-Config" class="headerlink" title="Component 和 Config"></a>Component 和 Config</h2><p>框架里 <code>IComponent</code> 和 <code>IConfig</code> 都是空接口。</p>
+<p>这说明框架不约束具体数据结构。</p>
+<p>一般可以按这个规则区分：</p>
+<ul>
+<li><code>Component</code>：运行时状态，会被能力读写。</li>
+<li><code>Config</code>：配置参数，运行时一般只读。</li>
+</ul>
+<p>比如架构层面可以有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">InputComponent<br>RuntimeStateComponent<br>ActionComponent<br></code></pre></td></tr></table></figure>
+
+<p>也可以有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">ActionConfig<br>CooldownConfig<br>ViewConfig<br></code></pre></td></tr></table></figure>
+
+<p>这些名字只是示例，重点是职责分开。</p>
+<p>不要把决策逻辑塞进 Component。</p>
+<p>Component 可以有工具函数，但不应该决定“现在是否进入某个行为”。</p>
+<h2 id="Tag-Blocker"><a href="#Tag-Blocker" class="headerlink" title="Tag Blocker"></a>Tag Blocker</h2><p>特殊情况如果都写进 <code>ShouldActivate</code>，能力会很快变脏。</p>
+<p>比如某个能力想临时禁止另一个类别的能力。</p>
+<p>比较直接的做法是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">capabilityComp.BlockCapabilities(SomeTag.Action, <span class="hljs-keyword">new</span> Instigator(<span class="hljs-keyword">this</span>));<br></code></pre></td></tr></table></figure>
+
+<p>结束时再解除：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">capabilityComp.UnblockCapabilities(SomeTag.Action, <span class="hljs-keyword">new</span> Instigator(<span class="hljs-keyword">this</span>));<br></code></pre></td></tr></table></figure>
+
+<p>Holder 内部用的是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Dictionary&lt;TTag, List&lt;Instigator&gt;&gt;<br></code></pre></td></tr></table></figure>
+
+<p>同一个 Tag 可以被多个来源阻塞。</p>
+<p>只有所有来源都解除之后，这个 Tag 才算没有被阻塞。</p>
+<p>这比简单计数更方便排查，因为可以知道阻塞是谁加的。</p>
+<p>注意一点：框架不会自动阻止某个能力激活。</p>
+<p><code>CapabilitySystem</code> 不知道某个能力属于哪个 Tag，也不会自动查 <code>HasBlockedTag</code>。</p>
+<p>所以能力自己要在 <code>ShouldActivate</code> 或 <code>ShouldDeactivate</code> 里检查：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">if</span> (capabilityComp.HasBlockedTag(SomeTag.Action))<br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>换句话说，Tag Blocker 是基础设施，不是自动规则系统。</p>
+<p><img src="/../img/capability-tag-blocker.svg" srcset="/img/loading.gif" lazyload alt="Tag Blocker 和 Instigator"></p>
+<h2 id="Instigator"><a href="#Instigator" class="headerlink" title="Instigator"></a>Instigator</h2><p><code>Instigator</code> 是阻塞来源。</p>
+<p>当前实现很简单：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> Instigator : IEquatable&lt;Instigator&gt;<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">object</span> reference;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它用 <code>reference</code> 做相等比较。</p>
+<p>所以 Block 和 Unblock 必须用同一个来源语义。</p>
+<p>如果激活时用能力实例做 Instigator，退出时也应该用同一个能力实例。</p>
+<p>如果激活时用某个系统对象做 Instigator，退出时也应该用同一个系统对象。</p>
+<p>否则就会出现 Block 加上了，但 Unblock 解不掉的问题。</p>
+<h2 id="ScriptableObject-资产层"><a href="#ScriptableObject-资产层" class="headerlink" title="ScriptableObject 资产层"></a>ScriptableObject 资产层</h2><p>Unity 侧还提供了三个资产基类：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">CapabilityAsset<br>ComponentAsset<br>ConfigAsset<br></code></pre></td></tr></table></figure>
+
+<p>它们的职责是声明依赖：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> ICapability[] <span class="hljs-title">GetDependencies</span>()</span>;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> IEnumerable&lt;IComponent&gt; <span class="hljs-title">GetDependencies</span>()</span>;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> IConfig[] <span class="hljs-title">GetDependencies</span>()</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这层不是运行时系统本身，而是装配辅助。</p>
+<p>可以用它把能力、组件、配置做成可配置资源，再由具体 Holder 在初始化时展开。</p>
+<p>如果项目需要更大的组合粒度，也可以在这层之上做 Sheet。</p>
+<p>Sheet 本质上就是一组 <code>CapabilityAsset / ComponentAsset / ConfigAsset</code> 的集合。</p>
+<p><img src="/../img/capability-asset-assembly.svg" srcset="/img/loading.gif" lazyload alt="Capability 资产装配"></p>
+<h2 id="MonoBehaviour-Holder"><a href="#MonoBehaviour-Holder" class="headerlink" title="MonoBehaviour Holder"></a>MonoBehaviour Holder</h2><p><code>MonoBehaviorCapabilityHolder&lt;TTag&gt;</code> 用来把框架接进 Unity。</p>
+<p>它继承 <code>MonoBehaviour</code>，并实现：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">ICapabilityHolder&lt;TTag, GameObject&gt;<br></code></pre></td></tr></table></figure>
+
+<p>所以 Owner 就是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">gameObject<br></code></pre></td></tr></table></figure>
+
+<p>它内部同样维护：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">capabilityAssets<br>componentAssets<br>configAssets<br>tagBlockers<br>capabilities<br>components<br>configs<br></code></pre></td></tr></table></figure>
+
+<p>这层只解决 Unity 对象和框架之间的桥接。</p>
+<p>具体什么时候展开 Asset、什么时候调用能力的 Setup，仍然由上层初始化流程决定。</p>
+<h2 id="销毁流程"><a href="#销毁流程" class="headerlink" title="销毁流程"></a>销毁流程</h2><p>Owner 销毁时需要清理能力。</p>
+<p><code>CapabilityBase.OnOwnerDestroyed</code> 做了两件事：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">if</span> (active) OnDeactivated();<br>system.Unregister(<span class="hljs-keyword">this</span>);<br></code></pre></td></tr></table></figure>
+
+<p>这个细节很重要。</p>
+<p>如果能力还处于 active 状态，销毁前会先走一次 <code>OnDeactivated</code>。</p>
+<p>这样能力可以释放状态、解除 Tag、停止表现或清理临时资源。</p>
+<p>然后再从 <code>CapabilitySystem</code> 里反注册。</p>
+<h2 id="一个最小能力"><a href="#一个最小能力" class="headerlink" title="一个最小能力"></a>一个最小能力</h2><p>伪代码大概这样：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SomeCapability</span> : <span class="hljs-title">CapabilityBase</span>&lt;<span class="hljs-title">SomeTag</span>, <span class="hljs-title">GameObject</span>&gt;<br>&#123;<br>    SomeComponent component;<br>    SomeConfig config;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Setup</span>(<span class="hljs-params">ICapabilityHolder&lt;SomeTag, GameObject&gt; holder, ICapabilitySystem system</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">base</span>.Setup(holder, system);<br>        capabilityComp.TryGetComp(<span class="hljs-keyword">out</span> component);<br>        capabilityComp.TryGetConfig(<span class="hljs-keyword">out</span> config);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">ShouldActivate</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (capabilityComp.HasBlockedTag(SomeTag.SomeAction)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">return</span> component.requested;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnActivated</span>()</span><br>    &#123;<br>        component.running = <span class="hljs-literal">true</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">TickActive</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> <span class="hljs-built_in">float</span> deltaTime</span>)</span><br>    &#123;<br>        component.elapsed += deltaTime;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">ShouldDeactivate</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> component.elapsed &gt;= config.duration;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeactivated</span>()</span><br>    &#123;<br>        component.running = <span class="hljs-literal">false</span>;<br>        component.elapsed = <span class="hljs-number">0</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这段代码里没有业务含义，只体现框架约定。</p>
+<p>能力自己判断激活和退出。</p>
+<p>运行时状态放在 Component。</p>
+<p>参数放在 Config。</p>
+<p>打断条件走 Tag。</p>
+<h2 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h2><p>第一，行为边界清楚。</p>
+<p>每个能力只看自己的生命周期，不需要一个大类处理所有分支。</p>
+<p>第二，特殊情况容易局部处理。</p>
+<p>如果某个行为要临时禁止另一类行为，只需要 Block 对应 Tag。</p>
+<p>不需要把所有特殊情况都写进被禁止能力的判断里。</p>
+<p>第三，调试路径直接。</p>
+<p>能力为什么不激活，通常就看 <code>ShouldActivate</code>。</p>
+<p>能力为什么不退出，通常就看 <code>ShouldDeactivate</code>。</p>
+<p>第四，扩展成本低。</p>
+<p>新增一个行为通常是新增一个 Capability，再补它需要的 Component &#x2F; Config。</p>
+<p>不会天然影响其他能力。</p>
+<h2 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h2><p>第一，轮询有成本。</p>
+<p>能力数量多时，<code>ShouldActivate</code> 和 <code>ShouldDeactivate</code> 会被大量调用。</p>
+<p>所以这些函数里不要做复杂查询。</p>
+<p>第二，顺序很重要。</p>
+<p>TickGroup 和 Order 如果设计不好，就会出现读旧数据、重复写状态、前后帧表现不一致的问题。</p>
+<p>第三，Tag 需要规范。</p>
+<p>Tag 太粗会误伤能力。</p>
+<p>Tag 太细又会失去统一阻塞的价值。</p>
+<p>第四，Block &#x2F; Unblock 必须成对。</p>
+<p>尤其是有多个 Instigator 同时阻塞同一个 Tag 时，来源必须稳定。</p>
+<p>第五，需要工具。</p>
+<p>能力少时靠断点还行。</p>
+<p>能力多时，最好有运行时面板或时间线工具，能看到：</p>
+<ul>
+<li>当前有哪些能力 active。</li>
+<li>哪些能力 inactive。</li>
+<li>哪些 Tag 被 Block。</li>
+<li>Block 来源是谁。</li>
+<li>activeDuration &#x2F; deActiveDuration 是多少。</li>
+</ul>
+<p>否则排查会越来越靠经验。</p>
+<p>第六，不要过度抽象。</p>
+<p>Capability 强调细粒度和局部内聚。</p>
+<p>两个能力长得像，不代表一定要抽一个通用父类。</p>
+<p>如果抽完之后到处是参数和分支，还不如让它们保持独立。</p>
+<h2 id="适合什么场景"><a href="#适合什么场景" class="headerlink" title="适合什么场景"></a>适合什么场景</h2><p><code>Capability</code> 适合有生命周期的行为。</p>
+<p>比如：</p>
+<ul>
+<li>输入驱动的行为。</li>
+<li>持续一段时间的行为。</li>
+<li>可以被其他行为打断的行为。</li>
+<li>需要按 TickGroup 排序的行为。</li>
+<li>需要和其他能力共享状态但不直接耦合的行为。</li>
+</ul>
+<p>不太适合这些东西：</p>
+<ul>
+<li>纯工具函数。</li>
+<li>纯配置数据。</li>
+<li>全局服务。</li>
+<li>一次性无状态计算。</li>
+<li>大批量数据并行处理。</li>
+</ul>
+<p>如果只是一个函数，直接写函数即可。</p>
+<p>如果只是配置，放 Config。</p>
+<p>如果只是状态，放 Component。</p>
+<p>不要什么东西都做成 Capability。</p>
+<h2 id="新增能力的流程"><a href="#新增能力的流程" class="headerlink" title="新增能力的流程"></a>新增能力的流程</h2><p>一般按这个顺序做：</p>
+<ol>
+<li>确定它是不是一个有生命周期的行为。</li>
+<li>定义需要的 Tag。</li>
+<li>定义需要的 Component。</li>
+<li>定义需要的 Config。</li>
+<li>继承 <code>CapabilityBase&lt;TTag, TOwner&gt;</code>。</li>
+<li>在构造或初始化阶段设定 <code>tickGroup</code> 和 <code>tickGroupOrder</code>。</li>
+<li>在 <code>Setup</code> 里从 Holder 拿依赖。</li>
+<li>在 <code>ShouldActivate</code> 里写进入条件。</li>
+<li>在 <code>OnActivated</code> 里写进入逻辑。</li>
+<li>在 <code>TickActive</code> 里写持续逻辑。</li>
+<li>在 <code>ShouldDeactivate</code> 里写退出条件。</li>
+<li>在 <code>OnDeactivated</code> 里清理状态和解除阻塞。</li>
+<li>通过 Holder 或 Asset 装配进对象。</li>
+</ol>
+<p>注意，<code>CapabilitySystem</code> 只负责调度。</p>
+<p>它不会帮你判断业务条件，也不会自动处理 Tag。</p>
+<p>这些规则要在能力里显式写清楚。</p>
+<h2 id="实现时的几个原则"><a href="#实现时的几个原则" class="headerlink" title="实现时的几个原则"></a>实现时的几个原则</h2><p><code>ShouldActivate</code> 里只做判断，不做副作用。</p>
+<p><code>OnActivated</code> 里做一次性进入逻辑。</p>
+<p><code>TickActive</code> 里做每帧逻辑。</p>
+<p><code>ShouldDeactivate</code> 里只做退出判断。</p>
+<p><code>OnDeactivated</code> 里做清理。</p>
+<p>Component 只保存共享状态，不主动驱动行为。</p>
+<p>Config 只放参数，不塞运行时状态。</p>
+<p>Tag Blocker 用来处理外部限制，不要用一堆全局 boolean 代替。</p>
+<p>Instigator 要稳定，谁 Block 谁 Unblock。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Capability 模式的核心不是某个具体玩法，而是行为组织方式。</p>
+<p>它把一个对象身上的行为拆成很多小能力。</p>
+<p>每个能力自己管理生命周期。</p>
+<p>能力之间通过 Component 共享状态，通过 Tag Blocker 互相限制。</p>
+<p><code>CapabilitySystem</code> 只做调度，<code>Holder</code> 只做装配和查询。</p>
+<p>这套方案的收益是开发速度快、行为边界清楚、特殊情况容易局部扩展。</p>
+<p>代价是轮询、顺序、Tag 规范和调试工具都要认真设计。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/1927489591159521310">Capability 系统实践</a></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/CapabilitySystem.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/CapabilityBase.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/CapabilityHolderBase.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/interface.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/Instigator.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/ETickGroup.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/Runtime/MonoBehaviorCapabilityHolder.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/Runtime/CapabilityAsset.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/Runtime/ComponentAsset.cs</code></li>
+<li><code>Assets/Framework/UnityToolkit/Capabilities/Runtime/ConfigAsset.cs</code></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B/" class="category-chain-item">编程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Unity/" class="print-no-link">#Unity</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/Capability/" class="print-no-link">#Capability</a>
+      
+        <a href="/tags/%E6%9E%B6%E6%9E%84/" class="print-no-link">#架构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Capability系统架构实践</div>
+      <div>https://nicoier.github.io/2026/07/09/Capability系统架构实践/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/" title="UIVisibilityBlocker 可见性阻塞器">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">UIVisibilityBlocker 可见性阻塞器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/" title="BattlePlayable战斗时间轴">
+                        <span class="hidden-mobile">BattlePlayable战斗时间轴</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'NicoIer/nicoier.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
