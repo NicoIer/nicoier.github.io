@@ -41,7 +41,7 @@
     <published>2026-07-09T02:00:00.000Z</published>
     <summary>参考 GDC2025《双影奇境》的 Capabilities 思路，记录一个 Unity Capability 框架的基础结构、生命周期、通信方式、Tag 阻塞和实现代价。</summary>
     <title>Capability系统架构实践</title>
-    <updated>2026-07-09T05:31:27.111Z</updated>
+    <updated>2026-07-10T05:36:38.914Z</updated>
   </entry>
   <entry>
     <author>
