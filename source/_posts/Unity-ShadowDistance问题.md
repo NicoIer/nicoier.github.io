@@ -8,7 +8,7 @@ categories: [Unity]
 
 ## ShadowMap精度
 
-先说结论: Unity中的阴影距离实际上是 near plane + shadow distance
+Unity 中的阴影距离实际上是 `near plane + shadow distance`。
 
 观察下面两种ShadowMap
 - 左边: neap plane = 0.01 , shadow distance = 4.39
