@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nicoier.github.io/img/damage-calculation-pipeline.svg">
 <meta property="article:published_time" content="2026-07-02T08:37:37.000Z">
-<meta property="article:modified_time" content="2026-07-08T09:22:51.758Z">
+<meta property="article:modified_time" content="2026-07-10T09:14:03.162Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="游戏开发">
 <meta property="article:tag" content="战斗系统">
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          884 字
+          537 字
         
       </span>
     
@@ -259,7 +259,7 @@
         
         
         
-          8 分钟
+          5 分钟
         
       </span>
     
@@ -309,7 +309,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 下午
+                    本文最后更新于 2026年7月10日 下午
                   
                 
               </p>
@@ -317,15 +317,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h1><p>先说结论：这版公式适合做一个最小可用的伤害结算模型。</p>
-<p>它只处理四件事：</p>
+                <h1 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h1><p>这里记录一下当前版本的伤害公式，只处理四个东西：</p>
 <ul>
 <li>基础伤害</li>
 <li>固定加减伤</li>
 <li>增伤倍率</li>
 <li>减伤倍率</li>
 </ul>
-<p>如果只是普攻、技能直伤和简单 Buff，这套结构够用。后面要加暴击、护盾、元素抗性、PvP 修正时，建议拆成独立阶段，不要继续把所有东西塞进 <code>damage_increase</code> 和 <code>damage_reduction</code>。</p>
+<p>普攻、技能直伤和简单 Buff 先用这套就够了。暴击、护盾、元素抗性、PvP 修正后面单独加阶段，不继续往 <code>damage_increase</code> 和 <code>damage_reduction</code> 里塞。</p>
 
 $$
 \begin{aligned}
@@ -340,79 +339,62 @@ $$
 
 
 <p><img src="/../img/damage-calculation-pipeline.svg" srcset="/img/loading.gif" lazyload alt="伤害计算流程"></p>
-<h2 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h2><p>除 <code>final_damage</code> 外的属性都是由 <code>(base_value + offset) * (1 + multiplier)</code> 计算出的</p>
-<table>
+<h2 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h2><table>
 <thead>
 <tr>
 <th>字段</th>
 <th>说明</th>
-<th>取值建议</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>base_damage</code></td>
-<td>基础伤害。通常来自技能表、攻击力系数、技能等级或固定基础值。</td>
-<td>建议不小于 0。</td>
+<td>基础伤害，通常来自技能表或攻击力系数</td>
 </tr>
 <tr>
 <td><code>damage_offset</code></td>
-<td>固定伤害修正。适合表达固定加伤、固定减伤、技能额外值、Buff 附加值等。</td>
-<td>可以为正数或负数；如果可能扣成负数，先用 <code>raw_damage = max(0, base_damage + damage_offset)</code> 裁剪。</td>
+<td>固定加减伤，可以是负数</td>
 </tr>
 <tr>
 <td><code>damage_increase</code></td>
-<td>增伤比例。比如 20% 增伤写成 <code>0.2</code>，50% 增伤写成 <code>0.5</code>。</td>
-<td>同一增伤乘区内建议先加总，例如 20% + 30% &#x3D; <code>0.5</code>。</td>
+<td>增伤比例，20% 写成 <code>0.2</code>；同一乘区先相加</td>
 </tr>
 <tr>
 <td><code>damage_reduction</code></td>
-<td>减伤比例。比如 30% 减伤写成 <code>0.3</code>，100% 减伤写成 <code>1.0</code>。</td>
-<td>用 <code>max(0, 1 - damage_reduction)</code> 防止超过 100% 减伤后出现负伤害倍率。</td>
+<td>减伤比例，30% 写成 <code>0.3</code></td>
 </tr>
 <tr>
 <td><code>raw_damage</code></td>
-<td>裁剪后的原始伤害。用于保证固定减伤不会把伤害变成负数。</td>
-<td>如果游戏允许负伤害代表治疗，则不要做这一步裁剪。</td>
-</tr>
-<tr>
-<td><code>increase_multiplier</code></td>
-<td>增伤倍率，由 <code>1 + damage_increase</code> 得到。</td>
-<td><code>damage_increase = 0.2</code> 时，该倍率为 <code>1.2</code>。</td>
-</tr>
-<tr>
-<td><code>reduction_multiplier</code></td>
-<td>减伤倍率，由 <code>max(0, 1 - damage_reduction)</code> 得到。</td>
-<td><code>damage_reduction = 0.3</code> 时，该倍率为 <code>0.7</code>。</td>
+<td>固定修正后的伤害，最低裁到 0</td>
 </tr>
 <tr>
 <td><code>final_damage</code></td>
-<td>最终伤害。通常是战斗结算、飘字和同步给客户端的结果。</td>
-<td>需要额外明确取整时机，例如向下取整、四舍五入或保留浮点。</td>
+<td>最终结算值，取整规则由服务端统一</td>
 </tr>
 </tbody></table>
-<h2 id="计算顺序"><a href="#计算顺序" class="headerlink" title="计算顺序"></a>计算顺序</h2><p>这里建议固定计算顺序，不要让不同技能自己决定。</p>
-<ol>
+<h2 id="计算顺序"><a href="#计算顺序" class="headerlink" title="计算顺序"></a>计算顺序</h2><ol>
 <li>先算基础伤害和固定修正，得到 <code>raw_damage</code>。</li>
-<li>再把同一乘区内的增伤加总，得到 <code>increase_multiplier</code>。</li>
-<li>再把减伤转成 <code>reduction_multiplier</code>。</li>
-<li>最后得到 <code>final_damage</code>。</li>
+<li>把同一乘区内的增伤加总，得到 <code>increase_multiplier</code>。</li>
+<li>把减伤转成 <code>reduction_multiplier</code>。</li>
+<li>得到 <code>final_damage</code>。</li>
 </ol>
-<p>这样做的好处是调试简单。出现伤害异常时，可以直接看中间字段是哪一步变大或变小。</p>
-<p>如果所有技能都把自己的特殊逻辑写进最终公式，后面很难查问题。</p>
-<h2 id="是否还需要扩展"><a href="#是否还需要扩展" class="headerlink" title="是否还需要扩展"></a>是否还需要扩展</h2><p>如果要支持更完整的战斗系统，建议把下面这些规则拆成独立字段或独立阶段：</p>
+<p>顺序固定后，伤害不对时直接看中间值即可。不要让每个技能自己拼最终公式。</p>
+<h2 id="是否还需要扩展"><a href="#是否还需要扩展" class="headerlink" title="是否还需要扩展"></a>是否还需要扩展</h2><p>后面需要补的阶段：</p>
 <ul>
-<li>暴击：例如 <code>critical_multiplier</code>。</li>
-<li>护盾、吸收、免疫：通常应该在最终伤害后、扣血前处理。</li>
-<li>元素、护甲、抗性：建议单独做防御或抗性乘区。</li>
-<li>PvP &#x2F; PvE 修正：建议独立字段，方便运营调参。</li>
-<li>多个独立乘区：例如技能增伤、易伤、最终伤害加成，最好明确哪些相加、哪些相乘。</li>
-<li>最小伤害和伤害上限：例如保底 1 点伤害、Boss 单次受击上限。</li>
-<li>取整规则：服务端和客户端必须一致，否则容易出现同步误差。</li>
+<li>暴击，比如 <code>critical_multiplier</code></li>
+<li>护盾、吸收、免疫，一般放在最终伤害之后、扣血之前</li>
+<li>元素、护甲、抗性，单独做防御乘区</li>
+<li>PvP &#x2F; PvE 修正</li>
+<li>技能增伤、易伤、最终伤害等独立乘区</li>
+<li>最小伤害和单次伤害上限</li>
 </ul>
-<p>这些东西不是不能加，而是不要一开始就混成一个大公式。</p>
-<p>伤害系统最怕的是规则看起来很灵活，但没有明确阶段。到最后每个 Buff 都能改每个字段，调数值和查 bug 都会很痛苦。</p>
-<h2 id="多行-LaTeX-写法"><a href="#多行-LaTeX-写法" class="headerlink" title="多行 LaTeX 写法"></a>多行 LaTeX 写法</h2><p>多行公式可以用 <code>aligned</code>。</p>
-<p>在当前 Hexo 渲染器下，建议用 &#96;</p>
+<p>重点是每个阶段的输入输出要确定。每个 Buff 都能随便改任意字段，最后肯定没法查。</p>
+<h2 id="多行-LaTeX-写法"><a href="#多行-LaTeX-写法" class="headerlink" title="多行 LaTeX 写法"></a>多行 LaTeX 写法</h2><p>Hexo 里的多行公式用 <code>aligned</code>，外面再套一层 raw 标签，否则 Markdown 可能把换行转成 <code>&lt;br&gt;</code>。上面的伤害公式就是完整写法。</p>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ul>
+<li>服务端和客户端必须使用同一套取整规则。</li>
+<li>同步最终伤害，不让客户端重新算一遍；客户端预测也要接受服务端覆盖。</li>
+<li>Buff 修改字段时，最好明确是加到 offset、increase 还是 reduction。</li>
+<li>不要让显示层直接改伤害字段，飘字只读最终结果。</li>
+</ul>
 
                 
               </div>
@@ -507,9 +489,9 @@ $$
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/07/07/2026-07-07%E4%BB%8E%E4%B8%89%E4%B8%AA%E4%BA%A4%E6%98%93%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90%E5%88%86%E4%BC%97%E4%BC%A0%E5%AA%92002027%E5%92%8C%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/" title="2026-07-07 从三个交易思路分析分众传媒002027和半导体设备ETF易方达159558">
+                      <a href="/2026/07/08/Unity-UI%E6%B7%B1%E5%BA%A6%E9%81%AE%E6%8C%A1UIDepthOccluder/" title="Unity UI深度遮挡 UIDepthOccluder">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">2026-07-07 从三个交易思路分析分众传媒002027和半导体设备ETF易方达159558</span>
+                        <span class="hidden-mobile">Unity UI深度遮挡 UIDepthOccluder</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -517,8 +499,8 @@ $$
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/06/29/2026-06-29%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9ETF%E6%98%93%E6%96%B9%E8%BE%BE512070/" title="2026-06-29 震荡交易视角分析证券保险ETF易方达512070">
-                        <span class="hidden-mobile">2026-06-29 震荡交易视角分析证券保险ETF易方达512070</span>
+                      <a href="/2026/06/23/%E5%9F%BA%E9%87%91%E8%82%A1%E7%A5%A8ETF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/" title="基金、股票、ETF 的区别和适用场景">
+                        <span class="hidden-mobile">基金、股票、ETF 的区别和适用场景</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

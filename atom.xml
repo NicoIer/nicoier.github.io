@@ -10,7 +10,60 @@
   <link href="https://nicoier.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, NicoIer</rights>
   <title>NicoIer</title>
-  <updated>2026-07-09T05:38:12.875Z</updated>
+  <updated>2026-07-21T07:40:24.574Z</updated>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <id>https://nicoier.github.io/2026/07/21/zstd%E9%85%8D%E5%90%88YooAsset%E5%81%9A%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/</id>
+    <link href="https://nicoier.github.io/2026/07/21/zstd%E9%85%8D%E5%90%88YooAsset%E5%81%9A%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    <published>2026-07-21T07:35:50.000Z</published>
+    <summary>
+      <![CDATA[<p>Zebra YooAsset</p>
+<ul>
+<li>实现一个新的patch生成工具，使用YooAsset的清单文件</li>
+<li>YooAsset的一些工具类需要修改，以支持多线程</li>
+<li>bundle构建和部署工具需要接入patch文件逻辑</li>
+<li>实现自己的文件下载逻辑</li>
+</ul>
+<p><img src="/]]>
+    </summary>
+    <title>zstd配合YooAsset做增量更新的碎碎念</title>
+    <updated>2026-07-21T07:40:24.574Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="Source Generator" scheme="https://nicoier.github.io/tags/Source-Generator/"/>
+    <category term="Code Generator" scheme="https://nicoier.github.io/tags/Code-Generator/"/>
+    <category term="Luban" scheme="https://nicoier.github.io/tags/Luban/"/>
+    <id>https://nicoier.github.io/2026/07/21/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90-SourceGenerator-CodeGenerator%E4%B8%8ELuban/</id>
+    <link href="https://nicoier.github.io/2026/07/21/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90-SourceGenerator-CodeGenerator%E4%B8%8ELuban/"/>
+    <published>2026-07-21T07:33:17.000Z</published>
+    <summary>结合 GameServer、Game001 和 BeChampion，整理 Source Generator、Code Generator 与 Luban 在游戏开发中的职责、用法和优势。</summary>
+    <title>游戏开发中的代码生成：Source Generator、Code Generator 与 Luban</title>
+    <updated>2026-07-21T07:46:58.804Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="ECS" scheme="https://nicoier.github.io/tags/ECS/"/>
+    <category term="Network" scheme="https://nicoier.github.io/tags/Network/"/>
+    <category term="游戏服务器" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <id>https://nicoier.github.io/2026/07/21/%E5%9F%BA%E4%BA%8EECS%E7%9A%84%E5%A2%9E%E9%87%8F%E7%BD%91%E7%BB%9C%E5%90%8C%E6%AD%A5/</id>
+    <link href="https://nicoier.github.io/2026/07/21/%E5%9F%BA%E4%BA%8EECS%E7%9A%84%E5%A2%9E%E9%87%8F%E7%BD%91%E7%BB%9C%E5%90%8C%E6%AD%A5/"/>
+    <published>2026-07-21T07:04:55.000Z</published>
+    <summary>先整理 ECS 实现增量网络同步的基本思路，再记录 GameServer 中的具体实现。</summary>
+    <title>基于ECS的增量网络同步</title>
+    <updated>2026-07-21T07:26:27.615Z</updated>
+  </entry>
   <entry>
     <author>
       <name>NicoIer</name>
@@ -23,9 +76,9 @@
     <id>https://nicoier.github.io/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/</id>
     <link href="https://nicoier.github.io/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/"/>
     <published>2026-07-09T08:00:00.000Z</published>
-    <summary>记录 UnityToolkit 中 UIVisibilityBlocker 的设计思路、两种显示模式、多来源隐藏请求合并和使用注意点。</summary>
+    <summary>多个系统同时控制一个 UI 时，用来源表合并显隐和交互状态，避免互相覆盖。</summary>
     <title>UIVisibilityBlocker 可见性阻塞器</title>
-    <updated>2026-07-09T05:38:12.875Z</updated>
+    <updated>2026-07-21T06:15:09.454Z</updated>
   </entry>
   <entry>
     <author>
@@ -39,9 +92,9 @@
     <id>https://nicoier.github.io/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/</id>
     <link href="https://nicoier.github.io/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/"/>
     <published>2026-07-09T02:00:00.000Z</published>
-    <summary>参考 GDC2025《双影奇境》的 Capabilities 思路，记录一个 Unity Capability 框架的基础结构、生命周期、通信方式、Tag 阻塞和实现代价。</summary>
+    <summary>记录 Unity Capability 框架的生命周期、Holder、Tag Blocker 和装配方式。</summary>
     <title>Capability系统架构实践</title>
-    <updated>2026-07-10T05:36:38.914Z</updated>
+    <updated>2026-07-10T09:01:23.071Z</updated>
   </entry>
   <entry>
     <author>
@@ -55,9 +108,9 @@
     <id>https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/</id>
     <link href="https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/"/>
     <published>2026-07-08T09:35:00.000Z</published>
-    <summary>记录 BattlePlayable 的数据结构、编辑器配置流程、保存加载、运行时播放、服务器对时和扩展 Clip 的流程。</summary>
+    <summary>记录 BattlePlayable 从编辑器数据到运行时播放和服务器对时的流程。</summary>
     <title>BattlePlayable战斗时间轴</title>
-    <updated>2026-07-09T05:25:30.904Z</updated>
+    <updated>2026-07-10T09:09:40.024Z</updated>
   </entry>
   <entry>
     <author>
@@ -71,9 +124,9 @@
     <id>https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/</id>
     <link href="https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/"/>
     <published>2026-07-08T08:30:53.000Z</published>
-    <summary>记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。</summary>
+    <summary>记录 ECSBuffSystem 的配置、代码生成和运行时流程。</summary>
     <title>基于ECS的Buff系统</title>
-    <updated>2026-07-08T09:14:14.013Z</updated>
+    <updated>2026-07-10T08:58:00.605Z</updated>
   </entry>
   <entry>
     <author>
@@ -94,36 +147,7 @@
       <![CDATA[<p><a href="https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluder.cs">https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOcclude]]>
     </summary>
     <title>Unity UI深度遮挡 UIDepthOccluder</title>
-    <updated>2026-07-08T08:55:16.740Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="分众传媒" scheme="https://nicoier.github.io/tags/%E5%88%86%E4%BC%97%E4%BC%A0%E5%AA%92/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="半导体设备" scheme="https://nicoier.github.io/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87/"/>
-    <id>https://nicoier.github.io/2026/07/07/2026-07-07%E4%BB%8E%E4%B8%89%E4%B8%AA%E4%BA%A4%E6%98%93%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90%E5%88%86%E4%BC%97%E4%BC%A0%E5%AA%92002027%E5%92%8C%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/</id>
-    <link href="https://nicoier.github.io/2026/07/07/2026-07-07%E4%BB%8E%E4%B8%89%E4%B8%AA%E4%BA%A4%E6%98%93%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90%E5%88%86%E4%BC%97%E4%BC%A0%E5%AA%92002027%E5%92%8C%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/"/>
-    <published>2026-07-07T05:58:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章分析两个标的：</p>
-<ol>
-<li>分众传媒，代码 <code>SZ002027</code>。</li>
-<li>半导体设备ETF易方达，代码 <code>SZ159558</code>。</li>
-</ol>
-<p>分析框架还是三个交易思路：</p>
-<ol>
-<li>价值&#x2F;配置思路：看资产质量、估值锚、长期逻辑和仓位上限。]]>
-    </summary>
-    <title>2026-07-07 从三个交易思路分析分众传媒002027和半导体设备ETF易方达159558</title>
-    <updated>2026-07-08T08:44:40.008Z</updated>
+    <updated>2026-07-10T09:09:39.820Z</updated>
   </entry>
   <entry>
     <author>
@@ -138,7 +162,7 @@
     <published>2026-07-02T08:37:37.000Z</published>
     <summary>记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。</summary>
     <title>伤害计算v0.1</title>
-    <updated>2026-07-08T09:22:51.758Z</updated>
+    <updated>2026-07-10T09:14:03.162Z</updated>
   </entry>
   <entry>
     <author>
@@ -146,191 +170,21 @@
     </author>
     <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
     <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="证券保险" scheme="https://nicoier.github.io/tags/%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9/"/>
-    <category term="非银金融" scheme="https://nicoier.github.io/tags/%E9%9D%9E%E9%93%B6%E9%87%91%E8%9E%8D/"/>
-    <id>https://nicoier.github.io/2026/06/29/2026-06-29%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9ETF%E6%98%93%E6%96%B9%E8%BE%BE512070/</id>
-    <link href="https://nicoier.github.io/2026/06/29/2026-06-29%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9ETF%E6%98%93%E6%96%B9%E8%BE%BE512070/"/>
-    <published>2026-06-29T05:31:22.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章只从震荡交易角度分析证券保险ETF易方达，代码 <code>SH512070</code>。</p>
-<p>震荡交易的核心不是判断行业长期逻辑，也不是追涨趋势，而是在一个相对清楚的区间里做均值回归：靠近支撑区观察低吸，靠近压力区观察高抛，跌破区间就承认震荡逻辑失效。</p>
-<p>先说结论：512070 当前更像低位区间震荡，不是强趋势。当前价]]>
-    </summary>
-    <title>2026-06-29 震荡交易视角分析证券保险ETF易方达512070</title>
-    <updated>2026-07-08T08:44:40.008Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="证券保险" scheme="https://nicoier.github.io/tags/%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9/"/>
-    <category term="非银金融" scheme="https://nicoier.github.io/tags/%E9%9D%9E%E9%93%B6%E9%87%91%E8%9E%8D/"/>
-    <id>https://nicoier.github.io/2026/06/29/2026-06-29%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9ETF%E6%98%93%E6%96%B9%E8%BE%BE512070/</id>
-    <link href="https://nicoier.github.io/2026/06/29/2026-06-29%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8%E4%BF%9D%E9%99%A9ETF%E6%98%93%E6%96%B9%E8%BE%BE512070/"/>
-    <published>2026-06-29T05:29:08.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章只从趋势交易角度分析证券保险ETF易方达，代码 <code>SH512070</code>，重点是当前趋势是否成立、哪里可以买、跌到哪里卖。</p>
-<p>先说结论：512070 现在不是强趋势，而是弱修复。价格站在 20 日线之上，但还没有稳定站回 5 日、10 日和 60 日均线。趋势交易可以观察，但买点要等确认，不能把反弹当成趋势反转。<]]>
-    </summary>
-    <title>2026-06-29 趋势交易视角分析证券保险ETF易方达512070</title>
-    <updated>2026-07-08T08:44:40.007Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="半导体设备" scheme="https://nicoier.github.io/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87/"/>
-    <category term="国产替代" scheme="https://nicoier.github.io/tags/%E5%9B%BD%E4%BA%A7%E6%9B%BF%E4%BB%A3/"/>
-    <id>https://nicoier.github.io/2026/06/29/2026-06-29%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/</id>
-    <link href="https://nicoier.github.io/2026/06/29/2026-06-29%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%86%E8%A7%92%E5%88%86%E6%9E%90%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/"/>
-    <published>2026-06-29T05:12:51.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章只从趋势交易角度分析半导体设备ETF易方达，代码 <code>SZ159558</code>，重点是今天能不能买、怎么买、跌到哪里卖。</p>
-<p>先说结论：159558 仍然是强趋势，但今天盘中已经出现冲高回落。趋势交易可以继续跟踪，不适合无计划追高。更合理的买点是“收盘有效突破”或“回踩均线企稳”，卖点要提前写成规则。</p>
-<p>本文]]>
-    </summary>
-    <title>2026-06-29 趋势交易视角分析半导体设备ETF易方达159558</title>
-    <updated>2026-07-08T08:44:40.006Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="半导体设备" scheme="https://nicoier.github.io/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87/"/>
-    <category term="国产替代" scheme="https://nicoier.github.io/tags/%E5%9B%BD%E4%BA%A7%E6%9B%BF%E4%BB%A3/"/>
-    <id>https://nicoier.github.io/2026/06/24/2026-06-24%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/</id>
-    <link href="https://nicoier.github.io/2026/06/24/2026-06-24%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/"/>
-    <published>2026-06-24T05:20:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章用三个框架分析半导体设备ETF易方达，代码 <code>SZ159558</code>：</p>
-<ol>
-<li>价值投资：看跟踪指数、产业逻辑、持仓集中度、规模、费率和折溢价。</li>
-<li>趋势交易：看价格方向、均线结构、突破和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>ET]]>
-    </summary>
-    <title>2026-06-24 从三个角度分析半导体设备ETF易方达159558</title>
-    <updated>2026-07-08T08:44:40.006Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="半导体设备" scheme="https://nicoier.github.io/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87/"/>
-    <category term="国产替代" scheme="https://nicoier.github.io/tags/%E5%9B%BD%E4%BA%A7%E6%9B%BF%E4%BB%A3/"/>
-    <category term="交易规则" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99/"/>
-    <id>https://nicoier.github.io/2026/06/24/2026-06-24%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/</id>
-    <link href="https://nicoier.github.io/2026/06/24/2026-06-24%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E8%A7%84%E5%88%99%E5%8D%8A%E5%AF%BC%E4%BD%93%E8%AE%BE%E5%A4%87ETF%E6%98%93%E6%96%B9%E8%BE%BE159558/"/>
-    <published>2026-06-24T05:15:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章只讨论一个问题：如果现在按照趋势交易处理半导体设备ETF易方达，代码 <code>SZ159558</code>，应该遵守什么样的买入和卖出规则。</p>
-<p>先说结论：159558 当前是强趋势，但已经非常接近短中期区间高位。趋势交易可以跟随，但不能无计划追高。更合理的方式是用“突破确认 + 回踩确认 + 移动止损”来处理。</p>
-<p>]]>
-    </summary>
-    <title>2026-06-24 趋势交易规则：半导体设备ETF易方达159558</title>
-    <updated>2026-07-08T08:44:40.006Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="红利低波" scheme="https://nicoier.github.io/tags/%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2/"/>
-    <category term="高股息" scheme="https://nicoier.github.io/tags/%E9%AB%98%E8%82%A1%E6%81%AF/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2ETF%E5%8D%8E%E6%B3%B0%E6%9F%8F%E7%91%9E512890/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E7%BA%A2%E5%88%A9%E4%BD%8E%E6%B3%A2ETF%E5%8D%8E%E6%B3%B0%E6%9F%8F%E7%91%9E512890/"/>
-    <published>2026-06-23T13:40:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章用三个框架分析红利低波ETF华泰柏瑞，代码 <code>SH512890</code>：</p>
-<ol>
-<li>价值投资：看跟踪指数、红利低波策略、持仓结构、规模、费率和折溢价。</li>
-<li>趋势交易：看价格方向、均线结构、反弹和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>E]]>
-    </summary>
-    <title>2026-06-23 从三个角度分析红利低波ETF华泰柏瑞512890</title>
-    <updated>2026-07-08T08:44:40.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
-    <category term="证券ETF南方" scheme="https://nicoier.github.io/tags/%E8%AF%81%E5%88%B8ETF%E5%8D%97%E6%96%B9/"/>
-    <category term="券商" scheme="https://nicoier.github.io/tags/%E5%88%B8%E5%95%86/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8ETF%E5%8D%97%E6%96%B9512900/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E8%AF%81%E5%88%B8ETF%E5%8D%97%E6%96%B9512900/"/>
-    <published>2026-06-23T13:20:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章用三个框架分析证券ETF南方，代码 <code>SH512900</code>：</p>
-<ol>
-<li>价值投资：看跟踪指数、行业周期、持仓结构、规模、费率和折溢价。</li>
-<li>趋势交易：看价格方向、均线结构、突破和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>ETF 和个股]]>
-    </summary>
-    <title>2026-06-23 从三个角度分析证券ETF南方512900</title>
-    <updated>2026-07-08T08:44:40.005Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
+    <category term="基金" scheme="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/"/>
     <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="世纪华通" scheme="https://nicoier.github.io/tags/%E4%B8%96%E7%BA%AA%E5%8D%8E%E9%80%9A/"/>
-    <category term="游戏" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%B8%96%E7%BA%AA%E5%8D%8E%E9%80%9A002602/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%B8%96%E7%BA%AA%E5%8D%8E%E9%80%9A002602/"/>
-    <published>2026-06-23T13:00:00.000Z</published>
+    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
+    <id>https://nicoier.github.io/2026/06/23/%E5%9F%BA%E9%87%91%E8%82%A1%E7%A5%A8ETF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/</id>
+    <link href="https://nicoier.github.io/2026/06/23/%E5%9F%BA%E9%87%91%E8%82%A1%E7%A5%A8ETF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
+    <published>2026-06-23T07:04:00.000Z</published>
     <summary>
-      <![CDATA[<p>这篇文章用三个框架分析世纪华通，代码 <code>SZ002602</code>：</p>
-<ol>
-<li>价值投资：看游戏出海、盛趣游戏、AI 云数据、现金流、估值和分红。</li>
-<li>趋势交易：看价格方向、均线结构、反弹和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>三种方法的结论可]]>
+      <![CDATA[<p>股票、基金、ETF 不是同一层级的东西。</p>
+<ul>
+<li>股票是公司所有权的一部分，买的是某家公司。</li>
+<li>普通基金是集合投资工具，选资产和调仓主要交给基金经理或基金规则。这里主要讨论普通开放式基金，尤其是主动基金。</li>
+<li>ETF 也是基金，但份额在交易所买卖。很多 ETF 跟踪宽基、行业、风格或其他资产指数。</li]]>
     </summary>
-    <title>2026-06-23 从三个角度分析世纪华通002602</title>
-    <updated>2026-07-08T08:44:40.004Z</updated>
+    <title>基金、股票、ETF 的区别和适用场景</title>
+    <updated>2026-07-10T08:54:04.163Z</updated>
   </entry>
   <entry>
     <author>
@@ -338,26 +192,20 @@
     </author>
     <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
     <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="游戏" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
-    <category term="巨人网络" scheme="https://nicoier.github.io/tags/%E5%B7%A8%E4%BA%BA%E7%BD%91%E7%BB%9C/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%B7%A8%E4%BA%BA%E7%BD%91%E7%BB%9C002558/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%B7%A8%E4%BA%BA%E7%BD%91%E7%BB%9C002558/"/>
-    <published>2026-06-23T12:40:00.000Z</published>
+    <category term="交易" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/"/>
+    <category term="基金" scheme="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/"/>
+    <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
+    <id>https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/</id>
+    <link href="https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/"/>
+    <published>2026-06-23T06:18:00.000Z</published>
     <summary>
-      <![CDATA[<p>这篇文章用三个框架分析巨人网络，代码 <code>SZ002558</code>：</p>
-<ol>
-<li>价值投资：看游戏产品矩阵、爆款兑现、现金流、估值和分红。</li>
-<li>趋势交易：看价格方向、均线结构、反弹和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>三种方法的结论可能不同，不]]>
+      <![CDATA[<p>如果只选一种工具做趋势投资，我会优先选 ETF。</p>
+<p>趋势投资赚的是方向延续的钱。ETF 通常比单股分散，比主动基金透明，又能盘中交易，比较方便直接表达市场、行业或风格趋势。</p>
+<p>单股的弹性更大，但会叠加公司风险；普通基金适合低频委托，不太适合需要精确止损和盘中执行的策略。</p>
+<p>选择前先确定自己要跟随哪一层趋势：</p>]]>
     </summary>
-    <title>2026-06-23 从三个角度分析巨人网络002558</title>
-    <updated>2026-07-08T08:44:40.002Z</updated>
+    <title>趋势投资应该选 ETF、单股还是基金</title>
+    <updated>2026-07-21T07:16:18.954Z</updated>
   </entry>
   <entry>
     <author>
@@ -365,103 +213,177 @@
     </author>
     <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
     <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="中远海控" scheme="https://nicoier.github.io/tags/%E4%B8%AD%E8%BF%9C%E6%B5%B7%E6%8E%A7/"/>
-    <category term="航运" scheme="https://nicoier.github.io/tags/%E8%88%AA%E8%BF%90/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%B8%AD%E8%BF%9C%E6%B5%B7%E6%8E%A7601919/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%B8%AD%E8%BF%9C%E6%B5%B7%E6%8E%A7601919/"/>
-    <published>2026-06-23T12:20:00.000Z</published>
+    <category term="交易" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/"/>
+    <category term="金融" scheme="https://nicoier.github.io/tags/%E9%87%91%E8%9E%8D/"/>
+    <id>https://nicoier.github.io/2026/06/23/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/</id>
+    <link href="https://nicoier.github.io/2026/06/23/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
+    <published>2026-06-23T05:33:09.000Z</published>
     <summary>
-      <![CDATA[<p>这篇文章用三个框架分析中远海控，代码 <code>SH601919</code>：</p>
-<ol>
-<li>价值投资：看航运周期、船队和码头资产、现金、估值和分红。</li>
-<li>趋势交易：看价格方向、均线结构、反弹和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>三种方法的结论可能不同，不]]>
+      <![CDATA[<p>这三种方法赚的不是同一种钱：</p>
+<ul>
+<li>价值投资赚价格向价值回归的钱。</li>
+<li>趋势交易赚价格继续沿原方向运行的钱。</li>
+<li>震荡交易赚价格在区间内来回波动的钱。</li>
+</ul>
+<p>它们没有谁更高级，主要是前提、周期和认错方式不同。</p>
+<p>最麻烦的是买入时用一种方法，亏损后又换一种解释。趋势跌破止损]]>
     </summary>
-    <title>2026-06-23 从三个角度分析中远海控601919</title>
-    <updated>2026-07-08T08:44:40.005Z</updated>
+    <title>价值投资、趋势交易、震荡交易的底层逻辑</title>
+    <updated>2026-07-21T07:14:45.533Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="工具" scheme="https://nicoier.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    <category term="Codex" scheme="https://nicoier.github.io/tags/Codex/"/>
+    <category term="AI" scheme="https://nicoier.github.io/tags/AI/"/>
+    <category term="开发记录" scheme="https://nicoier.github.io/tags/%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/"/>
+    <id>https://nicoier.github.io/2026/06/17/%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9%E8%AE%B0%E5%BD%95/</id>
+    <link href="https://nicoier.github.io/2026/06/17/%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9%E8%AE%B0%E5%BD%95/"/>
+    <published>2026-06-17T03:24:27.000Z</published>
+    <summary>
+      <![CDATA[<p>时间大概是 2026-06-11 到 2026-06-16。</p>
+<p>主要还是 JoltPhysics、BattleProcess、QTE、LOD、技能表现和构建资源。</p>
+<h2 id="1-实现萨拉扫描技能"><a href="#1-实现萨拉扫描技能" class="headerlink" title="1. 实现萨拉扫描技能"></a>]]>
+    </summary>
+    <title>最近20条Codex对话整理</title>
+    <updated>2026-07-21T06:19:55.886Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <category term="aseprite" scheme="https://nicoier.github.io/tags/aseprite/"/>
+    <category term="build" scheme="https://nicoier.github.io/tags/build/"/>
+    <category term="tutorial" scheme="https://nicoier.github.io/tags/tutorial/"/>
+    <id>https://nicoier.github.io/2025/12/22/build-aseprite/</id>
+    <link href="https://nicoier.github.io/2025/12/22/build-aseprite/"/>
+    <published>2025-12-22T03:28:12.000Z</published>
+    <summary>
+      <![CDATA[<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">本文主要介绍了一下如何编译 Aseprite，其实现]]>
+    </summary>
+    <title>build-aseprite</title>
+    <updated>2026-07-08T03:26:53.055Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="BatchRendererGroup" scheme="https://nicoier.github.io/tags/BatchRendererGroup/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <id>https://nicoier.github.io/2025/12/18/BatchRenderGroup%E6%BC%94%E7%A4%BADemo/</id>
+    <link href="https://nicoier.github.io/2025/12/18/BatchRenderGroup%E6%BC%94%E7%A4%BADemo/"/>
+    <published>2025-12-18T05:21:59.000Z</published>
+    <summary>
+      <![CDATA[<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs t]]>
+    </summary>
+    <title>BatchRenderGroup演示Demo</title>
+    <updated>2026-07-08T03:26:54.327Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <category term="unity" scheme="https://nicoier.github.io/tags/unity/"/>
+    <category term="compression" scheme="https://nicoier.github.io/tags/compression/"/>
+    <category term="zstd" scheme="https://nicoier.github.io/tags/zstd/"/>
+    <id>https://nicoier.github.io/2025/12/09/zstd-for-unity/</id>
+    <link href="https://nicoier.github.io/2025/12/09/zstd-for-unity/"/>
+    <published>2025-12-09T07:17:42.000Z</published>
+    <summary>
+      <![CDATA[<h1 id="zstd-for-unity"><a href="#zstd-for-unity" class="headerlink" title="zstd-for-unity"></a>zstd-for-unity</h1><figure class="highlight text"><table><tr><td class="gutter"><pre]]>
+    </summary>
+    <title>zstd-for-unity</title>
+    <updated>2026-07-08T03:26:52.569Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <category term="Unity6" scheme="https://nicoier.github.io/tags/Unity6/"/>
+    <category term="Mesh" scheme="https://nicoier.github.io/tags/Mesh/"/>
+    <category term="LOD" scheme="https://nicoier.github.io/tags/LOD/"/>
+    <id>https://nicoier.github.io/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</id>
+    <link href="https://nicoier.github.io/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"/>
+    <published>2025-12-08T07:50:08.000Z</published>
+    <summary>
+      <![CDATA[<p>Unity6中，当导入模型时，就出现了MeshLOD的选项，我们可以勾选这个选项来启用MeshLOD功能。</p>
+<p>如果一个MeshRenderer 或者 SkinnedMeshRenderer 组件使用的Mesh是勾选了MeshLOD的，那么会出现一个调整LOD等级的滑动条，我们可以通过这个滑动条来调整当前使用的LOD等级。</p>
+<p>还是]]>
+    </summary>
+    <title>Unity6的MeshLOD使用教程</title>
+    <updated>2026-07-10T08:59:21.395Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <category term="Animation" scheme="https://nicoier.github.io/tags/Animation/"/>
+    <category term="Animancer" scheme="https://nicoier.github.io/tags/Animancer/"/>
+    <category term="Networking" scheme="https://nicoier.github.io/tags/Networking/"/>
+    <id>https://nicoier.github.io/2025/12/02/NetworkAnimancer/</id>
+    <link href="https://nicoier.github.io/2025/12/02/NetworkAnimancer/"/>
+    <published>2025-12-02T05:27:08.000Z</published>
+    <summary>
+      <![CDATA[<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">本文记录了在使用Animancer时开发动画网络同步]]>
+    </summary>
+    <title>NetworkAnimancer</title>
+    <updated>2026-07-08T03:26:52.768Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <category term="DOTS" scheme="https://nicoier.github.io/tags/DOTS/"/>
+    <category term="Shader" scheme="https://nicoier.github.io/tags/Shader/"/>
+    <category term="SRP Batch" scheme="https://nicoier.github.io/tags/SRP-Batch/"/>
+    <category term="GPU Instancing" scheme="https://nicoier.github.io/tags/GPU-Instancing/"/>
+    <id>https://nicoier.github.io/2025/11/19/%E5%A6%82%E4%BD%95%E8%AE%A9Shader%E6%94%AF%E6%8C%81DOTS/</id>
+    <link href="https://nicoier.github.io/2025/11/19/%E5%A6%82%E4%BD%95%E8%AE%A9Shader%E6%94%AF%E6%8C%81DOTS/"/>
+    <published>2025-11-19T03:04:11.000Z</published>
+    <summary>
+      <![CDATA[<p>DOTS Shader 需要同时支持SRP Batch 和 GPU Instacing<br>参考Unity官方文档修改即可</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/82102092">https://zhuanlan.zhihu.com/p/82102092</a></li>
+<li><a]]>
+    </summary>
+    <title>如何让Shader支持DOTS</title>
+    <updated>2026-07-08T03:26:54.712Z</updated>
   </entry>
   <entry>
     <author>
       <name>NicoIer</name>
     </author>
     <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="招商港口" scheme="https://nicoier.github.io/tags/%E6%8B%9B%E5%95%86%E6%B8%AF%E5%8F%A3/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E6%8B%9B%E5%95%86%E6%B8%AF%E5%8F%A3001872/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E6%8B%9B%E5%95%86%E6%B8%AF%E5%8F%A3001872/"/>
-    <published>2026-06-23T11:55:00.000Z</published>
+    <id>https://nicoier.github.io/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/</id>
+    <link href="https://nicoier.github.io/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/"/>
+    <published>2025-11-12T05:02:50.000Z</published>
     <summary>
-      <![CDATA[<p>这篇文章用三个框架分析招商港口，代码 <code>SZ001872</code>：</p>
-<ol>
-<li>价值投资：看港口网络、盈利质量、投资收益、估值和分红。</li>
-<li>趋势交易：看价格方向、均线结构、反弹和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>三种方法的结论可能不同，不能]]>
+      <![CDATA[<ul>
+<li><p><strong>股票的真正收益来自于分红</strong></p>
+</li>
+<li><p><strong>低买高卖是在挣其他投资者的钱</strong></p>
+</li>
+</ul>
+<h1 id="市盈率（P-E-Ratio）"><a href="#市盈率（P-E-Ratio）" class="headerlink" titl]]>
     </summary>
-    <title>2026-06-23 从三个角度分析招商港口001872</title>
-    <updated>2026-07-08T08:44:40.004Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="上港集团" scheme="https://nicoier.github.io/tags/%E4%B8%8A%E6%B8%AF%E9%9B%86%E5%9B%A2/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%B8%8A%E6%B8%AF%E9%9B%86%E5%9B%A2600018/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E4%B8%8A%E6%B8%AF%E9%9B%86%E5%9B%A2600018/"/>
-    <published>2026-06-23T11:35:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章用三个框架分析上港集团，代码 <code>SH600018</code>：</p>
-<ol>
-<li>价值投资：看港口资产、盈利质量、估值、现金流和分红。</li>
-<li>趋势交易：看价格方向、均线结构、突破和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>三种方法的结论可能不同，不能混]]>
-    </summary>
-    <title>2026-06-23 从三个角度分析上港集团600018</title>
-    <updated>2026-07-08T08:44:40.003Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="股票" scheme="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/"/>
-    <category term="趋势交易" scheme="https://nicoier.github.io/tags/%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93/"/>
-    <category term="震荡交易" scheme="https://nicoier.github.io/tags/%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/"/>
-    <category term="价值投资" scheme="https://nicoier.github.io/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84/"/>
-    <category term="分众传媒" scheme="https://nicoier.github.io/tags/%E5%88%86%E4%BC%97%E4%BC%A0%E5%AA%92/"/>
-    <id>https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%88%86%E4%BC%97%E4%BC%A0%E5%AA%92002027/</id>
-    <link href="https://nicoier.github.io/2026/06/23/2026-06-23%E4%BB%8E%E4%B8%89%E4%B8%AA%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%E5%88%86%E4%BC%97%E4%BC%A0%E5%AA%92002027/"/>
-    <published>2026-06-23T11:10:00.000Z</published>
-    <summary>
-      <![CDATA[<p>这篇文章用三个框架分析分众传媒，代码 <code>SZ002027</code>：</p>
-<ol>
-<li>价值投资：看生意质量、盈利能力、估值、现金流和分红。</li>
-<li>趋势交易：看价格方向、均线结构、放量下跌和失效条件。</li>
-<li>震荡交易：看区间、支撑压力、均值回归和止损。</li>
-</ol>
-<p>三种方法的结论可能不同，不]]>
-    </summary>
-    <title>2026-06-23 从三个角度分析分众传媒002027</title>
-    <updated>2026-07-08T08:44:39.999Z</updated>
+    <title>股票常识</title>
+    <updated>2026-06-29T05:44:50.252Z</updated>
   </entry>
 </feed>

@@ -248,15 +248,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/12/09/zstd-for-unity/" target="_self">
-          zstd-for-unity
+        <a href="/2025/08/07/%E9%80%9A%E8%BF%87Pre-Z%E5%87%8F%E5%B0%91AlphaClip%E7%BB%98%E5%88%B6%E7%9A%84%E5%BC%80%E9%94%80/" target="_self">
+          通过Pre-Z减少AlphaClip绘制的开销
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/12/09/zstd-for-unity/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/07/%E9%80%9A%E8%BF%87Pre-Z%E5%87%8F%E5%B0%91AlphaClip%E7%BB%98%E5%88%B6%E7%9A%84%E5%BC%80%E9%94%80/" target="_self">
         <div>
-          zstd-for-unity1本文主要记录了在Unity中集成zstd的过程。  集成并制作完毕后的结果提供在此 https://github.com/NicoIer/zstd-unity.git zstd是facebook开源的一款高效压缩算法，具有极高的压缩比和压缩速度，广泛应用于各种场景中。它被集成在linux内核中，并且被许多知名项目采用，比如Docker、Kubernetes等。 其在游
+          手机上AlphaClip为什么会很卡本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。  Pre-Z优化方案 再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入 在AlphaClip绘制时，开启深度测试
         </div>
       </a>
 
@@ -264,75 +264,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-12-09 15:17" pubdate>
-              2025-12-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
-            
-              <a href="/tags/unity/">#unity</a>
-            
-              <a href="/tags/compression/">#compression</a>
-            
-              <a href="/tags/zstd/">#zstd</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" target="_self">
-          Unity6的MeshLOD使用教程
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" target="_self">
-        <div>
-          Unity6中，当导入模型时，就出现了MeshLOD的选项，我们可以勾选这个选项来启用MeshLOD功能。 如果一个MeshRenderer 或者 SkinnedMeshRenderer 组件使用的Mesh是勾选了MeshLOD的，那么会出现一个调整LOD等级的滑动条，我们可以通过这个滑动条来调整当前使用的LOD等级。 还是比较方便，只是生成的算法有点垃圾，期待Unity持续优化这个功能。 它解决
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-12-08 15:50" pubdate>
-              2025-12-08
+            <time datetime="2025-08-07 11:12" pubdate>
+              2025-08-07
             </time>
           </div>
         
@@ -365,267 +298,12 @@
               <a href="/tags/Unity/">#Unity</a>
             
               <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
-            
-              <a href="/tags/Unity6/">#Unity6</a>
-            
-              <a href="/tags/Mesh/">#Mesh</a>
-            
-              <a href="/tags/LOD/">#LOD</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/12/02/NetworkAnimancer/" target="_self">
-          NetworkAnimancer
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/12/02/NetworkAnimancer/" target="_self">
-        <div>
-          1本文记录了在使用Animancer时开发动画网络同步的一些经验和解决方案。  Animancer简介https://kybernetik.com.au/animancer/ Animancer是Unity中的一个强大的动画管理插件，提供了比传统Animator更灵活和高效的动画控制方式。它允许开发者通过代码直接控制动画状态机，简化了动画的管理和切换。 了解Transition和Animancer
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-12-02 13:27" pubdate>
-              2025-12-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Unity/">#Unity</a>
-            
-              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
-            
-              <a href="/tags/Animation/">#Animation</a>
-            
-              <a href="/tags/Animancer/">#Animancer</a>
-            
-              <a href="/tags/Networking/">#Networking</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/11/19/%E5%A6%82%E4%BD%95%E8%AE%A9Shader%E6%94%AF%E6%8C%81DOTS/" target="_self">
-          如何让Shader支持DOTS
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/19/%E5%A6%82%E4%BD%95%E8%AE%A9Shader%E6%94%AF%E6%8C%81DOTS/" target="_self">
-        <div>
-          DOTS Shader 需要同时支持SRP Batch 和 GPU Instacing参考Unity官方文档修改即可  https://zhuanlan.zhihu.com/p/82102092 https://docs.unity3d.com/2022.3/Documentation/Manual/dots-instancing-shaders.html  示例Shader12345678910
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-11-19 11:04" pubdate>
-              2025-11-19
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Unity/">#Unity</a>
-            
-              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
-            
-              <a href="/tags/DOTS/">#DOTS</a>
             
               <a href="/tags/Shader/">#Shader</a>
             
-              <a href="/tags/SRP-Batch/">#SRP Batch</a>
+              <a href="/tags/Pre-Z/">#Pre-Z</a>
             
-              <a href="/tags/GPU-Instancing/">#GPU Instancing</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/" target="_self">
-          股票常识
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/" target="_self">
-        <div>
-          股票的真正收益来自于分红  低买高卖是在挣其他投资者的钱   市盈率（P&#x2F;E Ratio）指股票价格与每股收益（EPS）的比率，计算公式为：市盈率 &#x3D; 每股市价 ÷ 每股收益。市盈率可以帮助投资者初步判断股票的估值高低。例如，如果一只股票的市价为50元，过去一年的每股收益为5元，则市盈率为10倍。这意味着按当前盈利水平，投资者需要10年才能收回成本。市盈率还有静态和动态之分，
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-11-12 13:02" pubdate>
-              2025-11-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%8A%95%E8%B5%84/" class="category-chain-item">投资</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/11/12/hexo%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0/" target="_self">
-          hexo命令速记
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/12/hexo%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0/" target="_self">
-        <div>
-          1234567891011121314151617181920212223# 初始化 Hexo 博客hexo init &lt;folder&gt;  # 在指定文件夹中初始化一个新的 Hexo 博客# 进入博客目录cd &lt;folder&gt;# 安装依赖包npm install# 生成静态文件hexo generate 或 hexo g# 预览本地服务器hexo server 或 hexo
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-11-12 13:00" pubdate>
-              2025-11-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/hexo/">#hexo</a>
+              <a href="/tags/AlphaClip/">#AlphaClip</a>
             
           </div>
         
@@ -639,15 +317,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/11/11/%E9%80%83%E7%A6%BBUnityCN/" target="_self">
-          逃离UnityCN
+        <a href="/2025/08/07/Unity-LightProbe%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98/" target="_self">
+          Unity-LightProbe导致的性能异常问题
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/11/%E9%80%83%E7%A6%BBUnityCN/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/07/Unity-LightProbe%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98/" target="_self">
         <div>
-          Unity中国实在是罪大恶极，自从Unity中国变成独立公司之后，国内就没办法以正常途径下载国际版Unity了，即使使用的是国际版Hub 这里介绍一种逃离办法，需要有VPN  首先UnityHub默认启动时，不会读取系统代理，也就是说，即使你开了VPN，挂到了国外节点，Hub也不会走代理访问Unity服务器  如何判断当前UnityHub是否走了代理？  退出登陆，然后点Sign In，如果弹出的
+          使用LightProbe烘焙间接光时，主要是有一些LightProbe的点出现了穿插，导致在运行时计算插值时出现了大量的计算开销，从而导致性能异常。 解决方案是让Probe不要出现穿插，避免计算时因为两个点之间存在Mesh导致计算开销过大以及错误结果 原因LightProbe 本质上是用空间中的 Probe 点来近似间接光。 运行时物体需要根据当前位置，在周围的 Probe 之间做插值，得到当前点
         </div>
       </a>
 
@@ -655,8 +333,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-11-11 17:47" pubdate>
-              2025-11-11
+            <time datetime="2025-08-07 11:12" pubdate>
+              2025-08-07
             </time>
           </div>
         
@@ -690,7 +368,7 @@
             
               <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
             
-              <a href="/tags/Unity-CN/">#Unity CN</a>
+              <a href="/tags/LightProbe/">#LightProbe</a>
             
           </div>
         
@@ -704,15 +382,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/11/03/NetworkCharacterView/" target="_self">
-          NetworkCharacterView
+        <a href="/2025/08/07/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/" target="_self">
+          图形学中的坐标变换
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/03/NetworkCharacterView/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/07/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/" target="_self">
         <div>
-          数据结构的定义 NetworkCharacterData：包含位置、旋转、速度、时间戳、动画数据等 NetworkAnimationData：包含动画ID、AvatarMask ID、播放时长、权重、播放速度    12345678910111213141516171819202122232425262728293031323334353637using System;using MemoryP
+          在图形学中，坐标变换是一个核心概念，它涉及将点或对象从一个坐标系转换到另一个坐标系。常见的坐标系包括局部坐标系、世界坐标系和视图坐标系。  对于一个模型，我们通常会定义它在局部坐标系中的位置和方向。通过应用一系列变换矩阵（如平移、旋转和缩放），我们可以将模型从局部坐标系转换到世界坐标系。这些变换矩阵通常以4x4矩阵的形式表示，以便处理齐次坐标。 例如，假设我们有一个点P在局部坐标系中的位置为(1,
         </div>
       </a>
 
@@ -720,8 +398,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-11-03 19:45" pubdate>
-              2025-11-03
+            <time datetime="2025-08-07 11:11" pubdate>
+              2025-08-07
             </time>
           </div>
         
@@ -736,7 +414,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  <a href="/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
   
   
 
@@ -751,80 +429,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
+              <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">#图形学</a>
             
-              <a href="/tags/Network/">#Network</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/08/27/EntitiesGrphics/" target="_self">
-          EntitiesGraphics
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/27/EntitiesGrphics/" target="_self">
-        <div>
-          Entities Graphics优化后的SRP Batch 利用了Burst编译器(LLVM) 多线程收集数据 (EntityQuery) 无论多少相机，只需要上传一次数据  Data Persistent Model：这一部分用于在渲染系统中管理和上传数据，重点在于如何有效地管理渲染所需的各种数据，确保这些数据在不同渲染帧之间保持一致和可用。  Persistent Batches：这一部分涉
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-08-27 11:19" pubdate>
-              2025-08-27
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Unity/">#Unity</a>
-            
-              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
-            
-              <a href="/tags/DOTS/">#DOTS</a>
-            
-              <a href="/tags/ECS/">#ECS</a>
-            
-              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#性能优化</a>
-            
-              <a href="/tags/%E6%B8%B2%E6%9F%93/">#渲染</a>
+              <a href="/tags/%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/">#坐标变换</a>
             
           </div>
         
@@ -838,15 +445,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/08/27/Unity-Shader-%E5%8F%98%E4%BD%93%E6%95%B0%E9%87%8F%E4%BC%98%E5%8C%96/" target="_self">
-          Unity Shader 变体数量优化
+        <a href="/2025/08/07/%E9%80%9A%E8%BF%87CommandBuffer%E7%BB%98%E5%88%B6%E5%B0%8F%E5%9C%B0%E5%9B%BE/" target="_self">
+          通过CommandBuffer绘制小地图
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/27/Unity-Shader-%E5%8F%98%E4%BD%93%E6%95%B0%E9%87%8F%E4%BC%98%E5%8C%96/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/07/%E9%80%9A%E8%BF%87CommandBuffer%E7%BB%98%E5%88%B6%E5%B0%8F%E5%9C%B0%E5%9B%BE/" target="_self">
         <div>
-          在使用URP之后，有时候会发现Shader变体数量暴增，导致打包体积过大，加载时间过长等问题。 通常这个情况出现在使用了Shader Graph，或者在自定义Shader中使用了多种关键词（Keywords）时。 Unity自带了一个工具去检查工程中使用到的变体，并且可以生成一个变体列表文件（.shadervariants） 在构建AB包&#x2F;打包时，可以指定这个文件，来剔除未使用的变体。
+          最近在做小地图的优化方案， 原先的方案很常见： 为目标物体在场景内很远的位置生成一个SpriteRenderer代理，使用一个小地图相机在对应位置拍摄， 小地图相机的渲染目标是一张正方形的RT，RT会作为UI上一个RawImage的纹理。 通过Camera-&gt;RT-&gt;RawImage的方式，最终在UI上显示小地图。  这样的做法有几个问题：  需要额外一个Camera，需要完整走Cam
         </div>
       </a>
 
@@ -854,8 +461,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-08-27 11:14" pubdate>
-              2025-08-27
+            <time datetime="2025-08-07 11:10" pubdate>
+              2025-08-07
             </time>
           </div>
         
@@ -888,10 +495,414 @@
               <a href="/tags/Unity/">#Unity</a>
             
               <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
-            
-              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#性能优化</a>
             
               <a href="/tags/Shader/">#Shader</a>
+            
+              <a href="/tags/CommandBuffer/">#CommandBuffer</a>
+            
+              <a href="/tags/%E5%B0%8F%E5%9C%B0%E5%9B%BE/">#小地图</a>
+            
+              <a href="/tags/Mask/">#Mask</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/08/01/Unity-ShadowDistance%E9%97%AE%E9%A2%98/" target="_self">
+          Unity-ShadowDistance问题
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/08/01/Unity-ShadowDistance%E9%97%AE%E9%A2%98/" target="_self">
+        <div>
+          ShadowMap精度Unity 中的阴影距离实际上是 near plane + shadow distance。 观察下面两种ShadowMap  左边: neap plane &#x3D; 0.01 , shadow distance &#x3D; 4.39 右边: neap plane &#x3D; 2.36 , shadow distance &#x3D; 4.39  可以明显看出左边的人
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-08-01 14:09" pubdate>
+              2025-08-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unity/">#Unity</a>
+            
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
+            
+              <a href="/tags/Shader/">#Shader</a>
+            
+              <a href="/tags/%E9%98%B4%E5%BD%B1/">#阴影</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/07/29/CSharp%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E9%97%AE%E9%A2%98/" target="_self">
+          CSharp结构体中引用类型初始化问题
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/07/29/CSharp%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E9%97%AE%E9%A2%98/" target="_self">
+        <div>
+          初始化struct&#x2F;class里的List时，第二种写法会报nullref 123456789101112131415161718192021222324public struct MyStruct&#123;    public List&lt;int&gt; MyList1;    public MyStruct()    &#123;    &#125;&#125;static v
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-29 14:48" pubdate>
+              2025-07-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B/" class="category-chain-item">编程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/CSharp/">#CSharp</a>
+            
+              <a href="/tags/IL/">#IL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/07/22/Unity%E5%9C%BA%E6%99%AFLightmap%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/" target="_self">
+          Unity场景Lightmap是否存在
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/07/22/Unity%E5%9C%BA%E6%99%AFLightmap%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/" target="_self">
+        <div>
+          Unity场景Lightmap是否存在判断当前激活的场景是否存在Lightmap，可以通过以下代码实现： 123456789var dataAsset = Lightmapping.lightDataAsset;if(dataAsset != null &amp;&amp; dataAsset.lightmaps != null &amp;&amp; dataAsset.lightmaps.Len
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-22 14:19" pubdate>
+              2025-07-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unity/">#Unity</a>
+            
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
+            
+              <a href="/tags/Lightmap/">#Lightmap</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/07/15/Unity-Bloom-%E9%94%AF%E9%BD%BF%E4%BC%98%E5%8C%96/" target="_self">
+          Unity-Bloom-锯齿优化
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/07/15/Unity-Bloom-%E9%94%AF%E9%BD%BF%E4%BC%98%E5%8C%96/" target="_self">
+        <div>
+          记录 Unity Bloom 在上采样阶段用 X 型卷积核补回角落采样，降低锯齿的一个简单处理。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-15 15:19" pubdate>
+              2025-07-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unity/">#Unity</a>
+            
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
+            
+              <a href="/tags/Shader/">#Shader</a>
+            
+              <a href="/tags/%E5%90%8E%E5%A4%84%E7%90%86/">#后处理</a>
+            
+              <a href="/tags/Bloom/">#Bloom</a>
+            
+              <a href="/tags/%E9%94%AF%E9%BD%BF/">#锯齿</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/07/10/FMOD-Unity-Settings/" target="_self">
+          FMOD-Unity-Settings
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/07/10/FMOD-Unity-Settings/" target="_self">
+        <div>
+          FMOD Unity Settings官方文档 FMOD作为一个跨平台的音频引擎，在深度使用中经常会遇到一些手机上出现，电脑上无法复现的问题。这里记录一下一些比较重要的配置，可以解决一些问题。  Platform Specific &#x2F; Android OutputMode 这个选项是选择不同平台下使用的底层音频输出API  Auto 这个选项会根据平台自动选择 No Sound 这个选项
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-10 18:16" pubdate>
+              2025-07-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unity/">#Unity</a>
+            
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
+            
+              <a href="/tags/FMOD/">#FMOD</a>
+            
+              <a href="/tags/%E9%9F%B3%E9%A2%91/">#音频</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/07/07/FMOD-Unity-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/" target="_self">
+          FMOD Unity 资源加载
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/07/07/FMOD-Unity-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/" target="_self">
+        <div>
+          FMOD Unity 资源加载FMOD 是一个强大的音频引擎，广泛应用于游戏开发中。Unity 中使用 FMOD 时，资源的加载和管理是一个重要的环节。以下是一些关于 FMOD 在 Unity 中资源加载的基本知识。 FMOD Unity 资源加载默认资源加载方式FMOD For Unity的默认资源加载方式是 StreamingAssets。在Unity Build时会将 “.bank” 文件
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-07 14:39" pubdate>
+              2025-07-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Unity/">#Unity</a>
+            
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">#游戏开发</a>
+            
+              <a href="/tags/FMOD/">#FMOD</a>
+            
+              <a href="/tags/%E9%9F%B3%E9%A2%91/">#音频</a>
             
           </div>
         
@@ -903,7 +914,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

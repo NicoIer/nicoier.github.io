@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="先整理 ECS 实现增量网络同步的基本思路，再记录 GameServer 中的具体实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于ECS的增量网络同步">
+<meta property="og:url" content="https://nicoier.github.io/2026/07/21/%E5%9F%BA%E4%BA%8EECS%E7%9A%84%E5%A2%9E%E9%87%8F%E7%BD%91%E7%BB%9C%E5%90%8C%E6%AD%A5/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="先整理 ECS 实现增量网络同步的基本思路，再记录 GameServer 中的具体实现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/ecs-replication-diff-model.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/ecs-replication-revision-flow.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/gameserver-ecs-sync-pipeline.svg">
+<meta property="article:published_time" content="2026-07-21T07:04:55.000Z">
+<meta property="article:modified_time" content="2026-07-21T07:26:27.615Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="CSharp">
+<meta property="article:tag" content="ECS">
+<meta property="article:tag" content="Network">
+<meta property="article:tag" content="游戏服务器">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/ecs-replication-diff-model.svg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>基于ECS的增量网络同步 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于ECS的增量网络同步"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-21 15:04" pubdate>
+          2026年7月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于ECS的增量网络同步</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年7月21日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基于-ECS-的增量网络同步"><a href="#基于-ECS-的增量网络同步" class="headerlink" title="基于 ECS 的增量网络同步"></a>基于 ECS 的增量网络同步</h1><p>先说结论：ECS 生来就适合做网络数据的增量同步。</p>
+<p>很多人看 ECS，主要看的是多线程、高性能、内存紧凑和 CPU 缓存命中率。但是对网络同步来说，ECS 还有一个很直接的优点：它已经把世界状态拆成了 <code>Entity</code> 和 <code>Component</code>。</p>
+<p>这里先整理一下基于 ECS 实现增量同步需要什么，然后以 <a target="_blank" rel="noopener" href="https://github.com/NicoIer/GameServer">NicoIer&#x2F;GameServer</a> 中的实现为例，说明完整的同步流程。</p>
+<h2 id="ECS-为什么适合增量同步"><a href="#ECS-为什么适合增量同步" class="headerlink" title="ECS 为什么适合增量同步"></a>ECS 为什么适合增量同步</h2><p>传统对象往往会把状态和行为堆在一起。如果要做增量同步，需要额外判断对象的哪些字段变了，以及这些字段能不能发给客户端。</p>
+<p>ECS 已经提前做了一次数据分拆：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">World<br>  -&gt; Entity<br>       -&gt; Component A<br>       -&gt; Component B<br>       -&gt; Component C<br></code></pre></td></tr></table></figure>
+
+<p><code>Entity</code> 是实体身份，<code>Component</code> 是独立的状态块。一个组件通常只保存一类数据，所以它可以直接成为网络同步的最小单位。</p>
+<p>一个 ECS 世界的变化，基本可以归纳成：</p>
+<ul>
+<li>创建或删除 <code>Entity</code>。</li>
+<li>添加、更新或删除 <code>Component</code>。</li>
+<li>修改 <code>Entity</code> 的父子关系。</li>
+</ul>
+<p>这些操作本身就是 Diff，不需要在每帧结束后复制一份完整世界，再和上一帧逐字段比较。</p>
+<p>另外，大部分 ECS 都有集中的实体和组件操作入口。只要在这些入口记录变化，就可以知道当前 Tick 修改了什么。</p>
+<p><img src="/../img/ecs-replication-diff-model.svg" srcset="/img/loading.gif" lazyload alt="ECS 状态如何直接形成网络 Diff"></p>
+<h2 id="基于-ECS-的增量同步要怎么做"><a href="#基于-ECS-的增量同步要怎么做" class="headerlink" title="基于 ECS 的增量同步要怎么做"></a>基于 ECS 的增量同步要怎么做</h2><p>ECS 只是提供了合适的数据结构。要把它做成可用的网络同步，还需要解决下面几个问题。</p>
+<h3 id="确定哪些组件需要同步"><a href="#确定哪些组件需要同步" class="headerlink" title="确定哪些组件需要同步"></a>确定哪些组件需要同步</h3><p>不是所有组件都应该发给客户端。有些是服务器临时状态，有些可以在客户端自己计算，有些则根本不应该暴露。</p>
+<p>所以需要显式标记可同步组件，并且给每种组件分配稳定的类型 id。网络上只发送：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">EntityId + ComponentTypeId + Payload<br></code></pre></td></tr></table></figure>
+
+<p>客户端根据 <code>ComponentTypeId</code> 找到对应类型，再反序列化 <code>Payload</code>。</p>
+<h3 id="收集变化"><a href="#收集变化" class="headerlink" title="收集变化"></a>收集变化</h3><p>结构变化通常可以由 ECS 事件捕获：</p>
+<ul>
+<li><code>Entity</code> 创建和删除。</li>
+<li><code>Component</code> 添加和删除。</li>
+<li>父子关系变化。</li>
+</ul>
+<p>已有组件的值变化不一定会产生结构事件。这类更新需要走统一入口，在设置组件的同时显式标记脏数据。</p>
+<h3 id="合并同一-Tick-内的变化"><a href="#合并同一-Tick-内的变化" class="headerlink" title="合并同一 Tick 内的变化"></a>合并同一 Tick 内的变化</h3><p>如果同一个组件在一个 Tick 内被修改了多次，没必要把每个中间状态都发出去。客户端通常只需要 Tick 结束时的最终结果。</p>
+<p>常见的合并规则是：</p>
+<table>
+<thead>
+<tr>
+<th>同一 Tick 内的操作</th>
+<th>最终结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建实体，然后挂到父实体</td>
+<td>一条带 <code>ParentEntityId</code> 的 <code>Create</code></td>
+</tr>
+<tr>
+<td>创建实体，然后又删除</td>
+<td>互相抵消</td>
+</tr>
+<tr>
+<td>多次更新同一组件</td>
+<td>只保留最后一份数据</td>
+</tr>
+<tr>
+<td>添加组件，然后更新</td>
+<td><code>Add</code>，使用最新数据</td>
+</tr>
+<tr>
+<td>添加组件，然后删除</td>
+<td>互相抵消</td>
+</tr>
+<tr>
+<td>删除组件，然后重新添加</td>
+<td><code>Update</code></td>
+</tr>
+<tr>
+<td>删除已存在的实体</td>
+<td>只保留 <code>Delete</code></td>
+</tr>
+</tbody></table>
+<p>这一步不仅减少消息大小，也可以避免客户端处理已经没有意义的中间状态。</p>
+<h3 id="同时保留-FullState-和-Diff"><a href="#同时保留-FullState-和-Diff" class="headerlink" title="同时保留 FullState 和 Diff"></a>同时保留 FullState 和 Diff</h3><p>纯 Diff 方案没办法处理新连接和状态丢失。完整方案需要两类消息：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">FullState<br>  - WorldRevision<br>  - Entities[]<br><br>DiffState<br>  - SourceRevision<br>  - TargetRevision<br>  - EntityChanges[]<br>  - ComponentChanges[]<br></code></pre></td></tr></table></figure>
+
+<p><code>FullState</code> 提供可信基线，<code>DiffState</code> 只描述两个 revision 之间的变化。</p>
+<h3 id="用-revision-检查状态是否连续"><a href="#用-revision-检查状态是否连续" class="headerlink" title="用 revision 检查状态是否连续"></a>用 revision 检查状态是否连续</h3><p>revision 不应该直接使用帧号。没有状态变化时，没有必要推进 revision。</p>
+<p>客户端应用 Diff 时只接受：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">SourceRevision == 当前 WorldRevision<br></code></pre></td></tr></table></figure>
+
+<p>如果 <code>TargetRevision</code> 小于或等于当前 revision，说明是重复或过期数据，直接忽略。</p>
+<p>如果 <code>SourceRevision</code> 对不上，说明中间的 Diff 断了。此时不能继续猜怎么补，直接请求一份新的 <code>FullState</code> 即可。</p>
+<p><img src="/../img/ecs-replication-revision-flow.svg" srcset="/img/loading.gif" lazyload alt="Revision 连续性检查与重同步"></p>
+<h3 id="客户端先校验，再应用"><a href="#客户端先校验，再应用" class="headerlink" title="客户端先校验，再应用"></a>客户端先校验，再应用</h3><p>一份 Diff 可能同时包含实体、组件和父子关系变化。客户端需要先检查整份数据，确认 id、组件类型和引用关系都可用，然后按固定顺序应用：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">创建 Entity<br>  -&gt; 添加、更新、删除 Component<br>  -&gt; 修改父子关系<br>  -&gt; 删除 Entity<br></code></pre></td></tr></table></figure>
+
+<p>创建放在最前面，是因为新实体可能在同一份 Diff 里带有组件和父子关系。删除放在最后，可以避免后续操作访问到已经不存在的实体。</p>
+<h2 id="GameServer-中的实现"><a href="#GameServer-中的实现" class="headerlink" title="GameServer 中的实现"></a>GameServer 中的实现</h2><p><a target="_blank" rel="noopener" href="https://github.com/NicoIer/GameServer">GameServer</a> 里的具体链路是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">EntityStore 产生变化<br>  -&gt; EcsDirtyTracker 收集并合并脏数据<br>  -&gt; RoomSyncSystem 在 Tick 结束时生成 Diff 或 FullState<br>  -&gt; ReplicatedEcsWorld 校验并应用数据<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../img/gameserver-ecs-sync-pipeline.svg" srcset="/img/loading.gif" lazyload alt="GameServer ECS 增量同步完整链路"></p>
+<h3 id="同步协议"><a href="#同步协议" class="headerlink" title="同步协议"></a>同步协议</h3><p>实体和组件的网络结构放在 <code>EcsReplicationMessages.cs</code> 中。</p>
+<p><code>EcsEntitySnapshot</code> 和 <code>EcsComponentSnapshot</code> 用于全量同步：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">EcsEntitySnapshot<br>  - EntityId<br>  - ParentEntityId<br>  - Components[]<br><br>EcsComponentSnapshot<br>  - ComponentTypeId<br>  - Payload<br></code></pre></td></tr></table></figure>
+
+<p><code>EcsEntityChange</code> 和 <code>EcsComponentChange</code> 用于增量同步。<code>EcsChangeKind</code> 一共有六种：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Create</code></td>
+<td>创建 <code>Entity</code></td>
+</tr>
+<tr>
+<td><code>Delete</code></td>
+<td>删除 <code>Entity</code></td>
+</tr>
+<tr>
+<td><code>Add</code></td>
+<td>添加 <code>Component</code></td>
+</tr>
+<tr>
+<td><code>Update</code></td>
+<td>更新 <code>Component</code></td>
+</tr>
+<tr>
+<td><code>Remove</code></td>
+<td>删除 <code>Component</code></td>
+</tr>
+<tr>
+<td><code>Reparent</code></td>
+<td>修改或移除父子关系</td>
+</tr>
+</tbody></table>
+<p><code>RoomFullStatePush</code> 携带当前 <code>WorldRevision</code> 和所有实体快照。<code>RoomDiffStatePush</code> 携带 <code>SourceRevision</code>、<code>TargetRevision</code> 和两类变化数组。</p>
+<h3 id="组件注册和序列化"><a href="#组件注册和序列化" class="headerlink" title="组件注册和序列化"></a>组件注册和序列化</h3><p>需要同步的组件会显式标记：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">MemoryPackable</span>]<br>[<span class="hljs-meta">EcsReplicatedComponent</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">struct</span> UserComponent : IComponent<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Uid;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>EcsReplicationGenerator</code> 会扫描这些组件，然后生成：</p>
+<ul>
+<li>稳定的 <code>ushort ComponentTypeId</code>。</li>
+<li>组件到 MemoryPack 序列化代码的分发。</li>
+<li>遍历世界并生成全量快照的代码。</li>
+<li>统一的 <code>SetReplicatedComponent</code> 更新入口。</li>
+</ul>
+<p>客户端的 <code>EcsComponentRegistry</code> 使用同样的 id 注册反序列化、查询、设置和删除函数。</p>
+<p><code>ComponentTypeId</code> 由完整类型名生成。修改类名或 namespace 会改变 id，所以类型名实际上也是网络协议的一部分。<code>EcsComponentRegistry</code> 在注册时也会检查 id 冲突。</p>
+<h3 id="EcsDirtyTracker"><a href="#EcsDirtyTracker" class="headerlink" title="EcsDirtyTracker"></a>EcsDirtyTracker</h3><p><code>EcsDirtyTracker</code> 监听 <code>EntityStore</code> 的下面几类事件：</p>
+<ul>
+<li><code>OnEntityCreate</code></li>
+<li><code>OnEntityDelete</code></li>
+<li><code>OnComponentAdded</code></li>
+<li><code>OnComponentRemoved</code></li>
+<li><code>OnChildEntitiesChanged</code></li>
+</ul>
+<p>实体变化使用 <code>EntityId</code> 作为 key，组件变化使用 <code>(EntityId, ComponentTypeId)</code> 作为 key。同一个 key 再次变化时，直接覆盖之前的有效结果。</p>
+<p>内部还会给每次变化分配一个递增的 <code>Sequence</code>。旧的队列项不需要立即删除，<code>Flush</code> 时发现 <code>Sequence</code> 已经过期就跳过。这样可以保留有效变化的顺序，也不需要在队列中间删数据。</p>
+<p>只有能从生成代码中找到 <code>ComponentTypeId</code> 的组件才会进入脏数据集合。普通服务器组件会被直接忽略。</p>
+<h3 id="RoomSyncSystem"><a href="#RoomSyncSystem" class="headerlink" title="RoomSyncSystem"></a>RoomSyncSystem</h3><p><code>RoomSyncSystem</code> 在每个 Tick 结束时先执行 <code>FlushDiff</code>，再执行 <code>FlushFullState</code>。</p>
+<p>存在脏数据时：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">SourceRevision = WorldRevision<br>TargetRevision = WorldRevision + 1<br><br>DirtyTracker.Flush(...)<br>WorldRevision = TargetRevision<br></code></pre></td></tr></table></figure>
+
+<p>没有变化就不发消息，<code>WorldRevision</code> 也不会增加。</p>
+<p>新加入或者正在等待重同步的连接会放在 <code>PendingFullStateConnections</code> 中。这些连接不接收当前 Diff。系统会先把脏数据并入世界 revision，然后给它们发送最新的全量状态。</p>
+<p>这样新客户端不会先收到一份没有基线的 Diff，FullState 携带的 revision 也不会落后于服务器。</p>
+<h3 id="ReplicatedEcsWorld"><a href="#ReplicatedEcsWorld" class="headerlink" title="ReplicatedEcsWorld"></a>ReplicatedEcsWorld</h3><p>客户端使用 <code>ReplicatedEcsWorld</code> 保存复制出来的 ECS 世界。</p>
+<p>应用 FullState 时，它会先创建一个新的 <code>EntityStore</code>，再依次恢复实体、组件和父子关系。只有整份数据都成功后才替换旧世界。</p>
+<p>应用 Diff 前，它会检查：</p>
+<ul>
+<li>是否已经有 FullState 基线。</li>
+<li><code>SourceRevision</code> 是否等于当前 <code>WorldRevision</code>。</li>
+<li><code>EntityId</code> 和 <code>ComponentTypeId</code> 是否合法。</li>
+<li><code>Add</code>、<code>Update</code>、<code>Remove</code> 是否符合当前组件状态。</li>
+<li>父子关系是否引用了不存在的实体，或者产生循环。</li>
+</ul>
+<p>如果 revision 断档、Payload 损坏或者 Diff 校验失败，<code>ReplicatedEcsWorld</code> 会进入重同步状态。客户端发送 <code>RoomResyncReq</code>，服务器再把该连接加回 <code>PendingFullStateConnections</code>。</p>
+<h3 id="组件更新需要显式标脏"><a href="#组件更新需要显式标脏" class="headerlink" title="组件更新需要显式标脏"></a>组件更新需要显式标脏</h3><p>最容易漏的是已有组件的值更新。直接修改字段不一定会触发 <code>EntityStore</code> 的结构变化事件。</p>
+<p><code>GameServer</code> 中统一使用生成的更新入口：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp">EcsReplicationSerializer.SetReplicatedComponent(<br>    entity,<br>    component,<br>    dirtyTracker);<br></code></pre></td></tr></table></figure>
+
+<p>它会更新 ECS 里的组件，同时调用 <code>MarkComponentUpdated</code> 记录脏数据。如果业务代码绕过这个入口直接改值，服务器上的数据是对的，但客户端可能永远收不到这次变化。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ECS 适合增量同步，本质上是因为它已经把世界拆成了颗粒度合适的状态块，并且大部分结构变化都有统一入口。</p>
+<p>但是真正可用的同步方案，不能只有脏数据记录。还需要：</p>
+<ul>
+<li>同一 Tick 内的变化合并。</li>
+<li>新连接使用的 FullState。</li>
+<li>能检查断档的 revision。</li>
+<li>客户端应用前的数据校验。</li>
+<li>校验失败后的重同步流程。</li>
+</ul>
+<p>简而言之：Diff 负责省流量，FullState 负责把错误状态拉回来。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/NicoIer/GameServer">NicoIer&#x2F;GameServer</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B/" class="category-chain-item">编程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/ECS/" class="print-no-link">#ECS</a>
+      
+        <a href="/tags/Network/" class="print-no-link">#Network</a>
+      
+        <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#游戏服务器</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于ECS的增量网络同步</div>
+      <div>https://nicoier.github.io/2026/07/21/基于ECS的增量网络同步/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/07/21/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90-SourceGenerator-CodeGenerator%E4%B8%8ELuban/" title="游戏开发中的代码生成：Source Generator、Code Generator 与 Luban">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">游戏开发中的代码生成：Source Generator、Code Generator 与 Luban</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/" title="UIVisibilityBlocker 可见性阻塞器">
+                        <span class="hidden-mobile">UIVisibilityBlocker 可见性阻塞器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'NicoIer/nicoier.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

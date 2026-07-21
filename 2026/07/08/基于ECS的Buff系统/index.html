@@ -16,16 +16,16 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。">
+    <meta name="description" content="记录 ECSBuffSystem 的配置、代码生成和运行时流程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于ECS的Buff系统">
 <meta property="og:url" content="https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。">
+<meta property="og:description" content="记录 ECSBuffSystem 的配置、代码生成和运行时流程。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nicoier.github.io/img/ecsbuff-entity-structure.svg">
 <meta property="article:published_time" content="2026-07-08T08:30:53.000Z">
-<meta property="article:modified_time" content="2026-07-08T09:14:14.013Z">
+<meta property="article:modified_time" content="2026-07-10T08:58:00.605Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="CSharp">
 <meta property="article:tag" content="战斗系统">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          2.2k 字
         
       </span>
     
@@ -260,7 +260,7 @@
         
         
         
-          25 分钟
+          19 分钟
         
       </span>
     
@@ -310,7 +310,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 下午
+                    本文最后更新于 2026年7月10日 下午
                   
                 
               </p>
@@ -318,8 +318,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="基于-ECS-的-Buff-系统"><a href="#基于-ECS-的-Buff-系统" class="headerlink" title="基于 ECS 的 Buff 系统"></a>基于 ECS 的 Buff 系统</h1><p>这里记录一下 <code>ECSBuffSystem</code>。</p>
-<p>先说结论：这套系统的核心不是“用 ECS 写 Buff”，而是把 Buff 拆成配置化的几个部分：</p>
+                <h1 id="基于-ECS-的-Buff-系统"><a href="#基于-ECS-的-Buff-系统" class="headerlink" title="基于 ECS 的 Buff 系统"></a>基于 ECS 的 Buff 系统</h1><p><code>ECSBuffSystem</code> 把 Buff 拆成几个可以组合的部分：</p>
 <ul>
 <li><code>Buff Template</code>：定义一个 Buff 模板。</li>
 <li><code>Component Template</code>：定义 Buff 身上的运行时状态。</li>
@@ -327,8 +326,7 @@
 <li><code>Effect</code>：定义触发后执行什么。</li>
 <li><code>Condition</code>：定义效果执行前的过滤条件。</li>
 </ul>
-<p>传统 Buff 写法通常是一个 Buff 对应一个类。生命周期、叠层、互斥、效果执行都写在类里。</p>
-<p><code>ECSBuffSystem</code> 的思路是把这些逻辑拆成数据和系统。Buff 本身只是一个 <code>Entity</code>，具体行为由配置表、ECS Component、ECS System 和 Effect Executor 组合出来。</p>
+<p>Buff 本身是一个 <code>Entity</code>。生命周期由 ECS System 推进，具体行为由配置表和 Effect Executor 组合。</p>
 <h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>Buff 的核心数据被拆成两类 entity：</p>
 <p><img src="/../img/ecsbuff-entity-structure.svg" srcset="/img/loading.gif" lazyload alt="Buff Entity 结构"></p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">owner entity<br>  - buff entity<br></code></pre></td></tr></table></figure>
@@ -347,16 +345,7 @@
 <p>执行效果时，不是直接在 Buff 上执行，而是临时创建一个 <code>trigger entity</code>：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">trigger entity<br>  - BuffEffectTriggerInfoComponent<br>  - BuffDamageRuntimeStateComponent，可选<br>  - BuffHealingRuntimeStateComponent，可选<br>  - BuffTriggerEffectResultComponent，执行后短暂存在<br></code></pre></td></tr></table></figure>
 
-<p><code>trigger entity</code> 像一张临时工单。</p>
-<p>它保存：</p>
-<ul>
-<li>哪个 Buff 触发了效果。</li>
-<li>哪个 trigger 配置被触发了。</li>
-<li>这次触发是否带伤害上下文。</li>
-<li>这次触发是否带治疗上下文。</li>
-</ul>
-<p>执行完成后，<code>trigger entity</code> 会被删除。</p>
-<p>这样做的好处是触发上下文和 Buff 本体分离。Buff 上只保存长期状态，trigger 上只保存本次触发需要的数据。</p>
+<p>Buff 保存长期状态，<code>trigger entity</code> 只保存本次触发的 Buff、trigger 配置以及可选的伤害&#x2F;治疗上下文。执行完马上删除。</p>
 <h2 id="配置表"><a href="#配置表" class="headerlink" title="配置表"></a>配置表</h2><p>配置入口主要是：</p>
 <ul>
 <li><code>design/source/Datas/ecs_buff.xlsx</code></li>
@@ -392,8 +381,7 @@
 <td>效果条件模板</td>
 </tr>
 </tbody></table>
-<p><code>__ecs_enums.xlsx</code> 定义枚举。</p>
-<p>比较关键的是：</p>
+<p><code>__ecs_enums.xlsx</code> 里比较关键的枚举：</p>
 <ul>
 <li><code>ECSComponentType</code></li>
 <li><code>ECSTagEnum</code></li>
@@ -403,10 +391,7 @@
 <li><code>WhenGotSameBuffStrategyEnum</code></li>
 <li><code>BuffStackStrategyEnum</code></li>
 </ul>
-<p><code>__ecs_tables__.xlsx</code> 告诉 Luban 哪些表需要生成配置类和 bytes。</p>
-<p>大概关系是：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">ecs_buff.xlsx<br>  -&gt; ECSBuffEntityTemplateTable<br>  -&gt; ECSComponentTemplateTable<br>  -&gt; ECSBuffTriggerTable<br>  -&gt; ECSBuffEffectTable<br>  -&gt; ECSBuffEffectConditionTable<br></code></pre></td></tr></table></figure>
-
+<p><code>__ecs_tables__.xlsx</code> 决定 Luban 要生成哪些配置类和 bytes。</p>
 <h2 id="Buff-主模板"><a href="#Buff-主模板" class="headerlink" title="Buff 主模板"></a>Buff 主模板</h2><p><code>ecs_buff_entity_template_table</code> 是入口表。</p>
 <p>主要字段：</p>
 <table>
@@ -449,14 +434,13 @@
 <td>触发器到效果数组的映射</td>
 </tr>
 </tbody></table>
-<p>最关键的是 <code>trigger_and_effects</code>。</p>
-<p>它本质上是：</p>
+<p><code>trigger_and_effects</code> 保存 <code>trigger_id -&gt; effect_id[]</code>：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">trigger_id -&gt; effect_id[]<br></code></pre></td></tr></table></figure>
 
 <p>表里的格式类似：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">when_attach_to_owner[effect_a,effect_b]<br>when_destroy[effect_c]<br></code></pre></td></tr></table></figure>
 
-<p>也就是说，Buff 本身不写“添加时做什么”“销毁时做什么”，而是通过配置把 trigger 和 effect 组装起来。</p>
+<p>添加和销毁时做什么都在这里组装。</p>
 <h2 id="组件模板"><a href="#组件模板" class="headerlink" title="组件模板"></a>组件模板</h2><p><code>ecs_component_template_table</code> 定义 Buff 身上的组件。</p>
 <p>当前看到的组件类型包括：</p>
 <table>
@@ -509,21 +493,17 @@
 <li><code>InvokeAfterSomeTime</code></li>
 <li><code>RepeatInvokeAfterSomeTime</code></li>
 </ul>
-<p>触发器本身也有 <code>priority</code>。</p>
-<p>当一个 Buff 模板里有多个同类型 trigger 时，会先按 trigger priority 排序，再创建对应的 trigger entity。</p>
-<p>延迟触发和周期触发比较特殊。</p>
-<p>创建 Buff 时，如果模板里存在：</p>
+<p>同类型 trigger 会先按 <code>priority</code> 排序。延迟和周期触发会在创建 Buff 时增加 timer child entity：</p>
 <ul>
 <li><code>InvokeAfterSomeTime</code></li>
 <li><code>RepeatInvokeAfterSomeTime</code></li>
 </ul>
-<p>系统会给 Buff 创建一个 timer child entity。</p>
-<p>后续由这两个系统推进：</p>
+<p>由下面两个 System 推进：</p>
 <ul>
 <li><code>BuffInvokeAfterSomeTimeTriggerSystem</code></li>
 <li><code>BuffRepeatInvokeAfterSomeTimeTriggerSystem</code></li>
 </ul>
-<p>时间到了以后，再创建真正的 trigger entity。</p>
+<p>时间到了再创建 trigger entity。</p>
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><code>ecs_buff_effect_table</code> 定义效果。</p>
 <p>主要字段：</p>
 <table>
@@ -561,13 +541,7 @@
 <p>执行器统一实现：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IECSBuffEffectExecutor</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-built_in">bool</span> <span class="hljs-title">Execute</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> ECSBuffEffectContext context</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><code>ECSBuffEffectContext</code> 里有：</p>
-<ul>
-<li><code>triggerEntity</code></li>
-<li><code>config</code></li>
-<li><code>ecsWorld</code></li>
-</ul>
-<p>执行器通过 <code>context.config</code> 读取配置参数，通过 <code>triggerEntity</code> 找本次触发上下文。</p>
+<p><code>ECSBuffEffectContext</code> 包含 <code>triggerEntity</code>、<code>config</code> 和 <code>ecsWorld</code>。执行器从 config 读参数，从 trigger entity 读本次上下文。</p>
 <p>如果要回到 Buff 本体，需要这样走：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Entity buffEntity = ECSBuffEffectUtility.GetBuffEntity(context.triggerEntity);<br></code></pre></td></tr></table></figure>
 
@@ -579,11 +553,9 @@
 <li>修改伤害运行时状态。</li>
 <li>根据 Buff 层数修改伤害运行时状态。</li>
 </ul>
-<p>这些 effect 是否能执行，取决于 trigger entity 上有没有对应上下文。</p>
-<p>比如伤害类 effect 需要 <code>BuffDamageRuntimeStateComponent</code>。如果触发时没有传入伤害上下文，执行器就无法修改伤害数据。</p>
+<p>伤害类 effect 依赖 trigger entity 上的 <code>BuffDamageRuntimeStateComponent</code>。创建 trigger 时没有传伤害上下文，就不能修改伤害数据。</p>
 <h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2><p><code>ecs_buff_effect_condition_table</code> 定义效果条件。</p>
-<p>Effect 配置里的 <code>condition</code> 字段引用的是 condition 的 <code>name_id</code>。</p>
-<p>执行流程是：</p>
+<p>Effect 的 <code>condition</code> 字段引用 condition 的 <code>name_id</code>：</p>
 <ol>
 <li><code>condition</code> 为空，直接通过。</li>
 <li><code>condition</code> 不为空，根据 <code>name_id</code> 找到 condition 配置。</li>
@@ -593,25 +565,19 @@
 <p>checker 统一实现：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IECSBuffEffectConditionChecker</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-built_in">bool</span> <span class="hljs-title">IsPassed</span>(<span class="hljs-params"><span class="hljs-keyword">in</span> ECSBuffEffectContext context</span>)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>也就是说，condition 和 effect 一样，也是可注册、可扩展的。</p>
-<h2 id="代码生成"><a href="#代码生成" class="headerlink" title="代码生成"></a>代码生成</h2><p>这里有三条生成链。</p>
-<h3 id="Luban-配置生成"><a href="#Luban-配置生成" class="headerlink" title="Luban 配置生成"></a>Luban 配置生成</h3><p>第一条是 Luban。</p>
-<p>输入是：</p>
+<h2 id="代码生成"><a href="#代码生成" class="headerlink" title="代码生成"></a>代码生成</h2><h3 id="Luban-配置生成"><a href="#Luban-配置生成" class="headerlink" title="Luban 配置生成"></a>Luban 配置生成</h3><p>Luban 输入：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">design/source/Datas/ecs_buff.xlsx<br>design/source/Datas/ecs/__ecs_enums.xlsx<br>design/source/Datas/ecs/__ecs_tables__.xlsx<br></code></pre></td></tr></table></figure>
 
 <p>输出是：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Server/Model/Generate/Config/GameConfig/ECSBuff*.cs<br>Server/Model/Generate/Config/GameConfig/ECSComponent*.cs<br>Server/Model/Generate/Config/GameConfig/ECSTagEnum.cs<br>Config/Generate/GameData/ecsbuff*.bytes<br></code></pre></td></tr></table></figure>
 
-<p>运行时通过：</p>
+<p>运行时读取：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp">ECSBuffEntityTemplateTable.Instance.Get(templateId)<br>ECSBuffEffectTable.Instance.Get(effectId)<br>ECSBuffTriggerTable.Instance.Get(triggerId)<br>ECSComponentTemplateTable.Instance.Get(componentId)<br></code></pre></td></tr></table></figure>
 
-<p>读取配置。</p>
-<h3 id="Source-Generator"><a href="#Source-Generator" class="headerlink" title="Source Generator"></a>Source Generator</h3><p>第二条是 <code>ECSBuffSystemGenerator</code>。</p>
-<p>它是 Roslyn Source Generator。</p>
-<p>它读取编译中的：</p>
+<h3 id="Source-Generator"><a href="#Source-Generator" class="headerlink" title="Source Generator"></a>Source Generator</h3><p><code>ECSBuffSystemGenerator</code> 是 Roslyn Source Generator，读取编译中的：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">cfg.ECSComponentType<br>cfg.ECSTagEnum<br></code></pre></td></tr></table></figure>
 
-<p>然后生成：</p>
+<p>生成：</p>
 <ul>
 <li><code>ECSFactory</code></li>
 <li>ECS Tag struct</li>
@@ -620,9 +586,7 @@
 <p><code>ECSFactory</code> 主要提供：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">ECSFactory.AddComponent(entity, componentConfig);<br>ECSFactory.AddTag(entity, tagEnum);<br>ECSFactory.HasTag(entity, tagEnum);<br></code></pre></td></tr></table></figure>
 
-<p>这样表里的 <code>components</code> 和 <code>tags</code> 才能变成真正挂在 entity 上的 ECS 数据。</p>
-<h3 id="CodeGenerator"><a href="#CodeGenerator" class="headerlink" title="CodeGenerator"></a>CodeGenerator</h3><p>第三条是 <code>Server/CodeGenerator</code>。</p>
-<p>和 ECS Buff 相关的是：</p>
+<h3 id="CodeGenerator"><a href="#CodeGenerator" class="headerlink" title="CodeGenerator"></a>CodeGenerator</h3><p><code>Server/CodeGenerator</code> 里和 Buff 相关的是：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">EcsBuffEffectExecutorCodeGenerator<br></code></pre></td></tr></table></figure>
 
 <p>它负责：</p>
@@ -634,10 +598,8 @@
 <p><code>ECSBuffStartup.RegisterAll()</code> 会注册所有 executor 和 checker：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">ECSBuffEffectRegistry.Register(...);<br>ECSBuffEffectRegistry.RegisterConditionChecker(...);<br></code></pre></td></tr></table></figure>
 
-<p>如果新增了 <code>ECSBuffEffectEnum</code>，但是没有跑 <code>CodeGenerator</code>，运行时一般会找不到对应 executor。</p>
-<p>如果新增了 condition，但是没有生成或实现 checker，运行时也会在 condition 检查阶段失败。</p>
-<h2 id="运行时数据流向"><a href="#运行时数据流向" class="headerlink" title="运行时数据流向"></a>运行时数据流向</h2><p>整体流程可以理解成这样：</p>
-<pre><code class=" mermaid">flowchart TD
+<p>新增 <code>ECSBuffEffectEnum</code> 或 condition 后没有跑 <code>CodeGenerator</code>，运行时会找不到 executor 或 checker。</p>
+<h2 id="运行时数据流向"><a href="#运行时数据流向" class="headerlink" title="运行时数据流向"></a>运行时数据流向</h2><pre><code class=" mermaid">flowchart TD
     A[&quot;ecs_buff.xlsx&quot;] --&gt; B[&quot;Luban 生成配置类和 bytes&quot;]
     C[&quot;__ecs_enums.xlsx&quot;] --&gt; D[&quot;生成 ECS 枚举&quot;]
     D --&gt; E[&quot;ECSBuffSystemGenerator&quot;]
@@ -655,7 +617,7 @@
 <p>创建 Buff 的入口是：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">TryCreateBuff(templateId, owner, source, applicator, <span class="hljs-keyword">out</span> Entity buffEntity)<br></code></pre></td></tr></table></figure>
 
-<p>内部主要做几件事：</p>
+<p>内部流程：</p>
 <ol>
 <li>读取 Buff 模板配置。</li>
 <li>处理同 owner、同 template 的重复获得策略。</li>
@@ -686,7 +648,6 @@
 <p>基础 System 注册顺序是：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">_systems.Add(<span class="hljs-keyword">new</span> BuffEffectExecuteSystem(<span class="hljs-keyword">this</span>));<br>_systems.Add(<span class="hljs-keyword">new</span> BuffDestroyTriggerSystem());<br>_systems.Add(<span class="hljs-keyword">new</span> BuffDestroyWhenOwnerDeadSystem(<span class="hljs-keyword">this</span>));<br>_systems.Add(<span class="hljs-keyword">new</span> BuffDurationSystem(<span class="hljs-keyword">this</span>));<br>_systems.Add(<span class="hljs-keyword">new</span> BuffInvokeAfterSomeTimeTriggerSystem());<br>_systems.Add(<span class="hljs-keyword">new</span> BuffRepeatInvokeAfterSomeTimeTriggerSystem());<br></code></pre></td></tr></table></figure>
 
-<p>这些 System 基本覆盖了 Buff 的触发、销毁、持续时间和定时器。</p>
 <table>
 <thead>
 <tr>
@@ -726,20 +687,7 @@
 <td>每隔固定时间触发一次</td>
 </tr>
 </tbody></table>
-<p>这里有两类 System。</p>
-<p>第一类是事件驱动：</p>
-<ul>
-<li><code>BuffEffectExecuteSystem</code> 监听组件添加。</li>
-<li><code>BuffDestroyTriggerSystem</code> 监听 entity 删除。</li>
-</ul>
-<p>第二类是每帧更新：</p>
-<ul>
-<li><code>BuffDestroyWhenOwnerDeadSystem</code></li>
-<li><code>BuffDurationSystem</code></li>
-<li><code>BuffInvokeAfterSomeTimeTriggerSystem</code></li>
-<li><code>BuffRepeatInvokeAfterSomeTimeTriggerSystem</code></li>
-</ul>
-<p>所以 <code>trigger entity</code> 一创建，通常会马上被 <code>BuffEffectExecuteSystem</code> 消费掉。持续时间、死亡销毁、延迟触发这些则是在 <code>CoreEcsWorld.Update(dt)</code> 里推进。</p>
+<p><code>BuffEffectExecuteSystem</code> 和 <code>BuffDestroyTriggerSystem</code> 是事件驱动。持续时间、死亡销毁和两个定时触发 System 在 <code>CoreEcsWorld.Update(dt)</code> 中推进。</p>
 <h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>普通持续时间流程是：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">remainingDuration -= dt<br>remainingDuration &lt;= 0<br>  -&gt; WhenExpire<br>  -&gt; DestroyBuffEntity<br>  -&gt; WhenDestroy<br></code></pre></td></tr></table></figure>
 
@@ -800,17 +748,8 @@
 <td>销毁已有冲突 Buff，同时跳过新 Buff</td>
 </tr>
 </tbody></table>
-<p>这部分是 ECS Buff 比传统写法更适合配置化的地方。</p>
-<p>因为重复获得和互斥规则不再散落在每个 Buff 类里，而是在创建 Buff 时统一处理。</p>
-<h2 id="和传统-Buff-写法的对比"><a href="#和传统-Buff-写法的对比" class="headerlink" title="和传统 Buff 写法的对比"></a>和传统 Buff 写法的对比</h2><p>这里不展开具体业务，只说结构差异。</p>
-<p>传统 Buff 写法通常是：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Buff 配置<br>  -&gt; Buff 类型<br>  -&gt; Buff 实例<br>  -&gt; 虚函数处理生命周期和效果<br></code></pre></td></tr></table></figure>
-
-<p>ECS Buff 写法是：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Buff 配置<br>  -&gt; Buff Entity<br>  -&gt; Component + Tag<br>  -&gt; Trigger Entity<br>  -&gt; Effect Executor<br></code></pre></td></tr></table></figure>
-
-<p>对比下来：</p>
-<table>
+<p>重复获得和互斥在创建入口统一处理，不需要分散到各个 Buff 类里。</p>
+<h2 id="和普通-Buff-类的区别"><a href="#和普通-Buff-类的区别" class="headerlink" title="和普通 Buff 类的区别"></a>和普通 Buff 类的区别</h2><table>
 <thead>
 <tr>
 <th>对比项</th>
@@ -854,16 +793,9 @@
 <td>写新 executor、checker 或 system</td>
 </tr>
 </tbody></table>
-<p>传统写法的优点是直观。</p>
-<p>一个 Buff 的逻辑都在一个类里，查问题时直接看这个类即可。</p>
-<p>缺点是 Buff 数量多了以后，规则容易分散。尤其是生命周期、叠层、互斥、触发时机这些通用规则，很容易每个 Buff 写一套。</p>
-<p>ECSBuffSystem 的优点是组合性更好。</p>
-<p>同一个 effect 可以被多个 Buff 复用，同一个 trigger 可以挂不同效果，同一个 condition 也可以复用。</p>
-<p>缺点是链路更长。</p>
-<p>一个 Buff 从表到运行时，要经过：</p>
+<p>普通写法比较直观，一个 Buff 的逻辑基本都在一个类里。这里的 trigger、effect 和 condition 可以复用，但是排查链路变成了：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Excel -&gt; Luban -&gt; Config/bytes -&gt; Source Generator -&gt; CodeGenerator -&gt; Registry -&gt; ECS System<br></code></pre></td></tr></table></figure>
 
-<p>所以排查问题时不能只看一个类，要顺着配置和生成代码一起看。</p>
 <h2 id="新增-Buff-的流程"><a href="#新增-Buff-的流程" class="headerlink" title="新增 Buff 的流程"></a>新增 Buff 的流程</h2><p>如果只是组合已有能力，一般只配表：</p>
 <ol>
 <li>在 <code>ecs_component_template_table</code> 配组件模板。</li>
@@ -904,8 +836,7 @@
 <li>新增枚举后要确认生成代码和注册代码都更新。</li>
 <li>表里的 <code>parameter_int</code>、<code>parameter_floats</code> 没有强类型保护，执行器读取时要和表约定一致。</li>
 </ul>
-<p>整体看，<code>ECSBuffSystem</code> 更适合标准化、可组合、可复用的 Buff。</p>
-<p>如果是特殊业务逻辑，强行配成 effect 反而会绕。比较合理的做法是：通用属性修改、持续时间、叠层、互斥、触发条件走 ECS Buff；非常特殊的逻辑再单独扩展 executor、checker 或 system。</p>
+<p>通用属性修改、持续时间、叠层、互斥和触发条件走配置。特殊业务强行拆成一堆 effect 会很绕，直接扩展 executor、checker 或 System。</p>
 
                 
               </div>
