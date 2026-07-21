@@ -1,16 +1,14 @@
 ---
 title: 基于ECS的Buff系统
 date: 2026-07-08 16:30:53
-description: 记录 ECSBuffSystem 的设计思路、配置流程、代码生成、运行时数据流向，以及和传统 Buff 写法的区别。
+description: 记录 ECSBuffSystem 的配置、代码生成和运行时流程。
 tags: [CSharp, ECS, Buff, 战斗系统]
 categories: [编程]
 ---
 
 # 基于 ECS 的 Buff 系统
 
-这里记录一下 `ECSBuffSystem`。
-
-先说结论：这套系统的核心不是“用 ECS 写 Buff”，而是把 Buff 拆成配置化的几个部分：
+`ECSBuffSystem` 把 Buff 拆成几个可以组合的部分：
 
 - `Buff Template`：定义一个 Buff 模板。
 - `Component Template`：定义 Buff 身上的运行时状态。
@@ -18,9 +16,7 @@ categories: [编程]
 - `Effect`：定义触发后执行什么。
 - `Condition`：定义效果执行前的过滤条件。
 
-传统 Buff 写法通常是一个 Buff 对应一个类。生命周期、叠层、互斥、效果执行都写在类里。
-
-`ECSBuffSystem` 的思路是把这些逻辑拆成数据和系统。Buff 本身只是一个 `Entity`，具体行为由配置表、ECS Component、ECS System 和 Effect Executor 组合出来。
+Buff 本身是一个 `Entity`。生命周期由 ECS System 推进，具体行为由配置表和 Effect Executor 组合。
 
 ## 设计思路
 
@@ -55,18 +51,7 @@ trigger entity
   - BuffTriggerEffectResultComponent，执行后短暂存在
 ```
 
-`trigger entity` 像一张临时工单。
-
-它保存：
-
-- 哪个 Buff 触发了效果。
-- 哪个 trigger 配置被触发了。
-- 这次触发是否带伤害上下文。
-- 这次触发是否带治疗上下文。
-
-执行完成后，`trigger entity` 会被删除。
-
-这样做的好处是触发上下文和 Buff 本体分离。Buff 上只保存长期状态，trigger 上只保存本次触发需要的数据。
+Buff 保存长期状态，`trigger entity` 只保存本次触发的 Buff、trigger 配置以及可选的伤害/治疗上下文。执行完马上删除。
 
 ## 配置表
 
@@ -86,9 +71,7 @@ trigger entity
 | `ecs_buff_effect_table` | 效果模板 |
 | `ecs_buff_effect_condition_table` | 效果条件模板 |
 
-`__ecs_enums.xlsx` 定义枚举。
-
-比较关键的是：
+`__ecs_enums.xlsx` 里比较关键的枚举：
 
 - `ECSComponentType`
 - `ECSTagEnum`
@@ -98,18 +81,7 @@ trigger entity
 - `WhenGotSameBuffStrategyEnum`
 - `BuffStackStrategyEnum`
 
-`__ecs_tables__.xlsx` 告诉 Luban 哪些表需要生成配置类和 bytes。
-
-大概关系是：
-
-```text
-ecs_buff.xlsx
-  -> ECSBuffEntityTemplateTable
-  -> ECSComponentTemplateTable
-  -> ECSBuffTriggerTable
-  -> ECSBuffEffectTable
-  -> ECSBuffEffectConditionTable
-```
+`__ecs_tables__.xlsx` 决定 Luban 要生成哪些配置类和 bytes。
 
 ## Buff 主模板
 
@@ -128,9 +100,7 @@ ecs_buff.xlsx
 | `tag_collision_resolve_method` | Tag 冲突时的处理方式 |
 | `trigger_and_effects` | 触发器到效果数组的映射 |
 
-最关键的是 `trigger_and_effects`。
-
-它本质上是：
+`trigger_and_effects` 保存 `trigger_id -> effect_id[]`：
 
 ```text
 trigger_id -> effect_id[]
@@ -143,7 +113,7 @@ when_attach_to_owner[effect_a,effect_b]
 when_destroy[effect_c]
 ```
 
-也就是说，Buff 本身不写“添加时做什么”“销毁时做什么”，而是通过配置把 trigger 和 effect 组装起来。
+添加和销毁时做什么都在这里组装。
 
 ## 组件模板
 
@@ -198,25 +168,17 @@ stackCount = 1;
 - `InvokeAfterSomeTime`
 - `RepeatInvokeAfterSomeTime`
 
-触发器本身也有 `priority`。
-
-当一个 Buff 模板里有多个同类型 trigger 时，会先按 trigger priority 排序，再创建对应的 trigger entity。
-
-延迟触发和周期触发比较特殊。
-
-创建 Buff 时，如果模板里存在：
+同类型 trigger 会先按 `priority` 排序。延迟和周期触发会在创建 Buff 时增加 timer child entity：
 
 - `InvokeAfterSomeTime`
 - `RepeatInvokeAfterSomeTime`
 
-系统会给 Buff 创建一个 timer child entity。
-
-后续由这两个系统推进：
+由下面两个 System 推进：
 
 - `BuffInvokeAfterSomeTimeTriggerSystem`
 - `BuffRepeatInvokeAfterSomeTimeTriggerSystem`
 
-时间到了以后，再创建真正的 trigger entity。
+时间到了再创建 trigger entity。
 
 ## 效果
 
@@ -242,13 +204,7 @@ public interface IECSBuffEffectExecutor
 }
 ```
 
-`ECSBuffEffectContext` 里有：
-
-- `triggerEntity`
-- `config`
-- `ecsWorld`
-
-执行器通过 `context.config` 读取配置参数，通过 `triggerEntity` 找本次触发上下文。
+`ECSBuffEffectContext` 包含 `triggerEntity`、`config` 和 `ecsWorld`。执行器从 config 读参数，从 trigger entity 读本次上下文。
 
 如果要回到 Buff 本体，需要这样走：
 
@@ -264,17 +220,13 @@ Entity buffEntity = ECSBuffEffectUtility.GetBuffEntity(context.triggerEntity);
 - 修改伤害运行时状态。
 - 根据 Buff 层数修改伤害运行时状态。
 
-这些 effect 是否能执行，取决于 trigger entity 上有没有对应上下文。
-
-比如伤害类 effect 需要 `BuffDamageRuntimeStateComponent`。如果触发时没有传入伤害上下文，执行器就无法修改伤害数据。
+伤害类 effect 依赖 trigger entity 上的 `BuffDamageRuntimeStateComponent`。创建 trigger 时没有传伤害上下文，就不能修改伤害数据。
 
 ## 条件
 
 `ecs_buff_effect_condition_table` 定义效果条件。
 
-Effect 配置里的 `condition` 字段引用的是 condition 的 `name_id`。
-
-执行流程是：
+Effect 的 `condition` 字段引用 condition 的 `name_id`：
 
 1. `condition` 为空，直接通过。
 2. `condition` 不为空，根据 `name_id` 找到 condition 配置。
@@ -290,17 +242,11 @@ public interface IECSBuffEffectConditionChecker
 }
 ```
 
-也就是说，condition 和 effect 一样，也是可注册、可扩展的。
-
 ## 代码生成
-
-这里有三条生成链。
 
 ### Luban 配置生成
 
-第一条是 Luban。
-
-输入是：
+Luban 输入：
 
 ```text
 design/source/Datas/ecs_buff.xlsx
@@ -317,7 +263,7 @@ Server/Model/Generate/Config/GameConfig/ECSTagEnum.cs
 Config/Generate/GameData/ecsbuff*.bytes
 ```
 
-运行时通过：
+运行时读取：
 
 ```csharp
 ECSBuffEntityTemplateTable.Instance.Get(templateId)
@@ -326,22 +272,16 @@ ECSBuffTriggerTable.Instance.Get(triggerId)
 ECSComponentTemplateTable.Instance.Get(componentId)
 ```
 
-读取配置。
-
 ### Source Generator
 
-第二条是 `ECSBuffSystemGenerator`。
-
-它是 Roslyn Source Generator。
-
-它读取编译中的：
+`ECSBuffSystemGenerator` 是 Roslyn Source Generator，读取编译中的：
 
 ```csharp
 cfg.ECSComponentType
 cfg.ECSTagEnum
 ```
 
-然后生成：
+生成：
 
 - `ECSFactory`
 - ECS Tag struct
@@ -355,13 +295,9 @@ ECSFactory.AddTag(entity, tagEnum);
 ECSFactory.HasTag(entity, tagEnum);
 ```
 
-这样表里的 `components` 和 `tags` 才能变成真正挂在 entity 上的 ECS 数据。
-
 ### CodeGenerator
 
-第三条是 `Server/CodeGenerator`。
-
-和 ECS Buff 相关的是：
+`Server/CodeGenerator` 里和 Buff 相关的是：
 
 ```csharp
 EcsBuffEffectExecutorCodeGenerator
@@ -380,13 +316,9 @@ ECSBuffEffectRegistry.Register(...);
 ECSBuffEffectRegistry.RegisterConditionChecker(...);
 ```
 
-如果新增了 `ECSBuffEffectEnum`，但是没有跑 `CodeGenerator`，运行时一般会找不到对应 executor。
-
-如果新增了 condition，但是没有生成或实现 checker，运行时也会在 condition 检查阶段失败。
+新增 `ECSBuffEffectEnum` 或 condition 后没有跑 `CodeGenerator`，运行时会找不到 executor 或 checker。
 
 ## 运行时数据流向
-
-整体流程可以理解成这样：
 
 ```mermaid
 flowchart TD
@@ -410,7 +342,7 @@ flowchart TD
 TryCreateBuff(templateId, owner, source, applicator, out Entity buffEntity)
 ```
 
-内部主要做几件事：
+内部流程：
 
 1. 读取 Buff 模板配置。
 2. 处理同 owner、同 template 的重复获得策略。
@@ -452,8 +384,6 @@ _systems.Add(new BuffInvokeAfterSomeTimeTriggerSystem());
 _systems.Add(new BuffRepeatInvokeAfterSomeTimeTriggerSystem());
 ```
 
-这些 System 基本覆盖了 Buff 的触发、销毁、持续时间和定时器。
-
 | System | 关注的数据 | 作用 |
 | --- | --- | --- |
 | `BuffEffectExecuteSystem` | `BuffEffectTriggerInfoComponent` | trigger entity 创建后，读取 trigger 配置并执行 effect |
@@ -463,21 +393,7 @@ _systems.Add(new BuffRepeatInvokeAfterSomeTimeTriggerSystem());
 | `BuffInvokeAfterSomeTimeTriggerSystem` | `BuffInvokeAfterSomeTimeComponent` | 固定时间后触发一次，然后删除 timer entity |
 | `BuffRepeatInvokeAfterSomeTimeTriggerSystem` | `BuffRepeatInvokeAfterSomeTimeComponent` | 每隔固定时间触发一次 |
 
-这里有两类 System。
-
-第一类是事件驱动：
-
-- `BuffEffectExecuteSystem` 监听组件添加。
-- `BuffDestroyTriggerSystem` 监听 entity 删除。
-
-第二类是每帧更新：
-
-- `BuffDestroyWhenOwnerDeadSystem`
-- `BuffDurationSystem`
-- `BuffInvokeAfterSomeTimeTriggerSystem`
-- `BuffRepeatInvokeAfterSomeTimeTriggerSystem`
-
-所以 `trigger entity` 一创建，通常会马上被 `BuffEffectExecuteSystem` 消费掉。持续时间、死亡销毁、延迟触发这些则是在 `CoreEcsWorld.Update(dt)` 里推进。
+`BuffEffectExecuteSystem` 和 `BuffDestroyTriggerSystem` 是事件驱动。持续时间、死亡销毁和两个定时触发 System 在 `CoreEcsWorld.Update(dt)` 中推进。
 
 ## 生命周期
 
@@ -520,34 +436,9 @@ Tag 冲突由两个字段控制：
 | `Destroy` | 销毁已有冲突 Buff，再创建新 Buff |
 | `BothDestroy` | 销毁已有冲突 Buff，同时跳过新 Buff |
 
-这部分是 ECS Buff 比传统写法更适合配置化的地方。
+重复获得和互斥在创建入口统一处理，不需要分散到各个 Buff 类里。
 
-因为重复获得和互斥规则不再散落在每个 Buff 类里，而是在创建 Buff 时统一处理。
-
-## 和传统 Buff 写法的对比
-
-这里不展开具体业务，只说结构差异。
-
-传统 Buff 写法通常是：
-
-```text
-Buff 配置
-  -> Buff 类型
-  -> Buff 实例
-  -> 虚函数处理生命周期和效果
-```
-
-ECS Buff 写法是：
-
-```text
-Buff 配置
-  -> Buff Entity
-  -> Component + Tag
-  -> Trigger Entity
-  -> Effect Executor
-```
-
-对比下来：
+## 和普通 Buff 类的区别
 
 | 对比项 | 传统写法 | ECSBuffSystem |
 | --- | --- | --- |
@@ -559,25 +450,11 @@ Buff 配置
 | 扩展普通属性 Buff | 往往要新增类或改类 | 多数情况下只配表 |
 | 扩展新行为 | 写新 Buff 类 | 写新 executor、checker 或 system |
 
-传统写法的优点是直观。
-
-一个 Buff 的逻辑都在一个类里，查问题时直接看这个类即可。
-
-缺点是 Buff 数量多了以后，规则容易分散。尤其是生命周期、叠层、互斥、触发时机这些通用规则，很容易每个 Buff 写一套。
-
-ECSBuffSystem 的优点是组合性更好。
-
-同一个 effect 可以被多个 Buff 复用，同一个 trigger 可以挂不同效果，同一个 condition 也可以复用。
-
-缺点是链路更长。
-
-一个 Buff 从表到运行时，要经过：
+普通写法比较直观，一个 Buff 的逻辑基本都在一个类里。这里的 trigger、effect 和 condition 可以复用，但是排查链路变成了：
 
 ```text
 Excel -> Luban -> Config/bytes -> Source Generator -> CodeGenerator -> Registry -> ECS System
 ```
-
-所以排查问题时不能只看一个类，要顺着配置和生成代码一起看。
 
 ## 新增 Buff 的流程
 
@@ -622,6 +499,4 @@ Excel -> Luban -> Config/bytes -> Source Generator -> CodeGenerator -> Registry 
 - 新增枚举后要确认生成代码和注册代码都更新。
 - 表里的 `parameter_int`、`parameter_floats` 没有强类型保护，执行器读取时要和表约定一致。
 
-整体看，`ECSBuffSystem` 更适合标准化、可组合、可复用的 Buff。
-
-如果是特殊业务逻辑，强行配成 effect 反而会绕。比较合理的做法是：通用属性修改、持续时间、叠层、互斥、触发条件走 ECS Buff；非常特殊的逻辑再单独扩展 executor、checker 或 system。
+通用属性修改、持续时间、叠层、互斥和触发条件走配置。特殊业务强行拆成一堆 effect 会很绕，直接扩展 executor、checker 或 System。
