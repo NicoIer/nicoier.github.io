@@ -235,25 +235,6 @@
     <author>
       <name>NicoIer</name>
     </author>
-    <category term="工具" scheme="https://nicoier.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
-    <category term="Codex" scheme="https://nicoier.github.io/tags/Codex/"/>
-    <category term="AI" scheme="https://nicoier.github.io/tags/AI/"/>
-    <category term="开发记录" scheme="https://nicoier.github.io/tags/%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/"/>
-    <id>https://nicoier.github.io/2026/06/17/%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9%E8%AE%B0%E5%BD%95/</id>
-    <link href="https://nicoier.github.io/2026/06/17/%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9%E8%AE%B0%E5%BD%95/"/>
-    <published>2026-06-17T03:24:27.000Z</published>
-    <summary>
-      <![CDATA[<p>时间大概是 2026-06-11 到 2026-06-16。</p>
-<p>主要还是 JoltPhysics、BattleProcess、QTE、LOD、技能表现和构建资源。</p>
-<h2 id="1-实现萨拉扫描技能"><a href="#1-实现萨拉扫描技能" class="headerlink" title="1. 实现萨拉扫描技能"></a>]]>
-    </summary>
-    <title>最近20条Codex对话整理</title>
-    <updated>2026-07-21T06:19:55.886Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
     <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
     <category term="aseprite" scheme="https://nicoier.github.io/tags/aseprite/"/>
@@ -385,5 +366,20 @@
     </summary>
     <title>股票常识</title>
     <updated>2026-06-29T05:44:50.252Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="工具" scheme="https://nicoier.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    <category term="hexo" scheme="https://nicoier.github.io/tags/hexo/"/>
+    <id>https://nicoier.github.io/2025/11/12/hexo%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0/</id>
+    <link href="https://nicoier.github.io/2025/11/12/hexo%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0/"/>
+    <published>2025-11-12T05:00:49.000Z</published>
+    <summary>
+      <![CDATA[<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4<]]>
+    </summary>
+    <title>hexo命令速记</title>
+    <updated>2026-06-29T05:44:50.246Z</updated>
   </entry>
 </feed>
