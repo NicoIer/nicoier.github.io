@@ -5,7 +5,7 @@
     <link>https://nicoier.github.io/</link>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, NicoIer</copyright>
-    <lastBuildDate>Tue, 21 Jul 2026 07:40:24 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2026 07:13:23 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://nicoier.github.io/img/nicoier.png</url>
@@ -13,6 +13,20 @@
       <link>https://nicoier.github.io/</link>
     </image>
     <atom:link href="https://nicoier.github.io/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unity URP MRT Demo</title>
+      <link>https://nicoier.github.io/2026/07/31/Unity-URP-MRT-Demo/</link>
+      <description>在 Unity 6 的 URP RenderGraph 中实现一个最小 MRT Demo，用一次全屏绘制同时输出三张颜色纹理。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/Shader/">Shader</category>
+      <category domain="https://nicoier.github.io/tags/URP/">URP</category>
+      <category domain="https://nicoier.github.io/tags/RenderGraph/">RenderGraph</category>
+      <category domain="https://nicoier.github.io/tags/MRT/">MRT</category>
+      <pubDate>Fri, 31 Jul 2026 07:03:53 GMT</pubDate>
+    </item>
     <item>
       <title>zstd配合YooAsset做增量更新的碎碎念</title>
       <link>https://nicoier.github.io/2026/07/21/zstd%E9%85%8D%E5%90%88YooAsset%E5%81%9A%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/</link>
@@ -292,17 +306,6 @@
       <author>NicoIer</author>
       <category domain="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/">投资</category>
       <pubDate>Wed, 12 Nov 2025 05:02:50 GMT</pubDate>
-    </item>
-    <item>
-      <title>hexo命令速记</title>
-      <link>https://nicoier.github.io/2025/11/12/hexo%E5%91%BD%E4%BB%A4%E9%80%9F%E8%AE%B0/</link>
-      <description>
-        <![CDATA[<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4<]]>
-      </description>
-      <author>NicoIer</author>
-      <category domain="https://nicoier.github.io/categories/%E5%B7%A5%E5%85%B7/">工具</category>
-      <category domain="https://nicoier.github.io/tags/hexo/">hexo</category>
-      <pubDate>Wed, 12 Nov 2025 05:00:49 GMT</pubDate>
     </item>
   </channel>
 </rss>

@@ -16,22 +16,23 @@
   <meta name="author" content="NicoIer">
   <meta name="keywords" content="">
   
-    <meta name="description" content="手机上AlphaClip为什么会很卡本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。  Pre-Z优化方案 再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入 在AlphaClip绘制时，开启深度测试">
+    <meta name="description" content="将 Alpha Clip 搬到轻量深度预写 Pass，再让主光照 Pass 使用 ZTest Equal，以减少高 OverDraw 场景中的昂贵片元着色。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过Pre-Z减少AlphaClip绘制的开销">
+<meta property="og:title" content="Unity 通过 AlphaClipDepth 与 ZTest Equal 优化 Alpha Clip">
 <meta property="og:url" content="https://nicoier.github.io/2025/08/07/%E9%80%9A%E8%BF%87Pre-Z%E5%87%8F%E5%B0%91AlphaClip%E7%BB%98%E5%88%B6%E7%9A%84%E5%BC%80%E9%94%80/index.html">
 <meta property="og:site_name" content="NicoIer">
-<meta property="og:description" content="手机上AlphaClip为什么会很卡本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。  Pre-Z优化方案 再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入 在AlphaClip绘制时，开启深度测试">
+<meta property="og:description" content="将 Alpha Clip 搬到轻量深度预写 Pass，再让主光照 Pass 使用 ZTest Equal，以减少高 OverDraw 场景中的昂贵片元着色。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nicoier.github.io/img/pre-z-alpha-clip-flow.svg">
 <meta property="article:published_time" content="2025-08-07T03:12:42.000Z">
-<meta property="article:modified_time" content="2026-07-08T09:22:51.548Z">
+<meta property="article:modified_time" content="2026-07-30T16:00:00.000Z">
 <meta property="article:author" content="NicoIer">
 <meta property="article:tag" content="Unity">
-<meta property="article:tag" content="游戏开发">
+<meta property="article:tag" content="性能优化">
 <meta property="article:tag" content="Shader">
-<meta property="article:tag" content="Pre-Z">
+<meta property="article:tag" content="URP">
 <meta property="article:tag" content="AlphaClip">
+<meta property="article:tag" content="Early-Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nicoier.github.io/img/pre-z-alpha-clip-flow.svg">
   
@@ -39,7 +40,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>通过Pre-Z减少AlphaClip绘制的开销 - NicoIer</title>
+  <title>Unity 通过 AlphaClipDepth 与 ZTest Equal 优化 Alpha Clip - NicoIer</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -227,7 +228,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="通过Pre-Z减少AlphaClip绘制的开销"></span>
+            <span id="subtitle" data-typed-text="Unity 通过 AlphaClipDepth 与 ZTest Equal 优化 Alpha Clip"></span>
           
         </div>
 
@@ -250,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          218 字
+          2.8k 字
         
       </span>
     
@@ -261,7 +262,7 @@
         
         
         
-          2 分钟
+          23 分钟
         
       </span>
     
@@ -306,12 +307,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">通过Pre-Z减少AlphaClip绘制的开销</h1>
+            <h1 id="seo-header">Unity 通过 AlphaClipDepth 与 ZTest Equal 优化 Alpha Clip</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年7月8日 下午
+                    本文最后更新于 2026年7月31日 凌晨
                   
                 
               </p>
@@ -319,19 +320,194 @@
             
               <div class="markdown-body">
                 
-                <h1 id="手机上AlphaClip为什么会很卡"><a href="#手机上AlphaClip为什么会很卡" class="headerlink" title="手机上AlphaClip为什么会很卡"></a>手机上AlphaClip为什么会很卡</h1><p>本质上是由于 OverDraw （过度绘制）引起的。AlphaClip 会丢弃像素，但这些像素在片元着色器阶段之前已经被处理过了，因此仍然会消耗 GPU 资源。尤其是在移动设备上，GPU 资源有限，过度绘制会导致性能下降。</p>
-<p><img src="/../img/pre-z-alpha-clip-flow.svg" srcset="/img/loading.gif" lazyload alt="AlphaClip 和 Pre-Z 流程"></p>
-<h1 id="Pre-Z优化方案"><a href="#Pre-Z优化方案" class="headerlink" title="Pre-Z优化方案"></a>Pre-Z优化方案</h1><ul>
-<li>再Opaque绘制之前，先绘制一遍AlphaClip的物体，只进行深度写入</li>
-<li>在AlphaClip绘制时，开启深度测试 ZTest Equal （只有深度值相等的像素才会被绘制）</li>
-<li>没有被丢弃的像素就不会进入片元着色器阶段，从而减少了GPU的负担</li>
+                <p>Alpha Clip 常用于植被、头发卡片、铁丝网等镂空材质。它的优点是能够写入深度、参与阴影，并且不需要像透明物体一样排序；缺点是重叠层数较多时，片元阶段的开销可能很高。</p>
+<p>一种针对 Forward 渲染的优化方法是把“决定像素是否存在”和“计算最终颜色”拆成两个 Pass：</p>
+<ol>
+<li><code>AlphaClipDepth</code> Pass 只采样 Alpha、执行 <code>clip()</code> 并写入深度。</li>
+<li>正式光照 Pass 不再执行 <code>clip()</code>，改为 <code>ZTest Equal</code>、<code>ZWrite Off</code>。</li>
+</ol>
+<p>这样，镂空区域和预写集合中被更近表面遮挡的层可以在正式光照 Pass 的深度测试阶段被拒绝，昂贵的光照、阴影、法线和 PBR 计算只需要处理预写后留下的最前层像素。</p>
+<p><img src="/../img/pre-z-alpha-clip-flow.svg" srcset="/img/loading.gif" lazyload alt="AlphaClipDepth 与 ZTest Equal 的渲染流程"></p>
+<h1 id="为什么普通-Alpha-Clip-仍然可能很贵"><a href="#为什么普通-Alpha-Clip-仍然可能很贵" class="headerlink" title="为什么普通 Alpha Clip 仍然可能很贵"></a>为什么普通 Alpha Clip 仍然可能很贵</h1><p>Alpha Clip 通常在片元着色器中采样一张 Alpha 纹理，然后调用 <code>clip()</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">half alpha = SAMPLE_TEXTURE2D(<br>    _BaseMap,<br>    sampler_BaseMap,<br>    input.uv).a * _BaseColor.a;<br><br>clip(alpha - _Cutoff);<br></code></pre></td></tr></table></figure>
+
+<p>把 <code>clip()</code> 放在复杂光照之前，可以避免镂空区域继续执行后续计算，但它仍然有几个问题：</p>
+<ul>
+<li>Alpha 采样和 <code>clip()</code> 本身仍然发生在片元阶段。</li>
+<li><code>clip/discard</code> 可能限制部分 GPU 的 Early-Z 优化。</li>
+<li>多层 Cutout 表面重叠时，通过 Alpha Clip 的每一层仍可能执行完整的主光照。</li>
 </ul>
-<p>Unity中可以使用RenderObjects实现一次Pre-Z绘制</p>
-<p>然后在自己的AlphaClip Shader中开启ZTest Equal</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">ZTest Equal<br></code></pre></td></tr></table></figure>
+<p>因此，这个方案的重点并不是消除 Alpha Clip，而是把它集中到一个尽可能便宜的深度 Pass 中，让正式光照 Pass 不再包含 <code>discard</code>，从而有机会恢复更有效的 Early-Z。</p>
+<h1 id="渲染流程"><a href="#渲染流程" class="headerlink" title="渲染流程"></a>渲染流程</h1><p>为了估算收益，可以把同一个像素上的工作拆开：</p>
+<ul>
+<li><code>M</code>：被光栅化的 Cutout 重叠层数。</li>
+<li><code>N</code>：普通路径中通过 Alpha，并实际进入完整主着色的层数，<code>N &lt;= M</code>。</li>
+<li><code>C_clip</code>：Alpha 采样和裁剪成本。</li>
+<li><code>C_main</code>：裁剪之后的复杂主光照成本。</li>
+<li><code>C_depth</code>：AlphaClipDepth 的成本，通常接近 <code>C_clip</code>。</li>
+</ul>
+<p>普通方案可以近似看成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">M × C_clip + N × C_main<br></code></pre></td></tr></table></figure>
 
+<p>在预写集合中只有一个最前层通过主 Pass 的理想情况下，增加 AlphaClipDepth 后可以近似看成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">M × C_depth + 1 × C_main + 额外的 Draw Call 与顶点开销<br></code></pre></td></tr></table></figure>
 
-<h1 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h1><p>代价就是所有的AlphaClip物体都需要绘制两次，一次Pre-Z，一次正常绘制。</p>
+<p>这只是帮助判断方向的简化模型。实际的 Early-Z 行为、绘制顺序和硬件架构都会改变结果。只有当被省掉的重复主光照成本，大于新增的深度 Pass、顶点处理和提交成本时，这个方案才会获得收益。</p>
+<p>完整顺序如下：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>深度状态</th>
+<th>片元工作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AlphaClipDepth</code></td>
+<td><code>ZTest LEqual</code>、<code>ZWrite On</code></td>
+<td>Alpha 采样与 <code>clip()</code></td>
+</tr>
+<tr>
+<td>正式光照 Pass</td>
+<td><code>ZTest Equal</code>、<code>ZWrite Off</code></td>
+<td>只计算最终颜色，不再 <code>clip()</code></td>
+</tr>
+</tbody></table>
+<h1 id="实现-AlphaClipDepth-Pass"><a href="#实现-AlphaClipDepth-Pass" class="headerlink" title="实现 AlphaClipDepth Pass"></a>实现 AlphaClipDepth Pass</h1><p>深度 Pass 的关键状态是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">ZTest LEqual<br>ZWrite On<br>ColorMask 0<br></code></pre></td></tr></table></figure>
+
+<p><code>ColorMask 0</code> 只是不写颜色，它并不会跳过片元着色器。因为还需要采样 Alpha 并执行 <code>clip()</code>，所以这个 Pass 仍然需要一个片元函数，只是要让它尽可能简单。</p>
+<p>下面是一个最小结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">Pass<br>&#123;<br>    Name &quot;AlphaClipDepth&quot;<br>    Tags &#123; &quot;LightMode&quot; = &quot;AlphaClipDepth&quot; &#125;<br><br>    ZTest LEqual<br>    ZWrite On<br>    ColorMask 0<br>    Cull [_Cull]<br><br>    HLSLPROGRAM<br>    #pragma vertex AlphaClipDepthVertex<br>    #pragma fragment AlphaClipDepthFragment<br>    #pragma multi_compile_instancing<br><br>    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;<br><br>    TEXTURE2D(_BaseMap);<br>    SAMPLER(sampler_BaseMap);<br><br>    CBUFFER_START(UnityPerMaterial)<br>        float4 _BaseMap_ST;<br>        half4 _BaseColor;<br>        half _Cutoff;<br>    CBUFFER_END<br><br>    struct Attributes<br>    &#123;<br>        float3 positionOS : POSITION;<br>        float2 uv         : TEXCOORD0;<br>        UNITY_VERTEX_INPUT_INSTANCE_ID<br>    &#125;;<br><br>    struct Varyings<br>    &#123;<br>        float4 positionCS : SV_POSITION;<br>        float2 uv         : TEXCOORD0;<br>        UNITY_VERTEX_INPUT_INSTANCE_ID<br>        UNITY_VERTEX_OUTPUT_STEREO<br>    &#125;;<br><br>    Varyings AlphaClipDepthVertex(Attributes input)<br>    &#123;<br>        Varyings output = (Varyings)0;<br><br>        UNITY_SETUP_INSTANCE_ID(input);<br>        UNITY_TRANSFER_INSTANCE_ID(input, output);<br>        UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);<br><br>        output.positionCS = TransformObjectToHClip(input.positionOS);<br>        output.uv = TRANSFORM_TEX(input.uv, _BaseMap);<br>        return output;<br>    &#125;<br><br>    half4 AlphaClipDepthFragment(Varyings input) : SV_Target<br>    &#123;<br>        UNITY_SETUP_INSTANCE_ID(input);<br>        UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);<br><br>        half alpha = SAMPLE_TEXTURE2D(<br>            _BaseMap,<br>            sampler_BaseMap,<br>            input.uv).a * _BaseColor.a;<br><br>        clip(alpha - _Cutoff);<br>        return 0;<br>    &#125;<br>    ENDHLSL<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实际 Shader 如果包含蒙皮、风动、Billboard、顶点动画、GPU Instancing 或 LOD Dither，不能直接照搬这个最小顶点函数。深度 Pass 必须复用主 Pass 的顶点变形路径。</p>
+<p>示例为了便于阅读直接声明了精简版 <code>UnityPerMaterial</code>。生产 Shader 应复用已有的材质输入 include，并保证所有 Pass 中 <code>UnityPerMaterial</code> 的字段与顺序完全一致，否则会破坏 SRP Batcher 兼容性。</p>
+<h1 id="修改正式光照-Pass"><a href="#修改正式光照-Pass" class="headerlink" title="修改正式光照 Pass"></a>修改正式光照 Pass</h1><p>正式光照 Pass 只允许绘制与深度缓冲完全相等的片元：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">Pass<br>&#123;<br>    Name &quot;ForwardLit&quot;<br>    Tags &#123; &quot;LightMode&quot; = &quot;UniversalForward&quot; &#125;<br><br>    ZTest Equal<br>    ZWrite Off<br>    Cull [_Cull]<br><br>    // 正常的顶点与片元着色代码<br>    // Fragment 中不再调用 clip() 或 discard<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里有三个状态需要成套使用：</p>
+<ul>
+<li><code>ZTest Equal</code>：只绘制 AlphaClipDepth 已经写入的表面。</li>
+<li><code>ZWrite Off</code>：主 Pass 不再重复修改深度。</li>
+<li>移除主 Pass 中的 <code>clip/discard</code>：避免它继续影响 Early-Z，并省掉重复的 Alpha Clip。</li>
+</ul>
+<p>不能只把主 Pass 改成 <code>ZTest Equal</code>。如果深度预写没有执行，深度缓冲中就没有相等的值，整个物体会直接消失。</p>
+<p>如果同一个 Shader 同时支持 Opaque、Alpha Clip 和 Transparent，可以把深度状态做成材质属性：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">[HideInInspector] _ZTest(&quot;ZTest&quot;, Float) = 4<br>[HideInInspector] _ZWrite(&quot;ZWrite&quot;, Float) = 1<br><br>// 正式 Pass<br>ZTest [_ZTest]<br>ZWrite [_ZWrite]<br></code></pre></td></tr></table></figure>
+
+<p>下面只列出这项预写优化新增的状态。切换到 Alpha Clip 模式时，同时更新 Pass 和深度状态：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> UnityEngine.Rendering;<br><br>material.SetShaderPassEnabled(<span class="hljs-string">&quot;AlphaClipDepth&quot;</span>, <span class="hljs-literal">true</span>);<br>material.SetFloat(<span class="hljs-string">&quot;_ZTest&quot;</span>, (<span class="hljs-built_in">int</span>)CompareFunction.Equal);<br>material.SetFloat(<span class="hljs-string">&quot;_ZWrite&quot;</span>, <span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+
+<p>切回普通 Opaque 模式时则恢复：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">material.SetShaderPassEnabled(<span class="hljs-string">&quot;AlphaClipDepth&quot;</span>, <span class="hljs-literal">false</span>);<br>material.SetFloat(<span class="hljs-string">&quot;_ZTest&quot;</span>, (<span class="hljs-built_in">int</span>)CompareFunction.LessEqual);<br>material.SetFloat(<span class="hljs-string">&quot;_ZWrite&quot;</span>, <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+<p>完整的 Surface Mode 切换还要同步 Alpha 关键字、<code>RenderType</code>、Render Queue，以及 <code>ShadowCaster</code>、<code>DepthOnly</code> 等 Pass 的裁剪状态。</p>
+<p>Transparent 模式不适用这套 Cutout 优化，应继续使用自己的混合、排序和深度状态。</p>
+<h1 id="在-URP-中提前绘制"><a href="#在-URP-中提前绘制" class="headerlink" title="在 URP 中提前绘制"></a>在 URP 中提前绘制</h1><p>最简单的调度方式是在 Universal Renderer Data 中添加一个 <strong>Render Objects</strong> Renderer Feature：</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Event</td>
+<td><code>BeforeRenderingOpaques</code></td>
+</tr>
+<tr>
+<td>Queue</td>
+<td><code>Opaque</code></td>
+</tr>
+<tr>
+<td>Layer Mask</td>
+<td>只包含需要优化的 Alpha Clip 对象</td>
+</tr>
+<tr>
+<td>Pass Names</td>
+<td><code>AlphaClipDepth</code></td>
+</tr>
+<tr>
+<td>Override Material &#x2F; Shader</td>
+<td>关闭</td>
+</tr>
+</tbody></table>
+<p>AlphaTest 队列仍属于 Opaque 的筛选范围。不要使用统一的 Override Material，因为不同材质通常有各自的 Alpha 纹理、UV、颜色和 Cutoff。</p>
+<p>深度状态可以直接由 Shader Pass 控制；如果在 Renderer Feature 中覆盖深度状态，也必须保持 <code>LEqual + Write Depth</code>。Feature 必须加入所有实际使用的 Renderer Data，否则某些质量档或相机在缺少预写时会让 <code>ZTest Equal</code> 的物体消失。</p>
+<p>如果 Renderer Feature 只筛选 Alpha Clip 对象，它解决的是这些对象彼此之间的重叠。此时尚未写入深度的普通 Opaque 物体不能提前剔除 Alpha Clip 主 Pass；若需要这部分遮挡收益，必须复用已有的完整深度预写，或让相关遮挡物也先写入同一深度附件。</p>
+<p>以上注入点适用于 Forward 路径。Deferred 路径需要在 GBuffer 之前完成预写，并让 GBuffer Pass 使用 <code>ZTest Equal</code>，不能直接套用同一个执行时机。</p>
+<h1 id="两个-Pass-必须完全一致"><a href="#两个-Pass-必须完全一致" class="headerlink" title="两个 Pass 必须完全一致"></a>两个 Pass 必须完全一致</h1><p><code>ZTest Equal</code> 是严格比较。AlphaClipDepth 与正式 Pass 产生的深度只要有差异，就可能出现缺面、闪烁或边缘破损。</p>
+<p>必须保持一致的内容包括：</p>
+<ul>
+<li>顶点位置计算和浮点精度</li>
+<li>蒙皮、风动、Billboard 与顶点动画</li>
+<li>GPU Instancing 和每实例数据</li>
+<li>Cull 模式与 Depth Offset</li>
+<li>LOD Cross Fade、Dither Fade</li>
+<li>相机投影、抖动、XR 与动态分辨率路径</li>
+</ul>
+<p>最稳妥的做法是让两个 Pass 复用同一个顶点变形函数或 HLSL include。</p>
+<p>Alpha 纹理、UV、颜色 Alpha 和 Cutoff 决定预写的覆盖范围。主 Pass 虽然不再裁剪，但 <code>ShadowCaster</code>、<code>DepthOnly</code>、<code>DepthNormals</code>、<code>MotionVectors</code> 等独立 Pass 仍要保留与画面一致的 Alpha Clip；相机深度预写不能替代这些用途。</p>
+<p>本文示例面向二值硬裁剪。如果材质依赖 MSAA 下的 <code>AlphaToMask</code> 或 AlphaToCoverage，深度 Pass 必须复现相同的逐样本覆盖；做不到时不要直接改成这套流程，否则边缘质量和深度覆盖会不一致。</p>
+<h1 id="与-URP-Depth-Priming-的关系"><a href="#与-URP-Depth-Priming-的关系" class="headerlink" title="与 URP Depth Priming 的关系"></a>与 URP Depth Priming 的关系</h1><p>这套方案可以理解为“只对选定的 Alpha Clip 对象做深度预写”。URP 自带的 Depth Priming 也会先生成深度，再减少被遮挡像素的主着色。</p>
+<p>如果已经启用了 Depth Priming，并且现有 <code>DepthOnly</code> Pass 能正确处理 Alpha Clip，应先用 Frame Debugger 检查已有的深度预写和主绘制状态。不要无条件再增加一遍 <code>AlphaClipDepth</code>，否则可能只是重复绘制。</p>
+<p>需要注意，已有深度预写不一定等价于本文的完整方案：主 Pass 仍可能保留 Alpha 采样和 <code>clip/discard</code>。是否已经获得相同收益，还要检查主 Shader 变体并以 GPU 数据为准。</p>
+<p>定向的 AlphaClipDepth 适合只想处理高 OverDraw Cutout 物体，而不希望为所有 Opaque 物体增加深度预写的情况。</p>
+<h1 id="适用场景与代价"><a href="#适用场景与代价" class="headerlink" title="适用场景与代价"></a>适用场景与代价</h1><p>比较容易获得收益的场景：</p>
+<ul>
+<li>植被、头发卡片、栅栏等重叠层数较高的 Cutout</li>
+<li>物体屏幕覆盖率较大</li>
+<li>主 Shader 包含多光源、阴影、法线或复杂 PBR</li>
+<li>性能瓶颈明确在 Fragment 或 Fill Rate</li>
+</ul>
+<p>可能没有收益，甚至更慢的场景：</p>
+<ul>
+<li>Alpha Clip 物体很少、很小或几乎没有重叠</li>
+<li>主 Shader 很简单</li>
+<li>场景受 CPU、Draw Call 或顶点处理限制</li>
+<li>Alpha 大部分为空，并且原 Shader 已经在片元开头快速裁剪</li>
+<li>Tile-Based GPU 因额外 Pass 产生了更高的 Tile Store&#x2F;Load 成本</li>
+</ul>
+<p>额外成本包括：</p>
+<ul>
+<li>每个对象多一次 Draw Call</li>
+<li>顶点处理和三角形装配多一次</li>
+<li>Alpha 纹理多采样一次</li>
+<li>额外的渲染状态切换与深度带宽</li>
+</ul>
+<p>因此不要把它当成所有 Alpha Clip 材质的默认配置。更合理的做法是使用 Layer Mask 或单独的材质开关，只覆盖已经确认存在高 OverDraw 的对象。</p>
+<h1 id="验证方法"><a href="#验证方法" class="headerlink" title="验证方法"></a>验证方法</h1><p>先用 Frame Debugger 或 RenderDoc 检查正确性：</p>
+<ol>
+<li><code>AlphaClipDepth</code> 确实在正式 Opaque 绘制之前执行。</li>
+<li>深度 Pass 使用 <code>LEqual + ZWrite On + ColorMask 0</code>。</li>
+<li>正式 Pass 使用 <code>Equal + ZWrite Off</code>。</li>
+<li>正式片元着色器已经没有 <code>clip/discard</code>。</li>
+<li>Alpha 边缘、风动、蒙皮、LOD、阴影、SSAO、TAA、MSAA 与相机堆叠没有视觉回归。</li>
+</ol>
+<p>然后在目标设备上做 A&#x2F;B 测试，重点比较：</p>
+<ul>
+<li>GPU Frame Time</li>
+<li>两个 Pass 各自的 GPU 耗时</li>
+<li>Fragment Shader Invocations</li>
+<li>Early-Z Rejected &#x2F; Depth Test Passed</li>
+<li>Draw Calls、Vertex Invocations</li>
+<li>Tile Load&#x2F;Store 与显存带宽</li>
+<li>CPU Render Thread 时间</li>
+</ul>
+<p>移动端尤其需要真机测量。Tile-Based GPU 既可能受益于减少主片元着色，也可能因为新增 Pass 和带宽而付出更高代价，不能只根据编辑器中的 FPS 下结论。</p>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="物体完全消失"><a href="#物体完全消失" class="headerlink" title="物体完全消失"></a>物体完全消失</h2><p>主 Pass 已经是 <code>ZTest Equal</code>，但 <code>AlphaClipDepth</code> 没有执行。检查 Renderer Feature、Layer Mask、Render Queue、Pass Names、材质 Pass 开关以及当前相机使用的 Renderer。</p>
+<h2 id="边缘闪烁或局部缺面"><a href="#边缘闪烁或局部缺面" class="headerlink" title="边缘闪烁或局部缺面"></a>边缘闪烁或局部缺面</h2><p>两个 Pass 的顶点位置、Cull、Depth Offset 或动画路径不一致。优先让它们复用同一套顶点代码。</p>
+<h2 id="材质预览或离屏相机不显示"><a href="#材质预览或离屏相机不显示" class="headerlink" title="材质预览或离屏相机不显示"></a>材质预览或离屏相机不显示</h2><p>某些预览、反射或离屏相机可能不会执行自定义 Renderer Feature。所有负责正式颜色绘制的相机都必须先完成深度预写，否则需要提供使用 <code>LEqual</code> 和原始 Alpha Clip 的回退路径。</p>
+<h2 id="开启后反而变慢"><a href="#开启后反而变慢" class="headerlink" title="开启后反而变慢"></a>开启后反而变慢</h2><p>说明省掉的主片元成本不足以覆盖第二次绘制。缩小 Layer Mask 的范围，只保留高 OverDraw、重片元的材质，或者直接关闭这项优化。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这套方案的本质是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">廉价 AlphaClipDepth：决定覆盖范围并写深度<br>                    ↓<br>昂贵主光照 Pass：ZTest Equal，只着色预写集合中的最前层<br></code></pre></td></tr></table></figure>
+
+<p>它最适合高 OverDraw、重片元的二值 Cutout 材质。实现时最重要的不是单独设置 <code>ZTest Equal</code>，而是保证预写一定先执行、主 Pass 不再 <code>discard</code>，并让两个 Pass 生成完全一致的深度。最后仍然要以目标设备上的 GPU 数据决定是否启用。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/cn/current/Manual/urp/writing-shaders-urp-depth-only.html">Unity：在 URP Shader 中编写 Depth-only Pass</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@15.0/manual/renderer-features/renderer-feature-render-objects.html">Unity：Render Objects Renderer Feature</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/cn/current/Manual/SL-ZTest.html">Unity：ShaderLab ZTest 命令</a></li>
+</ul>
 
                 
               </div>
@@ -367,13 +543,15 @@
       
         <a href="/tags/Unity/" class="print-no-link">#Unity</a>
       
-        <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="print-no-link">#游戏开发</a>
+        <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="print-no-link">#性能优化</a>
       
         <a href="/tags/Shader/" class="print-no-link">#Shader</a>
       
-        <a href="/tags/Pre-Z/" class="print-no-link">#Pre-Z</a>
+        <a href="/tags/URP/" class="print-no-link">#URP</a>
       
         <a href="/tags/AlphaClip/" class="print-no-link">#AlphaClip</a>
+      
+        <a href="/tags/Early-Z/" class="print-no-link">#Early-Z</a>
       
     </div>
   
@@ -385,7 +563,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>通过Pre-Z减少AlphaClip绘制的开销</div>
+      <div>Unity 通过 AlphaClipDepth 与 ZTest Equal 优化 Alpha Clip</div>
       <div>https://nicoier.github.io/2025/08/07/通过Pre-Z减少AlphaClip绘制的开销/</div>
     </div>
     <div class="license-meta">

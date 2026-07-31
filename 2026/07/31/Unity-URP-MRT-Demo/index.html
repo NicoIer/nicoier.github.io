@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在 Unity 6 的 URP RenderGraph 中实现一个最小 MRT Demo，用一次全屏绘制同时输出三张颜色纹理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity URP MRT Demo">
+<meta property="og:url" content="https://nicoier.github.io/2026/07/31/Unity-URP-MRT-Demo/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="在 Unity 6 的 URP RenderGraph 中实现一个最小 MRT Demo，用一次全屏绘制同时输出三张颜色纹理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/unity-urp-mrt-flow.svg">
+<meta property="og:image" content="https://nicoier.github.io/img/unity-urp-mrt-result.png">
+<meta property="article:published_time" content="2026-07-31T07:03:53.000Z">
+<meta property="article:modified_time" content="2026-07-31T07:13:23.479Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="游戏开发">
+<meta property="article:tag" content="Shader">
+<meta property="article:tag" content="URP">
+<meta property="article:tag" content="RenderGraph">
+<meta property="article:tag" content="MRT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/unity-urp-mrt-flow.svg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Unity URP MRT Demo - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Unity URP MRT Demo"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-31 15:03" pubdate>
+          2026年7月31日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Unity URP MRT Demo</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年7月31日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文在 Unity 6000.3.9f1 和 URP 17.3.0 中实现一个最小的 MRT（Multiple Render Targets）Demo：</p>
+<ul>
+<li>从当前相机颜色纹理取样</li>
+<li>用一次全屏 Draw Call 同时写入 3 张 Render Target</li>
+<li>3 张纹理分别保存原图的 R、G、B 通道</li>
+<li>再通过一个调试 Pass 将结果显示成四宫格</li>
+</ul>
+<p><img src="/../img/unity-urp-mrt-flow.svg" srcset="/img/loading.gif" lazyload alt="Unity URP MRT 渲染流程"></p>
+<h1 id="MRT是什么"><a href="#MRT是什么" class="headerlink" title="MRT是什么"></a>MRT是什么</h1><p>普通片元着色器通常只向 <code>SV_Target</code> 输出一个颜色值。MRT 允许同一个片元着色器通过 <code>SV_Target0</code>、<code>SV_Target1</code>、<code>SV_Target2</code> 等语义，同时向多个颜色附件写入数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">struct MrtOutput<br>&#123;<br>    half4 target0 : SV_Target0;<br>    half4 target1 : SV_Target1;<br>    half4 target2 : SV_Target2;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>它常用于：</p>
+<ul>
+<li>Deferred Rendering 的 GBuffer</li>
+<li>同时输出颜色、法线、材质参数或 Mask</li>
+<li>一次绘制生成多张后处理数据纹理</li>
+</ul>
+<p>MRT 可以减少重复的几何处理和 Draw Call，但每多写一张 Render Target 都会增加显存占用和带宽开销，所以并不是输出数量越多越好。</p>
+<h1 id="Demo效果"><a href="#Demo效果" class="headerlink" title="Demo效果"></a>Demo效果</h1><p>调试 Pass 会把屏幕分成四块：</p>
+<ul>
+<li>左下：将 3 张 MRT 纹理相加，重建原始画面的 RGB</li>
+<li>右下：<code>SV_Target0</code>，只保留红色通道</li>
+<li>左上：<code>SV_Target1</code>，只保留绿色通道</li>
+<li>右上：<code>SV_Target2</code>，只保留蓝色通道</li>
+</ul>
+<p><img src="/../img/unity-urp-mrt-result.png" srcset="/img/loading.gif" lazyload alt="Unity URP MRT Demo 四宫格效果"></p>
+<h1 id="Shader同时写入3张纹理"><a href="#Shader同时写入3张纹理" class="headerlink" title="Shader同时写入3张纹理"></a>Shader同时写入3张纹理</h1><p>下面展示的是 Shader 中与 MRT 直接相关的部分。完整 Shader 还需要 URP 的基础 Include、全屏渲染状态和两个 Pass：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs shaderlab">Shader &quot;Hidden/TechExp/MRT Sample&quot;<br>&#123;<br>    SubShader<br>    &#123;<br>        Tags &#123; &quot;RenderPipeline&quot; = &quot;UniversalPipeline&quot; &#125;<br>        Cull Off<br>        ZWrite Off<br>        ZTest Always<br><br>        HLSLINCLUDE<br>        #pragma target 3.5<br>        #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;<br>        #include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl&quot;<br><br>        // Attributes、Varyings 和 FullscreenVert 放在这里<br>        ENDHLSL<br><br>        Pass<br>        &#123;<br>            Name &quot;Write MRT&quot;<br>            HLSLPROGRAM<br>            #pragma vertex FullscreenVert<br>            #pragma fragment MrtFragment<br>            // MrtFragment 放在这里<br>            ENDHLSL<br>        &#125;<br><br>        Pass<br>        &#123;<br>            Name &quot;Debug View&quot;<br>            HLSLPROGRAM<br>            #pragma vertex FullscreenVert<br>            #pragma fragment DebugFragment<br>            // DebugFragment 放在这里<br>            ENDHLSL<br>        &#125;<br>    &#125;<br><br>    Fallback Off<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>首先使用 <code>SV_VertexID</code> 生成一个全屏三角形，不需要额外创建 Mesh。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">struct Attributes<br>&#123;<br>    uint vertexID : SV_VertexID;<br>    UNITY_VERTEX_INPUT_INSTANCE_ID<br>&#125;;<br><br>struct Varyings<br>&#123;<br>    float4 positionCS : SV_POSITION;<br>    float2 uv : TEXCOORD0;<br>    UNITY_VERTEX_OUTPUT_STEREO<br>&#125;;<br><br>Varyings FullscreenVert(Attributes input)<br>&#123;<br>    Varyings output;<br>    UNITY_SETUP_INSTANCE_ID(input);<br>    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);<br>    output.positionCS = GetFullScreenTriangleVertexPosition(input.vertexID);<br>    output.uv = GetFullScreenTriangleTexCoord(input.vertexID);<br>    return output;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>片元着色器读取相机颜色，然后将 R、G、B 分别写入 3 个输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">TEXTURE2D_X(_MrtSourceTexture);<br><br>struct MrtOutput<br>&#123;<br>    half4 target0 : SV_Target0;<br>    half4 target1 : SV_Target1;<br>    half4 target2 : SV_Target2;<br>&#125;;<br><br>MrtOutput MrtFragment(Varyings input)<br>&#123;<br>    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);<br><br>    half4 source = SAMPLE_TEXTURE2D_X(<br>        _MrtSourceTexture,<br>        sampler_LinearClamp,<br>        input.uv);<br><br>    MrtOutput output;<br>    output.target0 = half4(source.r, 0.0h, 0.0h, 1.0h);<br>    output.target1 = half4(0.0h, source.g, 0.0h, 1.0h);<br>    output.target2 = half4(0.0h, 0.0h, source.b, 1.0h);<br>    return output;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Shader 里的 <code>SV_TargetN</code> 与 RenderGraph 中颜色附件的索引是一一对应的：</p>
+<table>
+<thead>
+<tr>
+<th>Shader输出</th>
+<th>RenderGraph颜色附件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SV_Target0</code></td>
+<td><code>SetRenderAttachment(mrt0, 0)</code></td>
+</tr>
+<tr>
+<td><code>SV_Target1</code></td>
+<td><code>SetRenderAttachment(mrt1, 1)</code></td>
+</tr>
+<tr>
+<td><code>SV_Target2</code></td>
+<td><code>SetRenderAttachment(mrt2, 2)</code></td>
+</tr>
+</tbody></table>
+<h1 id="在RenderGraph中创建MRT"><a href="#在RenderGraph中创建MRT" class="headerlink" title="在RenderGraph中创建MRT"></a>在RenderGraph中创建MRT</h1><p>自定义 <code>ScriptableRenderPass</code> 通过 <code>RecordRenderGraph</code> 录制渲染命令。</p>
+<p>首先取得当前相机颜色纹理，并复制它的描述信息来创建 3 张临时纹理：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs csharp">UniversalResourceData resourceData =<br>    frameData.Get&lt;UniversalResourceData&gt;();<br><br><span class="hljs-keyword">if</span> (resourceData.isActiveTargetBackBuffer)<br>&#123;<br>    Debug.LogWarning(<br>        <span class="hljs-string">&quot;MRT Sample: the active color target is the back buffer and cannot be sampled.&quot;</span>);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br><br>TextureHandle source = resourceData.activeColorTexture;<br>TextureDesc targetDesc = renderGraph.GetTextureDesc(source);<br><br>targetDesc.clearBuffer = <span class="hljs-literal">true</span>;<br>targetDesc.clearColor = Color.clear;<br>targetDesc.bindTextureMS = <span class="hljs-literal">false</span>;<br>targetDesc.msaaSamples = MSAASamples.None;<br>targetDesc.filterMode = FilterMode.Bilinear;<br>targetDesc.wrapMode = TextureWrapMode.Clamp;<br><br>targetDesc.name = <span class="hljs-string">&quot;_MrtSample0&quot;</span>;<br>TextureHandle mrt0 = renderGraph.CreateTexture(targetDesc);<br><br>targetDesc.name = <span class="hljs-string">&quot;_MrtSample1&quot;</span>;<br>TextureHandle mrt1 = renderGraph.CreateTexture(targetDesc);<br><br>targetDesc.name = <span class="hljs-string">&quot;_MrtSample2&quot;</span>;<br>TextureHandle mrt2 = renderGraph.CreateTexture(targetDesc);<br></code></pre></td></tr></table></figure>
+
+<p>这里直接复制相机颜色纹理的 <code>TextureDesc</code>，可以保证 3 个附件的尺寸、格式和纹理维度一致。这个 Demo 是全屏后处理，不需要 MSAA，因此将输出纹理的 MSAA 关闭。</p>
+<p>先在 <code>MrtRenderPass</code> 中缓存 Shader 属性 ID：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> SourceTextureId =<br>    Shader.PropertyToID(<span class="hljs-string">&quot;_MrtSourceTexture&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Mrt0Id =<br>    Shader.PropertyToID(<span class="hljs-string">&quot;_MrtSample0&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Mrt1Id =<br>    Shader.PropertyToID(<span class="hljs-string">&quot;_MrtSample1&quot;</span>);<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Mrt2Id =<br>    Shader.PropertyToID(<span class="hljs-string">&quot;_MrtSample2&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>然后在同一个 Raster Pass 中绑定 3 个颜色附件：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> (IRasterRenderGraphBuilder builder =<br>       renderGraph.AddRasterRenderPass&lt;MrtPassData&gt;(<br>           <span class="hljs-string">&quot;MRT Sample: Write 3 Targets&quot;</span>,<br>           <span class="hljs-keyword">out</span> MrtPassData passData))<br>&#123;<br>    passData.source = source;<br>    passData.material = m_Material;<br>    passData.properties = m_MrtProperties;<br><br>    builder.UseTexture(source, AccessFlags.Read);<br>    builder.SetRenderAttachment(mrt0, <span class="hljs-number">0</span>, AccessFlags.Write);<br>    builder.SetRenderAttachment(mrt1, <span class="hljs-number">1</span>, AccessFlags.Write);<br>    builder.SetRenderAttachment(mrt2, <span class="hljs-number">2</span>, AccessFlags.Write);<br><br>    builder.SetGlobalTextureAfterPass(<br>        mrt0, Mrt0Id);<br>    builder.SetGlobalTextureAfterPass(<br>        mrt1, Mrt1Id);<br>    builder.SetGlobalTextureAfterPass(<br>        mrt2, Mrt2Id);<br><br>    builder.SetRenderFunc(<span class="hljs-keyword">static</span> (<br>        MrtPassData data,<br>        RasterGraphContext context) =&gt;<br>    &#123;<br>        data.properties.Clear();<br>        data.properties.SetTexture(<br>            SourceTextureId,<br>            data.source);<br><br>        context.cmd.DrawProcedural(<br>            Matrix4x4.identity,<br>            data.material,<br>            <span class="hljs-number">0</span>,<br>            MeshTopology.Triangles,<br>            <span class="hljs-number">3</span>,<br>            <span class="hljs-number">1</span>,<br>            data.properties);<br>    &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>SetGlobalTextureAfterPass</code> 会在 Pass 执行后将 3 张纹理设置为全局 Shader 属性，后续 Renderer Feature 可以在同一帧继续读取它们。消费这些全局纹理的 RenderGraph Pass 还必须声明依赖：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">builder.UseGlobalTexture(Mrt0Id, AccessFlags.Read);<br>builder.UseGlobalTexture(Mrt1Id, AccessFlags.Read);<br>builder.UseGlobalTexture(Mrt2Id, AccessFlags.Read);<br></code></pre></td></tr></table></figure>
+
+<p>如果后续 Pass 已经持有对应的 <code>TextureHandle</code>，也可以像调试 Pass 一样直接使用 <code>UseTexture</code>。这里只调用 <code>SetGlobalTextureAfterPass</code> 并不会自动建立消费依赖；关闭调试显示且没有任何后续消费者时，MRT Pass 可能会被 RenderGraph 裁剪。</p>
+<p>这里创建的是 RenderGraph 临时资源，不能保存 <code>TextureHandle</code> 并跨帧使用。</p>
+<h1 id="调试显示"><a href="#调试显示" class="headerlink" title="调试显示"></a>调试显示</h1><p>调试 Pass 读取 3 张输出纹理，将屏幕 UV 映射到四个象限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">TEXTURE2D_X(_MrtSample0);<br>TEXTURE2D_X(_MrtSample1);<br>TEXTURE2D_X(_MrtSample2);<br><br>half4 DebugFragment(Varyings input) : SV_Target<br>&#123;<br>    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);<br><br>    float2 quadrantUv = frac(input.uv * 2.0);<br>    half4 channel0 = SAMPLE_TEXTURE2D_X(<br>        _MrtSample0, sampler_LinearClamp, quadrantUv);<br>    half4 channel1 = SAMPLE_TEXTURE2D_X(<br>        _MrtSample1, sampler_LinearClamp, quadrantUv);<br>    half4 channel2 = SAMPLE_TEXTURE2D_X(<br>        _MrtSample2, sampler_LinearClamp, quadrantUv);<br><br>    bool right = input.uv.x &gt;= 0.5;<br>    bool top = input.uv.y &gt;= 0.5;<br><br>    if (!right &amp;&amp; !top)<br>        return half4(channel0.rgb + channel1.rgb + channel2.rgb, 1.0h);<br>    if (right &amp;&amp; !top)<br>        return channel0;<br>    if (!right &amp;&amp; top)<br>        return channel1;<br><br>    return channel2;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>调试 Pass 的 RenderGraph 依赖关系也需要显式声明：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp">builder.UseTexture(mrt0, AccessFlags.Read);<br>builder.UseTexture(mrt1, AccessFlags.Read);<br>builder.UseTexture(mrt2, AccessFlags.Read);<br>builder.SetRenderAttachment(<br>    resourceData.activeColorTexture,<br>    <span class="hljs-number">0</span>,<br>    AccessFlags.Write);<br></code></pre></td></tr></table></figure>
+
+<p>如果不需要在屏幕上显示四宫格，可以跳过调试 Pass，并让真正的后续消费者声明对 MRT 输出的依赖。</p>
+<h1 id="RendererFeature设置"><a href="#RendererFeature设置" class="headerlink" title="RendererFeature设置"></a>RendererFeature设置</h1><p>注入位置由 Renderer Feature 的 Inspector 字段控制，代码默认值是 <code>AfterRenderingPostProcessing</code>。它位于主要后处理之后、Final Blit 之前，所以默认读取的是此时的相机颜色：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">SerializeField</span>]<br><span class="hljs-keyword">private</span> RenderPassEvent m_RenderPassEvent =<br>    RenderPassEvent.AfterRenderingPostProcessing;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Create</span>()</span><br>&#123;<br>    m_Pass = <span class="hljs-keyword">new</span> MrtRenderPass<br>    &#123;<br>        renderPassEvent = m_RenderPassEvent<br>    &#125;;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddRenderPasses</span>(<span class="hljs-params"></span></span><br><span class="hljs-params"><span class="hljs-function">    ScriptableRenderer renderer,</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">ref</span> RenderingData renderingData</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 省略相机、Material 和硬件能力检查</span><br>    m_Pass.renderPassEvent = m_RenderPassEvent;<br>    m_Pass.Setup(m_Material, m_ShowDebugView);<br>    renderer.EnqueuePass(m_Pass);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 <code>Setup</code> 中启用中间颜色纹理，避免相机颜色直接落在无法采样的 Back Buffer 上：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">internal</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Setup</span>(<span class="hljs-params">Material material, <span class="hljs-built_in">bool</span> showDebugView</span>)</span><br>&#123;<br>    m_Material = material;<br>    m_ShowDebugView = showDebugView;<br>    requiresIntermediateTexture = <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>中间颜色纹理会带来额外的显存和带宽成本，尤其需要关注 XR 和移动端。即使设置了 <code>requiresIntermediateTexture</code>，仍应保留前面的 <code>isActiveTargetBackBuffer</code> 检查，不要把需要采样相机颜色的 Pass 放到通常已经进入 Back Buffer 的 <code>AfterRendering</code>。</p>
+<p>完整配置步骤如下：</p>
+<ol>
+<li>创建 <code>MrtSample.shader</code> 和对应的 Material。</li>
+<li>创建 <code>MrtRendererFeature.cs</code>，在 Renderer Data 中添加这个 Renderer Feature。</li>
+<li>将 Material 赋值给 Renderer Feature。</li>
+<li>将注入位置设为 <code>After Rendering Post Processing</code>；如果 Renderer Asset 已经序列化了其他值，以 Inspector 为准。</li>
+<li>启用 <code>Show Debug View</code> 查看四宫格结果。</li>
+<li>在 URP Global Settings 中关闭 Render Graph Compatibility Mode。</li>
+</ol>
+<p>这个实现只提供了 <code>RecordRenderGraph</code>，没有实现 Compatibility Mode 所需的回退路径，因此开启 Compatibility Mode 后不会执行。</p>
+<h1 id="平台检查"><a href="#平台检查" class="headerlink" title="平台检查"></a>平台检查</h1><p>并不是所有设备都支持同时绑定 3 张颜色纹理。入队前可以通过 <code>SystemInfo.supportedRenderTargetCount</code> 检查：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> requiredRenderTargetCount = <span class="hljs-number">3</span>;<br><br><span class="hljs-keyword">if</span> (SystemInfo.supportedRenderTargetCount &lt; requiredRenderTargetCount)<br>&#123;<br>    Debug.LogWarning(<br>        <span class="hljs-string">$&quot;MRT requires <span class="hljs-subst">&#123;requiredRenderTargetCount&#125;</span> render targets, &quot;</span> +<br>        <span class="hljs-string">$&quot;but this device only supports &quot;</span> +<br>        <span class="hljs-string">$&quot;<span class="hljs-subst">&#123;SystemInfo.supportedRenderTargetCount&#125;</span>.&quot;</span>);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ul>
+<li>同一个 Raster Pass 的颜色附件需要保持相同的尺寸和采样数。</li>
+<li><code>SetRenderAttachment</code> 的索引必须与 Shader 中的 <code>SV_TargetN</code> 对应。</li>
+<li>读取当前相机颜色时不能直接采样 Back Buffer，需要让 URP 创建中间颜色纹理。</li>
+<li>RenderGraph 创建的临时纹理只保证在声明的依赖范围内有效，不要跨帧保存 <code>TextureHandle</code>。</li>
+<li>如果需要跨帧保存 MRT 结果，应自行管理 <code>RenderTexture</code> 或 <code>RTHandle</code>，再通过 <code>ImportTexture</code> 导入 RenderGraph。</li>
+<li><code>SetGlobalTextureAfterPass</code> 只负责设置全局属性；消费 Pass 仍要使用 <code>UseGlobalTexture</code>、<code>UseAllGlobalTextures(true)</code> 或 <code>UseTexture</code> 声明读取依赖。</li>
+<li>MRT 减少的是重复绘制，不会减少像素写入量；高分辨率、多附件和高精度格式都会明显增加带宽。</li>
+<li>如果需要的是后处理前的画面，可以把注入位置改到 <code>BeforeRenderingPostProcessing</code>，但要重新确认与其他 Renderer Feature 的执行顺序。</li>
+<li>Camera Stack 中每个 Base 或 Overlay Camera 都可能执行 Renderer Feature 并覆盖相同的全局纹理，需要根据 <code>cameraData.renderType</code> 或 <code>resolveFinalTarget</code> 过滤目标相机。</li>
+<li>本例把 3 张输出纹理的 Alpha 都写成了 1，因此四宫格左下只重建 RGB，并不还原原图 Alpha。</li>
+</ul>
+<p>MRT 的核心就是两处：Shader 使用多个 <code>SV_TargetN</code> 输出，RenderGraph 使用相同索引绑定多个颜色附件。把这两个索引对齐之后，就可以在一次绘制中生成多份屏幕空间数据。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Unity/" class="category-chain-item">Unity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Unity/" class="print-no-link">#Unity</a>
+      
+        <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="print-no-link">#游戏开发</a>
+      
+        <a href="/tags/Shader/" class="print-no-link">#Shader</a>
+      
+        <a href="/tags/URP/" class="print-no-link">#URP</a>
+      
+        <a href="/tags/RenderGraph/" class="print-no-link">#RenderGraph</a>
+      
+        <a href="/tags/MRT/" class="print-no-link">#MRT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Unity URP MRT Demo</div>
+      <div>https://nicoier.github.io/2026/07/31/Unity-URP-MRT-Demo/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/21/zstd%E9%85%8D%E5%90%88YooAsset%E5%81%9A%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/" title="zstd配合YooAsset做增量更新的碎碎念">
+                        <span class="hidden-mobile">zstd配合YooAsset做增量更新的碎碎念</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'NicoIer/nicoier.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
