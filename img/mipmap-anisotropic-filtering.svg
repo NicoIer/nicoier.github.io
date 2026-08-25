@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">各向异性过滤怎样覆盖细长 Footprint</title>
+  <desc id="desc">各向同性过滤用方形尺度覆盖细长 footprint，导致短轴过度模糊；各向异性过滤根据短轴选择 Mipmap，并沿长轴方向放置多个采样。</desc>
+  <defs>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><rect width="28" height="28" fill="#fff"/><path d="M28 0H0V28" fill="none" stroke="#dbeafe"/></pattern>
+    <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#2563eb"/></marker>
+    <marker id="orangeArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#f59e0b"/></marker>
+    <style>.t{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:36px;font-weight:700;fill:#0f172a}.sub{font-size:18px;fill:#64748b}.card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.label{font-size:22px;font-weight:650;fill:#0f172a}.note{font-size:16px;fill:#64748b}.mono{font:600 17px "SFMono-Regular",Consolas,monospace;fill:#334155}.tap{fill:#2563eb;stroke:#fff;stroke-width:4}.major{stroke:#2563eb;stroke-width:4;marker-end:url(#blueArrow)}.minor{stroke:#f59e0b;stroke-width:4;marker-end:url(#orangeArrow)}</style>
+  </defs>
+  <rect width="1400" height="780" fill="#f8fafc"/>
+  <g class="t">
+    <text x="64" y="62" class="h">斜视表面需要“短轴选尺度，长轴补采样”</text>
+    <text x="64" y="96" class="sub">一个方形 mip 尺度无法同时满足细长 Footprint 的两个方向</text>
+
+    <rect x="64" y="150" width="590" height="500" rx="18" class="card"/>
+    <text x="94" y="194" class="label">各向同性：用一个方形包住长轴</text>
+    <text x="94" y="224" class="note">长轴不再欠采样，但短轴被同样强度地低通</text>
+    <rect x="118" y="270" width="482" height="270" rx="10" fill="url(#grid)" stroke="#94a3b8"/>
+    <rect x="169" y="240" width="380" height="380" fill="#fecaca" fill-opacity=".28" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 8"/>
+    <ellipse cx="359" cy="405" rx="190" ry="48" transform="rotate(-12 359 405)" fill="#fde68a" fill-opacity=".55" stroke="#f59e0b" stroke-width="4"/>
+    <text x="359" y="582" text-anchor="middle" font-size="18" font-weight="650" fill="#991b1b">短轴被过度模糊</text>
+
+    <rect x="746" y="150" width="590" height="500" rx="18" class="card"/>
+    <text x="776" y="194" class="label">各向异性：沿长轴放置多个样本</text>
+    <text x="776" y="224" class="note">每个样本使用与短轴宽度相符的 Mipmap Level</text>
+    <rect x="800" y="270" width="482" height="270" rx="10" fill="url(#grid)" stroke="#94a3b8"/>
+    <g transform="rotate(-12 1041 405)">
+      <ellipse cx="1041" cy="405" rx="190" ry="48" fill="#bfdbfe" fill-opacity=".5" stroke="#2563eb" stroke-width="4"/>
+      <line x1="851" y1="405" x2="1226" y2="405" class="major"/><line x1="1041" y1="405" x2="1041" y2="357" class="minor"/>
+      <g class="tap"><circle cx="886" cy="405" r="11"/><circle cx="938" cy="405" r="11"/><circle cx="990" cy="405" r="11"/><circle cx="1042" cy="405" r="11"/><circle cx="1094" cy="405" r="11"/><circle cx="1146" cy="405" r="11"/><circle cx="1198" cy="405" r="11"/></g>
+    </g>
+    <text x="1138" y="326" class="mono">σmin</text><text x="1190" y="458" class="mono">σmax</text>
+    <text x="1041" y="582" text-anchor="middle" font-size="18" font-weight="650" fill="#166534">保留短轴细节，同时覆盖长轴</text>
+
+    <rect x="250" y="690" width="900" height="58" rx="16" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="700" y="727" text-anchor="middle" class="mono">A = σmax / σmin　→　采样数量受 2× / 4× / 8× / 16× 上限约束</text>
+  </g>
+</svg>

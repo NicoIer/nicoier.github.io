@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">摩尔纹是怎样产生的</title>
+  <desc id="description">从屏幕像素采样点、插值后的 UV、高频纹理采样到假低频摩尔纹的简洁示意图。</desc>
+
+  <defs>
+    <pattern id="pixel-grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <rect width="56" height="56" fill="#ffffff"/>
+      <path d="M56 0H0V56" fill="none" stroke="#cbd5e1" stroke-width="1"/>
+      <circle cx="28" cy="28" r="4.5" fill="#ef4444"/>
+    </pattern>
+
+    <pattern id="uv-grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M56 0H0V56" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+    </pattern>
+
+    <pattern id="checker" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="#ffffff"/>
+      <rect width="10" height="10" fill="#0f172a"/>
+      <rect x="10" y="10" width="10" height="10" fill="#0f172a"/>
+    </pattern>
+
+    <pattern id="output-grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M56 0H0V56" fill="none" stroke="#94a3b8" stroke-opacity="0.55" stroke-width="1"/>
+    </pattern>
+
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#2563eb"/>
+    </marker>
+
+    <clipPath id="output-clip">
+      <rect x="1240" y="270" width="280" height="280" rx="12"/>
+    </clipPath>
+
+    <style>
+      .text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+      .stage-number { font-size: 16px; font-weight: 700; letter-spacing: 0.08em; fill: #2563eb; }
+      .stage-title { font-size: 24px; font-weight: 650; fill: #0f172a; }
+      .stage-note { font-size: 16px; font-weight: 450; fill: #64748b; }
+      .frame { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .sample { fill: #ef4444; stroke: #ffffff; stroke-width: 3; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#f8fafc"/>
+
+  <g class="text">
+    <text x="80" y="88" font-size="42" font-weight="720" fill="#0f172a">摩尔纹是怎样产生的？</text>
+    <text x="80" y="126" font-size="19" fill="#64748b">从屏幕像素、UV 到纹理采样</text>
+    <path d="M80 154H1520" stroke="#e2e8f0" stroke-width="1.5"/>
+
+    <!-- Stage 1: screen pixels -->
+    <g>
+      <text x="80" y="210" class="stage-number">01</text>
+      <text x="112" y="210" class="stage-title">屏幕采样点</text>
+      <text x="80" y="238" class="stage-note">每个像素在离散位置被采样</text>
+
+      <rect x="80" y="270" width="280" height="280" rx="12" class="frame"/>
+      <rect x="80" y="270" width="280" height="280" rx="12" fill="url(#pixel-grid)"/>
+      <rect x="80" y="270" width="280" height="280" rx="12" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+    </g>
+
+    <!-- Stage 2: UV points -->
+    <g>
+      <text x="460" y="210" class="stage-number">02</text>
+      <text x="492" y="210" class="stage-title">插值得到 UV</text>
+      <text x="460" y="238" class="stage-note">一个片元，对应一个 UV 点</text>
+
+      <rect x="460" y="270" width="280" height="280" rx="12" class="frame"/>
+      <rect x="460" y="270" width="280" height="280" rx="12" fill="url(#uv-grid)"/>
+      <path d="M480 530H720M480 530V290" fill="none" stroke="#475569" stroke-width="2"/>
+      <text x="726" y="536" font-size="17" font-weight="650" fill="#475569">u</text>
+      <text x="471" y="286" font-size="17" font-weight="650" fill="#475569">v</text>
+      <text x="469" y="552" font-size="14" fill="#94a3b8">0</text>
+      <text x="714" y="552" font-size="14" fill="#94a3b8">1</text>
+      <text x="462" y="300" font-size="14" fill="#94a3b8">1</text>
+
+      <circle cx="512" cy="322" r="7" class="sample"/>
+      <circle cx="570" cy="380" r="7" class="sample"/>
+      <circle cx="624" cy="430" r="7" class="sample"/>
+      <circle cx="690" cy="494" r="7" class="sample"/>
+    </g>
+
+    <!-- Selected pixel-to-UV mappings -->
+    <g fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-blue)">
+      <path d="M332 298C396 298 428 309 503 321"/>
+      <path d="M332 410C398 410 432 392 561 381"/>
+      <path d="M332 522C401 522 445 487 681 493"/>
+    </g>
+
+    <!-- Stage 3: high-frequency texture -->
+    <g>
+      <text x="840" y="210" class="stage-number">03</text>
+      <text x="872" y="210" class="stage-title">UV 落到纹理</text>
+      <text x="840" y="238" class="stage-note">相邻 UV 跨过大量 texel</text>
+
+      <rect x="840" y="270" width="280" height="280" rx="12" fill="url(#checker)"/>
+      <rect x="840" y="270" width="280" height="280" rx="12" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+
+      <path d="M866 298L930 354L1012 430L1092 518" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="7 9"/>
+      <circle cx="866" cy="298" r="8" class="sample"/>
+      <circle cx="930" cy="354" r="8" class="sample"/>
+      <circle cx="1012" cy="430" r="8" class="sample"/>
+      <circle cx="1092" cy="518" r="8" class="sample"/>
+    </g>
+
+    <!-- Stage 4: false low-frequency result -->
+    <g>
+      <text x="1240" y="210" class="stage-number">04</text>
+      <text x="1272" y="210" class="stage-title">出现摩尔纹</text>
+      <text x="1240" y="238" class="stage-note">原纹理中不存在的低频图案</text>
+
+      <g clip-path="url(#output-clip)">
+        <rect x="1240" y="270" width="40" height="280" fill="#0f172a"/>
+        <rect x="1280" y="270" width="40" height="280" fill="#334155"/>
+        <rect x="1320" y="270" width="40" height="280" fill="#64748b"/>
+        <rect x="1360" y="270" width="40" height="280" fill="#cbd5e1"/>
+        <rect x="1400" y="270" width="40" height="280" fill="#f8fafc"/>
+        <rect x="1440" y="270" width="40" height="280" fill="#94a3b8"/>
+        <rect x="1480" y="270" width="40" height="280" fill="#334155"/>
+        <rect x="1240" y="270" width="280" height="280" fill="url(#output-grid)"/>
+      </g>
+      <rect x="1240" y="270" width="280" height="280" rx="12" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+    </g>
+
+    <!-- Main causal arrows -->
+    <path d="M760 410H814" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+    <path d="M1140 410H1214" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+
+    <!-- Summary -->
+    <g>
+      <rect x="220" y="665" width="1160" height="108" rx="20" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="800" y="715" text-anchor="middle" font-size="28" font-weight="700" fill="#0f172a">
+        <tspan fill="#ef4444">采样频率</tspan>
+        <tspan dx="14" fill="#94a3b8">&lt;</tspan>
+        <tspan dx="14" fill="#2563eb">纹理变化频率</tspan>
+        <tspan dx="22" fill="#94a3b8">→</tspan>
+        <tspan dx="22">摩尔纹</tspan>
+      </text>
+      <text x="800" y="750" text-anchor="middle" font-size="17" fill="#64748b">离散 UV 采样把高频纹理误判成了低频图案</text>
+    </g>
+  </g>
+</svg>

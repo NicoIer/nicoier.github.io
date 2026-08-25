@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">不同纹理需要不同的 Mipmap 生成方式</title>
+  <desc id="desc">颜色纹理在线性空间过滤，法线纹理按向量处理，Alpha Clip 纹理保持覆盖率，Texture Atlas 需要边缘扩展。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#64748b"/></marker>
+    <style>.t{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:36px;font-weight:700;fill:#0f172a}.sub{font-size:18px;fill:#64748b}.card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.label{font-size:20px;font-weight:650;fill:#0f172a}.note{font-size:15px;fill:#64748b}.mono{font:600 15px "SFMono-Regular",Consolas,monospace;fill:#334155}.arrow{fill:none;stroke:#64748b;stroke-width:3;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1400" height="780" fill="#f8fafc"/>
+  <g class="t">
+    <text x="64" y="62" class="h">“平均”之前，先确认纹理里存的是什么</text>
+    <text x="64" y="96" class="sub">相同的 2×2 降采样，对颜色、方向、覆盖率和图集边界代表着不同含义</text>
+
+    <g transform="translate(64 150)">
+      <rect width="1272" height="112" rx="18" class="card"/>
+      <rect x="22" y="20" width="160" height="72" rx="12" fill="#fde68a"/><circle cx="66" cy="56" r="24" fill="#f59e0b"/><circle cx="104" cy="56" r="24" fill="#60a5fa" fill-opacity=".8"/>
+      <text x="205" y="48" class="label">颜色纹理</text><text x="205" y="76" class="note">sRGB 编码值不是线性光强</text>
+      <path d="M430 56H546" class="arrow"/><text x="456" y="40" class="mono">decode</text>
+      <rect x="574" y="20" width="238" height="72" rx="12" fill="#eff6ff"/><text x="693" y="49" text-anchor="middle" class="label">线性空间过滤</text><text x="693" y="75" text-anchor="middle" class="note">再编码回 sRGB</text>
+      <path d="M838 56H954" class="arrow"/>
+      <text x="982" y="50" class="label">亮度正确的低 Level</text><text x="982" y="76" class="note">避免 Gamma 空间平均导致偏暗</text>
+    </g>
+
+    <g transform="translate(64 280)">
+      <rect width="1272" height="112" rx="18" class="card"/>
+      <rect x="22" y="20" width="160" height="72" rx="12" fill="#dbeafe"/><g stroke="#2563eb" stroke-width="5"><path d="M58 78L82 36"/><path d="M102 78L128 30"/><path d="M142 78L150 46"/></g>
+      <text x="205" y="48" class="label">法线纹理</text><text x="205" y="76" class="note">RGB 实际表示方向向量</text>
+      <path d="M430 56H546" class="arrow"/><text x="450" y="40" class="mono">unpack</text>
+      <rect x="574" y="20" width="238" height="72" rx="12" fill="#f5f3ff"/><text x="693" y="49" text-anchor="middle" class="label">向量过滤 + 归一化</text><text x="693" y="75" text-anchor="middle" class="note">必要时调整粗糙度统计</text>
+      <path d="M838 56H954" class="arrow"/>
+      <text x="982" y="50" class="label">方向仍然有效</text><text x="982" y="76" class="note">减少远处高光闪烁</text>
+    </g>
+
+    <g transform="translate(64 410)">
+      <rect width="1272" height="112" rx="18" class="card"/>
+      <rect x="22" y="20" width="160" height="72" rx="12" fill="#dcfce7"/><path d="M40 84L62 32L88 68L112 38L164 84Z" fill="#16a34a"/>
+      <text x="205" y="48" class="label">Alpha Clip</text><text x="205" y="76" class="note">Cutoff 决定可见覆盖率</text>
+      <path d="M430 56H546" class="arrow"/><text x="452" y="40" class="mono">filter</text>
+      <rect x="574" y="20" width="238" height="72" rx="12" fill="#f0fdf4"/><text x="693" y="49" text-anchor="middle" class="label">保持 Alpha Coverage</text><text x="693" y="75" text-anchor="middle" class="note">按 Level 调整 Alpha 分布</text>
+      <path d="M838 56H954" class="arrow"/>
+      <text x="982" y="50" class="label">轮廓不会越缩越细</text><text x="982" y="76" class="note">树叶、铁丝网保持面积</text>
+    </g>
+
+    <g transform="translate(64 540)">
+      <rect width="1272" height="112" rx="18" class="card"/>
+      <g transform="translate(22 20)"><rect width="160" height="72" rx="12" fill="#fff7ed"/><rect x="16" y="12" width="55" height="48" fill="#ef4444"/><rect x="89" y="12" width="55" height="48" fill="#3b82f6"/></g>
+      <text x="205" y="48" class="label">Texture Atlas</text><text x="205" y="76" class="note">低 Level 的过滤核跨得更远</text>
+      <path d="M430 56H546" class="arrow"/><text x="456" y="40" class="mono">pad</text>
+      <rect x="574" y="20" width="238" height="72" rx="12" fill="#fff7ed"/><text x="693" y="49" text-anchor="middle" class="label">扩边与安全间距</text><text x="693" y="75" text-anchor="middle" class="note">为低 Level 预留 Padding</text>
+      <path d="M838 56H954" class="arrow"/>
+      <text x="982" y="50" class="label">避免 Mip Bleeding</text><text x="982" y="76" class="note">不混入相邻子图颜色</text>
+    </g>
+
+    <text x="700" y="724" text-anchor="middle" font-size="21" font-weight="650" fill="#1e40af">过滤器必须理解数据语义，不能只看它是不是 RGBA</text>
+  </g>
+</svg>

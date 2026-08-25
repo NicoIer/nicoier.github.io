@@ -10,7 +10,25 @@
   <link href="https://nicoier.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, NicoIer</rights>
   <title>NicoIer</title>
-  <updated>2026-07-31T07:13:23.479Z</updated>
+  <updated>2026-08-24T16:00:00.000Z</updated>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="图形学" scheme="https://nicoier.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="图形学" scheme="https://nicoier.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    <category term="Shader" scheme="https://nicoier.github.io/tags/Shader/"/>
+    <category term="URP" scheme="https://nicoier.github.io/tags/URP/"/>
+    <category term="Mipmap" scheme="https://nicoier.github.io/tags/Mipmap/"/>
+    <category term="纹理过滤" scheme="https://nicoier.github.io/tags/%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4/"/>
+    <id>https://nicoier.github.io/2026/08/25/mipmap%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
+    <link href="https://nicoier.github.io/2026/08/25/mipmap%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <published>2026-08-25T07:56:49.000Z</published>
+    <summary>从 pixel footprint、欠采样和面积积分出发，推导 Mipmap 的生成、LOD 计算、三线性过滤、各向异性过滤，并用 Unity URP Shader 可视化 LOD。</summary>
+    <title>Mipmap 的前世今生</title>
+    <updated>2026-08-24T16:00:00.000Z</updated>
+  </entry>
   <entry>
     <author>
       <name>NicoIer</name>
@@ -54,8 +72,8 @@
       <name>NicoIer</name>
     </author>
     <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
     <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
     <category term="Source Generator" scheme="https://nicoier.github.io/tags/Source-Generator/"/>
     <category term="Code Generator" scheme="https://nicoier.github.io/tags/Code-Generator/"/>
     <category term="Luban" scheme="https://nicoier.github.io/tags/Luban/"/>
@@ -87,8 +105,8 @@
       <name>NicoIer</name>
     </author>
     <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
-    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
     <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
     <category term="UGUI" scheme="https://nicoier.github.io/tags/UGUI/"/>
     <category term="UIFramework" scheme="https://nicoier.github.io/tags/UIFramework/"/>
     <id>https://nicoier.github.io/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/</id>
@@ -103,8 +121,8 @@
       <name>NicoIer</name>
     </author>
     <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
     <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
     <category term="Capability" scheme="https://nicoier.github.io/tags/Capability/"/>
     <category term="架构" scheme="https://nicoier.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
     <id>https://nicoier.github.io/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/</id>
@@ -119,8 +137,8 @@
       <name>NicoIer</name>
     </author>
     <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
     <category term="CSharp" scheme="https://nicoier.github.io/tags/CSharp/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
     <category term="BattlePlayable" scheme="https://nicoier.github.io/tags/BattlePlayable/"/>
     <category term="战斗系统" scheme="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/"/>
     <id>https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/</id>
@@ -172,8 +190,8 @@
       <name>NicoIer</name>
     </author>
     <category term="编程" scheme="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
     <category term="战斗系统" scheme="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
     <category term="伤害计算" scheme="https://nicoier.github.io/tags/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97/"/>
     <id>https://nicoier.github.io/2026/07/02/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97v0.1/</id>
     <link href="https://nicoier.github.io/2026/07/02/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97v0.1/"/>
@@ -364,25 +382,5 @@
     </summary>
     <title>如何让Shader支持DOTS</title>
     <updated>2026-07-08T03:26:54.712Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
-    <id>https://nicoier.github.io/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/</id>
-    <link href="https://nicoier.github.io/2025/11/12/%E8%82%A1%E7%A5%A8%E5%B8%B8%E8%AF%86/"/>
-    <published>2025-11-12T05:02:50.000Z</published>
-    <summary>
-      <![CDATA[<ul>
-<li><p><strong>股票的真正收益来自于分红</strong></p>
-</li>
-<li><p><strong>低买高卖是在挣其他投资者的钱</strong></p>
-</li>
-</ul>
-<h1 id="市盈率（P-E-Ratio）"><a href="#市盈率（P-E-Ratio）" class="headerlink" titl]]>
-    </summary>
-    <title>股票常识</title>
-    <updated>2026-06-29T05:44:50.252Z</updated>
   </entry>
 </feed>

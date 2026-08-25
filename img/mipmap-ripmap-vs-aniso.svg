@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">Ripmap 与硬件各向异性过滤的区别</title>
+  <desc id="desc">Ripmap 预先存储 U 和 V 各种缩放组合，适合轴对齐矩形；现代硬件各向异性过滤通常在普通 Mipmap 上沿 footprint 长轴多次采样。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#2563eb"/></marker>
+    <style>.t{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:36px;font-weight:700;fill:#0f172a}.sub{font-size:18px;fill:#64748b}.card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.label{font-size:22px;font-weight:650;fill:#0f172a}.note{font-size:16px;fill:#64748b}.mono{font:600 17px "SFMono-Regular",Consolas,monospace;fill:#334155}.cell{stroke:#fff;stroke-width:2}.tap{fill:#2563eb;stroke:#fff;stroke-width:3}</style>
+  </defs>
+  <rect width="1400" height="780" fill="#f8fafc"/>
+  <g class="t">
+    <text x="64" y="62" class="h">预存矩形尺度，还是运行时沿方向采样？</text>
+    <text x="64" y="96" class="sub">两种方案都试图处理细长 Footprint，但数据结构和处理旋转的方式不同</text>
+
+    <rect x="64" y="150" width="590" height="510" rx="18" class="card"/>
+    <text x="94" y="194" class="label">Ripmap：预存 U × V 的尺度组合</text>
+    <text x="94" y="224" class="note">横向和纵向独立降采样，查询轴对齐矩形很直接</text>
+    <g transform="translate(142 278)">
+      <text x="-22" y="-16" class="mono">V</text><text x="354" y="-16" class="mono">U →</text>
+      <rect x="0" y="0" width="110" height="110" fill="#1d4ed8" class="cell"/>
+      <rect x="112" y="0" width="78" height="110" fill="#3b82f6" class="cell"/>
+      <rect x="192" y="0" width="54" height="110" fill="#60a5fa" class="cell"/>
+      <rect x="248" y="0" width="38" height="110" fill="#93c5fd" class="cell"/>
+      <rect x="288" y="0" width="28" height="110" fill="#bfdbfe" class="cell"/>
+      <rect x="0" y="112" width="110" height="78" fill="#3b82f6" class="cell"/>
+      <rect x="112" y="112" width="78" height="78" fill="#60a5fa" class="cell"/>
+      <rect x="192" y="112" width="54" height="78" fill="#93c5fd" class="cell"/>
+      <rect x="248" y="112" width="38" height="78" fill="#bfdbfe" class="cell"/>
+      <rect x="288" y="112" width="28" height="78" fill="#dbeafe" class="cell"/>
+      <rect x="0" y="192" width="110" height="54" fill="#60a5fa" class="cell"/>
+      <rect x="112" y="192" width="78" height="54" fill="#93c5fd" class="cell"/>
+      <rect x="192" y="192" width="54" height="54" fill="#bfdbfe" class="cell"/>
+      <rect x="248" y="192" width="38" height="54" fill="#dbeafe" class="cell"/>
+      <rect x="288" y="192" width="28" height="54" fill="#eff6ff" class="cell"/>
+      <rect x="0" y="248" width="110" height="38" fill="#93c5fd" class="cell"/>
+      <rect x="112" y="248" width="78" height="38" fill="#bfdbfe" class="cell"/>
+      <rect x="192" y="248" width="54" height="38" fill="#dbeafe" class="cell"/>
+      <rect x="248" y="248" width="38" height="38" fill="#eff6ff" class="cell"/>
+      <rect x="288" y="248" width="28" height="38" fill="#f8fafc" class="cell"/>
+    </g>
+    <text x="538" y="444" class="mono">≈ 4× Level 0</text>
+    <text x="359" y="615" text-anchor="middle" class="note">能表达横长或竖长的矩形，但旋转后仍不精确</text>
+
+    <rect x="746" y="150" width="590" height="510" rx="18" class="card"/>
+    <text x="776" y="194" class="label">硬件 AF：普通 Mipmap + 定向多采样</text>
+    <text x="776" y="224" class="note">不额外生成 Ripmap，采样方向跟着 Footprint 旋转</text>
+    <g transform="translate(816 286)">
+      <rect x="0" y="0" width="230" height="230" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+      <path d="M0 115H230M115 0V230" stroke="#93c5fd" stroke-width="2"/>
+      <rect x="265" y="58" width="150" height="150" rx="10" fill="#93c5fd" stroke="#2563eb" stroke-width="2"/>
+      <path d="M265 133H415M340 58V208" stroke="#bfdbfe" stroke-width="2"/>
+      <path d="M434 132H476" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow)"/>
+      <g transform="translate(310 132) rotate(-22)">
+        <ellipse cx="100" cy="145" rx="100" ry="32" fill="#fde68a" fill-opacity=".55" stroke="#f59e0b" stroke-width="3"/>
+        <g class="tap"><circle cx="20" cy="145" r="9"/><circle cx="60" cy="145" r="9"/><circle cx="100" cy="145" r="9"/><circle cx="140" cy="145" r="9"/><circle cx="180" cy="145" r="9"/></g>
+      </g>
+    </g>
+    <text x="1041" y="615" text-anchor="middle" class="note">普通 Mipmap 约 4/3 存储；方向在运行时决定</text>
+
+    <rect x="286" y="696" width="828" height="54" rx="15" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="700" y="731" text-anchor="middle" font-size="21" font-weight="650" fill="#166534">处理斜向地面时，关键是定向采样，不是再生成一套“各向异性 Mipmap”</text>
+  </g>
+</svg>
