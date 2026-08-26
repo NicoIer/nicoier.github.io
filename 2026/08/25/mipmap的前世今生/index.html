@@ -356,7 +356,7 @@
 <p>再乘纹理宽度：</p>
 <p>$$4096\times\frac{1}{8}&#x3D;512$$</p>
 <p>片元着色器仍然只得到一个中心 UV，但这个像素在水平方向覆盖了约 512 个 texel。如果纵向也是相同比例，footprint 就会覆盖约 $512\times512$ 个 texel。</p>
-<p>这里我真正关心的不是物体离相机多远，而是 <strong>UV 在相邻屏幕像素之间变化得有多快</strong>。距离、FOV、分辨率、模型缩放、表面朝向和 UV Tiling 最终都会反映到这个变化率里。</p>
+<p>这里真正关心的不是物体离相机多远，而是 <strong>UV 在相邻屏幕像素之间变化得有多快</strong>。距离、FOV、分辨率、模型缩放、表面朝向和 UV Tiling 最终都会反映到这个变化率里。</p>
 <h1 id="双线性插值解决不了区域采样"><a href="#双线性插值解决不了区域采样" class="headerlink" title="双线性插值解决不了区域采样"></a>双线性插值解决不了区域采样</h1><p>给定一个 UV，双线性插值会读取附近四个 texel：</p>
 <p>$$<br>C(u,v)&#x3D;(1-s)(1-t)C_{00}+s(1-t)C_{10}+(1-s)tC_{01}+stC_{11}<br>$$</p>
 <p>它解决的是离散纹理的重建问题：UV 落在 texel 之间时，怎样得到连续变化的颜色。纹理被放大时，这可以消除 Nearest Sampling 带来的方块和跳变。</p>
@@ -379,7 +379,7 @@
 <p><img src="/../img/mipmap-point-vs-area.svg" srcset="/img/loading.gif" lazyload alt="中心点采样、Footprint 区域积分与超采样的区别"></p>
 <h1 id="Mipmap：把平均提前算好"><a href="#Mipmap：把平均提前算好" class="headerlink" title="Mipmap：把平均提前算好"></a>Mipmap：把平均提前算好</h1><p>Mipmap 把最昂贵的部分挪到了资源生成阶段。Level 0 保存原图，后面的每一级先做低通滤波，再把宽高各缩小一半。最简单的 Box Filter 写成：</p>
 <p>$$<br>C_{l+1}(x,y)&#x3D;\frac{1}{4}<br>\sum_{i&#x3D;0}^{1}\sum_{j&#x3D;0}^{1}C_l(2x+i,2y+j)<br>$$</p>
-<p>对于 Box Filter，Level $l$ 中的一个 texel 对应 Level 0 中约 $2^l\times2^l$ 范围的平均结果。实际的离线生成器也可以使用覆盖范围更大、频率响应更好的滤波核，因此更准确的说法是“预先算好的低通结果”；在这篇文章的推导里，我仍然把它简称为平均结果。</p>
+<p>对于 Box Filter，Level $l$ 中的一个 texel 对应 Level 0 中约 $2^l\times2^l$ 范围的平均结果。实际的离线生成器也可以使用覆盖范围更大、频率响应更好的滤波核，因此更准确的说法是“预先算好的低通结果”；在这篇文章的推导里，仍然把它简称为平均结果。</p>
 <p>一张 $4096\times4096$ 纹理的 Mipmap Chain 是这样的：</p>
 <table>
 <thead>
@@ -555,7 +555,7 @@
 <p><img src="/../img/mipmap-storage-cost.svg" srcset="/img/loading.gif" lazyload alt="完整 Mipmap Chain 增加约三分之一存储，但远处访问更小的 Level 可以减轻缓存和带宽压力"></p>
 <p>所以它通常增加约 33% 的纹理存储。换来的不只是更少的摩尔纹：远处物体读取较小的 mip level，工作集更小，纹理缓存命中率通常更高，也避免把不会显示出来的高频数据持续搬进缓存。</p>
 <p>Trilinear 和各向异性过滤会增加采样工作，但这不等于打开 Mipmap 一定更慢。实际性能取决于纹理带宽、缓存、采样器吞吐和场景中的缩小比例。纹理流送还可以利用这条层级结构，只让当前需要的 Level 驻留在显存中。</p>
-<h1 id="我对-TAA-的一个延伸思考"><a href="#我对-TAA-的一个延伸思考" class="headerlink" title="我对 TAA 的一个延伸思考"></a>我对 TAA 的一个延伸思考</h1><p>写到这里，我想到另一个问题：既然摩尔纹来自采样不足，而 TAA 会在不同帧改变亚像素采样位置，它能不能缓解纹理摩尔纹？</p>
+<h1 id="对-TAA-的延伸思考"><a href="#对-TAA-的延伸思考" class="headerlink" title="对 TAA 的延伸思考"></a>对 TAA 的延伸思考</h1><p>写到这里很容易想到另一个问题：既然摩尔纹来自采样不足，而 TAA 会在不同帧改变亚像素采样位置，它能不能缓解纹理摩尔纹？</p>
 <p>理论上可以。投影矩阵加入 jitter 后，同一个屏幕像素在不同帧落到略有差异的位置，也会得到不同的 UV。历史累积可以写成：</p>
 <p>$$<br>C_{TAA}&#x3D;\sum_{k&#x3D;1}^{N}w_kC(u_k,v_k)<br>$$</p>
 <p><img src="/../img/mipmap-taa-pipeline.svg" srcset="/img/loading.gif" lazyload alt="Mipmap 在单帧采样前控制空间频率，TAA 在采样后累积多帧结果"></p>
