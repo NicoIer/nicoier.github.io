@@ -5,7 +5,7 @@
     <link>https://nicoier.github.io/</link>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, NicoIer</copyright>
-    <lastBuildDate>Mon, 24 Aug 2026 16:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 26 Aug 2026 08:30:49 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://nicoier.github.io/img/nicoier.png</url>
@@ -13,6 +13,19 @@
       <link>https://nicoier.github.io/</link>
     </image>
     <atom:link href="https://nicoier.github.io/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unity Entities中的数据存储和遍历</title>
+      <link>https://nicoier.github.io/2026/08/26/Entities%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E9%81%8D%E5%8E%86/</link>
+      <description>记录 Unity Entities 中 Entity、Archetype、Chunk、Query 和 Job 的数据存储与遍历方式。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/DOTS/">DOTS</category>
+      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
+      <category domain="https://nicoier.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</category>
+      <category domain="https://nicoier.github.io/tags/Entities/">Entities</category>
+      <pubDate>Wed, 26 Aug 2026 07:23:41 GMT</pubDate>
+    </item>
     <item>
       <title>Mipmap 的前世今生</title>
       <link>https://nicoier.github.io/2026/08/25/mipmap%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</link>
@@ -285,25 +298,6 @@
       <category domain="https://nicoier.github.io/tags/Animancer/">Animancer</category>
       <category domain="https://nicoier.github.io/tags/Networking/">Networking</category>
       <pubDate>Tue, 02 Dec 2025 05:27:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>如何让Shader支持DOTS</title>
-      <link>https://nicoier.github.io/2025/11/19/%E5%A6%82%E4%BD%95%E8%AE%A9Shader%E6%94%AF%E6%8C%81DOTS/</link>
-      <description>
-        <![CDATA[<p>DOTS Shader 需要同时支持SRP Batch 和 GPU Instacing<br>参考Unity官方文档修改即可</p>
-<ul>
-<li><a href="https://zhuanlan.zhihu.com/p/82102092">https://zhuanlan.zhihu.com/p/82102092</a></li>
-<li><a]]>
-      </description>
-      <author>NicoIer</author>
-      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
-      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
-      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
-      <category domain="https://nicoier.github.io/tags/DOTS/">DOTS</category>
-      <category domain="https://nicoier.github.io/tags/Shader/">Shader</category>
-      <category domain="https://nicoier.github.io/tags/SRP-Batch/">SRP Batch</category>
-      <category domain="https://nicoier.github.io/tags/GPU-Instancing/">GPU Instancing</category>
-      <pubDate>Wed, 19 Nov 2025 03:04:11 GMT</pubDate>
     </item>
   </channel>
 </rss>
