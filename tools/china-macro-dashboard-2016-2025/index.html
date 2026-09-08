@@ -1,0 +1,984 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="查看2016—2025年中国增长、就业、物价、信用、财政、房地产和外部部门的18项年度指标。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中国宏观经济指标十年趋势（2016—2025）">
+<meta property="og:url" content="https://nicoier.github.io/tools/china-macro-dashboard-2016-2025/index.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="查看2016—2025年中国增长、就业、物价、信用、财政、房地产和外部部门的18项年度指标。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-28T09:26:36.240Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="宏观经济">
+<meta property="article:tag" content="数据可视化">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>中国宏观经济指标十年趋势（2016—2025） - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>工具</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/tools/china-macro-dashboard-2016-2025/" target="_self">
+                    
+                    <span>中国宏观经济</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="中国宏观经济指标十年趋势（2016—2025）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-08-28 00:00" pubdate>
+          2026年8月28日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">中国宏观经济指标十年趋势（2016—2025）</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月28日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                
+<style>
+    .macro-dashboard {
+      --bg: var(--body-bg-color);
+      --surface: var(--board-bg-color);
+      --surface-2: var(--body-bg-color);
+      --text: var(--post-text-color);
+      --muted: var(--sec-text-color);
+      --line: var(--line-color);
+      --grid: var(--line-color);
+      --accent: var(--post-link-color);
+      --shadow: 0 6px 20px rgba(17, 24, 39, .06);
+      width: 100%;
+      margin: 0;
+      color: var(--text);
+      font-family: inherit;
+      line-height: 1.55;
+    }
+    .macro-dashboard, .macro-dashboard * { box-sizing: border-box; }
+    .macro-dashboard a { color: var(--accent); }
+    .macro-dashboard .dashboard-header { display: grid; gap: 18px; margin-bottom: 20px; }
+    .macro-dashboard .subtitle { color: var(--muted); font-size: 16px; margin: 0; }
+    .macro-dashboard .meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .macro-dashboard .meta span { border: 1px solid var(--line); background: var(--surface); padding: 6px 9px; border-radius: 7px; color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .macro-dashboard .toolbar { position: sticky; top: 4rem; z-index: 20; margin: 0 0 20px; padding: 10px 0; background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(12px); }
+    .macro-dashboard .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .macro-dashboard .filters button { border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 7px 10px; border-radius: 7px; font: inherit; font-size: 14px; cursor: pointer; }
+    .macro-dashboard .filters button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+    .macro-dashboard .chart-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .macro-dashboard .chart-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 12px; box-shadow: var(--shadow); }
+    .macro-dashboard .chart-card[hidden] { display: none; }
+    .macro-dashboard .chart-head { display: flex; gap: 18px; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .macro-dashboard h2 { font-size: 19px; line-height: 1.3; margin: 0 0 5px; }
+    .macro-dashboard .chart-description { color: var(--muted); margin: 0; font-size: 13px; }
+    .macro-dashboard .unit { flex: none; color: var(--muted); font-size: 12px; border: 1px solid var(--line); border-radius: 7px; padding: 4px 7px; }
+    .macro-dashboard .plot { position: relative; width: 100%; overflow-x: auto; }
+    .macro-dashboard .plot svg { display: block; width: 100%; min-width: 560px; height: auto; overflow: visible; }
+    .macro-dashboard .axis-text { fill: var(--muted); font-size: 11px; }
+    .macro-dashboard .plot-label { fill: var(--text); font-size: 11px; font-weight: 650; }
+    .macro-dashboard .macro-tooltip { position: fixed; z-index: 50; pointer-events: none; background: var(--text); color: var(--surface); border-radius: 8px; padding: 7px 9px; font-size: 12px; box-shadow: var(--shadow); transform: translate(12px, 12px); white-space: nowrap; }
+    .macro-dashboard details { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; color: var(--muted); font-size: 12px; }
+    .macro-dashboard summary { cursor: pointer; width: max-content; }
+    .macro-dashboard .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; color: var(--text); }
+    .macro-dashboard .data-table th, .macro-dashboard .data-table td { padding: 5px 4px; text-align: right; border-bottom: 1px solid var(--grid); }
+    .macro-dashboard .data-table th:first-child, .macro-dashboard .data-table td:first-child { text-align: left; }
+    .macro-dashboard .dashboard-note { margin-top: 24px; padding: 16px 18px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; color: var(--muted); font-size: 14px; }
+    .macro-dashboard .dashboard-note strong { color: var(--text); }
+    .macro-dashboard .links { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+    @media (max-width: 860px) {
+      .macro-dashboard .chart-card { padding: 14px 12px 10px; }
+      .macro-dashboard .chart-head { gap: 10px; }
+    }
+    @media print {
+      .macro-dashboard { --surface: #fff; --text: #111827; --muted: #5f6b7a; --line: #d1d5db; --grid: #e5e7eb; }
+      .macro-dashboard .toolbar, .macro-dashboard details, .macro-dashboard .links { display: none !important; }
+      .macro-dashboard .chart-grid { gap: 10px; }
+      .macro-dashboard .chart-card { break-inside: avoid; box-shadow: none; border-radius: 0; padding: 12px; }
+      .macro-dashboard .chart-card[hidden] { display: block; }
+    }
+</style>
+
+  <main class="macro-dashboard" id="macro-dashboard">
+    <header class="dashboard-header">
+      <p class="subtitle">2016—2025年 · 18项年度指标 · 将增长、就业、物价、信用、财政、房地产和外部部门放在同一观察框架中。</p>
+      <div class="meta" aria-label="数据摘要">
+        <span>10个完整年度</span><span>18项指标</span><span>年度频率</span><span>官方统计公报</span>
+      </div>
+    </header>
+
+    <nav class="toolbar" aria-label="指标分类">
+      <div class="filters" id="filters"></div>
+    </nav>
+
+    <section class="chart-grid" id="chart-grid" aria-live="polite"></section>
+
+    <aside class="dashboard-note">
+      <strong>阅读说明：</strong>同比增速与水平值不可直接比较；2020—2021年受疫情和低基数影响较大。年度统计公报为初步统计口径，历史数据可能在经济普查或年度核算后修订。本页用于趋势观察，不构成预测或投资建议。
+      <div class="links">
+        <a href="/china-macro-dashboard-2016-2025/data/china_macro_2016_2025.csv">下载CSV数据</a>
+        <a href="/china-macro-dashboard-2016-2025/data/data_dictionary.csv">查看数据字典</a>
+        <a href="/china-macro-dashboard-2016-2025/sources.md">查看来源与口径</a>
+      </div>
+    </aside>
+
+    <div class="macro-tooltip" id="macro-tooltip" role="tooltip" hidden></div>
+  </main>
+
+<script>
+  (() => {
+    const rows = [{"year":2016,"gdp_growth":6.7,"industry_growth":6.0,"retail_growth":10.4,"fixed_asset_investment_growth":7.9,"real_estate_investment_growth":6.9,"real_income_growth":6.3,"new_urban_jobs":1314,"survey_unemployment":null,"cpi":2.0,"ppi":-1.4,"m2_growth":11.3,"tsf_increment":17.8,"fiscal_revenue_growth":4.5,"trade_growth":-0.9,"export_growth":-1.9,"import_growth":0.6,"fx_reserves":30105,"cny_usd":6.6423},{"year":2017,"gdp_growth":6.9,"industry_growth":6.4,"retail_growth":10.2,"fixed_asset_investment_growth":7.0,"real_estate_investment_growth":7.0,"real_income_growth":7.3,"new_urban_jobs":1351,"survey_unemployment":null,"cpi":1.6,"ppi":6.3,"m2_growth":8.2,"tsf_increment":19.4,"fiscal_revenue_growth":7.4,"trade_growth":14.2,"export_growth":10.8,"import_growth":18.7,"fx_reserves":31399,"cny_usd":6.7518},{"year":2018,"gdp_growth":6.6,"industry_growth":6.1,"retail_growth":9.0,"fixed_asset_investment_growth":5.9,"real_estate_investment_growth":9.5,"real_income_growth":6.5,"new_urban_jobs":1361,"survey_unemployment":4.9,"cpi":2.1,"ppi":3.5,"m2_growth":8.1,"tsf_increment":19.3,"fiscal_revenue_growth":6.2,"trade_growth":9.7,"export_growth":7.1,"import_growth":12.9,"fx_reserves":30727,"cny_usd":6.6174},{"year":2019,"gdp_growth":6.1,"industry_growth":5.7,"retail_growth":8.0,"fixed_asset_investment_growth":5.1,"real_estate_investment_growth":9.9,"real_income_growth":5.8,"new_urban_jobs":1352,"survey_unemployment":5.2,"cpi":2.9,"ppi":-0.3,"m2_growth":8.7,"tsf_increment":25.6,"fiscal_revenue_growth":3.8,"trade_growth":3.4,"export_growth":5.0,"import_growth":1.6,"fx_reserves":31079,"cny_usd":6.8985},{"year":2020,"gdp_growth":2.3,"industry_growth":2.4,"retail_growth":-3.9,"fixed_asset_investment_growth":2.7,"real_estate_investment_growth":7.0,"real_income_growth":2.1,"new_urban_jobs":1186,"survey_unemployment":5.2,"cpi":2.5,"ppi":-1.8,"m2_growth":10.1,"tsf_increment":34.9,"fiscal_revenue_growth":-3.9,"trade_growth":1.9,"export_growth":4.0,"import_growth":-0.7,"fx_reserves":32165,"cny_usd":6.8974},{"year":2021,"gdp_growth":8.1,"industry_growth":9.6,"retail_growth":12.5,"fixed_asset_investment_growth":4.9,"real_estate_investment_growth":4.4,"real_income_growth":8.1,"new_urban_jobs":1269,"survey_unemployment":5.1,"cpi":0.9,"ppi":8.1,"m2_growth":9.0,"tsf_increment":31.4,"fiscal_revenue_growth":10.7,"trade_growth":21.4,"export_growth":21.2,"import_growth":21.5,"fx_reserves":32502,"cny_usd":6.4515},{"year":2022,"gdp_growth":3.0,"industry_growth":3.4,"retail_growth":-0.2,"fixed_asset_investment_growth":4.9,"real_estate_investment_growth":-10.0,"real_income_growth":2.9,"new_urban_jobs":1206,"survey_unemployment":5.5,"cpi":2.0,"ppi":4.1,"m2_growth":11.8,"tsf_increment":32.0,"fiscal_revenue_growth":0.6,"trade_growth":7.7,"export_growth":10.5,"import_growth":4.3,"fx_reserves":31277,"cny_usd":6.7261},{"year":2023,"gdp_growth":5.2,"industry_growth":4.2,"retail_growth":7.2,"fixed_asset_investment_growth":2.8,"real_estate_investment_growth":-9.6,"real_income_growth":6.1,"new_urban_jobs":1244,"survey_unemployment":5.1,"cpi":0.2,"ppi":-3.0,"m2_growth":9.7,"tsf_increment":35.6,"fiscal_revenue_growth":6.4,"trade_growth":0.2,"export_growth":0.6,"import_growth":-0.3,"fx_reserves":32380,"cny_usd":7.0467},{"year":2024,"gdp_growth":5.0,"industry_growth":5.7,"retail_growth":3.5,"fixed_asset_investment_growth":3.1,"real_estate_investment_growth":-10.6,"real_income_growth":5.1,"new_urban_jobs":1256,"survey_unemployment":5.1,"cpi":0.2,"ppi":-2.2,"m2_growth":7.3,"tsf_increment":32.3,"fiscal_revenue_growth":1.3,"trade_growth":5.0,"export_growth":7.1,"import_growth":2.3,"fx_reserves":32024,"cny_usd":7.1217},{"year":2025,"gdp_growth":5.0,"industry_growth":5.8,"retail_growth":3.7,"fixed_asset_investment_growth":-3.9,"real_estate_investment_growth":-17.2,"real_income_growth":5.0,"new_urban_jobs":1267,"survey_unemployment":5.1,"cpi":0.0,"ppi":-2.6,"m2_growth":8.5,"tsf_increment":35.6,"fiscal_revenue_growth":-1.7,"trade_growth":3.8,"export_growth":6.1,"import_growth":0.5,"fx_reserves":33579,"cny_usd":7.1429}];
+    const metrics = [{"id":"gdp_growth","label":"实际GDP增速","category":"growth","unit":"%","decimals":1,"description":"按不变价格计算的经济总量同比增速。"},{"id":"industry_growth","label":"全部工业增加值增速","category":"growth","unit":"%","decimals":1,"description":"工业生产活动的年度同比变化。"},{"id":"retail_growth","label":"社会消费品零售总额增速","category":"growth","unit":"%","decimals":1,"description":"商品消费和餐饮收入的名义同比变化。"},{"id":"fixed_asset_investment_growth","label":"全社会固定资产投资增速","category":"growth","unit":"%","decimals":1,"description":"投资需求的名义同比变化。"},{"id":"real_estate_investment_growth","label":"房地产开发投资增速","category":"property","unit":"%","decimals":1,"description":"房地产开发投资的名义同比变化。"},{"id":"real_income_growth","label":"居民人均可支配收入实际增速","category":"labor","unit":"%","decimals":1,"description":"居民收入扣除价格因素后的实际增速。"},{"id":"new_urban_jobs","label":"城镇新增就业","category":"labor","unit":"万人","decimals":0,"description":"全年城镇累计新增就业人数。"},{"id":"survey_unemployment","label":"年末城镇调查失业率","category":"labor","unit":"%","decimals":1,"description":"同口径序列从2018年开始；2016—2017年不以登记失业率替代。"},{"id":"cpi","label":"居民消费价格（CPI）涨幅","category":"prices","unit":"%","decimals":1,"description":"全年居民消费价格相对上年的变化。"},{"id":"ppi","label":"工业生产者出厂价格（PPI）涨幅","category":"prices","unit":"%","decimals":1,"description":"全年工业生产者出厂价格相对上年的变化。"},{"id":"m2_growth","label":"年末M2增速","category":"credit","unit":"%","decimals":1,"description":"年末广义货币供应量余额同比增速。"},{"id":"tsf_increment","label":"社会融资规模增量","category":"credit","unit":"万亿元","decimals":1,"description":"全年实体经济从金融体系获得的新增资金总额。"},{"id":"fiscal_revenue_growth","label":"一般公共预算收入增速","category":"fiscal","unit":"%","decimals":1,"description":"全国一般公共预算收入的名义同比变化。"},{"id":"trade_growth","label":"货物进出口总额增速","category":"external","unit":"%","decimals":1,"description":"以人民币计价的货物进出口总额同比变化。"},{"id":"export_growth","label":"货物出口增速","category":"external","unit":"%","decimals":1,"description":"以人民币计价的货物出口同比变化。"},{"id":"import_growth","label":"货物进口增速","category":"external","unit":"%","decimals":1,"description":"以人民币计价的货物进口同比变化。"},{"id":"fx_reserves","label":"年末国家外汇储备","category":"external","unit":"亿美元","decimals":0,"description":"年末官方外汇储备余额。"},{"id":"cny_usd","label":"人民币平均汇率","category":"external","unit":"人民币/美元","decimals":4,"description":"全年1美元兑换人民币的平均汇率；数值上升表示人民币对美元均价走弱。"}];
+    const categories = {"growth":"增长与需求","labor":"就业与收入","prices":"物价","credit":"货币与信用","fiscal":"财政","property":"房地产","external":"外部部门"};
+    const palette = {"growth":"#1677ff","labor":"#0f9f6e","prices":"#d97706","credit":"#7c3aed","fiscal":"#db2777","property":"#dc2626","external":"#0891b2"};
+
+    const root = document.getElementById('macro-dashboard');
+    const filters = root.querySelector('#filters');
+    const grid = root.querySelector('#chart-grid');
+    const tooltip = root.querySelector('#macro-tooltip');
+
+    const NS = 'http://www.w3.org/2000/svg';
+    const svgEl = (name, attrs = {}) => {
+      const el = document.createElementNS(NS, name);
+      Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+      return el;
+    };
+
+    function formatValue(value, metric) {
+      if (value === null || value === undefined) return '—';
+      return Number(value).toLocaleString('zh-CN', {
+        minimumFractionDigits: metric.decimals,
+        maximumFractionDigits: metric.decimals
+      });
+    }
+
+    function domain(values) {
+      const clean = values.filter(value => value !== null).map(Number);
+      let lo = Math.min(...clean);
+      let hi = Math.max(...clean);
+      if (lo < 0 && hi > 0) {
+        const pad = (hi - lo) * .12;
+        return [lo - pad, hi + pad];
+      }
+      if (lo >= 0 && hi <= 25) return [0, hi ? hi * 1.15 : 1];
+      const span = hi - lo;
+      const pad = span ? span * .18 : Math.max(Math.abs(hi) * .08, 1);
+      return [lo - pad, hi + pad];
+    }
+
+    function showTooltip(event, metric, row) {
+      tooltip.textContent = `${row.year}：${formatValue(row[metric.id], metric)} ${metric.unit}`;
+      tooltip.hidden = false;
+      moveTooltip(event);
+    }
+
+    function moveTooltip(event) {
+      const x = Math.min(event.clientX, window.innerWidth - tooltip.offsetWidth - 24);
+      const y = Math.min(event.clientY, window.innerHeight - tooltip.offsetHeight - 24);
+      tooltip.style.left = `${x}px`;
+      tooltip.style.top = `${y}px`;
+    }
+
+    function hideTooltip() { tooltip.hidden = true; }
+
+    function renderPlot(container, metric) {
+      const width = 640;
+      const height = 330;
+      const margin = { top: 34, right: 22, bottom: 42, left: 58 };
+      const plotW = width - margin.left - margin.right;
+      const plotH = height - margin.top - margin.bottom;
+      const values = rows.map(row => row[metric.id]);
+      const [lo, hi] = domain(values);
+      const x = index => margin.left + index * plotW / (rows.length - 1);
+      const y = value => margin.top + (hi - value) * plotH / (hi - lo);
+      const svg = svgEl('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': `${metric.label}，2016年至2025年` });
+
+      for (let index = 0; index < 5; index++) {
+        const value = lo + (hi - lo) * index / 4;
+        const yy = y(value);
+        svg.appendChild(svgEl('line', { x1: margin.left, x2: width - margin.right, y1: yy, y2: yy, stroke: 'var(--grid)' }));
+        const label = svgEl('text', { x: margin.left - 9, y: yy + 4, 'text-anchor': 'end', class: 'axis-text' });
+        label.textContent = value.toLocaleString('zh-CN', { maximumFractionDigits: 1 });
+        svg.appendChild(label);
+      }
+      if (lo < 0 && hi > 0) {
+        const yy = y(0);
+        svg.appendChild(svgEl('line', { x1: margin.left, x2: width - margin.right, y1: yy, y2: yy, stroke: 'var(--muted)', 'stroke-width': 1.3 }));
+      }
+
+      rows.forEach((row, index) => {
+        const label = svgEl('text', { x: x(index), y: height - 14, 'text-anchor': 'middle', class: 'axis-text' });
+        label.textContent = String(row.year).slice(2);
+        svg.appendChild(label);
+      });
+
+      const valid = rows.map((row, index) => ({ row, index, value: row[metric.id] })).filter(point => point.value !== null);
+      const d = valid.map((point, position) => `${position ? 'L' : 'M'} ${x(point.index)} ${y(point.value)}`).join(' ');
+      svg.appendChild(svgEl('path', { d, fill: 'none', stroke: palette[metric.category], 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }));
+
+      valid.forEach(point => {
+        const group = svgEl('g', { tabindex: 0, role: 'img', 'aria-label': `${point.row.year}年 ${formatValue(point.value, metric)} ${metric.unit}` });
+        const hit = svgEl('circle', { cx: x(point.index), cy: y(point.value), r: 15, fill: 'transparent' });
+        const dot = svgEl('circle', { cx: x(point.index), cy: y(point.value), r: 4.5, fill: 'var(--surface)', stroke: palette[metric.category], 'stroke-width': 2.5 });
+        group.append(hit, dot);
+        group.addEventListener('pointerenter', event => showTooltip(event, metric, point.row));
+        group.addEventListener('pointermove', moveTooltip);
+        group.addEventListener('pointerleave', hideTooltip);
+        group.addEventListener('focus', () => {
+          const rect = group.getBoundingClientRect();
+          showTooltip({ clientX: rect.left, clientY: rect.top }, metric, point.row);
+        });
+        group.addEventListener('blur', hideTooltip);
+        svg.appendChild(group);
+      });
+
+      const last = [...valid].pop();
+      if (last) {
+        const label = svgEl('text', {
+          x: x(last.index) - 7,
+          y: Math.max(margin.top + 12, y(last.value) - 12),
+          'text-anchor': 'end',
+          class: 'plot-label'
+        });
+        label.textContent = formatValue(last.value, metric);
+        svg.appendChild(label);
+      }
+
+      svg.appendChild(svgEl('rect', { x: margin.left, y: margin.top, width: plotW, height: plotH, fill: 'none', stroke: 'var(--line)' }));
+      container.appendChild(svg);
+    }
+
+    function renderTable(metric) {
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = '查看数据表';
+      const table = document.createElement('table');
+      table.className = 'data-table';
+      table.innerHTML = '<thead><tr><th>年份</th><th>数值</th></tr></thead>';
+      const body = document.createElement('tbody');
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.year}</td><td>${formatValue(row[metric.id], metric)} ${metric.unit}</td>`;
+        body.appendChild(tr);
+      });
+      table.appendChild(body);
+      details.append(summary, table);
+      return details;
+    }
+
+    function renderCards() {
+      metrics.forEach(metric => {
+        const article = document.createElement('article');
+        article.className = 'chart-card';
+        article.dataset.category = metric.category;
+        const head = document.createElement('div');
+        head.className = 'chart-head';
+        head.innerHTML = `<div><h2>${metric.label}</h2><p class="chart-description">${metric.description}</p></div><span class="unit">${metric.unit}</span>`;
+        const plot = document.createElement('div');
+        plot.className = 'plot';
+        renderPlot(plot, metric);
+        article.append(head, plot, renderTable(metric));
+        grid.appendChild(article);
+      });
+    }
+
+    function setFilter(filter) {
+      root.querySelectorAll('.filters button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === filter)));
+      root.querySelectorAll('.chart-card').forEach(card => { card.hidden = filter !== 'all' && card.dataset.category !== filter; });
+    }
+
+    function renderFilters() {
+      const options = [['all', '全部'], ...Object.entries(categories)];
+      options.forEach(([id, label]) => {
+        const count = id === 'all' ? metrics.length : metrics.filter(metric => metric.category === id).length;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.filter = id;
+        button.setAttribute('aria-pressed', 'false');
+        button.textContent = `${label} ${count}`;
+        button.addEventListener('click', () => setFilter(id));
+        filters.appendChild(button);
+      });
+    }
+
+    renderFilters();
+    renderCards();
+    const initial = location.hash.slice(1);
+    setFilter(categories[initial] ? initial : 'all');
+  })();
+</script>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E/" class="print-no-link">#宏观经济</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/" class="print-no-link">#数据可视化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>中国宏观经济指标十年趋势（2016—2025）</div>
+      <div>https://nicoier.github.io/tools/china-macro-dashboard-2016-2025/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NicoIer</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年8月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/08/26/Entities%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E9%81%8D%E5%8E%86/" title="Unity Entities中的数据存储和遍历">
+                        <span class="hidden-mobile">Unity Entities中的数据存储和遍历</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'NicoIer/nicoier.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

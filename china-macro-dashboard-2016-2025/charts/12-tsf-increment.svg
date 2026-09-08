@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;fill:#172033}
+.axis{font-size:13px;fill:#667085}.value{font-size:12px;font-weight:650}.title{font-size:28px;font-weight:750}.subtitle{font-size:14px;fill:#667085}
+</style>
+<rect width="960" height="520" fill="#ffffff"/>
+<title id="title">社会融资规模增量</title>
+<desc id="desc">2016年至2025年，单位万亿元。全年实体经济从金融体系获得的新增资金总额。</desc>
+<text class="title" x="82" y="48">社会融资规模增量</text>
+<text class="subtitle" x="82" y="76">2016—2025 · 单位：万亿元 · 国家统计局年度统计公报</text>
+<line x1="82" x2="908" y1="458.00" y2="458.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="463.00">14.6</text>
+<line x1="82" x2="908" y1="369.50" y2="369.50" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="374.50">20.6</text>
+<line x1="82" x2="908" y1="281.00" y2="281.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="286.00">26.7</text>
+<line x1="82" x2="908" y1="192.50" y2="192.50" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="197.50">32.8</text>
+<line x1="82" x2="908" y1="104.00" y2="104.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="109.00">38.8</text>
+<path d="M 82.00 411.15 L 173.78 387.75 L 265.56 389.21 L 357.33 297.09 L 449.11 161.09 L 540.89 212.27 L 632.67 203.50 L 724.44 150.85 L 816.22 199.11 L 908.00 150.85" fill="none" stroke="#7c3aed" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="axis" text-anchor="middle" x="82.00" y="490">2016</text>
+<circle cx="82.00" cy="411.15" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="82.00" y="398.15">17.8</text>
+<text class="axis" text-anchor="middle" x="173.78" y="490">2017</text>
+<circle cx="173.78" cy="387.75" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="173.78" y="374.75">19.4</text>
+<text class="axis" text-anchor="middle" x="265.56" y="490">2018</text>
+<circle cx="265.56" cy="389.21" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="265.56" y="376.21">19.3</text>
+<text class="axis" text-anchor="middle" x="357.33" y="490">2019</text>
+<circle cx="357.33" cy="297.09" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="357.33" y="284.09">25.6</text>
+<text class="axis" text-anchor="middle" x="449.11" y="490">2020</text>
+<circle cx="449.11" cy="161.09" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="449.11" y="148.09">34.9</text>
+<text class="axis" text-anchor="middle" x="540.89" y="490">2021</text>
+<circle cx="540.89" cy="212.27" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="540.89" y="199.27">31.4</text>
+<text class="axis" text-anchor="middle" x="632.67" y="490">2022</text>
+<circle cx="632.67" cy="203.50" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="632.67" y="190.50">32.0</text>
+<text class="axis" text-anchor="middle" x="724.44" y="490">2023</text>
+<circle cx="724.44" cy="150.85" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="724.44" y="137.85">35.6</text>
+<text class="axis" text-anchor="middle" x="816.22" y="490">2024</text>
+<circle cx="816.22" cy="199.11" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="816.22" y="186.11">32.3</text>
+<text class="axis" text-anchor="middle" x="908.00" y="490">2025</text>
+<circle cx="908.00" cy="150.85" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="908.00" y="137.85">35.6</text>
+<rect x="82" y="104" width="826" height="354" fill="none" stroke="#d0d5dd"/>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;fill:#172033}
+.axis{font-size:13px;fill:#667085}.value{font-size:12px;font-weight:650}.title{font-size:28px;font-weight:750}.subtitle{font-size:14px;fill:#667085}
+</style>
+<rect width="960" height="520" fill="#ffffff"/>
+<title id="title">年末M2增速</title>
+<desc id="desc">2016年至2025年，单位%。年末广义货币供应量余额同比增速。</desc>
+<text class="title" x="82" y="48">年末M2增速</text>
+<text class="subtitle" x="82" y="76">2016—2025 · 单位：% · 国家统计局年度统计公报</text>
+<line x1="82" x2="908" y1="458.00" y2="458.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="463.00">0.0</text>
+<line x1="82" x2="908" y1="369.50" y2="369.50" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="374.50">3.4</text>
+<line x1="82" x2="908" y1="281.00" y2="281.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="286.00">6.8</text>
+<line x1="82" x2="908" y1="192.50" y2="192.50" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="197.50">10.2</text>
+<line x1="82" x2="908" y1="104.00" y2="104.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="109.00">13.6</text>
+<path d="M 82.00 163.22 L 173.78 244.09 L 265.56 246.70 L 357.33 231.04 L 449.11 194.52 L 540.89 223.22 L 632.67 150.17 L 724.44 204.96 L 816.22 267.57 L 908.00 236.26" fill="none" stroke="#7c3aed" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="axis" text-anchor="middle" x="82.00" y="490">2016</text>
+<circle cx="82.00" cy="163.22" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="82.00" y="150.22">11.3</text>
+<text class="axis" text-anchor="middle" x="173.78" y="490">2017</text>
+<circle cx="173.78" cy="244.09" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="173.78" y="231.09">8.2</text>
+<text class="axis" text-anchor="middle" x="265.56" y="490">2018</text>
+<circle cx="265.56" cy="246.70" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="265.56" y="233.70">8.1</text>
+<text class="axis" text-anchor="middle" x="357.33" y="490">2019</text>
+<circle cx="357.33" cy="231.04" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="357.33" y="218.04">8.7</text>
+<text class="axis" text-anchor="middle" x="449.11" y="490">2020</text>
+<circle cx="449.11" cy="194.52" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="449.11" y="181.52">10.1</text>
+<text class="axis" text-anchor="middle" x="540.89" y="490">2021</text>
+<circle cx="540.89" cy="223.22" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="540.89" y="210.22">9.0</text>
+<text class="axis" text-anchor="middle" x="632.67" y="490">2022</text>
+<circle cx="632.67" cy="150.17" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="632.67" y="137.17">11.8</text>
+<text class="axis" text-anchor="middle" x="724.44" y="490">2023</text>
+<circle cx="724.44" cy="204.96" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="724.44" y="191.96">9.7</text>
+<text class="axis" text-anchor="middle" x="816.22" y="490">2024</text>
+<circle cx="816.22" cy="267.57" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="816.22" y="254.57">7.3</text>
+<text class="axis" text-anchor="middle" x="908.00" y="490">2025</text>
+<circle cx="908.00" cy="236.26" r="5" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="908.00" y="223.26">8.5</text>
+<rect x="82" y="104" width="826" height="354" fill="none" stroke="#d0d5dd"/>
+</svg>

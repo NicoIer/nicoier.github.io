@@ -5,7 +5,7 @@
     <link>https://nicoier.github.io/</link>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, NicoIer</copyright>
-    <lastBuildDate>Wed, 26 Aug 2026 08:30:49 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 28 Aug 2026 09:26:36 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://nicoier.github.io/img/nicoier.png</url>
@@ -13,6 +13,16 @@
       <link>https://nicoier.github.io/</link>
     </image>
     <atom:link href="https://nicoier.github.io/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>中国宏观经济指标十年趋势（2016—2025）</title>
+      <link>https://nicoier.github.io/tools/china-macro-dashboard-2016-2025/</link>
+      <description>查看2016—2025年中国增长、就业、物价、信用、财政、房地产和外部部门的18项年度指标。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E5%B7%A5%E5%85%B7/">工具</category>
+      <category domain="https://nicoier.github.io/tags/%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E/">宏观经济</category>
+      <category domain="https://nicoier.github.io/tags/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</category>
+      <pubDate>Thu, 27 Aug 2026 16:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Unity Entities中的数据存储和遍历</title>
       <link>https://nicoier.github.io/2026/08/26/Entities%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E9%81%8D%E5%8E%86/</link>
@@ -33,8 +43,8 @@
       <author>NicoIer</author>
       <category domain="https://nicoier.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">图形学</category>
       <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
-      <category domain="https://nicoier.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">图形学</category>
       <category domain="https://nicoier.github.io/tags/Shader/">Shader</category>
+      <category domain="https://nicoier.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">图形学</category>
       <category domain="https://nicoier.github.io/tags/URP/">URP</category>
       <category domain="https://nicoier.github.io/tags/Mipmap/">Mipmap</category>
       <category domain="https://nicoier.github.io/tags/%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4/">纹理过滤</category>
@@ -76,8 +86,8 @@
       <description>结合 GameServer、Game001 和 BeChampion，整理 Source Generator、Code Generator 与 Luban 在游戏开发中的职责、用法和优势。</description>
       <author>NicoIer</author>
       <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
-      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
       <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
       <category domain="https://nicoier.github.io/tags/Source-Generator/">Source Generator</category>
       <category domain="https://nicoier.github.io/tags/Code-Generator/">Code Generator</category>
       <category domain="https://nicoier.github.io/tags/Luban/">Luban</category>
@@ -166,8 +176,8 @@
       <description>记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。</description>
       <author>NicoIer</author>
       <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
-      <category domain="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">战斗系统</category>
       <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">战斗系统</category>
       <category domain="https://nicoier.github.io/tags/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97/">伤害计算</category>
       <pubDate>Thu, 02 Jul 2026 08:37:37 GMT</pubDate>
     </item>
@@ -283,21 +293,6 @@
       <category domain="https://nicoier.github.io/tags/Mesh/">Mesh</category>
       <category domain="https://nicoier.github.io/tags/LOD/">LOD</category>
       <pubDate>Mon, 08 Dec 2025 07:50:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>NetworkAnimancer</title>
-      <link>https://nicoier.github.io/2025/12/02/NetworkAnimancer/</link>
-      <description>
-        <![CDATA[<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">本文记录了在使用Animancer时开发动画网络同步]]>
-      </description>
-      <author>NicoIer</author>
-      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
-      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
-      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
-      <category domain="https://nicoier.github.io/tags/Animation/">Animation</category>
-      <category domain="https://nicoier.github.io/tags/Animancer/">Animancer</category>
-      <category domain="https://nicoier.github.io/tags/Networking/">Networking</category>
-      <pubDate>Tue, 02 Dec 2025 05:27:08 GMT</pubDate>
     </item>
   </channel>
 </rss>
