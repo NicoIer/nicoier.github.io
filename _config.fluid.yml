@@ -347,6 +347,10 @@ navbar:
     - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
     - { key: "tag", link: "/tags/", icon: "iconfont icon-tags-fill" }
     - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
+    - key: "tools"
+      name: "工具"
+      submenu:
+        - { key: "china-macro-dashboard", name: "中国宏观经济", link: "/tools/china-macro-dashboard-2016-2025/" }
     - { key: "itch", name: "Itch", link: "https://nicoier233.itch.io/", icon: "icon-itch", target: "_blank" }
     #- { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
 
