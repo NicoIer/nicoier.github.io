@@ -10,7 +10,24 @@
   <link href="https://nicoier.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, NicoIer</rights>
   <title>NicoIer</title>
-  <updated>2026-08-28T09:26:36.240Z</updated>
+  <updated>2026-09-09T08:51:43.866Z</updated>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <category term="随笔" scheme="https://nicoier.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
+    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    <category term="微派" scheme="https://nicoier.github.io/tags/%E5%BE%AE%E6%B4%BE/"/>
+    <category term="工作回顾" scheme="https://nicoier.github.io/tags/%E5%B7%A5%E4%BD%9C%E5%9B%9E%E9%A1%BE/"/>
+    <category term="个人成长" scheme="https://nicoier.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/"/>
+    <id>https://nicoier.github.io/2026/09/09/%E6%88%91%E5%9C%A8%E5%BE%AE%E6%B4%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
+    <link href="https://nicoier.github.io/2026/09/09/%E6%88%91%E5%9C%A8%E5%BE%AE%E6%B4%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <published>2026-09-09T08:46:01.000Z</published>
+    <summary>以编年体回顾我在微派的实习与两年工作经历，记录 DesertSafari、Project Jinn 和 Project Vanguard 的开发故事，以及技术成长、项目得失与生活片段。</summary>
+    <title>我在微派的前世今生</title>
+    <updated>2026-09-09T08:51:43.866Z</updated>
+  </entry>
   <entry>
     <author>
       <name>NicoIer</name>
@@ -48,8 +65,8 @@
     </author>
     <category term="图形学" scheme="https://nicoier.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
     <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
-    <category term="Shader" scheme="https://nicoier.github.io/tags/Shader/"/>
     <category term="图形学" scheme="https://nicoier.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    <category term="Shader" scheme="https://nicoier.github.io/tags/Shader/"/>
     <category term="URP" scheme="https://nicoier.github.io/tags/URP/"/>
     <category term="Mipmap" scheme="https://nicoier.github.io/tags/Mipmap/"/>
     <category term="纹理过滤" scheme="https://nicoier.github.io/tags/%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4/"/>
@@ -259,9 +276,9 @@
     </author>
     <category term="投资" scheme="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/"/>
     <category term="投资" scheme="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    <category term="交易" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/"/>
     <category term="基金" scheme="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/"/>
     <category term="ETF" scheme="https://nicoier.github.io/tags/ETF/"/>
+    <category term="交易" scheme="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/"/>
     <id>https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/</id>
     <link href="https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/"/>
     <published>2026-06-23T06:18:00.000Z</published>
@@ -350,26 +367,5 @@
     </summary>
     <title>zstd-for-unity</title>
     <updated>2026-07-08T03:26:52.569Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
-    <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
-    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
-    <category term="Unity6" scheme="https://nicoier.github.io/tags/Unity6/"/>
-    <category term="Mesh" scheme="https://nicoier.github.io/tags/Mesh/"/>
-    <category term="LOD" scheme="https://nicoier.github.io/tags/LOD/"/>
-    <id>https://nicoier.github.io/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</id>
-    <link href="https://nicoier.github.io/2025/12/08/Unity6%E7%9A%84MeshLOD%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"/>
-    <published>2025-12-08T07:50:08.000Z</published>
-    <summary>
-      <![CDATA[<p>Unity6中，当导入模型时，就出现了MeshLOD的选项，我们可以勾选这个选项来启用MeshLOD功能。</p>
-<p>如果一个MeshRenderer 或者 SkinnedMeshRenderer 组件使用的Mesh是勾选了MeshLOD的，那么会出现一个调整LOD等级的滑动条，我们可以通过这个滑动条来调整当前使用的LOD等级。</p>
-<p>还是]]>
-    </summary>
-    <title>Unity6的MeshLOD使用教程</title>
-    <updated>2026-07-10T08:59:21.395Z</updated>
   </entry>
 </feed>

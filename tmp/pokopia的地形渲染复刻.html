@@ -1,0 +1,668 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/nicoier.png">
+  <link rel="icon" href="/img/nicoier.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NicoIer">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在 Unity 中复刻 Pokopia 风格的方块地形，记录圆角邻接、内凹接缝、Block Mesh 缓存、世界空间纹理与草泥硬边过渡的实现和取舍。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pokopia的地形渲染复刻">
+<meta property="og:url" content="https://nicoier.github.io/tmp/pokopia%E7%9A%84%E5%9C%B0%E5%BD%A2%E6%B8%B2%E6%9F%93%E5%A4%8D%E5%88%BB.html">
+<meta property="og:site_name" content="NicoIer">
+<meta property="og:description" content="在 Unity 中复刻 Pokopia 风格的方块地形，记录圆角邻接、内凹接缝、Block Mesh 缓存、世界空间纹理与草泥硬边过渡的实现和取舍。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nicoier.github.io/img/pokopia/inset-top.png">
+<meta property="og:image" content="https://nicoier.github.io/img/pokopia/body-seam-examples.png">
+<meta property="og:image" content="https://nicoier.github.io/img/pokopia/inset-step.png">
+<meta property="og:image" content="https://nicoier.github.io/img/pokopia/top-transition.png">
+<meta property="article:published_time" content="2026-09-08T06:20:14.000Z">
+<meta property="article:modified_time" content="2026-09-08T11:46:47.489Z">
+<meta property="article:author" content="NicoIer">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="图形学">
+<meta property="article:tag" content="地形">
+<meta property="article:tag" content="Shader">
+<meta property="article:tag" content="ECS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicoier.github.io/img/pokopia/inset-top.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Pokopia的地形渲染复刻 - NicoIer</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nicoier.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="NicoIer" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="NicoIer" type="application/rss+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 60vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>NicoIer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>工具</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/tools/china-macro-dashboard-2016-2025/" target="_self">
+                    
+                    <span>中国宏观经济</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://nicoier233.itch.io/" target="_blank">
+                <i class="icon-itch"></i>
+                <span>Itch</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pokopia的地形渲染复刻"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<article class="page-content">
+  <p>最近在看 <a target="_blank" rel="noopener" href="https://pokopia.pokemon.com/en-us/">Pokémon Pokopia</a> 的地形表现，想在 Unity 里做一套类似的东西。</p>
+<p>单看一个方块，似乎就是给立方体倒个角，顶面贴草，侧面贴泥。真正开始拼地形以后，问题就出来了：两个方块连起来，内部的圆角不能留下；三个方块围成 L 形，缺口又不能露洞；草地和泥地接壤时，边界也不是沿着格子切得整整齐齐。</p>
+<p>最后做下来，花时间最多的反而是这些交界处。</p>
+<p>这篇记录的是我自己的复刻方案。没有原作的 GPU 帧捕获或 Shader 源码，只能根据画面拆效果，不能据此推断原作采用了相同的实现。工程使用 Unity 6000.3.23f1、URP 17.3、Entities 1.4，下面的效果图来自这个实验项目。</p>
+<p><img src="/img/pokopia/inset-top.png" srcset="/img/loading.gif" lazyload alt="Unity 中的地形与顶部内凹角"></p>
+<span id="more"></span>
+
+<h2 id="从普通方块地形开始"><a href="#从普通方块地形开始" class="headerlink" title="从普通方块地形开始"></a>从普通方块地形开始</h2><p>先只考虑最普通的不透明立方体地形。每个格子保存一个方块 ID，渲染时查询六个方向的邻居：邻居是实体，就不生成两块之间的面；邻居是空气，才生成外露面。</p>
+<p>对于没有倒角的立方体，这已经能解决大部分几何问题。共享边都落在同一套整数网格上，不同方块的外露面很容易对齐。</p>
+<p>数据仍然适合按 Chunk 存。项目里一个地形 Chunk 是 <code>16 × 16 × 16</code>，4096 个格子，每格一个 <code>ushort</code> 大小的 <code>BlockId</code>。单算方块数组，原始数据是 8 KiB。</p>
+<p>这里的地形 Chunk 是空间分区，和 Unity Entities 内部存组件的 Chunk 不是一回事。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">GameWorldData<br>    ├── 版本、种子、高度范围<br>    └── TerrainChunkData[]<br>            ├── Chunk 坐标 X / Y / Z<br>            └── Blocks[4096]<br></code></pre></td></tr></table></figure>
+
+<p>运行时，一个地形 Chunk 对应一个数据实体，方块放在 <code>DynamicBuffer&lt;TerrainCell&gt;</code> 中。没必要为了存一个 ID，就先给空气和所有埋在地下的方块各建一个实体。渲染实体等确认有可见几何后再创建。</p>
+<p>格子在线性数组中的顺序是 X 最快、Z 其次、Y 最后：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span> index = x + <span class="hljs-number">16</span> * (z + <span class="hljs-number">16</span> * y);<br></code></pre></td></tr></table></figure>
+
+<p>负坐标要单独留意。世界坐标 <code>x = -1</code> 应属于 Chunk <code>-1</code>、局部坐标 <code>15</code>，C# 的整数除法却向零截断，直接写 <code>-1 / 16</code> 会得到 <code>0</code>。这里用了向下整除，再用世界坐标减去 Chunk 原点求局部坐标。跨 Chunk 的邻接查询先得算对，后面的圆角才有讨论的基础。</p>
+<h2 id="给立方体倒角以后，六个邻居不够用了"><a href="#给立方体倒角以后，六个邻居不够用了" class="headerlink" title="给立方体倒角以后，六个邻居不够用了"></a>给立方体倒角以后，六个邻居不够用了</h2><h3 id="连接方向比连接数量重要"><a href="#连接方向比连接数量重要" class="headerlink" title="连接方向比连接数量重要"></a>连接方向比连接数量重要</h3><p>最开始很容易把形状归纳成“周围有几个方块”：孤立、单连接、双连接、三连接……但两个邻居在相反方向和两个邻居在相邻方向，得到的轮廓完全不同。</p>
+<p>于是主体 Mesh 用六位掩码来选择：</p>
+<table>
+<thead>
+<tr>
+<th>位</th>
+<th>方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0、1</td>
+<td>+X、-X</td>
+</tr>
+<tr>
+<td>2、3</td>
+<td>+Y、-Y</td>
+</tr>
+<tr>
+<td>4、5</td>
+<td>+Z、-Z</td>
+</tr>
+</tbody></table>
+<p>某位为 1，表示对应方向存在实体方块。草和泥都算连接，几何判断不关心材质。</p>
+<p>六个方向有 <code>2^6 = 64</code> 种组合，其中 <code>0x3F</code> 的六个主体面都被遮住，所以只需要保存 63 个主体 Mesh。这里直接保存全部朝向，逻辑面和 UV 一起烘进预设，运行时按 Mask 取用，不再做旋转和面映射。</p>
+<h3 id="连起来的地方不能再倒一遍角"><a href="#连起来的地方不能再倒一遍角" class="headerlink" title="连起来的地方不能再倒一遍角"></a>连起来的地方不能再倒一遍角</h3><p>如果把两个完整圆角方块紧贴在一起，接触面虽然藏起来了，上面的圆边还在。两个方块之间会留下一道凹槽，看起来像两颗并排的骰子。</p>
+<p>制作主体预设时，我用了一个比较直接的办法：沿着有邻居的方向，把单位方块延长一格，对延长后的长方体做倒角，最后只截取中间那一格。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">先延长到邻居方向 → 对整体倒角 → 截取当前格子的几何<br></code></pre></td></tr></table></figure>
+
+<p>这样，连接处相当于从一整块连续物体上切出来，只有真正外露的边才保留圆角。顶面、底面和侧面按同一套几何规则处理，材质身份另外保存。</p>
+<p>当前主体使用半径 <code>0.1</code>、两段倒角。平滑感由几何轮廓和顶点法线一起提供：几何负责剪影，法线负责面内光照过渡。仅仅增加法线平滑，不能把轮廓上的折线变成圆弧；反过来，为了让光照柔和而不断加面，也未必划算。这个版本没有使用法线贴图。</p>
+<p><img src="/img/pokopia/body-seam-examples.png" srcset="/img/loading.gif" lazyload alt="Blender 中的孤立块、柱、连续条、台阶、L 形缺口与共边接触"></p>
+<p>图中的连续条已经看不到内部圆边。右侧两个只共边的方块仍保留各自的轮廓，因为这里约定只有面接触才算连接，共边和共点都不算。</p>
+<h3 id="共享面两侧的轮廓未必一样"><a href="#共享面两侧的轮廓未必一样" class="headerlink" title="共享面两侧的轮廓未必一样"></a>共享面两侧的轮廓未必一样</h3><p>63 个主体能处理直线连接，但到 L 形、台阶等位置，还是可能出现小洞。</p>
+<p>原因是，共享面两侧的方块虽然互为邻居，它们各自还有别的邻居。某个角在 A 这一侧可能已经延展成方形截面，在 B 那一侧却仍然是圆形截面。把整张内部面删掉，方形和圆形之间的差集就漏出来了。</p>
+<p>因此，共享面是否需要补片，还要查询对面方块的横向邻居。对于共享面法向 <code>f</code>，以及该角对应的两个横向方向 <code>u、v</code>，规则可以写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">需要补片 = f 方向有方块<br>        且当前侧的 u、v 至少一个方向有方块<br>        且对面侧的 f+u、f+v 都没有方块<br></code></pre></td></tr></table></figure>
+
+<p>由方形截面这一侧负责补，避免两边重复封口。六个面、每面四角，一共 24 种小接缝预设，每片两个三角形。补片边界直接取主体倒角的采样点，别再用另一套公式近似一遍圆弧，否则本来要补洞的地方又多了一条误差缝。</p>
+<p>到这里，查询范围已经从六邻居扩大到 <code>3 × 3 × 3</code>。项目把这 27 个占用位压进一个 <code>uint</code>，一次取样后，主体、接缝、内凹角都复用它。并不需要为周围 26 格的全部 <code>2^26</code> 种组合各存一个完整 Mesh。</p>
+<p>还有一个反直觉的情况：<code>0x3F</code> 没有主体，不代表这个格子一定没有可见几何。周围的圆角可能仍让它拥有一小片外露接缝。是否创建渲染实体，要看最后选出来的几何是否为空，不能看到六面被围住就直接返回。</p>
+<h2 id="补上洞以后，还可能长出一个尖角"><a href="#补上洞以后，还可能长出一个尖角" class="headerlink" title="补上洞以后，还可能长出一个尖角"></a>补上洞以后，还可能长出一个尖角</h2><p>平面封口解决了漏洞，但 L 形缺口里仍可能出现朝外突出的尖端。把模型放远看不明显，拉近后很像几块东西硬挤在一起。</p>
+<p>这个阶段给我的一个教训是：网格闭合与造型正确是两项检查。每条边都配得上，模型仍可能长得不对。</p>
+<p>只把封口往里推也不够，因为主体自己的角还留在原处。最终要一起处理三件事：删掉主体的旧角区、去掉该区域原来的接缝片、放入真正向内收的接头。</p>
+<p>处理单位也随之变小，改为一个共享格角周围的 <code>2 × 2 × 2</code> 八格占用。八格只有 256 种状态，可以离线枚举，再用旋转和镜像复用少量标准接头。</p>
+<p>当前留下三个内缩模板，标记为 <code>07、17、3D</code>，分别是 6、6、8 个三角形。这里的标记属于八格占用，和前面六方向的主体 Mask 不是同一种编号。离线导出还会记录每个三角形归哪个方块所有，运行时各取自己的部分，避免邻块重复绘制同一片接头。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">一个格角的八格占用<br>    → 查找旋转 / 镜像后的标准接头<br>    → 当前方块删除对应角区<br>    → 加入归当前方块所有的接头三角形<br></code></pre></td></tr></table></figure>
+
+<p>查表同时带上八格中当前方块的位置，所以共有 <code>256 × 8 = 2048</code> 项，其中 136 项实际启用。运行时每块检查自己的八个角即可。</p>
+<p>裁角也提前完成：离线保存裁切后的顶点与索引范围，运行时选择并复制。镜像需要反转三角形绕序；新切点的法线则从原三角形插值得到。直接重新计算整块法线，会把原本已经连续的倒角光照改掉。真正的凹折线仍然保留硬法线。</p>
+<p><img src="/img/pokopia/inset-step.png" srcset="/img/loading.gif" lazyload alt="Unity 中的立面内凹接头，凹折线保留硬边"></p>
+<p>这套预设最终是 63 个主体、24 个接缝、3 个内缩接头，共 90 个 Mesh。复杂的是离线把接口整理准确，运行时不用重新做倒角、布尔或通用三角化。</p>
+<h2 id="Chunk-存数据，Block-提交渲染"><a href="#Chunk-存数据，Block-提交渲染" class="headerlink" title="Chunk 存数据，Block 提交渲染"></a>Chunk 存数据，Block 提交渲染</h2><p>中间也做过 Chunk Mesh：把一个 Chunk 的外露方块面写进一张网格，修改地形时重新构建网格。这种方案当然能做圆角，也能做草边。</p>
+<p>后来改成 Block Mesh，主要是希望复用形状，并把单格编辑的更新范围控制得更细。当前一个有可见几何的方块对应一个基础渲染实体，相同形状共享 Mesh。</p>
+<p>两种组织方式的差别可以放在一起看：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Chunk Mesh</th>
+<th>Block Mesh</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>几何存储</td>
+<td>各 Chunk 保存合并后的几何</td>
+<td>多个方块可引用同一个形状</td>
+</tr>
+<tr>
+<td>地形修改</td>
+<td>通常重建受影响的 Chunk</td>
+<td>更新变化格和相关邻居</td>
+</tr>
+<tr>
+<td>渲染对象</td>
+<td>较少</td>
+<td>较多，依赖有效的批处理</td>
+</tr>
+<tr>
+<td>大片平面</td>
+<td>方便进一步合并面</td>
+<td>仍按块提交，实例化不减少三角形</td>
+</tr>
+<tr>
+<td>草边和圆角</td>
+<td>都能实现</td>
+<td>都能实现</td>
+</tr>
+</tbody></table>
+<p>Block Mesh 不是“一个方块新建一份 Mesh”，也不等于每个方块都手动发一次 Draw Call。当前通过 Entities Graphics 注册 Mesh 和 Material，再让实体引用它们。相同 Mesh、Material 的实例可以进入同一绘制命令，实际还要看 submesh、渲染状态与可见性等条件。<a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.entities.graphics@1.4/manual/entities-graphics-performance.html">Unity 的批处理说明</a>可以对照来看。</p>
+<h3 id="把几何缓存键和材质状态分开"><a href="#把几何缓存键和材质状态分开" class="headerlink" title="把几何缓存键和材质状态分开"></a>把几何缓存键和材质状态分开</h3><p>最容易浪费缓存的地方，是把方块位置、草泥类型、覆盖方向全塞进 Mesh 的键。</p>
+<p>草换成泥，如果邻接占用没变，形状通常也没变。仅仅因为材质不同就复制一份几何，没有意义。</p>
+<p>现在分成两套键：</p>
+<ul>
+<li>刷新判定记录邻域占用、当前方块类型、有效覆盖来源，用来判断这块有没有事情要处理。</li>
+<li>几何缓存只记录主体 Mask、接缝 Mask、八个角选择的接头，用来查找真正需要的形状。</li>
+</ul>
+<p><code>TerrainPresetComposer</code> 负责选片和拼装，缓存则在 <code>TerrainBlockRenderSystem</code>。省去注册和异常处理后，入口大致是这样：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">if</span> (!_presets.TryGetValue(key, <span class="hljs-keyword">out</span> MeshVariant variant))<br>&#123;<br>    Mesh mesh = _composer.Compose(key, <span class="hljs-keyword">out</span> <span class="hljs-built_in">bool</span> ownsMesh);<br>    variant = <span class="hljs-keyword">new</span> MeshVariant<br>    &#123;<br>        Key = key,<br>        Mesh = mesh,<br>        OwnsMesh = ownsMesh<br>    &#125;;<br>    _presets.Add(key, variant);<br>&#125;<br><br>variant.References++;<br>variant.LastUse = ++_cacheClock;<br></code></pre></td></tr></table></figure>
+
+<p>不需要接缝和裁角时，直接返回主体资产。需要组合时，首次遇到该形状才复制选中的三角形，输出单 submesh Mesh。合点要同时比较位置、法线和 UV；只比较位置会把硬边或材质投影边界焊错。</p>
+<p>引用数归零的组合不会立即销毁，最多保留 128 个闲置项，超过后再淘汰最久未使用的。正在使用的组合不受这个数量限制。只有运行时合成的 Mesh 归系统所有，预设资产只能释放引用，不能当作临时 Mesh 销毁。</p>
+<h3 id="挖一块，刷新周围-26-格"><a href="#挖一块，刷新周围-26-格" class="headerlink" title="挖一块，刷新周围 26 格"></a>挖一块，刷新周围 26 格</h3><p>每个方块的形状依赖自身周围一圈，所以一次单格编辑，几何影响范围就是变化格及其 26 个邻居。</p>
+<p>更新顺序也很重要：先把这轮所有变化 Chunk 写入世界快照，再查询邻域、刷新方块。如果更新一个 Chunk 后立刻重建它，而相邻 Chunk 还保留上一轮数据，交界处就可能根据两份不同状态生成。</p>
+<p>稳定帧只检查 Chunk 头信息与脏标记。Chunk 变化后再比较格子，处理真正变化的位置；未变化的实体、Mesh 和材质绑定继续保留。这部分目前是托管 <code>SystemBase</code> 和字典实现，还没有做成 Burst 并行构网任务。</p>
+<h2 id="贴图接不上，先别急着改-Mesh"><a href="#贴图接不上，先别急着改-Mesh" class="headerlink" title="贴图接不上，先别急着改 Mesh"></a>贴图接不上，先别急着改 Mesh</h2><p>几何无缝以后，贴图仍可能把方块边界暴露出来。调试时我会先换成无纹理的灰材质看一遍：如果灰模已经连续，上纹理后才出现线，就应该先检查 UV、源图边缘和过滤方式。</p>
+<p>当前每种方块分别配置顶面、侧面、底面三张贴图，四个侧面共用一张。草方块顶面使用草图，侧面是带草沿的泥图，底面使用泥图；泥方块三个槽都可以用泥图。</p>
+<p>倒角处按照所属的逻辑面继续投影。比如顶面所属的倒角仍使用顶面映射，不能只看插值法线朝向就切到另一张图，否则采样边界会跟着法线阈值移动。</p>
+<p>Mesh 的 <code>UV0.xy</code> 保存局部面坐标，<code>UV0.z</code> 用 <code>-(1 + face)</code> 编码逻辑面，顶面是 <code>-3</code>。这个通道负责告诉 Shader“这片几何属于哪一面”，并不存方块材质 ID。</p>
+<h3 id="Atlas、Texture2DArray，最后为什么用了独立材质"><a href="#Atlas、Texture2DArray，最后为什么用了独立材质" class="headerlink" title="Atlas、Texture2DArray，最后为什么用了独立材质"></a>Atlas、Texture2DArray，最后为什么用了独立材质</h3><p>早期使用一张 <code>256 × 256</code> 的 Atlas，四个格子各 <code>128 × 128</code>，其中三个格子存草顶、草侧和泥土。实现快，普通 UV 映射就能用。</p>
+<p>但这个紧密图集没有扩边，为避免串色还关闭了 Mipmap。近处暂时看不出来，远处和斜视角的纹理过滤就成了问题。半像素内缩只是在当前 mip 上把采样点拉回图块内部，不能阻止整张图集下采样时把相邻图块混在一起。</p>
+<p>如果继续做 Atlas，需要逐图块生成 mip、处理每一级的边缘，并控制可用 mip 范围。它不是不能做，只是后面又加上了世界坐标平铺的需求，图块内重复与采样梯度也得一起处理。</p>
+<p>Texture2DArray 可以隔离各层，避免采到别的图块，但同一数组内的纹理需要相同的尺寸、格式和标志。<a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.3/Documentation/Manual/class-Texture2DArray.html">Unity Texture2DArray 文档</a>明确列出了这个约束。我希望草图和泥图各自保留尺寸，最终选了普通 Texture2D。</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>方便的地方</th>
+<th>需要承担的约束</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Atlas</td>
+<td>多种纹理共用一个资源绑定</td>
+<td>图块扩边、mip 和图块内重复需要处理</td>
+</tr>
+<tr>
+<td>Texture2DArray</td>
+<td>各层独立过滤，适合统一规格素材</td>
+<td>同一数组内规格一致</td>
+</tr>
+<tr>
+<td>每类方块独立材质</td>
+<td>纹理尺寸、平铺、参数分别编辑</td>
+<td>不同材质拆分绘制组</td>
+</tr>
+</tbody></table>
+<p>现在运行时按方块类型加载独立材质，分别绑定 <code>_TopMap</code>、<code>_SideMap</code> 和 <code>_BottomMap</code>，不再走图集或纹理数组。项目里还有名为 <code>TerrainBlockAtlas</code> 的类，部分局部 UV 工具仍然在用，不能只凭文件名判断渲染路径。</p>
+<p>独立材质让资源处理简单了，绘制组却会按材质拆开。草和泥即使共享 Mesh，也不会因为形状相同就自动合成同一材质批次。</p>
+<h3 id="世界坐标让草纹理跨过格子"><a href="#世界坐标让草纹理跨过格子" class="headerlink" title="世界坐标让草纹理跨过格子"></a>世界坐标让草纹理跨过格子</h3><p>假设草方块向旁边泥地伸出一小块草边，如果覆盖部分从泥方块自己的局部 UV 开始采样，草纹理就可能在交界处错开。</p>
+<p>当前顶面和覆盖片都用来源材质的同一套世界坐标：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float2 uv = GetAbsolutePositionWS(positionWS).zx<br>    * _TopWorldUV.xy + _TopWorldUV.zw;<br></code></pre></td></tr></table></figure>
+
+<p>这里使用 <code>zx</code>，和顶面的局部轴顺序保持一致。默认比例和偏移是 <code>(1, 1, 0.5, 0.5)</code>。</p>
+<p>同一个世界位置，不管落在草本体还是伸到泥地上的草覆盖片，都会采到草图的同一个位置。比例改成非整数，也不需要每个格子重新对齐。</p>
+<p>直接把连续 UV 交给 Repeat 采样器，不手动 <code>frac</code> 后再塞进图集。Shader 在裁剪和纹理选择分支之前计算 <code>ddx / ddy</code>，再用 <code>SAMPLE_TEXTURE2D_GRAD</code>，让各张纹理使用自己的 mip 链。</p>
+<p>不过，世界坐标只解决采样相位，源图本身仍然要能平铺。图片左右边缘颜色差很多，换成世界坐标也不会自动消掉接缝。侧面和底面目前仍用局部 UV；草侧面的 U 为 Repeat、V 为 Clamp，保留上下边缘的含义。</p>
+<h2 id="草泥交界是硬边覆盖"><a href="#草泥交界是硬边覆盖" class="headerlink" title="草泥交界是硬边覆盖"></a>草泥交界是硬边覆盖</h2><p>这里还有两种草沿容易混在一起：草方块侧面向下垂的一圈草，是侧面贴图里的内容；同高度草地伸到泥地顶面上的波浪边，是下面要讲的覆盖效果。</p>
+<p><img src="/img/pokopia/top-transition.png" srcset="/img/loading.gif" lazyload alt="独立材质版本的草泥顶面交界，草的纹理跨过格子继续采样"></p>
+<p>我想要的是边界有起伏，但边界两边仍然各自干净：一个片元最终显示完整的草材质或泥材质。</p>
+<p>早期做过 <code>lerp(泥, 草, coverage)</code>，轮廓能出来，但它会在边缘混色，而且参与的来源越多，采样与混合工作越多。这不是这里需要的表现。</p>
+<p>中间改过一次先选材质、最后只采一张底色。采样少了，但每个片元仍得遍历邻域来源，接着才尝试把归属判断提前到 CPU。</p>
+<p>后来又试过在 CPU 上切出草、泥各自的几何区域，Shader 只采所属材质。颜色归属明确了，但为了跟上波浪轮廓，顶面需要细分。那一版 439 个方块的实验场景，三角形从约 3.09 万增加到 5.89 万，改频率还会影响轮廓的几何精度。这个代价太大，最终没有保留。</p>
+<p>现在采用 Alpha Clip 覆盖。基础泥面先画，草覆盖随后画；轮廓外丢弃片元，轮廓内显示草。它接受局部 Overdraw，换来不必沿波浪细分几何，也不必在单个片元里遍历并混合所有材质。</p>
+<h3 id="CPU-先确定谁能覆盖过来"><a href="#CPU-先确定谁能覆盖过来" class="headerlink" title="CPU 先确定谁能覆盖过来"></a>CPU 先确定谁能覆盖过来</h3><p>顶面检查同高度的四边和四角，来源需要满足几个条件：双方顶面都可见、逻辑地表 <code>TopSurface</code> 不同、来源优先级更高，并且来源的覆盖宽度大于零。</p>
+<p>对角来源还要求两个正交方向的邻居顶面都存在且外露，否则草会斜着跨过空气，或者越过台阶。</p>
+<p>相同类型从多个方向伸过来，会合并成一个八位方向 Mask。比如左边和后边都是草，只需要一次草覆盖绘制。最多检查八个邻居，世界里有一百种方块，不代表每个像素就要处理一百种材质。</p>
+<p>当前配置是 Grass 优先级 1、Dirt 优先级 0，因此草可以覆盖泥，泥不会反向覆盖草。<code>TopSurface</code> 是逻辑身份，两个方块即使用不同材质，只要声明相同顶面身份，也不必做这种边界。</p>
+<h3 id="覆盖直接复用接收方块的-Mesh"><a href="#覆盖直接复用接收方块的-Mesh" class="headerlink" title="覆盖直接复用接收方块的 Mesh"></a>覆盖直接复用接收方块的 Mesh</h3><p>这版没有单独的“波浪 Mesh”。草伸到泥上时，就是把泥方块已经选好的完整 Mesh，用草覆盖材质再画一次：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">同一个接收方块 Mesh / submesh 0 / 变换<br>    ├── 泥基础材质：正常绘制<br>    └── 草覆盖材质：筛选顶面，再裁波浪轮廓<br></code></pre></td></tr></table></figure>
+
+<p>基础面与覆盖面的位置、法线和三角形完全一致，倒角也能贴合。顶点阶段把非顶面三角形移出裁剪范围，片元阶段再裁掉顶面中不属于草的部分。</p>
+<p>每个覆盖实体只传一个 float 形式的方向 Mask。它画的是哪种草、采哪张图、波浪多密，已经由绑定的材质确定，不需要额外上传一张材质类型表。</p>
+<p>这样没有新增 Mesh 存储，也没有覆盖专用 submesh，但完整 Mesh 仍会再次提交并执行顶点处理。覆盖范围也没有预先切成窄边带，顶面中央最终被丢弃的片元仍要先做轮廓计算。省掉数据复制和省掉绘制工作，是两回事。</p>
+<h3 id="距离决定草能伸多远"><a href="#距离决定草能伸多远" class="headerlink" title="距离决定草能伸多远"></a>距离决定草能伸多远</h3><p>Shader 先算当前顶面位置到来源边、来源角的距离。四条边是直线距离，四个角是二维距离；不存在的方向赋一个足够大的距离，不参与最近边界。</p>
+<p>多个方向交汇时，使用平滑最小值连接轮廓。这里平滑的是形状，不是草泥颜色：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float SmoothUnion(float a, float b, float radius)<br>&#123;<br>    if (radius &lt;= 0.0) return min(a, b);<br>    float t = saturate(0.5 + 0.5 * (b - a) / radius);<br>    return lerp(b, a, t) - radius * t * (1.0 - t);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后用绝对世界坐标生成波浪。当前是三个不同方向的正弦项叠加，减少单个正弦排得过于整齐的感觉。省去波形展开后，裁剪可以写成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float width = max(0.0, baseWidth + variation * wave) * taper;<br>clip(width - distance);<br></code></pre></td></tr></table></figure>
+
+<p><code>taper</code> 根据法线朝上的程度，让覆盖在外侧倒角处逐渐收窄。否则草边到了顶面与侧面交界，会突然留下一个折角。频率只改变裁剪轮廓，不再改变 Mesh 面数。</p>
+<p>当前草的宽度为 <code>0.098</code>，起伏幅度 <code>0.025</code>，频率 <code>3.7</code>，轮廓平滑半径 <code>0.05</code>，都配置在 <code>TerrainBlocks.asset</code>。每种类型可以独立设置；草伸到泥上时，用的仍然是草的参数。</p>
+<h3 id="绘制优先级不能靠实体创建顺序"><a href="#绘制优先级不能靠实体创建顺序" class="headerlink" title="绘制优先级不能靠实体创建顺序"></a>绘制优先级不能靠实体创建顺序</h3><p>如果一个泥方块将来同时邻接草和石路，可以先画泥，再画草覆盖，最后画石路覆盖。石路裁掉的地方会露出已经画好的草或泥。</p>
+<p>但 Entity 创建得晚，不保证渲染得晚。当前把类型按 <code>(TopTransitionPriority, BlockId)</code> 排序，给运行时材质设置 <code>2000 + rank</code> 的队列，Forward 使用 <code>ZWrite On / ZTest LEqual</code>。高优先级来源排在接收面之后，以明确队列处理共面覆盖。</p>
+<p>这个实现把队列限定在 2000～2500，最多容纳 501 个实体方块类型。它是一项具体限制，不是一个可以无限增加类型的排序系统。</p>
+<p>覆盖不改变真实地形表面，所以 DepthOnly、DepthNormals、ShadowCaster 由基础面提供，覆盖副本在这些 Pass 的顶点阶段剔除。没必要让同一张表面为了换颜色，重复提供几份阴影和深度。</p>
+<h3 id="给基础面一个不包含裁剪的变体"><a href="#给基础面一个不包含裁剪的变体" class="headerlink" title="给基础面一个不包含裁剪的变体"></a>给基础面一个不包含裁剪的变体</h3><p>最初基础面和覆盖面通过 <code>mask == 0</code> 分支区分。基础面虽然可以跳过运算，编译出来的 Shader 仍然包含覆盖逻辑。</p>
+<p>现在用 <code>_TERRAIN_OVERLAY</code> 和 <code>multi_compile_local</code> 拆开：基础变体不编译波浪、覆盖 Mask 读取与 <code>clip()</code>；覆盖变体负责筛顶面、裁轮廓、采顶面纹理。运行时按“方块类型＋是否覆盖”缓存材质，因此常见草泥场景会使用泥基础、草基础、草覆盖三份运行时材质，纹理仍共享。</p>
+<p>这只拆掉了基础&#x2F;覆盖的动态选择，并不是 Shader 从此没有任何分支，更不能由此认定 GPU 一定更快。实际收益还需要在目标设备上测。</p>
+<p>另外，“每个存活片元一次底色采样”也不能理解成“一个屏幕像素总共一次采样”。同一位置可能先画泥，再画草，两次绘制都付出了成本；正常光照和阴影采样也还在。Alpha Clip 没有让 Overdraw 消失。</p>
+<h2 id="用小地图把交界问题找全"><a href="#用小地图把交界问题找全" class="headerlink" title="用小地图把交界问题找全"></a>用小地图把交界问题找全</h2><p>只看一整片平地，这套地形很容易显得已经做好了。真正暴露问题的是那些很小的局部组合。</p>
+<p>项目保留了一份专门摆邻接情况的 <code>TestWorld.json</code>：12 个 Chunk、439 个实体方块，包含全部 64 种六面邻接，以及 L 形、台阶、正负坐标边界、X&#x2F;Y&#x2F;Z 跨 Chunk 连接和八个 Chunk 共用的格角。草和泥混着摆，几何和材质边界能一起检查。</p>
+<p>下面是 2026-09-08 内缩接头版本留下的运行记录，用来说明这张小地图的实际规模：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th align="right">数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实体方块</td>
+<td align="right">439</td>
+</tr>
+<tr>
+<td>基础渲染实体</td>
+<td align="right">433</td>
+</tr>
+<tr>
+<td>覆盖渲染实体</td>
+<td align="right">54</td>
+</tr>
+<tr>
+<td>基础几何按实例累计的三角形</td>
+<td align="right">20,500</td>
+</tr>
+<tr>
+<td>覆盖绘制额外提交的三角形</td>
+<td align="right">2,952</td>
+</tr>
+<tr>
+<td>非空共享 Mesh</td>
+<td align="right">110</td>
+</tr>
+</tbody></table>
+<p>覆盖提交的 2,952 个三角形包含稍后被顶点阶段剔掉的非顶面，不能拿来当实际可见草边面数。433 个基础实体、54 个覆盖实体，也不是最终 Draw Call 数。这份记录没有目标设备 GPU 耗时。</p>
+<p>离线检查覆盖了 256 种局部八格占用，并检查开放边、重复面、绕序和退化三角形；外观还得另外看顶面、底面和立面，前面的 L 形尖点就是只做闭合检查发现不了的问题。</p>
+<p>为了方便随手摆出一个坏例子，还做了一个本地网页世界编辑器，放在 <code>Tool/world-editor</code>。它只画普通立方体，支持放置、删除、撤销和 JSON 导入导出。编辑器负责把格子摆对，最终的倒角和材质效果回 Unity 看。</p>
+<p>当前 Unity 入口是 <code>WorldStartup</code> 的序列化 Addressables 引用，读取 JSON 后通过 <code>GameWorldDataConverter</code> 创建世界。这里还踩过一次和渲染无关的坑：启用 NetCode 后，默认 World 可能是 ServerWorld。只向默认 World 加载数据，客户端渲染系统没有地形，Game 视图自然什么都没有。现在入口会给本地、服务器和客户端 World 加载数据，渲染仍只在本地或客户端运行。</p>
+<p>这次先做到圆角地形与草泥过渡。三种以上地表交汇还需要补实际场景观察，大规模地形的实例分组、覆盖成本和 GPU 时间也还没测。后续判断要继续优化哪一部分，得看这些数据，单靠 Mesh 数量少了或者 Shader 少写一个循环，得不出结论。</p>
+
+
+  
+
+</article>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      
+<i class="iconfont icon-love"></i> <a href="https://github.com/nicoier" target="_blank" rel="nofollow noopener"><span>Nicoier</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
