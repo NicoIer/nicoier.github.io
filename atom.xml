@@ -10,7 +10,22 @@
   <link href="https://nicoier.github.io/atom.xml" rel="self"/>
   <rights>All rights reserved 2026, NicoIer</rights>
   <title>NicoIer</title>
-  <updated>2026-10-10T03:53:38.202Z</updated>
+  <updated>2026-10-10T09:43:21.950Z</updated>
+  <entry>
+    <author>
+      <name>NicoIer</name>
+    </author>
+    <id>https://nicoier.github.io/2026/10/10/pokopia%E7%9A%84%E5%9C%86%E8%A7%92%E6%B2%99%E7%9B%92%E6%B8%B2%E6%9F%93/</id>
+    <link href="https://nicoier.github.io/2026/10/10/pokopia%E7%9A%84%E5%9C%86%E8%A7%92%E6%B2%99%E7%9B%92%E6%B8%B2%E6%9F%93/"/>
+    <published>2026-10-10T06:32:14.000Z</published>
+    <summary>
+      <![CDATA[<p>笔者最近沉迷Pokopia，一款沙盒模拟经营宝可梦游戏</p>
+<p>关注到其沙盒方块是圆角而非minecraft的硬角，于是仔细观察发现圆角方块存在非常多的接缝和邻接问题，于是想要自己来实现Pokopia其中的沙盒世界效果</p>
+<p>同期还有一个 星布谷地 也采用了pokopia的圆角方块，不知道有没有“借鉴” </p>]]>
+    </summary>
+    <title>pokopia的圆角沙盒渲染</title>
+    <updated>2026-10-10T09:43:21.950Z</updated>
+  </entry>
   <entry>
     <author>
       <name>NicoIer</name>
@@ -26,7 +41,7 @@
     <published>2026-09-09T08:46:01.000Z</published>
     <summary>以编年体回顾我在微派的实习与两年工作经历，记录 DesertSafari、Project Jinn 和 Project Vanguard 的开发故事，以及技术成长、项目得失与生活片段。</summary>
     <title>我在微派的前世今生</title>
-    <updated>2026-10-10T03:53:38.202Z</updated>
+    <updated>2026-10-10T10:05:59.428Z</updated>
   </entry>
   <entry>
     <author>
@@ -48,10 +63,10 @@
     </author>
     <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
     <category term="Unity" scheme="https://nicoier.github.io/tags/Unity/"/>
-    <category term="Entities" scheme="https://nicoier.github.io/tags/Entities/"/>
-    <category term="ECS" scheme="https://nicoier.github.io/tags/ECS/"/>
     <category term="DOTS" scheme="https://nicoier.github.io/tags/DOTS/"/>
+    <category term="ECS" scheme="https://nicoier.github.io/tags/ECS/"/>
     <category term="性能优化" scheme="https://nicoier.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    <category term="Entities" scheme="https://nicoier.github.io/tags/Entities/"/>
     <id>https://nicoier.github.io/2026/08/26/Entities%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E9%81%8D%E5%8E%86/</id>
     <link href="https://nicoier.github.io/2026/08/26/Entities%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E9%81%8D%E5%8E%86/"/>
     <published>2026-08-26T07:23:41.000Z</published>
@@ -349,23 +364,5 @@
     </summary>
     <title>BatchRenderGroup演示Demo</title>
     <updated>2026-10-10T03:53:38.198Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>NicoIer</name>
-    </author>
-    <category term="Unity" scheme="https://nicoier.github.io/categories/Unity/"/>
-    <category term="游戏开发" scheme="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
-    <category term="unity" scheme="https://nicoier.github.io/tags/unity/"/>
-    <category term="compression" scheme="https://nicoier.github.io/tags/compression/"/>
-    <category term="zstd" scheme="https://nicoier.github.io/tags/zstd/"/>
-    <id>https://nicoier.github.io/2025/12/09/zstd-for-unity/</id>
-    <link href="https://nicoier.github.io/2025/12/09/zstd-for-unity/"/>
-    <published>2025-12-09T07:17:42.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="zstd-for-unity"><a href="#zstd-for-unity" class="headerlink" title="zstd-for-unity"></a>zstd-for-unity</h1><figure class="highlight text"><table><tr><td class="gutter"><pre]]>
-    </summary>
-    <title>zstd-for-unity</title>
-    <updated>2026-10-10T03:53:38.200Z</updated>
   </entry>
 </feed>

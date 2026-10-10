@@ -5,7 +5,7 @@
     <link>https://nicoier.github.io/</link>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, NicoIer</copyright>
-    <lastBuildDate>Sat, 10 Oct 2026 03:53:38 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 09:43:21 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://nicoier.github.io/img/nicoier.png</url>
@@ -13,6 +13,17 @@
       <link>https://nicoier.github.io/</link>
     </image>
     <atom:link href="https://nicoier.github.io/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>pokopia的圆角沙盒渲染</title>
+      <link>https://nicoier.github.io/2026/10/10/pokopia%E7%9A%84%E5%9C%86%E8%A7%92%E6%B2%99%E7%9B%92%E6%B8%B2%E6%9F%93/</link>
+      <description>
+        <![CDATA[<p>笔者最近沉迷Pokopia，一款沙盒模拟经营宝可梦游戏</p>
+<p>关注到其沙盒方块是圆角而非minecraft的硬角，于是仔细观察发现圆角方块存在非常多的接缝和邻接问题，于是想要自己来实现Pokopia其中的沙盒世界效果</p>
+<p>同期还有一个 星布谷地 也采用了pokopia的圆角方块，不知道有没有“借鉴” </p>]]>
+      </description>
+      <author>NicoIer</author>
+      <pubDate>Sat, 10 Oct 2026 06:32:14 GMT</pubDate>
+    </item>
     <item>
       <title>我在微派的前世今生</title>
       <link>https://nicoier.github.io/2026/09/09/%E6%88%91%E5%9C%A8%E5%BE%AE%E6%B4%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</link>
@@ -43,10 +54,10 @@
       <author>NicoIer</author>
       <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
       <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
-      <category domain="https://nicoier.github.io/tags/Entities/">Entities</category>
-      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
       <category domain="https://nicoier.github.io/tags/DOTS/">DOTS</category>
+      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
       <category domain="https://nicoier.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</category>
+      <category domain="https://nicoier.github.io/tags/Entities/">Entities</category>
       <pubDate>Wed, 26 Aug 2026 07:23:41 GMT</pubDate>
     </item>
     <item>
@@ -275,20 +286,6 @@
       <category domain="https://nicoier.github.io/tags/BatchRendererGroup/">BatchRendererGroup</category>
       <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
       <pubDate>Thu, 18 Dec 2025 05:21:59 GMT</pubDate>
-    </item>
-    <item>
-      <title>zstd-for-unity</title>
-      <link>https://nicoier.github.io/2025/12/09/zstd-for-unity/</link>
-      <description>
-        <![CDATA[<h1 id="zstd-for-unity"><a href="#zstd-for-unity" class="headerlink" title="zstd-for-unity"></a>zstd-for-unity</h1><figure class="highlight text"><table><tr><td class="gutter"><pre]]>
-      </description>
-      <author>NicoIer</author>
-      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
-      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
-      <category domain="https://nicoier.github.io/tags/unity/">unity</category>
-      <category domain="https://nicoier.github.io/tags/compression/">compression</category>
-      <category domain="https://nicoier.github.io/tags/zstd/">zstd</category>
-      <pubDate>Tue, 09 Dec 2025 07:17:42 GMT</pubDate>
     </item>
   </channel>
 </rss>
