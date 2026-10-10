@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Coordinate Transform Pipeline</title>
+  <desc id="desc">A diagram showing local, world, view, clip, NDC and screen coordinate transforms.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .space { fill: #eff6ff; stroke: #60a5fa; }
+      .screen { fill: #f0fdf4; stroke: #22c55e; }
+      .note { fill: #fff7ed; stroke: #fb923c; }
+      .label { font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 600 14px "SFMono-Regular", Consolas, monospace; fill: #1f2937; }
+      .arrow { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="680" />
+  <text class="title" x="56" y="58">坐标变换链路</text>
+  <text class="subtitle" x="56" y="88">常说的 MVP，就是把点从模型局部空间一路变换到裁剪空间。</text>
+
+  <rect class="box space" x="54" y="226" width="150" height="92" />
+  <text class="label" x="88" y="260">Local</text>
+  <text class="text" x="82" y="288">模型局部坐标</text>
+
+  <rect class="box space" x="264" y="226" width="150" height="92" />
+  <text class="label" x="298" y="260">World</text>
+  <text class="text" x="292" y="288">世界坐标</text>
+
+  <rect class="box space" x="474" y="226" width="150" height="92" />
+  <text class="label" x="512" y="260">View</text>
+  <text class="text" x="504" y="288">相机空间</text>
+
+  <rect class="box space" x="684" y="226" width="150" height="92" />
+  <text class="label" x="724" y="260">Clip</text>
+  <text class="text" x="708" y="288">裁剪空间</text>
+
+  <rect class="box space" x="894" y="226" width="150" height="92" />
+  <text class="label" x="936" y="260">NDC</text>
+  <text class="text" x="920" y="288">透视除法后</text>
+
+  <rect class="box screen" x="534" y="440" width="180" height="92" />
+  <text class="label" x="582" y="474">Screen</text>
+  <text class="text" x="570" y="502">Viewport 映射</text>
+
+  <path class="arrow" d="M204 272 L264 272" />
+  <path class="arrow" d="M414 272 L474 272" />
+  <path class="arrow" d="M624 272 L684 272" />
+  <path class="arrow" d="M834 272 L894 272" />
+  <path class="arrow" d="M969 318 C969 408 742 486 714 486" />
+
+  <text class="mono" x="222" y="252">M</text>
+  <text class="mono" x="432" y="252">V</text>
+  <text class="mono" x="642" y="252">P</text>
+  <text class="mono" x="846" y="252">/ w</text>
+
+  <rect class="box note" x="166" y="440" width="260" height="92" />
+  <text class="label" x="200" y="474">组合矩阵</text>
+  <text class="mono" x="200" y="502">clipPos = P * V * M * pos</text>
+
+  <rect class="box note" x="802" y="440" width="260" height="92" />
+  <text class="label" x="836" y="474">注意</text>
+  <text class="text" x="836" y="502">矩阵乘法顺序和行列约定要统一。</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">Unity URP LOD 可视化实验</title>
+  <desc id="desc">相机以低角度观察高频棋盘格平面，LOD 色带从近处 Level 0 逐渐过渡到远处更高 Level，并受到纹理尺寸、Tiling、视角和屏幕分辨率影响。</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#f8fafc"/></linearGradient>
+    <clipPath id="plane"><path d="M120 630L570 218L960 630Z"/></clipPath>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#64748b"/></marker>
+    <style>.t{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:36px;font-weight:700;fill:#0f172a}.sub{font-size:18px;fill:#64748b}.label{font-size:19px;font-weight:650;fill:#0f172a}.note{font-size:15px;fill:#64748b}.mono{font:600 16px "SFMono-Regular",Consolas,monospace;fill:#334155}.card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1400" height="780" fill="#f8fafc"/>
+  <g class="t">
+    <text x="64" y="62" class="h">URP 实验：把连续 LOD 映射成颜色</text>
+    <text x="64" y="96" class="sub">同一张纹理、同一个平面，只要改变视角或 Tiling，Footprint 和 LOD 色带就会一起变化</text>
+
+    <rect x="64" y="140" width="930" height="540" rx="18" fill="url(#sky)" stroke="#cbd5e1" stroke-width="1.5"/>
+    <path d="M120 630L570 218L960 630Z" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+    <g clip-path="url(#plane)">
+      <path d="M90 646L980 646L940 584L160 584Z" fill="#ef4444"/>
+      <path d="M160 584L940 584L900 520L230 520Z" fill="#f59e0b"/>
+      <path d="M230 520L900 520L830 454L310 454Z" fill="#eab308"/>
+      <path d="M310 454L830 454L750 389L390 389Z" fill="#22c55e"/>
+      <path d="M390 389L750 389L680 329L460 329Z" fill="#06b6d4"/>
+      <path d="M460 329L680 329L620 273L520 273Z" fill="#3b82f6"/>
+      <path d="M520 273L620 273L570 218Z" fill="#8b5cf6"/>
+      <g stroke="#fff" stroke-opacity=".65" stroke-width="2"><path d="M120 584H940"/><path d="M230 520H900"/><path d="M310 454H830"/><path d="M390 389H750"/><path d="M460 329H680"/><path d="M520 273H620"/></g>
+    </g>
+    <g transform="translate(142 180)">
+      <path d="M0 62L54 34L102 62V108H0Z" fill="#334155"/><circle cx="34" cy="62" r="15" fill="#93c5fd"/><path d="M102 68L164 92" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+      <text x="0" y="137" class="label">低角度相机</text>
+    </g>
+    <g fill="#fff" font-size="16" font-weight="700"><text x="174" y="620">LOD 0</text><text x="248" y="556">LOD 1</text><text x="331" y="492">LOD 2</text><text x="414" y="426">LOD 3</text><text x="497" y="363">LOD 4</text><text x="570" y="304">LOD 5+</text></g>
+
+    <rect x="1034" y="140" width="302" height="540" rx="18" class="card"/>
+    <text x="1064" y="186" class="label">会改变色带的因素</text>
+    <g transform="translate(1064 222)">
+      <rect width="242" height="64" rx="12" fill="#eff6ff"/><text x="22" y="27" class="label">纹理尺寸 W × H</text><text x="22" y="49" class="note">UV 导数要换算成 texel</text>
+      <rect y="82" width="242" height="64" rx="12" fill="#f0fdf4"/><text x="22" y="109" class="label">UV Tiling</text><text x="22" y="131" class="note">重复越密，变化率越大</text>
+      <rect y="164" width="242" height="64" rx="12" fill="#fff7ed"/><text x="22" y="191" class="label">表面朝向与距离</text><text x="22" y="213" class="note">共同改变投影后的 Footprint</text>
+      <rect y="246" width="242" height="64" rx="12" fill="#f5f3ff"/><text x="22" y="273" class="label">FOV 与分辨率</text><text x="22" y="295" class="note">改变一个像素覆盖的范围</text>
+      <rect y="350" width="242" height="100" rx="12" fill="#f8fafc" stroke="#cbd5e1"/><text x="121" y="382" text-anchor="middle" class="mono">ρ = max(|ddx|, |ddy|)</text><text x="121" y="414" text-anchor="middle" class="mono">LOD = log₂ρ</text>
+    </g>
+  </g>
+</svg>

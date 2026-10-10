@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">ECS Buff Entity Structure</title>
+  <desc id="desc">A diagram showing owner entity, buff entity components, temporary trigger entity and base ECS systems.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #6b7280; }
+      .box { fill: #ffffff; stroke: #cfd7e3; stroke-width: 2; rx: 14; }
+      .owner { fill: #fff7ed; stroke: #f59e0b; }
+      .buff { fill: #eef6ff; stroke: #2563eb; }
+      .trigger { fill: #f5f3ff; stroke: #7c3aed; }
+      .system { fill: #f0fdfa; stroke: #0f766e; }
+      .system-item { fill: #ffffff; stroke: #99f6e4; stroke-width: 1.4; rx: 9; }
+      .section { fill: #ffffff; stroke: #d8e0ea; stroke-width: 1.5; rx: 10; }
+      .pill { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; rx: 9; }
+      .pill-blue { fill: #dbeafe; stroke: #93c5fd; }
+      .pill-green { fill: #dcfce7; stroke: #86efac; }
+      .pill-purple { fill: #ede9fe; stroke: #c4b5fd; }
+      .pill-orange { fill: #ffedd5; stroke: #fdba74; }
+      .label { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .small-label { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #374151; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #374151; }
+      .mono { font: 500 13px "SFMono-Regular", Consolas, monospace; fill: #1f2937; }
+      .muted { font: 400 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #6b7280; }
+      .arrow { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 8 7; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="1200" />
+
+  <text class="title" x="54" y="58">Buff Entity 结构</text>
+  <text class="subtitle" x="54" y="86">长期状态放在 Buff Entity 上，本次触发上下文放在临时 Trigger Entity 上，基础 System 负责触发和生命周期。</text>
+
+  <rect class="box owner" x="54" y="220" width="250" height="168" />
+  <text class="label" x="82" y="260">Owner Entity</text>
+  <text class="text" x="82" y="292">ECS 世界中的宿主节点</text>
+  <text class="text" x="82" y="318">按 owner 复用</text>
+  <text class="text" x="82" y="344">下面挂多个 Buff Entity</text>
+
+  <rect class="box buff" x="396" y="176" width="430" height="500" />
+  <text class="label" x="428" y="218">Buff Entity</text>
+  <text class="muted" x="428" y="244">长期存在，保存 Buff 自身状态</text>
+
+  <rect class="section" x="426" y="272" width="370" height="184" />
+  <text class="small-label" x="448" y="302">固定组件</text>
+  <rect class="pill pill-blue" x="448" y="322" width="155" height="34" />
+  <text class="mono" x="466" y="344">BuffTag</text>
+  <rect class="pill" x="617" y="322" width="156" height="34" />
+  <text class="mono" x="632" y="344">BuffTemplate</text>
+  <rect class="pill" x="448" y="368" width="155" height="34" />
+  <text class="mono" x="466" y="390">BuffOwner</text>
+  <rect class="pill" x="617" y="368" width="156" height="34" />
+  <text class="mono" x="632" y="390">BuffSource</text>
+  <rect class="pill" x="448" y="414" width="325" height="34" />
+  <text class="mono" x="466" y="436">BuffApplicator</text>
+
+  <rect class="section" x="426" y="476" width="370" height="164" />
+  <text class="small-label" x="448" y="506">表驱动组件和 Tag</text>
+  <rect class="pill pill-green" x="448" y="526" width="155" height="34" />
+  <text class="mono" x="466" y="548">Duration</text>
+  <rect class="pill pill-green" x="617" y="526" width="156" height="34" />
+  <text class="mono" x="632" y="548">Stack</text>
+  <rect class="pill pill-orange" x="448" y="572" width="155" height="34" />
+  <text class="mono" x="466" y="594">NeverDestroy</text>
+  <rect class="pill pill-orange" x="617" y="572" width="156" height="34" />
+  <text class="mono" x="632" y="594">ECS Tags</text>
+
+  <rect class="box trigger" x="912" y="220" width="236" height="300" />
+  <text class="label" x="940" y="260">Trigger Entity</text>
+  <text class="muted" x="940" y="286">一次触发创建一次</text>
+
+  <rect class="pill pill-purple" x="940" y="314" width="180" height="34" />
+  <text class="mono" x="958" y="336">TriggerInfo</text>
+  <rect class="pill" x="940" y="362" width="180" height="34" />
+  <text class="mono" x="958" y="384">DamageState?</text>
+  <rect class="pill" x="940" y="410" width="180" height="34" />
+  <text class="mono" x="958" y="432">HealingState?</text>
+  <rect class="pill" x="940" y="458" width="180" height="34" />
+  <text class="mono" x="958" y="480">EffectResult</text>
+
+  <path class="arrow" d="M304 304 C338 304 356 304 396 304" />
+  <text class="muted" x="322" y="288">AddChild</text>
+
+  <path class="arrow" d="M826 328 C864 328 878 328 912 328" />
+  <text class="muted" x="844" y="312">触发时创建</text>
+
+  <path class="arrow dash" d="M912 502 C864 586 808 656 722 680" />
+  <text class="muted" x="808" y="634">执行后删除</text>
+
+  <rect class="box" x="54" y="720" width="250" height="110" />
+  <text class="small-label" x="82" y="754">关系</text>
+  <text class="text" x="82" y="784">owner2Entities 维护 owner</text>
+  <text class="text" x="82" y="810">Buff 是 owner entity 的 child</text>
+
+  <rect class="box system" x="396" y="760" width="752" height="360" />
+  <text class="label" x="426" y="802">CoreEcsWorld / SystemRoot</text>
+  <text class="muted" x="426" y="828">基础 System 负责消费 trigger、推进持续时间、处理销毁和定时触发。</text>
+
+  <rect class="system-item" x="426" y="856" width="330" height="64" />
+  <text class="mono" x="446" y="878">BuffEffectExecuteSystem</text>
+  <text class="muted" x="446" y="898">执行 trigger 对应的 effect</text>
+
+  <rect class="system-item" x="788" y="856" width="330" height="64" />
+  <text class="mono" x="808" y="878">BuffDestroyTriggerSystem</text>
+  <text class="muted" x="808" y="898">删除 Buff 时触发 WhenDestroy</text>
+
+  <rect class="system-item" x="426" y="936" width="330" height="64" />
+  <text class="mono" x="446" y="958">BuffDurationSystem</text>
+  <text class="muted" x="446" y="978">扣 remainingDuration，触发过期</text>
+
+  <rect class="system-item" x="788" y="936" width="330" height="64" />
+  <text class="mono" x="808" y="958">BuffDestroyWhenOwnerDeadSystem</text>
+  <text class="muted" x="808" y="978">owner 死亡时销毁 Buff</text>
+
+  <rect class="system-item" x="426" y="1016" width="330" height="72" />
+  <text class="mono" x="446" y="1038">BuffInvokeAfterSomeTime</text>
+  <text class="mono" x="446" y="1056">TriggerSystem</text>
+  <text class="muted" x="446" y="1078">固定时间后触发一次</text>
+
+  <rect class="system-item" x="788" y="1016" width="330" height="72" />
+  <text class="mono" x="808" y="1038">BuffRepeatInvokeAfterSomeTime</text>
+  <text class="mono" x="808" y="1056">TriggerSystem</text>
+  <text class="muted" x="808" y="1078">按间隔重复触发</text>
+
+  <path class="arrow" d="M611 676 C611 712 611 730 611 760" />
+  <text class="muted" x="626" y="724">Update(dt)</text>
+
+  <path class="arrow" d="M1030 520 C1030 670 812 760 620 856" />
+  <text class="muted" x="874" y="698">OnComponentAdded</text>
+</svg>

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">ECS 状态如何直接形成网络 Diff</title>
+  <desc id="desc">ECS 世界中的实体和组件经过同步筛选后，由集中操作入口记录 Create、Update、Remove 等变化，最终只发送 EntityId、ComponentTypeId 和 Payload。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #6b7280; }
+      .panel { fill: #ffffff; stroke: #d6dee9; stroke-width: 2; rx: 16; }
+      .entity { fill: #eef6ff; stroke: #2563eb; stroke-width: 2; rx: 13; }
+      .component { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 9; }
+      .sync { fill: #e8f7ef; stroke: #22a06b; }
+      .server { fill: #f3f4f6; stroke: #cbd5e1; }
+      .event { fill: #fff7ed; stroke: #f59e0b; stroke-width: 1.5; rx: 9; }
+      .packet { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.5; rx: 9; }
+      .label { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .small-label { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #374151; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #374151; }
+      .muted { font: 400 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #6b7280; }
+      .mono { font: 500 13px "SFMono-Regular", Consolas, monospace; fill: #1f2937; }
+      .ok { font: 700 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #16784d; }
+      .arrow { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 7 6; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="680" />
+  <text class="title" x="50" y="58">ECS 状态如何直接形成网络 Diff</text>
+  <text class="subtitle" x="50" y="88">组件已经是独立状态块；在集中操作入口记录变化，就不必复制整份世界逐字段比较。</text>
+
+  <rect class="panel" x="50" y="128" width="360" height="470" />
+  <text class="label" x="78" y="168">World</text>
+  <text class="muted" x="147" y="168">实体身份 + 独立组件</text>
+
+  <rect class="entity" x="78" y="192" width="304" height="170" />
+  <text class="small-label" x="98" y="222">Entity 1001</text>
+  <rect class="component sync" x="98" y="242" width="126" height="42" />
+  <text class="mono" x="114" y="268">Position</text>
+  <rect class="component sync" x="236" y="242" width="126" height="42" />
+  <text class="mono" x="258" y="268">Health</text>
+  <rect class="component server" x="98" y="296" width="264" height="42" />
+  <text class="mono" x="114" y="322">AIState</text>
+  <text class="muted" x="257" y="322">仅服务器</text>
+
+  <rect class="entity" x="78" y="382" width="304" height="134" />
+  <text class="small-label" x="98" y="412">Entity 1002</text>
+  <rect class="component sync" x="98" y="432" width="126" height="42" />
+  <text class="mono" x="114" y="458">Position</text>
+  <rect class="component sync" x="236" y="432" width="126" height="42" />
+  <text class="mono" x="258" y="458">Parent</text>
+
+  <rect class="component sync" x="78" y="538" width="118" height="34" />
+  <text class="ok" x="92" y="560">可同步组件</text>
+  <rect class="component server" x="210" y="538" width="118" height="34" />
+  <text class="muted" x="224" y="560">服务器组件</text>
+
+  <rect class="panel" x="466" y="128" width="280" height="470" />
+  <text class="label" x="494" y="168">统一操作入口</text>
+  <text class="muted" x="494" y="192">结构事件 + 显式标脏</text>
+
+  <rect class="event" x="494" y="222" width="224" height="56" />
+  <text class="mono" x="514" y="246">Create(Entity 1002)</text>
+  <text class="muted" x="514" y="266">实体创建事件</text>
+  <rect class="event" x="494" y="294" width="224" height="56" />
+  <text class="mono" x="514" y="318">Update(1001, Health)</text>
+  <text class="muted" x="514" y="338">Set + MarkDirty</text>
+  <rect class="event" x="494" y="366" width="224" height="56" />
+  <text class="mono" x="514" y="390">Remove(1002, Parent)</text>
+  <text class="muted" x="514" y="410">组件删除事件</text>
+
+  <path class="arrow dash" d="M494 476 L718 476" />
+  <text class="muted" x="514" y="462">同一 Tick 按 key 合并</text>
+  <text class="small-label" x="494" y="522">key</text>
+  <text class="mono" x="544" y="522">EntityId</text>
+  <text class="mono" x="544" y="546">(EntityId, TypeId)</text>
+
+  <rect class="panel" x="802" y="128" width="348" height="470" />
+  <text class="label" x="830" y="168">DiffState</text>
+  <text class="muted" x="934" y="168">只发送最终变化</text>
+
+  <rect class="packet" x="830" y="212" width="292" height="88" />
+  <text class="small-label" x="850" y="240">EntityChanges</text>
+  <text class="mono" x="850" y="266">Create · EntityId 1002</text>
+  <text class="mono" x="850" y="286">ParentEntityId 1001</text>
+
+  <rect class="packet" x="830" y="316" width="292" height="112" />
+  <text class="small-label" x="850" y="344">ComponentChanges</text>
+  <text class="mono" x="850" y="370">EntityId 1001</text>
+  <text class="mono" x="850" y="392">ComponentTypeId 0x21A4</text>
+  <text class="mono" x="850" y="414">Payload &lt;latest Health&gt;</text>
+
+  <rect class="packet" x="830" y="444" width="292" height="62" />
+  <text class="mono" x="850" y="470">SourceRevision 42</text>
+  <text class="mono" x="850" y="492">TargetRevision 43</text>
+
+  <text class="ok" x="830" y="548">✓ 不发送 AIState</text>
+  <text class="ok" x="830" y="574">✓ 不发送中间状态</text>
+
+  <path class="arrow" d="M410 338 C434 338 442 338 466 338" />
+  <path class="arrow" d="M746 338 C770 338 778 338 802 338" />
+</svg>

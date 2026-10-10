@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="title desc">
+  <title id="title">Capability 整体结构</title>
+  <desc id="desc">CapabilitySystem 推进 Holder 上的 Capabilities，Capabilities 通过 Component 和 Config 工作，并通过 TagBlockers 处理外部限制。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; }
+      .system { fill: #e0f2fe; stroke: #0284c7; }
+      .holder { fill: #f1f5f9; stroke: #475569; stroke-width: 1.8; }
+      .cap { fill: #dcfce7; stroke: #16a34a; }
+      .state { fill: #fef3c7; stroke: #d97706; }
+      .block { fill: #fee2e2; stroke: #dc2626; }
+      .asset { fill: #ede9fe; stroke: #7c3aed; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 1.8; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="540"/>
+  <text class="title" x="40" y="44">Capability 整体结构</text>
+  <text class="small" x="40" y="70">System 只负责调度，Holder 负责装配和查询，Capability 负责行为决策。</text>
+
+  <rect class="box system" x="52" y="120" width="230" height="126" rx="10"/>
+  <text class="label" x="167" y="155" text-anchor="middle">CapabilitySystem</text>
+  <text class="mono" x="167" y="184" text-anchor="middle">Update / FixedUpdate</text>
+  <text class="small" x="167" y="210" text-anchor="middle">按 TickGroup + Order 推进</text>
+  <text class="small" x="167" y="230" text-anchor="middle">不关心具体业务</text>
+
+  <rect class="box holder" x="370" y="105" width="760" height="350" rx="12"/>
+  <text class="label" x="750" y="140" text-anchor="middle">Owner / Holder</text>
+  <text class="small" x="750" y="162" text-anchor="middle">对象上的能力容器，保存依赖和阻塞表</text>
+
+  <rect class="box cap" x="410" y="200" width="200" height="96" rx="8"/>
+  <text class="label" x="510" y="232" text-anchor="middle">Capabilities</text>
+  <text class="mono" x="510" y="258" text-anchor="middle">ShouldActivate</text>
+  <text class="mono" x="510" y="278" text-anchor="middle">TickActive</text>
+
+  <rect class="box state" x="650" y="200" width="190" height="96" rx="8"/>
+  <text class="label" x="745" y="232" text-anchor="middle">Components</text>
+  <text class="small" x="745" y="258" text-anchor="middle">运行时共享状态</text>
+  <text class="small" x="745" y="278" text-anchor="middle">能力之间通过它通信</text>
+
+  <rect class="box asset" x="880" y="200" width="190" height="96" rx="8"/>
+  <text class="label" x="975" y="232" text-anchor="middle">Configs</text>
+  <text class="small" x="975" y="258" text-anchor="middle">只读参数</text>
+  <text class="small" x="975" y="278" text-anchor="middle">不放运行时状态</text>
+
+  <rect class="box block" x="650" y="340" width="420" height="76" rx="8"/>
+  <text class="label" x="860" y="370" text-anchor="middle">TagBlockers</text>
+  <text class="mono" x="860" y="396" text-anchor="middle">Dictionary&lt;Tag, List&lt;Instigator&gt;&gt;</text>
+
+  <path class="arrow" d="M 285 183 L 360 183"/>
+  <text class="small" x="320" y="170" text-anchor="middle">Tick</text>
+
+  <path class="arrow" d="M 610 248 L 642 248"/>
+  <text class="small" x="626" y="235" text-anchor="middle">读写</text>
+
+  <path class="dash" d="M 880 248 L 848 248"/>
+  <text class="small" x="864" y="235" text-anchor="middle">读取</text>
+
+  <path class="dash" d="M 610 280 C 620 330 650 356 696 364"/>
+  <text class="small" x="625" y="334">HasBlockedTag</text>
+
+  <path class="dash" d="M 880 340 C 850 318 800 308 748 298"/>
+  <text class="small" x="858" y="322">限制能力</text>
+
+  <rect class="box" x="52" y="330" width="230" height="86" rx="10"/>
+  <text class="label" x="167" y="362" text-anchor="middle">Asset 装配层</text>
+  <text class="mono" x="167" y="388" text-anchor="middle">Capability / Component / Config</text>
+  <text class="small" x="167" y="408" text-anchor="middle">初始化时展开到 Holder</text>
+  <path class="arrow" d="M 285 373 L 360 373"/>
+</svg>

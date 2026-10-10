@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;fill:#172033}
+.axis{font-size:13px;fill:#667085}.value{font-size:12px;font-weight:650}.title{font-size:28px;font-weight:750}.subtitle{font-size:14px;fill:#667085}
+</style>
+<rect width="960" height="520" fill="#ffffff"/>
+<title id="title">社会消费品零售总额增速</title>
+<desc id="desc">2016年至2025年，单位%。商品消费和餐饮收入的名义同比变化。</desc>
+<text class="title" x="82" y="48">社会消费品零售总额增速</text>
+<text class="subtitle" x="82" y="76">2016—2025 · 单位：% · 国家统计局年度统计公报</text>
+<line x1="82" x2="908" y1="458.00" y2="458.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="463.00">-5.9</text>
+<line x1="82" x2="908" y1="369.50" y2="369.50" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="374.50">-0.8</text>
+<line x1="82" x2="908" y1="281.00" y2="281.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="286.00">4.3</text>
+<line x1="82" x2="908" y1="192.50" y2="192.50" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="197.50">9.4</text>
+<line x1="82" x2="908" y1="104.00" y2="104.00" stroke="#e7eaf0"/>
+<text class="axis" text-anchor="end" x="70" y="109.00">14.5</text>
+<line x1="82" x2="908" y1="355.85" y2="355.85" stroke="#98a2b3" stroke-width="1.5"/>
+<path d="M 82.00 174.81 L 173.78 178.30 L 265.56 199.18 L 357.33 216.59 L 449.11 423.74 L 540.89 138.26 L 632.67 359.33 L 724.44 230.52 L 816.22 294.93 L 908.00 291.44" fill="none" stroke="#1677ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="axis" text-anchor="middle" x="82.00" y="490">2016</text>
+<circle cx="82.00" cy="174.81" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="82.00" y="161.81">10.4</text>
+<text class="axis" text-anchor="middle" x="173.78" y="490">2017</text>
+<circle cx="173.78" cy="178.30" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="173.78" y="165.30">10.2</text>
+<text class="axis" text-anchor="middle" x="265.56" y="490">2018</text>
+<circle cx="265.56" cy="199.18" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="265.56" y="186.18">9.0</text>
+<text class="axis" text-anchor="middle" x="357.33" y="490">2019</text>
+<circle cx="357.33" cy="216.59" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="357.33" y="203.59">8.0</text>
+<text class="axis" text-anchor="middle" x="449.11" y="490">2020</text>
+<circle cx="449.11" cy="423.74" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="449.11" y="410.74">-3.9</text>
+<text class="axis" text-anchor="middle" x="540.89" y="490">2021</text>
+<circle cx="540.89" cy="138.26" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="540.89" y="125.26">12.5</text>
+<text class="axis" text-anchor="middle" x="632.67" y="490">2022</text>
+<circle cx="632.67" cy="359.33" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="632.67" y="346.33">-0.2</text>
+<text class="axis" text-anchor="middle" x="724.44" y="490">2023</text>
+<circle cx="724.44" cy="230.52" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="724.44" y="217.52">7.2</text>
+<text class="axis" text-anchor="middle" x="816.22" y="490">2024</text>
+<circle cx="816.22" cy="294.93" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="816.22" y="281.93">3.5</text>
+<text class="axis" text-anchor="middle" x="908.00" y="490">2025</text>
+<circle cx="908.00" cy="291.44" r="5" fill="#fff" stroke="#1677ff" stroke-width="3"/>
+<text class="value" text-anchor="middle" x="908.00" y="278.44">3.7</text>
+<rect x="82" y="104" width="826" height="354" fill="none" stroke="#d0d5dd"/>
+</svg>

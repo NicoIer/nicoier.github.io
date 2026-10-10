@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">BattlePlayable JSON 协作恢复流程</title>
+  <desc id="desc">使用 JSON 备份处理 Git 冲突，再通过导入导出重新生成 MemoryPack bytes 和动画烘焙数据。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.4; rx: 8; }
+      .json { fill: #fef3c7; stroke: #d97706; }
+      .bytes { fill: #e0f2fe; stroke: #0284c7; }
+      .tool { fill: #dcfce7; stroke: #16a34a; }
+      .warn { fill: #fee2e2; stroke: #dc2626; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke: #64748b; stroke-width: 1.8; stroke-dasharray: 5 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="460"/>
+  <text class="title" x="40" y="44">Git 协作时的 JSON 冲突恢复</text>
+  <text class="small" x="40" y="70">bytes 不适合手动合并。实际协作时优先处理 JSON，再由工具重新生成 bytes。</text>
+
+  <rect class="box tool" x="50" y="125" width="210" height="100" rx="8"/>
+  <text class="label" x="155" y="158" text-anchor="middle">保存 BattleData</text>
+  <text class="mono" x="72" y="185">SaveBattleData()</text>
+  <text class="small" x="72" y="207">Export + Serialize</text>
+
+  <rect class="box bytes" x="330" y="80" width="230" height="100" rx="8"/>
+  <text class="label" x="445" y="113" text-anchor="middle">MemoryPack bytes</text>
+  <text class="mono" x="352" y="140">Config/generated/battle</text>
+  <text class="small" x="352" y="162">运行时加载</text>
+
+  <rect class="box json" x="330" y="230" width="230" height="100" rx="8"/>
+  <text class="label" x="445" y="263" text-anchor="middle">JSON 备份</text>
+  <text class="mono" x="352" y="290">backup/*.json</text>
+  <text class="small" x="352" y="312">用于 diff 和冲突处理</text>
+
+  <rect class="box warn" x="630" y="230" width="210" height="100" rx="8"/>
+  <text class="label" x="735" y="263" text-anchor="middle">Git 冲突</text>
+  <text class="small" x="652" y="290">手动合并 JSON</text>
+  <text class="small" x="652" y="312">确认 Track / Clip 数据</text>
+
+  <rect class="box tool" x="900" y="125" width="230" height="205" rx="8"/>
+  <text class="label" x="1015" y="160" text-anchor="middle">恢复备份数据</text>
+  <text class="mono" x="922" y="190">JsonConvert.Deserialize</text>
+  <text class="mono" x="922" y="215">Import(data)</text>
+  <text class="mono" x="922" y="240">Export(tracks)</text>
+  <text class="mono" x="922" y="265">MemoryPack.Serialize</text>
+  <text class="small" x="922" y="295">顺便重新烘焙动画</text>
+
+  <path class="arrow" d="M 262 160 L 322 130"/>
+  <path class="arrow" d="M 262 190 L 322 260"/>
+  <path class="arrow" d="M 562 280 L 622 280"/>
+  <path class="arrow" d="M 842 280 L 892 230"/>
+  <path class="dashed" d="M 1015 125 C 1015 70 550 35 445 72"/>
+  <text class="small" x="642" y="52">重新生成 bytes，不手写二进制</text>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">CommandBuffer Minimap Flow</title>
+  <desc id="desc">A diagram comparing minimap rendering through camera render texture and command buffer drawing into UI target.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .old { fill: #fff7ed; stroke: #fb923c; }
+      .new { fill: #eff6ff; stroke: #3b82f6; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.6; rx: 10; }
+      .skip { fill: #fee2e2; stroke: #f87171; }
+      .ok { fill: #dcfce7; stroke: #4ade80; }
+      .label { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .small { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 600 13px "SFMono-Regular", Consolas, monospace; fill: #1f2937; }
+      .arrow { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 8 7; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="760" />
+  <text class="title" x="56" y="58">小地图绘制流程</text>
+  <text class="subtitle" x="56" y="88">原方案通过 Camera 和 RT，优化方案把绘制插入 UI 绘制目标。</text>
+
+  <rect class="panel old" x="56" y="136" width="1088" height="210" />
+  <text class="label" x="86" y="176">原方案：Camera -> RT -> RawImage</text>
+  <rect class="box" x="88" y="214" width="160" height="70" />
+  <text class="small" x="116" y="244">Sprite 代理</text>
+  <text class="text" x="116" y="266">远处场景</text>
+  <rect class="box skip" x="300" y="214" width="160" height="70" />
+  <text class="small" x="336" y="244">小地图相机</text>
+  <text class="text" x="328" y="266">完整 Camera 流程</text>
+  <rect class="box skip" x="512" y="214" width="160" height="70" />
+  <text class="small" x="552" y="244">RenderTexture</text>
+  <text class="text" x="550" y="266">额外 RT 带宽</text>
+  <rect class="box" x="724" y="214" width="160" height="70" />
+  <text class="small" x="764" y="244">RawImage</text>
+  <text class="text" x="750" y="266">UI 采样显示</text>
+  <rect class="box" x="936" y="214" width="160" height="70" />
+  <text class="small" x="988" y="244">屏幕</text>
+  <text class="text" x="972" y="266">最终合成</text>
+  <path class="arrow" d="M248 249 L300 249" />
+  <path class="arrow" d="M460 249 L512 249" />
+  <path class="arrow" d="M672 249 L724 249" />
+  <path class="arrow" d="M884 249 L936 249" />
+
+  <rect class="panel new" x="56" y="406" width="1088" height="260" />
+  <text class="label" x="86" y="446">新方案：CommandBuffer 直接画进 UI 目标</text>
+  <rect class="box" x="88" y="488" width="170" height="78" />
+  <text class="small" x="118" y="518">收集绘制物体</text>
+  <text class="text" x="118" y="542">复用 Sprite 代理</text>
+  <rect class="box" x="304" y="488" width="170" height="78" />
+  <text class="small" x="334" y="518">收集投影矩阵</text>
+  <text class="text" x="330" y="542">禁用相机绘制</text>
+  <rect class="box" x="520" y="488" width="170" height="78" />
+  <text class="small" x="550" y="518">Viewport 转换</text>
+  <text class="mono" x="552" y="542">size + offset</text>
+  <rect class="box ok" x="736" y="488" width="170" height="78" />
+  <text class="small" x="762" y="518">CommandBuffer</text>
+  <text class="text" x="768" y="542">插入 UI 流程</text>
+  <rect class="box ok" x="952" y="488" width="150" height="78" />
+  <text class="small" x="984" y="518">UI Target</text>
+  <text class="text" x="982" y="542">屏幕/当前 RT</text>
+
+  <path class="arrow" d="M258 527 L304 527" />
+  <path class="arrow" d="M474 527 L520 527" />
+  <path class="arrow" d="M690 527 L736 527" />
+  <path class="arrow" d="M906 527 L952 527" />
+  <path class="arrow dash" d="M386 488 C386 430 382 372 380 284" />
+  <text class="text" x="398" y="382">只用矩阵，不走 Camera 渲染</text>
+</svg>

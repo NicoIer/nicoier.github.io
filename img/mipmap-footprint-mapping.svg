@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">从屏幕像素到纹理 Footprint</title>
+  <desc id="desc">一个屏幕像素的中心映射为单个 UV 点，四个角共同映射为纹理空间中的一片区域。</desc>
+  <defs>
+    <pattern id="screenGrid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <rect width="64" height="64" fill="#ffffff"/>
+      <path d="M64 0H0V64" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="texelGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <rect width="28" height="28" fill="#ffffff"/>
+      <path d="M28 0H0V28" fill="none" stroke="#dbeafe" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0 0L10 3L0 6Z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .t{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:36px;font-weight:700;fill:#0f172a}.sub{font-size:18px;fill:#64748b}.label{font-size:22px;font-weight:650;fill:#0f172a}.note{font-size:16px;fill:#64748b}.mono{font:600 18px "SFMono-Regular",Consolas,monospace;fill:#1e40af}.card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.edge{fill:none;stroke:#2563eb;stroke-width:4}.guide{fill:none;stroke:#94a3b8;stroke-width:2;stroke-dasharray:7 8}
+    </style>
+  </defs>
+  <rect width="1400" height="780" fill="#f8fafc"/>
+  <g class="t">
+    <text x="64" y="62" class="h">一个 UV 是点，一个 Pixel Footprint 是区域</text>
+    <text x="64" y="96" class="sub">像素中心决定本次 Shader 的采样位置，像素边界决定它需要代表的纹理范围</text>
+
+    <rect x="64" y="144" width="500" height="470" rx="18" class="card"/>
+    <text x="96" y="190" class="label">屏幕空间：一个像素格</text>
+    <text x="96" y="218" class="note">中心点只是像素区域中的一个离散采样位置</text>
+    <rect x="126" y="264" width="376" height="280" rx="10" fill="url(#screenGrid)" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="254" y="328" width="128" height="128" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+    <circle cx="318" cy="392" r="10" fill="#ef4444" stroke="#fff" stroke-width="4"/>
+    <text x="271" y="316" class="mono">P</text>
+    <text x="335" y="386" class="note">中心采样点</text>
+    <text x="242" y="478" class="note">四个角共同定义像素区域</text>
+
+    <path d="M594 378H744" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="622" y="348" class="mono">T(x,y)</text>
+
+    <rect x="790" y="144" width="546" height="470" rx="18" class="card"/>
+    <text x="822" y="190" class="label">纹理空间：映射后的 Footprint</text>
+    <text x="822" y="218" class="note">透视和表面倾斜会把正方形拉成倾斜、细长的区域</text>
+    <rect x="846" y="254" width="434" height="310" rx="10" fill="url(#texelGrid)" stroke="#94a3b8" stroke-width="1.5"/>
+    <path d="M930 468L1012 300L1204 350L1115 520Z" fill="#bfdbfe" fill-opacity=".72" class="edge"/>
+    <circle cx="1065" cy="409" r="10" fill="#ef4444" stroke="#fff" stroke-width="4"/>
+    <g fill="#2563eb" stroke="#fff" stroke-width="3">
+      <circle cx="930" cy="468" r="8"/><circle cx="1012" cy="300" r="8"/><circle cx="1204" cy="350" r="8"/><circle cx="1115" cy="520" r="8"/>
+    </g>
+    <path d="M930 468L1012 300" class="guide"/>
+    <path d="M930 468L1115 520" class="guide"/>
+    <text x="954" y="374" class="mono">∂T/∂y</text>
+    <text x="997" y="508" class="mono">∂T/∂x</text>
+    <text x="1083" y="402" class="note">中心 UV</text>
+    <text x="1146" y="548" class="mono">F = T(P)</text>
+
+    <rect x="236" y="660" width="928" height="76" rx="18" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="700" y="707" text-anchor="middle" font-size="23" font-weight="650" fill="#1e3a8a">Shader 查询一个 UV 点，但这个结果需要代表整个 Footprint</text>
+  </g>
+</svg>

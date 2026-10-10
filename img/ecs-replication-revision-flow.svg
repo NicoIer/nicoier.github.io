@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Revision 连续性检查与重同步</title>
+  <desc id="desc">服务器只在世界状态变化时推进 revision。客户端对连续 Diff 正常应用，对重复或过期 Diff 忽略，对断档 Diff 请求新的 FullState。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .title { font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #6b7280; }
+      .panel { fill: #ffffff; stroke: #d6dee9; stroke-width: 2; rx: 16; }
+      .state { fill: #eef6ff; stroke: #2563eb; stroke-width: 2; rx: 12; }
+      .diff { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.6; rx: 10; }
+      .idle { fill: #f3f4f6; stroke: #cbd5e1; stroke-width: 1.5; rx: 10; }
+      .accept { fill: #e8f7ef; stroke: #22a06b; stroke-width: 1.8; rx: 10; }
+      .ignore { fill: #f3f4f6; stroke: #94a3b8; stroke-width: 1.8; rx: 10; }
+      .resync { fill: #fff7ed; stroke: #f59e0b; stroke-width: 1.8; rx: 10; }
+      .label { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .small-label { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #374151; }
+      .text { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #374151; }
+      .muted { font: 400 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #6b7280; }
+      .mono { font: 500 14px "SFMono-Regular", Consolas, monospace; fill: #1f2937; }
+      .ok { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #16784d; }
+      .warn { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #a15c00; }
+      .arrow { stroke: #64748b; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 7 6; }
+      .axis { stroke: #94a3b8; stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="650" />
+  <text class="title" x="50" y="58">Revision 连续性检查与重同步</text>
+  <text class="subtitle" x="50" y="88">revision 描述“世界状态版本”，没有状态变化时保持不动。</text>
+
+  <rect class="panel" x="50" y="122" width="1100" height="190" />
+  <text class="label" x="78" y="160">服务器时间线</text>
+  <path class="axis" d="M108 236 L1082 236" />
+
+  <rect class="state" x="88" y="196" width="104" height="80" />
+  <text class="small-label" x="112" y="224">World</text>
+  <text class="mono" x="108" y="254">R42</text>
+
+  <rect class="idle" x="256" y="202" width="172" height="68" />
+  <text class="small-label" x="286" y="228">Tick：无变化</text>
+  <text class="mono" x="300" y="252">仍为 R42</text>
+
+  <rect class="diff" x="492" y="202" width="172" height="68" />
+  <text class="small-label" x="526" y="228">Tick：有变化</text>
+  <text class="mono" x="526" y="252">Diff 42 → 43</text>
+
+  <rect class="diff" x="728" y="202" width="172" height="68" />
+  <text class="small-label" x="762" y="228">Tick：有变化</text>
+  <text class="mono" x="762" y="252">Diff 43 → 44</text>
+
+  <rect class="state" x="964" y="196" width="104" height="80" />
+  <text class="small-label" x="988" y="224">World</text>
+  <text class="mono" x="984" y="254">R44</text>
+
+  <path class="arrow" d="M192 236 L256 236" />
+  <path class="arrow" d="M428 236 L492 236" />
+  <path class="arrow" d="M664 236 L728 236" />
+  <path class="arrow" d="M900 236 L964 236" />
+
+  <rect class="panel" x="50" y="338" width="1100" height="260" />
+  <text class="label" x="78" y="378">客户端收到 Diff 时</text>
+
+  <text class="small-label" x="88" y="424">当前 R42</text>
+  <rect class="diff" x="188" y="396" width="160" height="50" />
+  <text class="mono" x="216" y="427">Diff 42 → 43</text>
+  <path class="arrow" d="M348 421 L394 421" />
+  <rect class="accept" x="394" y="394" width="188" height="54" />
+  <text class="ok" x="418" y="418">Source == 当前版本</text>
+  <text class="text" x="418" y="439">校验并应用，进入 R43</text>
+
+  <text class="small-label" x="88" y="494">当前 R43</text>
+  <rect class="diff" x="188" y="466" width="160" height="50" />
+  <text class="mono" x="216" y="497">Diff 42 → 43</text>
+  <path class="arrow" d="M348 491 L394 491" />
+  <rect class="ignore" x="394" y="464" width="188" height="54" />
+  <text class="small-label" x="418" y="488">Target ≤ 当前版本</text>
+  <text class="text" x="418" y="509">重复或过期，直接忽略</text>
+
+  <text class="small-label" x="650" y="424">当前 R42</text>
+  <rect class="diff" x="750" y="396" width="160" height="50" />
+  <text class="mono" x="778" y="427">Diff 43 → 44</text>
+  <path class="arrow" d="M910 421 L956 421" />
+  <rect class="resync" x="956" y="394" width="166" height="54" />
+  <text class="warn" x="978" y="418">Source 不连续</text>
+  <text class="text" x="978" y="439">停止应用并重同步</text>
+
+  <path class="arrow dash" d="M1038 448 L1038 486 L846 486" />
+  <rect class="resync" x="650" y="468" width="196" height="72" />
+  <text class="mono" x="672" y="495">RoomResyncReq</text>
+  <text class="text" x="672" y="520">请求可信 FullState</text>
+  <path class="arrow" d="M748 540 L748 568 L956 568" />
+  <rect class="accept" x="956" y="542" width="166" height="52" />
+  <text class="mono" x="978" y="565">FullState R44</text>
+  <text class="text" x="978" y="585">替换旧世界</text>
+</svg>

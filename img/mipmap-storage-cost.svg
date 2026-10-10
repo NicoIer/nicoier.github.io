@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">Mipmap 的存储与运行时收益</title>
+  <desc id="desc">完整 Mipmap Chain 的面积由 Level 0 的 1、Level 1 的四分之一、Level 2 的十六分之一等组成，总计四分之三；远处读取更小 Level 可以减小工作集。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#64748b"/></marker>
+    <style>.t{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:36px;font-weight:700;fill:#0f172a}.sub{font-size:18px;fill:#64748b}.card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.label{font-size:21px;font-weight:650;fill:#0f172a}.note{font-size:16px;fill:#64748b}.mono{font:600 18px "SFMono-Regular",Consolas,monospace;fill:#334155}</style>
+  </defs>
+  <rect width="1400" height="780" fill="#f8fafc"/>
+  <g class="t">
+    <text x="64" y="62" class="h">多存约 33%，换取合适的过滤尺度与更小的工作集</text>
+    <text x="64" y="96" class="sub">Mipmap 增加总资源大小，但远处采样不再反复访问 Level 0 的高分辨率数据</text>
+
+    <rect x="64" y="150" width="620" height="500" rx="18" class="card"/>
+    <text x="94" y="194" class="label">完整 Mipmap Chain 的面积</text>
+    <g transform="translate(112 244)">
+      <rect width="300" height="300" fill="#2563eb"/><text x="150" y="156" text-anchor="middle" fill="#fff" font-size="24" font-weight="700">Level 0</text><text x="150" y="186" text-anchor="middle" fill="#dbeafe" font-size="18">1</text>
+      <rect x="318" width="150" height="150" fill="#60a5fa"/><text x="393" y="74" text-anchor="middle" fill="#0f172a" font-size="18" font-weight="650">Level 1</text><text x="393" y="100" text-anchor="middle" fill="#1e3a8a" font-size="16">1/4</text>
+      <rect x="318" y="168" width="75" height="75" fill="#93c5fd"/><text x="355" y="205" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="650">L2</text><text x="355" y="227" text-anchor="middle" fill="#1e3a8a" font-size="13">1/16</text>
+      <rect x="411" y="168" width="38" height="38" fill="#bfdbfe"/><rect x="462" y="168" width="20" height="20" fill="#dbeafe"/>
+    </g>
+    <rect x="112" y="578" width="524" height="46" rx="12" fill="#eff6ff"/>
+    <text x="374" y="607" text-anchor="middle" class="mono">1 + 1/4 + 1/16 + … = 4/3</text>
+
+    <rect x="746" y="150" width="590" height="500" rx="18" class="card"/>
+    <text x="776" y="194" class="label">运行时访问跟着 Footprint 走</text>
+    <g transform="translate(804 244)">
+      <rect width="200" height="200" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+      <path d="M0 50H200M0 100H200M0 150H200M50 0V200M100 0V200M150 0V200" stroke="#93c5fd"/>
+      <text x="100" y="232" text-anchor="middle" class="label">近处</text><text x="100" y="258" text-anchor="middle" class="note">Level 0 · 保留细节</text>
+      <path d="M236 100H314" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+      <rect x="344" y="50" width="100" height="100" rx="10" fill="#60a5fa" stroke="#2563eb" stroke-width="3"/>
+      <path d="M344 100H444M394 50V150" stroke="#bfdbfe"/>
+      <text x="394" y="232" text-anchor="middle" class="label">远处</text><text x="394" y="258" text-anchor="middle" class="note">更高 Level · 更小工作集</text>
+    </g>
+    <g transform="translate(804 548)">
+      <rect width="476" height="66" rx="14" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="238" y="28" text-anchor="middle" font-size="18" font-weight="650" fill="#166534">减少无用高频数据的带宽与缓存压力</text>
+      <text x="238" y="51" text-anchor="middle" class="note">代价是生成时间、存储和额外过滤 tap</text>
+    </g>
+
+    <text x="700" y="720" text-anchor="middle" font-size="21" font-weight="650" fill="#1e40af">资源变大不代表每次纹理查询都变贵；关键是实际访问哪一级</text>
+  </g>
+</svg>

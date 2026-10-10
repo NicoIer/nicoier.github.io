@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NicoIer</title>
+    <link>https://nicoier.github.io/</link>
+    <language>zh-CN</language>
+    <copyright>All rights reserved 2026, NicoIer</copyright>
+    <lastBuildDate>Sat, 10 Oct 2026 03:53:38 GMT</lastBuildDate>
+    <generator>Hexo</generator>
+    <image>
+      <url>https://nicoier.github.io/img/nicoier.png</url>
+      <title>NicoIer</title>
+      <link>https://nicoier.github.io/</link>
+    </image>
+    <atom:link href="https://nicoier.github.io/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>我在微派的前世今生</title>
+      <link>https://nicoier.github.io/2026/09/09/%E6%88%91%E5%9C%A8%E5%BE%AE%E6%B4%BE%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</link>
+      <description>以编年体回顾我在微派的实习与两年工作经历，记录 DesertSafari、Project Jinn 和 Project Vanguard 的开发故事，以及技术成长、项目得失与生活片段。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E9%9A%8F%E7%AC%94/">随笔</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/%E5%BE%AE%E6%B4%BE/">微派</category>
+      <category domain="https://nicoier.github.io/tags/%E5%B7%A5%E4%BD%9C%E5%9B%9E%E9%A1%BE/">工作回顾</category>
+      <category domain="https://nicoier.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/">个人成长</category>
+      <pubDate>Wed, 09 Sep 2026 08:46:01 GMT</pubDate>
+    </item>
+    <item>
+      <title>中国宏观经济指标十年趋势（2016—2025）</title>
+      <link>https://nicoier.github.io/tools/china-macro-dashboard-2016-2025/</link>
+      <description>查看2016—2025年中国增长、就业、物价、信用、财政、房地产和外部部门的18项年度指标。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E5%B7%A5%E5%85%B7/">工具</category>
+      <category domain="https://nicoier.github.io/tags/%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E/">宏观经济</category>
+      <category domain="https://nicoier.github.io/tags/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</category>
+      <pubDate>Thu, 27 Aug 2026 16:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Unity Entities中的数据存储和遍历</title>
+      <link>https://nicoier.github.io/2026/08/26/Entities%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E9%81%8D%E5%8E%86/</link>
+      <description>记录 Unity Entities 中 Entity、Archetype、Chunk、Query 和 Job 的数据存储与遍历方式。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Entities/">Entities</category>
+      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
+      <category domain="https://nicoier.github.io/tags/DOTS/">DOTS</category>
+      <category domain="https://nicoier.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</category>
+      <pubDate>Wed, 26 Aug 2026 07:23:41 GMT</pubDate>
+    </item>
+    <item>
+      <title>Mipmap 的前世今生</title>
+      <link>https://nicoier.github.io/2026/08/25/mipmap%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</link>
+      <description>从 pixel footprint、欠采样和面积积分出发，推导 Mipmap 的生成、LOD 计算、三线性过滤、各向异性过滤，并用 Unity URP Shader 可视化 LOD。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">图形学</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">图形学</category>
+      <category domain="https://nicoier.github.io/tags/Shader/">Shader</category>
+      <category domain="https://nicoier.github.io/tags/URP/">URP</category>
+      <category domain="https://nicoier.github.io/tags/Mipmap/">Mipmap</category>
+      <category domain="https://nicoier.github.io/tags/%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4/">纹理过滤</category>
+      <pubDate>Tue, 25 Aug 2026 07:56:49 GMT</pubDate>
+    </item>
+    <item>
+      <title>Unity URP MRT Demo</title>
+      <link>https://nicoier.github.io/2026/07/31/Unity-URP-MRT-Demo/</link>
+      <description>在 Unity 6 的 URP RenderGraph 中实现一个最小 MRT Demo，用一次全屏绘制同时输出三张颜色纹理。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/Shader/">Shader</category>
+      <category domain="https://nicoier.github.io/tags/URP/">URP</category>
+      <category domain="https://nicoier.github.io/tags/RenderGraph/">RenderGraph</category>
+      <category domain="https://nicoier.github.io/tags/MRT/">MRT</category>
+      <pubDate>Fri, 31 Jul 2026 07:03:53 GMT</pubDate>
+    </item>
+    <item>
+      <title>zstd配合YooAsset做增量更新的碎碎念</title>
+      <link>https://nicoier.github.io/2026/07/21/zstd%E9%85%8D%E5%90%88YooAsset%E5%81%9A%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/</link>
+      <description>
+        <![CDATA[<p>Zebra YooAsset</p>
+<ul>
+<li>实现一个新的patch生成工具，使用YooAsset的清单文件</li>
+<li>YooAsset的一些工具类需要修改，以支持多线程</li>
+<li>bundle构建和部署工具需要接入patch文件逻辑</li>
+<li>实现自己的文件下载逻辑</li>
+</ul>
+<p><img src="/]]>
+      </description>
+      <author>NicoIer</author>
+      <pubDate>Tue, 21 Jul 2026 07:35:50 GMT</pubDate>
+    </item>
+    <item>
+      <title>游戏开发中的代码生成：Source Generator、Code Generator 与 Luban</title>
+      <link>https://nicoier.github.io/2026/07/21/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90-SourceGenerator-CodeGenerator%E4%B8%8ELuban/</link>
+      <description>结合 GameServer、Game001 和 BeChampion，整理 Source Generator、Code Generator 与 Luban 在游戏开发中的职责、用法和优势。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
+      <category domain="https://nicoier.github.io/tags/Source-Generator/">Source Generator</category>
+      <category domain="https://nicoier.github.io/tags/Code-Generator/">Code Generator</category>
+      <category domain="https://nicoier.github.io/tags/Luban/">Luban</category>
+      <pubDate>Tue, 21 Jul 2026 07:33:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>基于ECS的增量网络同步</title>
+      <link>https://nicoier.github.io/2026/07/21/%E5%9F%BA%E4%BA%8EECS%E7%9A%84%E5%A2%9E%E9%87%8F%E7%BD%91%E7%BB%9C%E5%90%8C%E6%AD%A5/</link>
+      <description>先整理 ECS 实现增量网络同步的基本思路，再记录 GameServer 中的具体实现。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
+      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
+      <category domain="https://nicoier.github.io/tags/Network/">Network</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/">游戏服务器</category>
+      <pubDate>Tue, 21 Jul 2026 07:04:55 GMT</pubDate>
+    </item>
+    <item>
+      <title>UIVisibilityBlocker 可见性阻塞器</title>
+      <link>https://nicoier.github.io/2026/07/09/UIVisibilityBlocker%E5%8F%AF%E8%A7%81%E6%80%A7%E9%98%BB%E5%A1%9E%E5%99%A8/</link>
+      <description>多个系统同时控制一个 UI 时，用来源表合并显隐和交互状态，避免互相覆盖。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
+      <category domain="https://nicoier.github.io/tags/UGUI/">UGUI</category>
+      <category domain="https://nicoier.github.io/tags/UIFramework/">UIFramework</category>
+      <pubDate>Thu, 09 Jul 2026 08:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Capability系统架构实践</title>
+      <link>https://nicoier.github.io/2026/07/09/Capability%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/</link>
+      <description>记录 Unity Capability 框架的生命周期、Holder、Tag Blocker 和装配方式。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
+      <category domain="https://nicoier.github.io/tags/Capability/">Capability</category>
+      <category domain="https://nicoier.github.io/tags/%E6%9E%B6%E6%9E%84/">架构</category>
+      <pubDate>Thu, 09 Jul 2026 02:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>BattlePlayable战斗时间轴</title>
+      <link>https://nicoier.github.io/2026/07/08/BattlePlayable%E6%88%98%E6%96%97%E6%97%B6%E9%97%B4%E8%BD%B4/</link>
+      <description>记录 BattlePlayable 从编辑器数据到运行时播放和服务器对时的流程。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
+      <category domain="https://nicoier.github.io/tags/BattlePlayable/">BattlePlayable</category>
+      <category domain="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">战斗系统</category>
+      <pubDate>Wed, 08 Jul 2026 09:35:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>基于ECS的Buff系统</title>
+      <link>https://nicoier.github.io/2026/07/08/%E5%9F%BA%E4%BA%8EECS%E7%9A%84Buff%E7%B3%BB%E7%BB%9F/</link>
+      <description>记录 ECSBuffSystem 的配置、代码生成和运行时流程。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/CSharp/">CSharp</category>
+      <category domain="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">战斗系统</category>
+      <category domain="https://nicoier.github.io/tags/ECS/">ECS</category>
+      <category domain="https://nicoier.github.io/tags/Buff/">Buff</category>
+      <pubDate>Wed, 08 Jul 2026 08:30:53 GMT</pubDate>
+    </item>
+    <item>
+      <title>Unity UI深度遮挡 UIDepthOccluder</title>
+      <link>https://nicoier.github.io/2026/07/08/Unity-UI%E6%B7%B1%E5%BA%A6%E9%81%AE%E6%8C%A1UIDepthOccluder/</link>
+      <description>
+        <![CDATA[<p><a href="https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOccluder.cs">https://github.com/NicoIer/UnityToolkit/blob/main/Runtime/Renderer/UIDepthOcclude]]>
+      </description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/Shader/">Shader</category>
+      <category domain="https://nicoier.github.io/tags/URP/">URP</category>
+      <category domain="https://nicoier.github.io/tags/RenderGraph/">RenderGraph</category>
+      <category domain="https://nicoier.github.io/tags/UI/">UI</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B7%B1%E5%BA%A6/">深度</category>
+      <pubDate>Tue, 07 Jul 2026 16:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>伤害计算v0.1</title>
+      <link>https://nicoier.github.io/2026/07/02/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97v0.1/</link>
+      <description>记录一个基础伤害、固定修正、增伤倍率和减伤倍率组成的伤害计算结构。</description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F/">战斗系统</category>
+      <category domain="https://nicoier.github.io/tags/%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97/">伤害计算</category>
+      <pubDate>Thu, 02 Jul 2026 08:37:37 GMT</pubDate>
+    </item>
+    <item>
+      <title>基金、股票、ETF 的区别和适用场景</title>
+      <link>https://nicoier.github.io/2026/06/23/%E5%9F%BA%E9%87%91%E8%82%A1%E7%A5%A8ETF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/</link>
+      <description>
+        <![CDATA[<p>股票、基金、ETF 不是同一层级的东西。</p>
+<ul>
+<li>股票是公司所有权的一部分，买的是某家公司。</li>
+<li>普通基金是集合投资工具，选资产和调仓主要交给基金经理或基金规则。这里主要讨论普通开放式基金，尤其是主动基金。</li>
+<li>ETF 也是基金，但份额在交易所买卖。很多 ETF 跟踪宽基、行业、风格或其他资产指数。</li]]>
+      </description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/">投资</category>
+      <category domain="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/">投资</category>
+      <category domain="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/">基金</category>
+      <category domain="https://nicoier.github.io/tags/%E8%82%A1%E7%A5%A8/">股票</category>
+      <category domain="https://nicoier.github.io/tags/ETF/">ETF</category>
+      <pubDate>Tue, 23 Jun 2026 07:04:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>趋势投资应该选 ETF、单股还是基金</title>
+      <link>https://nicoier.github.io/2026/06/23/%E8%B6%8B%E5%8A%BF%E6%8A%95%E8%B5%84%E5%BA%94%E8%AF%A5%E9%80%89ETF%E5%8D%95%E8%82%A1%E8%BF%98%E6%98%AF%E5%9F%BA%E9%87%91/</link>
+      <description>
+        <![CDATA[<p>如果只选一种工具做趋势投资，我会优先选 ETF。</p>
+<p>趋势投资赚的是方向延续的钱。ETF 通常比单股分散，比主动基金透明，又能盘中交易，比较方便直接表达市场、行业或风格趋势。</p>
+<p>单股的弹性更大，但会叠加公司风险；普通基金适合低频委托，不太适合需要精确止损和盘中执行的策略。</p>
+<p>选择前先确定自己要跟随哪一层趋势：</p>]]>
+      </description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/">投资</category>
+      <category domain="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/">投资</category>
+      <category domain="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/">交易</category>
+      <category domain="https://nicoier.github.io/tags/%E5%9F%BA%E9%87%91/">基金</category>
+      <category domain="https://nicoier.github.io/tags/ETF/">ETF</category>
+      <pubDate>Tue, 23 Jun 2026 06:18:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>价值投资、趋势交易、震荡交易的底层逻辑</title>
+      <link>https://nicoier.github.io/2026/06/23/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E8%B6%8B%E5%8A%BF%E4%BA%A4%E6%98%93%E9%9C%87%E8%8D%A1%E4%BA%A4%E6%98%93/</link>
+      <description>
+        <![CDATA[<p>这三种方法赚的不是同一种钱：</p>
+<ul>
+<li>价值投资赚价格向价值回归的钱。</li>
+<li>趋势交易赚价格继续沿原方向运行的钱。</li>
+<li>震荡交易赚价格在区间内来回波动的钱。</li>
+</ul>
+<p>它们没有谁更高级，主要是前提、周期和认错方式不同。</p>
+<p>最麻烦的是买入时用一种方法，亏损后又换一种解释。趋势跌破止损]]>
+      </description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E6%8A%95%E8%B5%84/">投资</category>
+      <category domain="https://nicoier.github.io/tags/%E6%8A%95%E8%B5%84/">投资</category>
+      <category domain="https://nicoier.github.io/tags/%E4%BA%A4%E6%98%93/">交易</category>
+      <category domain="https://nicoier.github.io/tags/%E9%87%91%E8%9E%8D/">金融</category>
+      <pubDate>Tue, 23 Jun 2026 05:33:09 GMT</pubDate>
+    </item>
+    <item>
+      <title>build-aseprite</title>
+      <link>https://nicoier.github.io/2025/12/22/build-aseprite/</link>
+      <description>
+        <![CDATA[<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">本文主要介绍了一下如何编译 Aseprite，其实现]]>
+      </description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/%E7%BC%96%E7%A8%8B/">编程</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/aseprite/">aseprite</category>
+      <category domain="https://nicoier.github.io/tags/build/">build</category>
+      <category domain="https://nicoier.github.io/tags/tutorial/">tutorial</category>
+      <pubDate>Mon, 22 Dec 2025 03:28:12 GMT</pubDate>
+    </item>
+    <item>
+      <title>BatchRenderGroup演示Demo</title>
+      <link>https://nicoier.github.io/2025/12/18/BatchRenderGroup%E6%BC%94%E7%A4%BADemo/</link>
+      <description>
+        <![CDATA[<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs t]]>
+      </description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/BatchRendererGroup/">BatchRendererGroup</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <pubDate>Thu, 18 Dec 2025 05:21:59 GMT</pubDate>
+    </item>
+    <item>
+      <title>zstd-for-unity</title>
+      <link>https://nicoier.github.io/2025/12/09/zstd-for-unity/</link>
+      <description>
+        <![CDATA[<h1 id="zstd-for-unity"><a href="#zstd-for-unity" class="headerlink" title="zstd-for-unity"></a>zstd-for-unity</h1><figure class="highlight text"><table><tr><td class="gutter"><pre]]>
+      </description>
+      <author>NicoIer</author>
+      <category domain="https://nicoier.github.io/categories/Unity/">Unity</category>
+      <category domain="https://nicoier.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      <category domain="https://nicoier.github.io/tags/unity/">unity</category>
+      <category domain="https://nicoier.github.io/tags/compression/">compression</category>
+      <category domain="https://nicoier.github.io/tags/zstd/">zstd</category>
+      <pubDate>Tue, 09 Dec 2025 07:17:42 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

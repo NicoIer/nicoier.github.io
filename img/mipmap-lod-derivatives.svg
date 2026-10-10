@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">从屏幕空间导数计算 Mipmap LOD</title>
+  <desc id="desc">片元 quad 的 UV 差分得到 ddx 和 ddy，换算为 texel 向量后估计 footprint 尺度，并通过 log2 得到连续 LOD。</desc>
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="30" height="30" fill="#fff"/><path d="M30 0H0V30" fill="none" stroke="#dbeafe"/></pattern>
+    <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#2563eb"/></marker>
+    <marker id="orangeArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L10 3L0 6Z" fill="#f59e0b"/></marker>
+    <style>.t{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:36px;font-weight:700;fill:#0f172a}.sub{font-size:18px;fill:#64748b}.card{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.label{font-size:21px;font-weight:650;fill:#0f172a}.note{font-size:16px;fill:#64748b}.mono{font:600 17px "SFMono-Regular",Consolas,monospace;fill:#334155}.blue{stroke:#2563eb;fill:none;stroke-width:4;marker-end:url(#blueArrow)}.orange{stroke:#f59e0b;fill:none;stroke-width:4;marker-end:url(#orangeArrow)}</style>
+  </defs>
+  <rect width="1400" height="780" fill="#f8fafc"/>
+  <g class="t">
+    <text x="64" y="62" class="h">LOD 来自 UV 的屏幕空间变化率</text>
+    <text x="64" y="96" class="sub">GPU 用相邻片元的差分近似偏导，不需要真的把像素四个角逐一投到纹理空间</text>
+
+    <rect x="64" y="154" width="370" height="430" rx="18" class="card"/>
+    <text x="94" y="198" class="label">1. 片元以 2×2 Quad 执行</text>
+    <g transform="translate(126 258)">
+      <rect width="112" height="112" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/><rect x="112" width="112" height="112" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+      <rect y="112" width="112" height="112" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/><rect x="112" y="112" width="112" height="112" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+      <text x="22" y="62" class="mono">uv₀₀</text><text x="134" y="62" class="mono">uv₁₀</text><text x="22" y="174" class="mono">uv₀₁</text><text x="134" y="174" class="mono">uv₁₁</text>
+      <path d="M56 242H192" class="blue"/><text x="76" y="276" class="mono">ddx(uv)</text>
+      <path d="M244 56V192" class="orange"/><text x="258" y="132" class="mono">ddy(uv)</text>
+    </g>
+
+    <rect x="486" y="154" width="430" height="430" rx="18" class="card"/>
+    <text x="516" y="198" class="label">2. 换成 Texel 尺度</text>
+    <rect x="540" y="244" width="320" height="276" rx="10" fill="url(#grid)" stroke="#94a3b8"/>
+    <circle cx="630" cy="430" r="8" fill="#0f172a"/>
+    <path d="M630 430L804 468" class="blue"/><path d="M630 430L690 286" class="orange"/>
+    <text x="728" y="492" class="mono">gₓ = (W·uₓ, H·vₓ)</text>
+    <text x="684" y="268" class="mono">gᵧ = (W·uᵧ, H·vᵧ)</text>
+    <path d="M630 430L690 286L864 324L804 468Z" fill="#bfdbfe" fill-opacity=".42" stroke="#2563eb" stroke-width="2"/>
+
+    <rect x="968" y="154" width="368" height="430" rx="18" class="card"/>
+    <text x="998" y="198" class="label">3. 尺度换算成 Level</text>
+    <rect x="1012" y="252" width="280" height="98" rx="16" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="1152" y="292" text-anchor="middle" class="mono">ρ = max(|gₓ|, |gᵧ|)</text>
+    <text x="1152" y="326" text-anchor="middle" class="note">一个像素跨过多少 texel</text>
+    <path d="M1152 365V408" stroke="#64748b" stroke-width="3" marker-end="url(#blueArrow)"/>
+    <rect x="1012" y="430" width="280" height="98" rx="16" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="1152" y="470" text-anchor="middle" class="mono">λ = log₂ρ</text>
+    <text x="1152" y="504" text-anchor="middle" class="note">连续 Mipmap LOD</text>
+
+    <rect x="274" y="642" width="852" height="76" rx="18" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="700" y="689" text-anchor="middle" font-size="22" font-weight="650" fill="#9a3412">距离只是影响导数的因素之一；LOD 最终看的是 Footprint</text>
+  </g>
+</svg>

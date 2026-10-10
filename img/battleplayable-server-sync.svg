@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">BattlePlayable 服务器对时和快进</title>
+  <desc id="desc">客户端 BattleAttackView 根据服务器时间戳、CurrentTime、ReplayInfo、JumpInfo 和焦点变化同步 BattlePlayer。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.4; rx: 8; }
+      .server { fill: #fee2e2; stroke: #dc2626; }
+      .client { fill: #e0f2fe; stroke: #0284c7; }
+      .sync { fill: #dcfce7; stroke: #16a34a; }
+      .warn { fill: #fef3c7; stroke: #d97706; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke: #64748b; stroke-width: 1.8; stroke-dasharray: 5 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="560"/>
+  <text class="title" x="40" y="44">服务器对时、快进和焦点恢复</text>
+  <text class="small" x="40" y="70">BattleAttackView 不只靠本地 dt。它会按服务器数据修正 BattlePlayer 的播放时间。</text>
+
+  <rect class="box server" x="50" y="120" width="240" height="116" rx="8"/>
+  <text class="label" x="170" y="152" text-anchor="middle">服务器同步数据</text>
+  <text class="mono" x="72" y="180">LastPlayTimeStamp</text>
+  <text class="mono" x="72" y="202">CurrentTime</text>
+  <text class="mono" x="72" y="224">ReplayInfo / JumpInfo</text>
+
+  <rect class="box client" x="370" y="120" width="250" height="116" rx="8"/>
+  <text class="label" x="495" y="152" text-anchor="middle">客户端时间基准</text>
+  <text class="mono" x="392" y="180">GetBattleServerTimestampMs()</text>
+  <text class="small" x="392" y="202">GameLogicConnection 同步</text>
+  <text class="small" x="392" y="224">TimeUtil 保存偏移</text>
+
+  <rect class="box sync" x="700" y="120" width="240" height="116" rx="8"/>
+  <text class="label" x="820" y="152" text-anchor="middle">普通模式</text>
+  <text class="mono" x="722" y="180">target = now - playTs</text>
+  <text class="mono" x="722" y="202">delta = target - time</text>
+  <text class="small" x="722" y="224">按 frameRate 分步 Tick</text>
+
+  <rect class="box warn" x="700" y="295" width="240" height="104" rx="8"/>
+  <text class="label" x="820" y="327" text-anchor="middle">ManualTick 模式</text>
+  <text class="mono" x="722" y="355">target = CurrentTime</text>
+  <text class="small" x="722" y="377">倒退时 Replay 后再 Tick</text>
+
+  <rect class="box" x="990" y="120" width="160" height="279" rx="8"/>
+  <text class="label" x="1070" y="152" text-anchor="middle">BattlePlayer</text>
+  <text class="mono" x="1012" y="184">Replay()</text>
+  <text class="mono" x="1012" y="210">Jump(t)</text>
+  <text class="mono" x="1012" y="236">Tick(dt)</text>
+  <text class="small" x="1012" y="266">BoxTrigger 也用</text>
+  <text class="small" x="1012" y="286">相同 dt 推进</text>
+
+  <rect class="box warn" x="50" y="340" width="270" height="116" rx="8"/>
+  <text class="label" x="185" y="372" text-anchor="middle">跳过判断点</text>
+  <text class="mono" x="72" y="400">EventClipType.跳过判断点</text>
+  <text class="small" x="72" y="422">本地阻塞播放</text>
+  <text class="small" x="72" y="444">等待服务器 Replay / Jump</text>
+
+  <rect class="box client" x="370" y="340" width="250" height="116" rx="8"/>
+  <text class="label" x="495" y="372" text-anchor="middle">重新获得焦点</text>
+  <text class="mono" x="392" y="400">FastForwardOnApplicationFocus</text>
+  <text class="small" x="392" y="422">先同步 Replay / Jump</text>
+  <text class="small" x="392" y="444">再快进到服务器时间</text>
+
+  <path class="arrow" d="M 292 178 L 362 178"/>
+  <path class="arrow" d="M 622 178 L 692 178"/>
+  <path class="arrow" d="M 942 178 L 982 178"/>
+  <path class="arrow" d="M 622 214 C 660 245 665 315 692 345"/>
+  <path class="arrow" d="M 942 347 L 982 260"/>
+  <path class="dashed" d="M 320 398 L 362 398"/>
+  <path class="dashed" d="M 622 398 C 670 440 915 440 1000 315"/>
+  <path class="dashed" d="M 170 236 L 170 332"/>
+</svg>

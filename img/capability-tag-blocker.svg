@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Tag Blocker 和 Instigator</title>
+  <desc id="desc">多个 Instigator 可以同时阻塞同一个 Tag，只有对应来源都解除后，Tag 才不再被阻塞。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; }
+      .source { fill: #e0f2fe; stroke: #0284c7; }
+      .dict { fill: #fee2e2; stroke: #dc2626; }
+      .cap { fill: #dcfce7; stroke: #16a34a; }
+      .warn { fill: #fef3c7; stroke: #d97706; }
+      .title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .mono { font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 1.8; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="520"/>
+  <text class="title" x="40" y="44">Tag Blocker 和 Instigator</text>
+  <text class="small" x="40" y="70">Tag 是被限制的类别，Instigator 是加限制的来源。谁 Block，谁 Unblock。</text>
+
+  <rect class="box source" x="60" y="140" width="220" height="86" rx="10"/>
+  <text class="label" x="170" y="174" text-anchor="middle">Instigator A</text>
+  <text class="mono" x="170" y="201" text-anchor="middle">Block(SomeTag.Action)</text>
+
+  <rect class="box source" x="60" y="290" width="220" height="86" rx="10"/>
+  <text class="label" x="170" y="324" text-anchor="middle">Instigator B</text>
+  <text class="mono" x="170" y="351" text-anchor="middle">Block(SomeTag.Action)</text>
+
+  <rect class="box dict" x="390" y="120" width="350" height="280" rx="12"/>
+  <text class="label" x="565" y="154" text-anchor="middle">Holder.tagBlockers</text>
+  <text class="mono" x="565" y="184" text-anchor="middle">Dictionary&lt;Tag, List&lt;Instigator&gt;&gt;</text>
+
+  <rect class="box warn" x="435" y="225" width="260" height="44" rx="8"/>
+  <text class="mono" x="565" y="253" text-anchor="middle">SomeTag.Action: [A, B]</text>
+
+  <rect class="box cap" x="850" y="152" width="260" height="96" rx="10"/>
+  <text class="label" x="980" y="187" text-anchor="middle">SomeCapability</text>
+  <text class="mono" x="980" y="215" text-anchor="middle">HasBlockedTag(Action)</text>
+
+  <rect class="box" x="850" y="300" width="260" height="82" rx="10"/>
+  <text class="label" x="980" y="332" text-anchor="middle">ShouldActivate</text>
+  <text class="small" x="980" y="358" text-anchor="middle">自己决定是否返回 false</text>
+
+  <path class="arrow" d="M 285 184 L 382 220"/>
+  <path class="arrow" d="M 285 334 L 382 280"/>
+
+  <path class="arrow" d="M 742 248 L 842 200"/>
+  <path class="arrow" d="M 980 251 L 980 292"/>
+
+  <path class="dash" d="M 420 420 C 520 455 640 455 710 405"/>
+  <text class="small" x="565" y="462" text-anchor="middle">A 解除后仍有 B，Tag 还是 blocked。B 也解除后才恢复。</text>
+
+  <rect class="box warn" x="60" y="420" width="250" height="56" rx="8"/>
+  <text class="label" x="185" y="450" text-anchor="middle">不是自动规则系统</text>
+  <text class="small" x="185" y="470" text-anchor="middle">Capability 必须自己检查 Tag</text>
+</svg>
